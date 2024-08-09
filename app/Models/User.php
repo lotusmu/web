@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use InvalidArgumentException;
 
 class User extends Authenticatable
 {
@@ -41,12 +42,22 @@ class User extends Authenticatable
 
     protected static function booted(): void
     {
+        static::creating(function ($user) {
+            if (! $user->username) {
+                throw new InvalidArgumentException('Username is required when creating a new user.');
+            }
+        });
+
         static::created(function ($user) {
             $user->createGameUser();
         });
 
         static::updated(function ($user) {
             $user->updateGameUser();
+        });
+
+        static::deleted(function ($user) {
+            $user->gameUser()->delete();
         });
     }
 
@@ -92,6 +103,10 @@ class User extends Authenticatable
 
     public function save(array $options = []): bool
     {
+        if ($this->exists && $this->isDirty('username')) {
+            throw new InvalidArgumentException('Username cannot be updated after creation.');
+        }
+
         $updating = $this->exists;
         $result = parent::save($options);
 
