@@ -67,6 +67,30 @@ it('throws an exception when creating a user with a duplicate username', functio
     User::factory()->create(['username' => $username]);
 });
 
+it('throws an exception when trying to update the username', function () {
+    $user = User::factory()->create();
+    $originalUsername = $user->username;
+
+    $this->expectException(InvalidArgumentException::class);
+    $this->expectExceptionMessage('Username cannot be updated after creation.');
+
+    $user->username = 'new_username';
+    $user->save();
+
+    // Verify the username didn't change in the database
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+        'username' => $originalUsername,
+    ]);
+});
+
+it('throws an exception when creating a user without a username', function () {
+    $this->expectException(InvalidArgumentException::class);
+    $this->expectExceptionMessage('Username is required when creating a new user.');
+
+    User::factory()->create(['username' => null]);
+});
+
 it('verifies the user has a gameUser relationship', function () {
     $user = User::factory()->create();
     $this->assertInstanceOf(HasOne::class, $user->gameUser());
