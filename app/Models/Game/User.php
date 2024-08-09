@@ -24,6 +24,7 @@ class User extends Model
         'memb__pwd',
         'memb_name',
         'sno__numb',
+        'mail_addr',
         'appl_days',
         'mail_chek',
         'bloc_code',

@@ -44,6 +44,10 @@ class User extends Authenticatable
         static::created(function ($user) {
             $user->createGameUser();
         });
+
+        static::updated(function ($user) {
+            $user->updateGameUser();
+        });
     }
 
     protected function createGameUser(): void
@@ -63,6 +67,39 @@ class User extends Authenticatable
         ]);
 
         $this->plainPassword = null;
+    }
+
+    protected function updateGameUser(): void
+    {
+        if ($this->gameUser) {
+            $updates = [];
+
+            if ($this->isDirty('email')) {
+                $updates['mail_addr'] = $this->email;
+            }
+
+            if ($this->plainPassword) {
+                $updates['memb__pwd'] = $this->plainPassword;
+            }
+
+            if (! empty($updates)) {
+                $this->gameUser->update($updates);
+            }
+        }
+
+        $this->plainPassword = null;
+    }
+
+    public function save(array $options = []): bool
+    {
+        $updating = $this->exists;
+        $result = parent::save($options);
+
+        if ($updating && $result) {
+            $this->updateGameUser();
+        }
+
+        return $result;
     }
 
     public function gameUser(): HasOne
