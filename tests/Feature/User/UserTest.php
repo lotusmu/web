@@ -7,103 +7,96 @@ use Illuminate\Support\Facades\Hash;
 
 it('creates a user successfully', function () {
     $user = User::factory()->create();
-    $this->assertModelExists($user);
+    expect($user)->toBeTruthy();
 });
 
 it('ensures user factory generates valid data', function () {
     $user = User::factory()->create();
-    $this->assertNotEmpty($user->username);
-    $this->assertNotEmpty($user->email);
-    $this->assertNotEmpty($user->password);
+    expect($user->username)->not->toBeEmpty()
+        ->and($user->email)->not->toBeEmpty()
+        ->and($user->password)->not->toBeEmpty();
 });
 
 it('retrieves a user by ID', function () {
     $user = User::factory()->create();
     $retrievedUser = User::find($user->id);
-    $this->assertEquals($user->username, $retrievedUser->username);
+    expect($retrievedUser->username)->toBe($user->username);
 });
 
 it('updates the user email successfully', function () {
     $user = User::factory()->create();
     $user->email = 'newemail@example.com';
     $user->save();
-    $this->assertEquals('newemail@example.com', $user->fresh()->email);
+    expect($user->fresh()->email)->toBe('newemail@example.com');
 });
 
 it('deletes a user successfully', function () {
     $user = User::factory()->create();
+    $userId = $user->id;
+
     $user->delete();
-    $this->assertModelMissing($user);
+
+    expect(User::find($userId))->toBeNull();
 });
 
 it('hashes the user password before saving', function () {
     $user = User::factory()->create(['password' => 'password']);
-    $this->assertTrue(Hash::check('password', $user->password));
+    expect(Hash::check('password', $user->password))->toBeTrue();
 });
 
 it('checks user has correct fillable attributes', function () {
     $user = new User;
-    $fillable = ['username', 'email', 'password'];
-    $this->assertEquals($fillable, $user->getFillable());
+    expect($user->getFillable())->toBe(['username', 'email', 'password']);
 });
 
 it('checks user has correct hidden attributes', function () {
     $user = new User;
-    $hidden = ['password', 'remember_token'];
-    $this->assertEquals($hidden, $user->getHidden());
+    expect($user->getHidden())->toBe(['password', 'remember_token']);
 });
 
 it('throws an exception when creating a user with a duplicate email', function () {
     User::factory()->create(['email' => 'test@example.com']);
-    $this->expectException(QueryException::class);
     User::factory()->create(['email' => 'test@example.com']);
-});
+})->throws(QueryException::class);
 
 it('throws an exception when creating a user with a duplicate username', function () {
     $username = substr(fake()->userName, 0, 10);
-
     User::factory()->create(['username' => $username]);
-    $this->expectException(QueryException::class);
     User::factory()->create(['username' => $username]);
-});
+})->throws(QueryException::class);
 
 it('throws an exception when trying to update the username', function () {
     $user = User::factory()->create();
     $originalUsername = $user->username;
 
-    $this->expectException(InvalidArgumentException::class);
-    $this->expectExceptionMessage('Username cannot be updated after creation.');
+    expect(function () use ($user) {
+        $user->username = 'new_username';
+        $user->save();
+    })->toThrow(InvalidArgumentException::class, 'Username cannot be updated after creation.')
+        ->and($user->fresh()->username)->toBe($originalUsername);
 
-    $user->username = 'new_username';
-    $user->save();
-
-    // Verify the username didn't change in the database
-    $this->assertDatabaseHas('users', [
-        'id' => $user->id,
-        'username' => $originalUsername,
-    ]);
 });
 
 it('throws an exception when creating a user without a username', function () {
-    $this->expectException(InvalidArgumentException::class);
-    $this->expectExceptionMessage('Username is required when creating a new user.');
-
     User::factory()->create(['username' => null]);
-});
+})->throws(
+    InvalidArgumentException::class,
+    'Username is required when creating a new user.'
+);
 
 it('verifies the user has a gameUser relationship', function () {
     $user = User::factory()->create();
-    $this->assertInstanceOf(HasOne::class, $user->gameUser());
+    expect($user->gameUser())->toBeInstanceOf(HasOne::class);
 });
 
 it('ensures plain password is not stored in the database', function () {
     $user = User::factory()->create(['password' => 'password']);
-    $this->assertNull($user->plainPassword);
+    expect($user->plainPassword)->toBeNull();
 });
 
 it('allows the user password to be updated and rehashed', function () {
     $user = User::factory()->create(['password' => 'oldpwd']);
     $user->password = 'newpwd';
     $user->save();
-    $this->assertTrue(Hash::check('newpwd', $user->fresh()->password));
+    expect(Hash::check('newpwd', $user->fresh()->password))->toBeTrue();
 });

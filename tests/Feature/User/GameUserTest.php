@@ -13,6 +13,8 @@ it('creates a game user when creating a user', function () {
         'password' => 'password',
     ]);
 
+    expect($user)->toBeInstanceOf(User::class);
+
     $this->assertDatabaseHas('users', [
         'username' => $username,
         'email' => $email,
@@ -23,10 +25,9 @@ it('creates a game user when creating a user', function () {
         'mail_addr' => $email,
     ], 'game_server_1');
 
-    $gameUser = $user->gameUser;
-    $this->assertNotNull($gameUser);
-    $this->assertEquals($username, $gameUser->memb___id);
-    $this->assertEquals('password', $gameUser->memb__pwd);
+    expect($user->gameUser)->not->toBeNull()
+        ->and($user->gameUser->memb___id)->toBe($username)
+        ->and($user->gameUser->memb__pwd)->toBe('password');
 });
 
 it('updates game user email when updating user email', function () {
@@ -66,11 +67,10 @@ it('updates game user password when updating user password', function () {
     $user->password = $newPassword;
     $user->save();
 
-    $gameUser = $user->fresh()->gameUser;
-    $this->assertEquals($newPassword, $gameUser->memb__pwd);
+    expect($user->fresh()->gameUser->memb__pwd)->toBe($newPassword);
 });
 
-it('deletes game user when deleting user also', function () {
+it('deletes game user when deleting user', function () {
     $username = substr(fake()->userName, 0, 10);
     $email = fake()->unique()->safeEmail();
 
