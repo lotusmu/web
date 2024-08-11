@@ -1,151 +1,144 @@
 <?php
 
+use App\Models\Game\User as GameUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-it('creates a game user when creating a user', function () {
-    $username = substr(fake()->userName, 0, 10);
-    $email = fake()->unique()->safeEmail();
+describe('User and GameUser Integration', function () {
+    it('creates a game user when creating a user', function () {
+        $username = fakeUsername();
+        $email = fakeEmail();
 
-    $user = User::create([
-        'username' => $username,
-        'email' => $email,
-        'password' => 'password',
-    ]);
+        $user = User::create([
+            'username' => $username,
+            'email' => $email,
+            'password' => 'password',
+        ]);
 
-    expect($user)->toBeInstanceOf(User::class);
+        expect($user)->toBeInstanceOf(User::class);
 
-    $this->assertDatabaseHas('users', [
-        'username' => $username,
-        'email' => $email,
-    ]);
+        $this->assertDatabaseHas('users', compact('username', 'email'));
+        $this->assertDatabaseHas('MEMB_INFO', [
+            'memb___id' => $username,
+            'mail_addr' => $email,
+        ], 'game_server_1');
 
-    $this->assertDatabaseHas('MEMB_INFO', [
-        'memb___id' => $username,
-        'mail_addr' => $email,
-    ], 'game_server_1');
+        expect($user->gameUser)
+            ->not->toBeNull()
+            ->and($user->gameUser->username)->toBe($username)
+            ->and($user->gameUser->password)->toBe('password');
+    });
 
-    expect($user->gameUser)->not->toBeNull()
-        ->and($user->gameUser->memb___id)->toBe($username)
-        ->and($user->gameUser->memb__pwd)->toBe('password');
+    it('updates game user email when updating user email', function () {
+        $user = User::create([
+            'username' => fakeUsername(),
+            'email' => fakeEmail(),
+            'password' => 'password',
+        ]);
+
+        $newEmail = fakeEmail();
+        $user->email = $newEmail;
+        $user->save();
+
+        $this->assertDatabaseHas('users', [
+            'username' => $user->username,
+            'email' => $newEmail,
+        ]);
+
+        $this->assertDatabaseHas('MEMB_INFO', [
+            'memb___id' => $user->username,
+            'mail_addr' => $newEmail,
+        ], 'game_server_1');
+    });
+
+    it('updates game user password when updating user password', function () {
+        $user = User::create([
+            'username' => fakeUsername(),
+            'email' => fakeEmail(),
+            'password' => 'password',
+        ]);
+
+        $newPassword = fakePassword();
+        $user->password = $newPassword;
+        $user->save();
+
+        expect($user->fresh()->gameUser->password)->toBe($newPassword);
+    });
+
+    it('deletes game user when deleting user', function () {
+        $user = User::create([
+            'username' => fakeUsername(),
+            'email' => fakeEmail(),
+            'password' => 'password',
+        ]);
+
+        $gameUserId = $user->gameUser->username;
+
+        $user->delete();
+
+        $this->assertDatabaseMissing('users', ['username' => $user->username]);
+        $this->assertDatabaseMissing('MEMB_INFO', ['memb___id' => $gameUserId], 'game_server_1');
+    });
 });
 
-it('updates game user email when updating user email', function () {
-    $username = substr(fake()->userName, 0, 10);
+describe('GameUser Model', function () {
+    it('uses the correct database connection and table name', function () {
+        $gameUser = new GameUser;
+        expect($gameUser->getConnectionName())->toBe('game_server_1')
+            ->and($gameUser->getTable())->toBe('MEMB_INFO');
+    });
 
-    $user = User::create([
-        'username' => $username,
-        'email' => fake()->unique()->safeEmail(),
-        'password' => 'password',
-    ]);
+    it('has the correct primary key configuration', function () {
+        $gameUser = new GameUser;
+        expect($gameUser->getKeyName())->toBe('memb___id')
+            ->and($gameUser->getKeyType())->toBe('string')
+            ->and($gameUser->incrementing)->toBeFalse();
+    });
 
-    $newEmail = fake()->unique()->safeEmail();
+    it('does not use timestamps', function () {
+        expect((new GameUser)->timestamps)->toBeFalse();
+    });
 
-    $user->email = $newEmail;
-    $user->save();
+    it('has the correct fillable attributes', function () {
+        $expectedFillable = [
+            'memb___id', 'memb__pwd', 'memb_name', 'sno__numb', 'mail_addr',
+            'appl_days', 'mail_chek', 'bloc_code', 'ctl1_code', 'AccountLevel', 'AccountExpireDate'
+        ];
+        expect((new GameUser)->getFillable())->toContain(...$expectedFillable);
+    });
 
-    $this->assertDatabaseHas('users', [
-        'username' => $username,
-        'email' => $newEmail,
-    ]);
+    it('has username and password attributes', function () {
+        $username = fakeUsername();
+        $password = fakePassword();
 
-    $this->assertDatabaseHas('MEMB_INFO', [
-        'memb___id' => $username,
-        'mail_addr' => $newEmail,
-    ], 'game_server_1');
-});
+        $gameUser = new GameUser([
+            'memb___id' => $username,
+            'memb__pwd' => $password
+        ]);
 
-it('updates game user password when updating user password', function () {
-    $user = User::create([
-        'username' => substr(fake()->userName, 0, 10),
-        'email' => fake()->unique()->safeEmail(),
-        'password' => 'password',
-    ]);
+        expect($gameUser->username)->toBe($username)
+            ->and($gameUser->password)->toBe($password);
+    });
 
-    $newPassword = fake()->password(4, 10);
+    it('can set username and password attributes', function () {
+        $gameUser = new GameUser;
 
-    $user->password = $newPassword;
-    $user->save();
+        $username = fakeUsername();
+        $gameUser->username = $username;
+        expect($gameUser->memb___id)->toBe($username);
 
-    expect($user->fresh()->gameUser->memb__pwd)->toBe($newPassword);
-});
+        $password = fakePassword();
+        $gameUser->password = $password;
+        expect($gameUser->memb__pwd)->toBe($password);
+    });
 
-it('deletes game user when deleting user', function () {
-    $username = substr(fake()->userName, 0, 10);
-    $email = fake()->unique()->safeEmail();
+    it('belongs to a user', function () {
+        $gameUser = new GameUser;
+        $relation = $gameUser->user();
 
-    $user = User::create([
-        'username' => $username,
-        'email' => $email,
-        'password' => 'password',
-    ]);
-
-    $gameUserId = $user->gameUser->memb___id;
-
-    $user->delete();
-
-    $this->assertDatabaseMissing('users', ['username' => $username]);
-    $this->assertDatabaseMissing('MEMB_INFO', ['memb___id' => $gameUserId], 'game_server_1');
-});
-
-it('uses the correct database connection', function () {
-    $gameUser = new \App\Models\Game\User;
-    expect($gameUser->getConnectionName())->toBe('game_server_1');
-});
-
-it('uses the correct table name', function () {
-    $gameUser = new \App\Models\Game\User;
-    expect($gameUser->getTable())->toBe('MEMB_INFO');
-});
-
-it('has the correct primary key', function () {
-    $gameUser = new \App\Models\Game\User;
-    expect($gameUser->getKeyName())->toBe('memb___id')
-        ->and($gameUser->getKeyType())->toBe('string')
-        ->and($gameUser->incrementing)->toBeFalse();
-});
-
-it('does not use timestamps', function () {
-    $gameUser = new \App\Models\Game\User;
-    expect($gameUser->timestamps)->toBeFalse();
-});
-
-it('has the correct fillable attributes', function () {
-    $gameUser = new \App\Models\Game\User;
-    expect($gameUser->getFillable())->toContain('memb___id', 'memb__pwd', 'memb_name', 'sno__numb', 'mail_addr',
-        'appl_days', 'mail_chek', 'bloc_code', 'ctl1_code', 'AccountLevel', 'AccountExpireDate');
-});
-
-it('has a username attribute', function () {
-    $username = substr(fake()->userName, 0, 10);
-
-    $gameUser = new \App\Models\Game\User(['memb___id' => $username]);
-    expect($gameUser->username)->toBe($username);
-});
-
-it('has a password accessor', function () {
-    $gameUser = new \App\Models\Game\User(['memb__pwd' => 'password123']);
-    expect($gameUser->password)->toBe('password123');
-});
-
-it('can set username attribute', function () {
-    $username = substr(fake()->userName, 0, 10);
-
-    $gameUser = new \App\Models\Game\User;
-    $gameUser->username = $username;
-    expect($gameUser->memb___id)->toBe($username);
-});
-
-it('has a password mutator', function () {
-    $gameUser = new \App\Models\Game\User;
-    $gameUser->password = 'newpass';
-    expect($gameUser->memb__pwd)->toBe('newpass');
-});
-
-it('belongs to a user', function () {
-    $gameUser = new \App\Models\Game\User;
-    expect($gameUser->user())->toBeInstanceOf(BelongsTo::class)
-        ->and($gameUser->user()->getRelated())->toBeInstanceOf(User::class)
-        ->and($gameUser->user()->getForeignKeyName())->toBe('memb___id')
-        ->and($gameUser->user()->getOwnerKeyName())->toBe('username');
+        expect($relation)->toBeInstanceOf(BelongsTo::class)
+            ->and($relation->getRelated())->toBeInstanceOf(User::class)
+            ->and($relation->getForeignKeyName())->toBe('memb___id')
+            ->and($relation->getOwnerKeyName())->toBe('username');
+    });
 });

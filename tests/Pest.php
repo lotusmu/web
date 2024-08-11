@@ -42,7 +42,17 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function fakeUsername(): string
 {
-    // ..
+    return substr(fake()->userName, 0, 10);
+}
+
+function fakeEmail(): string
+{
+    return fake()->unique()->safeEmail();
+}
+
+function fakePassword()
+{
+    return fake()->password(4, 10);
 }
