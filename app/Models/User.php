@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Interfaces\HasGameUser;
-use App\Services\GameUserService;
+use App\Interfaces\HasMember;
+use App\Services\MemberService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,15 +11,22 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 
-class User extends Authenticatable implements HasGameUser
+class User extends Authenticatable implements HasMember
 {
     use HasFactory, Notifiable;
 
     protected ?string $rawPassword = null;
 
-    protected $fillable = ['username', 'email', 'password'];
+    protected $fillable = [
+        'username',
+        'email',
+        'password',
+    ];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -48,15 +55,15 @@ class User extends Authenticatable implements HasGameUser
         });
 
         static::created(function (User $user) {
-            app(GameUserService::class)->createGameUser($user);
+            app(MemberService::class)->createMember($user);
         });
 
         static::updated(function (User $user) {
-            app(GameUserService::class)->updateGameUser($user);
+            app(MemberService::class)->updateMember($user);
         });
 
         static::deleted(function (User $user) {
-            $user->gameUser()->delete();
+            $user->member()->delete();
         });
     }
 
@@ -73,8 +80,8 @@ class User extends Authenticatable implements HasGameUser
         return $result;
     }
 
-    public function gameUser(): HasOne
+    public function member(): HasOne
     {
-        return $this->hasOne(Game\User::class, 'memb___id', 'username');
+        return $this->hasOne(Member::class, 'memb___id', 'username');
     }
 }

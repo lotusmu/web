@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\Game\User as GameUser;
+use App\Models\Member;
 use App\Models\User;
 
-class GameUserService
+class MemberService
 {
-    public function createGameUser(User $user): void
+    public function createMember(User $user): void
     {
-        GameUser::create([
+        Member::create([
             'memb___id' => $user->username,
             'memb__pwd' => $user->getRawPassword(),
             'memb_name' => $user->username,
@@ -24,10 +24,10 @@ class GameUserService
         ]);
     }
 
-    public function updateGameUser(User $user): void
+    public function updateMember(User $user): void
     {
-        $gameUser = $user->gameUser;
-        if ($gameUser) {
+        $member = $user->member();
+        if ($member) {
             $updates = [];
 
             if ($user->isDirty('email')) {
@@ -39,7 +39,7 @@ class GameUserService
             }
 
             if (! empty($updates)) {
-                $gameUser->update($updates);
+                $member->update($updates);
             }
         }
     }

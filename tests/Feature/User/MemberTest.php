@@ -1,0 +1,175 @@
+<?php
+
+use App\Models\Member;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+describe('User and Member Integration', function () {
+    it('creates a member when creating a user', function () {
+        $username = fakeUsername();
+        $email = fakeEmail();
+
+        $user = User::create([
+            'username' => $username,
+            'email' => $email,
+            'password' => 'password',
+        ]);
+
+        expect($user)->toBeInstanceOf(User::class);
+
+        $this->assertDatabaseHas('users', compact('username', 'email'));
+        $this->assertDatabaseHas('MEMB_INFO', [
+            'memb___id' => $username,
+            'mail_addr' => $email,
+        ], 'game_server_1');
+
+        expect($user->member)
+            ->not->toBeNull()
+            ->and($user->member->username)->toBe($username)
+            ->and($user->member->email)->toBe($email)
+            ->and($user->member->password)->toBe('password');
+    });
+
+    it('updates member email when updating user email', function () {
+        $user = User::create([
+            'username' => fakeUsername(),
+            'email' => fakeEmail(),
+            'password' => 'password',
+        ]);
+
+        $newEmail = fakeEmail();
+        $user->email = $newEmail;
+        $user->save();
+
+        $this->assertDatabaseHas('users', [
+            'username' => $user->username,
+            'email' => $newEmail,
+        ]);
+
+        $this->assertDatabaseHas('MEMB_INFO', [
+            'memb___id' => $user->username,
+            'mail_addr' => $newEmail,
+        ], 'game_server_1');
+
+        expect($user->fresh()->member)
+            ->not->toBeNull()
+            ->and($user->member->email)->toBe($newEmail);
+    });
+
+    it('updates member password when updating user password', function () {
+        $user = User::create([
+            'username' => fakeUsername(),
+            'email' => fakeEmail(),
+            'password' => 'password',
+        ]);
+
+        $newPassword = fakePassword();
+        $user->password = $newPassword;
+        $user->save();
+
+        $this->assertDatabaseHas('users', [
+            'username' => $user->username,
+        ]);
+        expect(Hash::check($newPassword, $user->fresh()->password))->toBeTrue();
+
+        $this->assertDatabaseHas('MEMB_INFO', [
+            'memb___id' => $user->username,
+        ], 'game_server_1');
+
+        expect($user->fresh()->member)
+            ->not->toBeNull()
+            ->and($user->member->password)->toBe($newPassword);
+    });
+
+    it('deletes member when deleting user', function () {
+        $user = User::create([
+            'username' => fakeUsername(),
+            'email' => fakeEmail(),
+            'password' => 'password',
+        ]);
+
+        $username = $user->username;
+        $memberId = $user->member->username;
+
+        $user->delete();
+
+        $this->assertDatabaseMissing('users', ['username' => $username]);
+
+        $this->assertDatabaseMissing('MEMB_INFO', ['memb___id' => $memberId], 'game_server_1');
+
+        expect(User::find($username))->toBeNull()
+            ->and(Member::find($memberId))->toBeNull();
+    });
+});
+
+describe('Member Model', function () {
+    it('uses the correct database connection and table name', function () {
+        $member = new Member;
+        expect($member->getConnectionName())->toBe('game_server_1')
+            ->and($member->getTable())->toBe('MEMB_INFO');
+    });
+
+    it('has the correct primary key configuration', function () {
+        $member = new Member;
+        expect($member->getKeyName())->toBe('memb___id')
+            ->and($member->getKeyType())->toBe('string')
+            ->and($member->incrementing)->toBeFalse();
+    });
+
+    it('does not use timestamps', function () {
+        expect((new Member)->timestamps)->toBeFalse();
+    });
+
+    it('has the correct fillable attributes', function () {
+        $expectedFillable = [
+            'memb___id',
+            'memb__pwd',
+            'memb_name',
+            'sno__numb',
+            'mail_addr',
+            'appl_days',
+            'mail_chek',
+            'bloc_code',
+            'ctl1_code',
+            'AccountLevel',
+            'AccountExpireDate',
+        ];
+
+        expect((new Member)->getFillable())->toContain(...$expectedFillable);
+    });
+
+    it('has working username and password attribute accessors', function () {
+        // Test setting attributes via constructor
+        $initialUsername = fakeUsername();
+        $initialPassword = fakePassword();
+        $member = new Member([
+            'memb___id' => $initialUsername,
+            'memb__pwd' => $initialPassword,
+        ]);
+
+        expect($member->username)->toBe($initialUsername)
+            ->and($member->password)->toBe($initialPassword);
+
+        // Test setting attributes via accessors
+        $newUsername = fakeUsername();
+        $newPassword = fakePassword();
+
+        $member->username = $newUsername;
+        $member->password = $newPassword;
+
+        expect($member->username)->toBe($newUsername)
+            ->and($member->memb___id)->toBe($newUsername)
+            ->and($member->password)->toBe($newPassword)
+            ->and($member->memb__pwd)->toBe($newPassword);
+    });
+
+    it('belongs to a user', function () {
+        $member = new Member;
+        $relation = $member->user();
+
+        expect($relation)->toBeInstanceOf(BelongsTo::class)
+            ->and($relation->getRelated())->toBeInstanceOf(User::class)
+            ->and($relation->getForeignKeyName())->toBe('memb___id')
+            ->and($relation->getOwnerKeyName())->toBe('username');
+    });
+});

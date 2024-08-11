@@ -4,9 +4,9 @@ namespace App\Interfaces;
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-interface HasGameUser
+interface HasMember
 {
-    public function gameUser(): HasOne;
+    public function member(): HasOne;
 
     public function getRawPassword(): ?string;
 }

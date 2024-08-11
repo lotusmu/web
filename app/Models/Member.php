@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Game;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class User extends Model
+class Member extends Model
 {
     protected $connection = 'game_server_1';
 
@@ -50,8 +50,16 @@ class User extends Model
         );
     }
 
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->mail_addr,
+            set: fn ($value) => ['mail_addr' => $value]
+        );
+    }
+
     public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'memb___id', 'username');
+        return $this->belongsTo(User::class, 'memb___id', 'username');
     }
 }
