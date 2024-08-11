@@ -34,7 +34,7 @@ class Member extends Model
         'AccountExpireDate',
     ];
 
-    protected function username(): Attribute
+    protected function name(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->memb___id,
@@ -60,6 +60,6 @@ class Member extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'memb___id', 'username');
+        return $this->belongsTo(User::class, 'memb___id', 'name');
     }
 }

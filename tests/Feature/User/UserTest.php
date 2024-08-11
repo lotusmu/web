@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 describe('User Creation', function () {
     it('ensures user factory generates valid data', function () {
         $user = User::factory()->create();
-        expect($user->username)->not->toBeEmpty()
+        expect($user->name)->not->toBeEmpty()
             ->and($user->email)->not->toBeEmpty()
             ->and($user->password)->not->toBeEmpty();
     });
@@ -21,17 +21,17 @@ describe('User Creation', function () {
         expect($user)->toBeTruthy();
     });
 
-    it('throws an exception when creating a user without a username', function () {
-        User::factory()->create(['username' => null]);
+    it('throws an exception when creating a user without a name', function () {
+        User::factory()->create(['name' => null]);
     })->throws(InvalidArgumentException::class, 'Username is required when creating a new user.');
 
     it('creates a member when a new user is created', function () {
         $memberService = $this->mock(MemberService::class);
         $memberService->shouldReceive('createMember')->once()->andReturnUsing(function ($user) {
             return Member::create([
-                'memb___id' => $user->username,
+                'memb___id' => $user->name,
                 'memb__pwd' => $user->getRawPassword(),
-                'memb_name' => $user->username,
+                'memb_name' => $user->name,
                 'mail_addr' => $user->email,
                 'sno__numb' => 1111111111111,
                 'appl_days' => 0,
@@ -46,7 +46,7 @@ describe('User Creation', function () {
         $user = User::factory()->create();
 
         expect($user->member)->not->toBeNull()
-            ->and($user->member->username)->toBe($user->username)
+            ->and($user->member->name)->toBe($user->name)
             ->and($user->member->email)->toBe($user->email);
 
         $memberService->shouldHaveReceived('createMember')->once()->with(Mockery::type(User::class));
@@ -57,7 +57,7 @@ describe('User Retrieval and Update', function () {
     it('retrieves a user by ID', function () {
         $user = User::factory()->create();
         $retrievedUser = User::find($user->id);
-        expect($retrievedUser->username)->toBe($user->username);
+        expect($retrievedUser->name)->toBe($user->name);
     });
 
     it('updates the user email successfully', function () {
@@ -68,15 +68,15 @@ describe('User Retrieval and Update', function () {
         expect($user->fresh()->email)->toBe($newEmail);
     });
 
-    it('throws an exception when trying to update the username', function () {
+    it('throws an exception when trying to update the name', function () {
         $user = User::factory()->create();
-        $originalUsername = $user->username;
+        $originalUsername = $user->name;
 
         expect(function () use ($user) {
-            $user->username = fakeUsername();
+            $user->name = fakeUsername();
             $user->save();
         })->toThrow(InvalidArgumentException::class, 'Username cannot be updated after creation.')
-            ->and($user->fresh()->username)->toBe($originalUsername);
+            ->and($user->fresh()->name)->toBe($originalUsername);
     });
 
     it('updates a member when a user is updated', function () {
@@ -122,13 +122,13 @@ describe('User Deletion', function () {
 
     it('deletes member when user is deleted', function () {
         $user = User::factory()->create();
-        $username = $user->username;
+        $name = $user->name;
 
-        expect(Member::where('memb___id', $username)->exists())->toBeTrue();
+        expect(Member::where('memb___id', $name)->exists())->toBeTrue();
 
         $user->delete();
 
-        expect(Member::where('memb___id', $username)->exists())->toBeFalse();
+        expect(Member::where('memb___id', $name)->exists())->toBeFalse();
     });
 });
 
@@ -137,7 +137,7 @@ describe('Password Handling', function () {
         $password = 'password';
 
         $user = User::factory()->create(['password' => $password]);
-        $member = Member::where('memb___id', $user->username)->first();
+        $member = Member::where('memb___id', $user->name)->first();
 
         expect($user->password)->not->toBe($password)
             ->and(Hash::check($password, $user->password))->toBeTrue()
@@ -154,7 +154,7 @@ describe('Password Handling', function () {
         $user->save();
 
         $user->refresh();
-        $member = Member::where('memb___id', $user->username)->first();
+        $member = Member::where('memb___id', $user->name)->first();
 
         expect($user->password)->not->toBe($newPassword)
             ->and(Hash::check($newPassword, $user->password))->toBeTrue()
@@ -167,7 +167,7 @@ describe('Model Attributes', function () {
     it('checks user has correct fillable attributes', function () {
         $user = new User;
         expect($user->getFillable())->toBe([
-            'username',
+            'name',
             'email',
             'password',
         ]);
@@ -183,11 +183,11 @@ describe('Model Attributes', function () {
 });
 
 describe('Uniqueness Constraints', function () {
-    it('throws an exception when creating a user with a duplicate email or username', function ($attribute) {
+    it('throws an exception when creating a user with a duplicate email or name', function ($attribute) {
         $value = $attribute === 'email' ? fakeEmail() : fakeUsername();
         User::factory()->create([$attribute => $value]);
         User::factory()->create([$attribute => $value]);
-    })->with(['email', 'username'])->throws(QueryException::class);
+    })->with(['email', 'name'])->throws(QueryException::class);
 });
 
 describe('Relationships and Interfaces', function () {

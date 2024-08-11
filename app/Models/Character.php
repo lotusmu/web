@@ -77,6 +77,6 @@ class Character extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'AccountID', 'username');
+        return $this->belongsTo(User::class, 'AccountID', 'name');
     }
 }

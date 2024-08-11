@@ -19,7 +19,7 @@ class User extends Authenticatable implements HasMember
     protected ?string $rawPassword = null;
 
     protected $fillable = [
-        'username',
+        'name',
         'email',
         'password',
     ];
@@ -50,7 +50,7 @@ class User extends Authenticatable implements HasMember
         parent::boot();
 
         static::creating(function (User $user) {
-            if (! $user->username) {
+            if (! $user->name) {
                 throw new InvalidArgumentException('Username is required when creating a new user.');
             }
         });
@@ -70,7 +70,7 @@ class User extends Authenticatable implements HasMember
 
     public function save(array $options = []): bool
     {
-        if ($this->exists && $this->isDirty('username')) {
+        if ($this->exists && $this->isDirty('name')) {
             throw new InvalidArgumentException('Username cannot be updated after creation.');
         }
 
@@ -83,11 +83,11 @@ class User extends Authenticatable implements HasMember
 
     public function member(): HasOne
     {
-        return $this->hasOne(Member::class, 'memb___id', 'username');
+        return $this->hasOne(Member::class, 'memb___id', 'name');
     }
 
     public function characters(): HasMany
     {
-        return $this->hasMany(Character::class, 'AccountID', 'username');
+        return $this->hasMany(Character::class, 'AccountID', 'name');
     }
 }

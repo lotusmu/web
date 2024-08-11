@@ -6,33 +6,33 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 describe('User and Member Integration', function () {
     it('creates a member when creating a user', function () {
-        $username = fakeUsername();
+        $name = fakeUsername();
         $email = fakeEmail();
 
         $user = User::create([
-            'username' => $username,
+            'name' => $name,
             'email' => $email,
             'password' => 'password',
         ]);
 
         expect($user)->toBeInstanceOf(User::class);
 
-        $this->assertDatabaseHas('users', compact('username', 'email'));
+        $this->assertDatabaseHas('users', compact('name', 'email'));
         $this->assertDatabaseHas('MEMB_INFO', [
-            'memb___id' => $username,
+            'memb___id' => $name,
             'mail_addr' => $email,
         ], 'game_server_1');
 
         expect($user->member)
             ->not->toBeNull()
-            ->and($user->member->username)->toBe($username)
+            ->and($user->member->name)->toBe($name)
             ->and($user->member->email)->toBe($email)
             ->and($user->member->password)->toBe('password');
     });
 
     it('updates member email when updating user email', function () {
         $user = User::create([
-            'username' => fakeUsername(),
+            'name' => fakeUsername(),
             'email' => fakeEmail(),
             'password' => 'password',
         ]);
@@ -42,12 +42,12 @@ describe('User and Member Integration', function () {
         $user->save();
 
         $this->assertDatabaseHas('users', [
-            'username' => $user->username,
+            'name' => $user->name,
             'email' => $newEmail,
         ]);
 
         $this->assertDatabaseHas('MEMB_INFO', [
-            'memb___id' => $user->username,
+            'memb___id' => $user->name,
             'mail_addr' => $newEmail,
         ], 'game_server_1');
 
@@ -58,7 +58,7 @@ describe('User and Member Integration', function () {
 
     it('updates member password when updating user password', function () {
         $user = User::create([
-            'username' => fakeUsername(),
+            'name' => fakeUsername(),
             'email' => fakeEmail(),
             'password' => 'password',
         ]);
@@ -68,12 +68,12 @@ describe('User and Member Integration', function () {
         $user->save();
 
         $this->assertDatabaseHas('users', [
-            'username' => $user->username,
+            'name' => $user->name,
         ]);
         expect(Hash::check($newPassword, $user->fresh()->password))->toBeTrue();
 
         $this->assertDatabaseHas('MEMB_INFO', [
-            'memb___id' => $user->username,
+            'memb___id' => $user->name,
         ], 'game_server_1');
 
         expect($user->fresh()->member)
@@ -83,21 +83,21 @@ describe('User and Member Integration', function () {
 
     it('deletes member when deleting user', function () {
         $user = User::create([
-            'username' => fakeUsername(),
+            'name' => fakeUsername(),
             'email' => fakeEmail(),
             'password' => 'password',
         ]);
 
-        $username = $user->username;
-        $memberId = $user->member->username;
+        $name = $user->name;
+        $memberId = $user->member->name;
 
         $user->delete();
 
-        $this->assertDatabaseMissing('users', ['username' => $username]);
+        $this->assertDatabaseMissing('users', ['name' => $name]);
 
         $this->assertDatabaseMissing('MEMB_INFO', ['memb___id' => $memberId], 'game_server_1');
 
-        expect(User::find($username))->toBeNull()
+        expect(User::find($name))->toBeNull()
             ->and(Member::find($memberId))->toBeNull();
     });
 });
@@ -138,7 +138,7 @@ describe('Member Model', function () {
         expect((new Member)->getFillable())->toContain(...$expectedFillable);
     });
 
-    it('has working username and password attribute accessors', function () {
+    it('has working name and password attribute accessors', function () {
         // Test setting attributes via constructor
         $initialUsername = fakeUsername();
         $initialPassword = fakePassword();
@@ -147,17 +147,17 @@ describe('Member Model', function () {
             'memb__pwd' => $initialPassword,
         ]);
 
-        expect($member->username)->toBe($initialUsername)
+        expect($member->name)->toBe($initialUsername)
             ->and($member->password)->toBe($initialPassword);
 
         // Test setting attributes via accessors
         $newUsername = fakeUsername();
         $newPassword = fakePassword();
 
-        $member->username = $newUsername;
+        $member->name = $newUsername;
         $member->password = $newPassword;
 
-        expect($member->username)->toBe($newUsername)
+        expect($member->name)->toBe($newUsername)
             ->and($member->memb___id)->toBe($newUsername)
             ->and($member->password)->toBe($newPassword)
             ->and($member->memb__pwd)->toBe($newPassword);
@@ -170,6 +170,6 @@ describe('Member Model', function () {
         expect($relation)->toBeInstanceOf(BelongsTo::class)
             ->and($relation->getRelated())->toBeInstanceOf(User::class)
             ->and($relation->getForeignKeyName())->toBe('memb___id')
-            ->and($relation->getOwnerKeyName())->toBe('username');
+            ->and($relation->getOwnerKeyName())->toBe('name');
     });
 });

@@ -10,9 +10,9 @@ class MemberService
     public function createMember(User $user): void
     {
         Member::create([
-            'memb___id' => $user->username,
+            'memb___id' => $user->name,
             'memb__pwd' => $user->getRawPassword(),
-            'memb_name' => $user->username,
+            'memb_name' => $user->name,
             'mail_addr' => $user->email,
             'sno__numb' => 1111111111111,
             'appl_days' => 0,
