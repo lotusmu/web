@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Interfaces\HasMember;
 use App\Services\MemberService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -83,5 +84,10 @@ class User extends Authenticatable implements HasMember
     public function member(): HasOne
     {
         return $this->hasOne(Member::class, 'memb___id', 'username');
+    }
+
+    public function characters(): HasMany
+    {
+        return $this->hasMany(Character::class);
     }
 }
