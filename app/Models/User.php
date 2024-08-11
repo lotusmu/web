@@ -88,6 +88,6 @@ class User extends Authenticatable implements HasMember
 
     public function characters(): HasMany
     {
-        return $this->hasMany(Character::class);
+        return $this->hasMany(Character::class, 'AccountID', 'username');
     }
 }
