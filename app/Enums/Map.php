@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum Map: int
+use Filament\Support\Contracts\HasLabel;
+
+enum Map: int implements HasLabel
 {
     case Lorencia = 0;
     case Dungeon = 1;
@@ -61,14 +63,14 @@ enum Map: int
     case SantaVillage = 62;
     case Vulcanus = 63;
     case DuelArena = 64;
-    case DoppelGanger = 65;
-    case DoppelGanger = 66;
-    case DoppelGanger = 67;
-    case DoppelGanger = 68;
-    case ImperialGuardian = 69;
-    case ImperialGuardian = 70;
-    case ImperialGuardian = 71;
-    case ImperialGuardian = 72;
+    case DoppelGangerI = 65;
+    case DoppelGangerII = 66;
+    case DoppelGangerIII = 67;
+    case DoppelGangerIV = 68;
+    case ImperialGuardianI = 69;
+    case ImperialGuardianII = 70;
+    case ImperialGuardianIII = 71;
+    case ImperialGuardianIV = 72;
     case LorenMarket = 79;
     case Karutan = 80;
     case Karutan2 = 81;
@@ -89,10 +91,10 @@ enum Map: int
     case UrkMountain = 100;
     case UrkMountain2 = 101;
     case TormentedSquareOfTheFittest = 102;
-    case TormentedSquareBattle = 103;
-    case TormentedSquareBattle = 104;
-    case TormentedSquareBattle = 105;
-    case TormentedSquareBattle = 106;
+    case TormentedSquareBattleI = 103;
+    case TormentedSquareBattleII = 104;
+    case TormentedSquareBattleIII = 105;
+    case TormentedSquareBattleIV = 106;
     case Nars = 110;
     case Ferea = 112;
     case NixieLake = 113;
@@ -113,7 +115,7 @@ enum Map: int
     case OldKethotum = 135;
     case BurningKethotum = 136;
 
-    public function getMapName(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Lorencia => 'Lorencia',
@@ -173,8 +175,14 @@ enum Map: int
             self::SantaVillage => 'Santa Village',
             self::Vulcanus => 'Vulcanus',
             self::DuelArena => 'Duel Arena',
-            self::DoppelGanger => 'Doppel Ganger',
-            self::ImperialGuardian => 'Imperial Guardian',
+            self::DoppelGangerI => 'Doppel Ganger',
+            self::DoppelGangerII => 'Doppel Ganger',
+            self::DoppelGangerIII => 'Doppel Ganger',
+            self::DoppelGangerIV => 'Doppel Ganger',
+            self::ImperialGuardianI => 'Imperial Guardian',
+            self::ImperialGuardianII => 'Imperial Guardian',
+            self::ImperialGuardianIII => 'Imperial Guardian',
+            self::ImperialGuardianIV => 'Imperial Guardian',
             self::LorenMarket => 'Loren Market',
             self::Karutan => 'Karutan',
             self::Karutan2 => 'Karutan 2',
@@ -195,7 +203,10 @@ enum Map: int
             self::UrkMountain => 'Urk Mountain',
             self::UrkMountain2 => 'Urk Mountain 2',
             self::TormentedSquareOfTheFittest => 'Tormented Square of the Fittest',
-            self::TormentedSquareBattle => 'Tormented Square Battle',
+            self::TormentedSquareBattleI => 'Tormented Square Battle',
+            self::TormentedSquareBattleII => 'Tormented Square Battle',
+            self::TormentedSquareBattleIII => 'Tormented Square Battle',
+            self::TormentedSquareBattleIV => 'Tormented Square Battle',
             self::Nars => 'Nars',
             self::Ferea => 'Ferea',
             self::NixieLake => 'Nixie Lake',

@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum CharacterClass: int
+use Filament\Support\Contracts\HasLabel;
+
+enum CharacterClass: int implements HasLabel
 {
     case DarkWizard = 0;
     case SoulMaster = 1;
@@ -33,7 +35,7 @@ enum CharacterClass: int
     case MirageLancer = 114;
     case ShiningLancer = 118;
 
-    public function getName(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::DarkWizard => 'Dark Wizard',

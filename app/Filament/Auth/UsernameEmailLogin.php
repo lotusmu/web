@@ -7,7 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Pages\Auth\Login;
 use Illuminate\Validation\ValidationException;
 
-class CustomLogin extends Login
+class UsernameEmailLogin extends Login
 {
     protected function getForms(): array
     {
