@@ -100,9 +100,9 @@ it('uses the correct table name', function () {
 
 it('has the correct primary key', function () {
     $gameUser = new \App\Models\Game\User;
-    expect($gameUser->getKeyName())->toBe('memb___id');
-    expect($gameUser->getKeyType())->toBe('string');
-    expect($gameUser->incrementing)->toBeFalse();
+    expect($gameUser->getKeyName())->toBe('memb___id')
+        ->and($gameUser->getKeyType())->toBe('string')
+        ->and($gameUser->incrementing)->toBeFalse();
 });
 
 it('does not use timestamps', function () {
@@ -116,7 +116,7 @@ it('has the correct fillable attributes', function () {
         'appl_days', 'mail_chek', 'bloc_code', 'ctl1_code', 'AccountLevel', 'AccountExpireDate');
 });
 
-it('has a username accessor', function () {
+it('has a username attribute', function () {
     $username = substr(fake()->userName, 0, 10);
 
     $gameUser = new \App\Models\Game\User(['memb___id' => $username]);
@@ -128,7 +128,7 @@ it('has a password accessor', function () {
     expect($gameUser->password)->toBe('password123');
 });
 
-it('has a username mutator', function () {
+it('can set username attribute', function () {
     $username = substr(fake()->userName, 0, 10);
 
     $gameUser = new \App\Models\Game\User;

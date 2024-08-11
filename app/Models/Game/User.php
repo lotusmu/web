@@ -2,6 +2,7 @@
 
 namespace App\Models\Game;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -33,32 +34,24 @@ class User extends Model
         'AccountExpireDate',
     ];
 
-    // Define accessors
-    public function getUsernameAttribute()
+    protected function username(): Attribute
     {
-        return $this->memb___id;
+        return Attribute::make(
+            get: fn () => $this->memb___id,
+            set: fn ($value) => ['memb___id' => $value]
+        );
     }
 
-    public function getPasswordAttribute()
+    protected function password(): Attribute
     {
-        return $this->memb__pwd;
+        return Attribute::make(
+            get: fn () => $this->memb__pwd,
+            set: fn ($value) => ['memb__pwd' => $value]
+        );
     }
-
-    // Define mutators
-    public function setUsernameAttribute($value): void
-    {
-        $this->attributes['memb___id'] = $value;
-    }
-
-    public function setPasswordAttribute($value): void
-    {
-        $this->attributes['memb__pwd'] = $value;
-    }
-
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'memb___id', 'username');
     }
 }
-
