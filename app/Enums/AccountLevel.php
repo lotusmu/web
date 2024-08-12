@@ -2,15 +2,17 @@
 
 namespace App\Enums;
 
+use Filament\Support\Colors\Color;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum AccountLevel: int implements HasLabel
+enum AccountLevel: int implements HasColor, HasIcon, HasLabel
 {
     case Regular = 0;
     case Bronze = 1;
     case Silver = 2;
     case Gold = 3;
-
 
     public function getLabel(): string
     {
@@ -19,6 +21,24 @@ enum AccountLevel: int implements HasLabel
             self::Bronze => 'Bronze',
             self::Silver => 'Silver',
             self::Gold => 'Gold',
+        };
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Regular => null,
+            self::Bronze => Color::Orange,
+            self::Silver => Color::Gray,
+            self::Gold => Color::Yellow,
+        };
+    }
+
+    public function getIcon(): ?string
+    {
+        return match ($this) {
+            self::Regular => null,
+            default => 'heroicon-o-fire',
         };
     }
 }

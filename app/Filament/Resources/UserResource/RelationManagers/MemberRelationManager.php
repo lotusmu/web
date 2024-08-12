@@ -41,17 +41,21 @@ class MemberRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('memb___id')
                     ->label('Username')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mail_addr')
                     ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('AccountLevel')
                     ->label('Account Level')
-                    ->sortable(),
+                    ->icon(fn ($record) => $record->AccountLevel->getIcon())
+                    ->iconColor(fn ($record) => $record->AccountLevel->getColor()),
                 Tables\Columns\TextColumn::make('AccountExpireDate')
-                    ->label('Account Expire Date')
+                    ->label('VIP Expire Date')
                     ->dateTime()
-                    ->sortable(),
+                    ->formatStateUsing(function ($state, $record) {
+                        return $record->AccountLevel === AccountLevel::Regular ? '-' : $state;
+                    }),
             ])
             ->filters([
                 //

@@ -7,7 +7,6 @@ use App\Filament\Resources\MemberResource\Pages;
 use App\Models\Member;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -40,28 +39,18 @@ class MemberResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('memb___id')
                     ->label('Username')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mail_addr')
                     ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('AccountLevel')
                     ->label('Account Level')
-                    ->icon(function ($state, $record) {
-                        return $record->AccountLevel === AccountLevel::Regular ? '' : 'heroicon-o-fire';
-                    })
-                    ->iconColor(function ($state, $record) {
-                        return match ($record->AccountLevel) {
-                            AccountLevel::Bronze => Color::Orange,
-                            AccountLevel::Silver => Color::Gray,
-                            AccountLevel::Gold => Color::Yellow,
-                            default => '',
-                        };
-                    })
-                    ->sortable(),
+                    ->icon(fn ($record) => $record->AccountLevel->getIcon())
+                    ->iconColor(fn ($record) => $record->AccountLevel->getColor()),
                 Tables\Columns\TextColumn::make('AccountExpireDate')
                     ->label('VIP Expire Date')
                     ->dateTime()
-                    ->sortable()
                     ->formatStateUsing(function ($state, $record) {
                         return $record->AccountLevel === AccountLevel::Regular ? '-' : $state;
                     }),
