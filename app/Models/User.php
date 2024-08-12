@@ -4,8 +4,13 @@ namespace App\Models;
 
 use App\Interfaces\HasMember;
 use App\Services\MemberService;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -81,13 +86,51 @@ class User extends Authenticatable implements HasMember
         return $result;
     }
 
+    public static function getForm(): array
+    {
+        return [
+            Section::make('User Login Details')
+                ->schema([
+                    TextInput::make('name')
+                        ->label('Username')
+                        ->disabled(),
+                    TextInput::make('email')
+                        ->email()
+                        ->required()
+                        ->maxLength(255),
+                    DateTimePicker::make('email_verified_at')
+                        ->label('Email Verified At')
+                        ->disabled()
+                        ->dehydrated(false),
+                    Checkbox::make('change_password')
+                        ->label('Change password')
+                        ->live()
+                        ->afterStateUpdated(function (Set $set, $state) {
+                            if (! $state) {
+                                $set('password', null);
+                                $set('password_confirmation', null);
+                            }
+                        }),
+
+                    TextInput::make('password')
+                        ->password()
+                        ->required(fn (Get $get): bool => (bool) $get('change_password'))
+                        ->maxLength(255)
+                        ->visible(fn (Get $get): bool => (bool) $get('change_password'))
+                        ->confirmed(),
+
+                    TextInput::make('password_confirmation')
+                        ->password()
+                        ->required(fn (Get $get): bool => (bool) $get('change_password'))
+                        ->maxLength(255)
+                        ->visible(fn (Get $get): bool => (bool) $get('change_password'))
+                        ->dehydrated(false),
+                ]),
+        ];
+    }
+
     public function member(): HasOne
     {
         return $this->hasOne(Member::class, 'memb___id', 'name');
-    }
-
-    public function characters(): HasMany
-    {
-        return $this->hasMany(Character::class, 'AccountID', 'name');
     }
 }

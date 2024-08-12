@@ -2,12 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Enums\AccountLevel;
+use App\Models\Traits\MemberAccessors;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Member extends Model
 {
+    use MemberAccessors;
+
     protected $connection = 'game_server_1';
 
     protected $table = 'MEMB_INFO';
@@ -34,32 +43,45 @@ class Member extends Model
         'AccountExpireDate',
     ];
 
-    protected function name(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->memb___id,
-            set: fn ($value) => ['memb___id' => $value]
-        );
-    }
+    protected $casts = [
+        'AccountLevel' => AccountLevel::class,
+    ];
 
-    protected function password(): Attribute
+    public static function getForm(): array
     {
-        return Attribute::make(
-            get: fn () => $this->memb__pwd,
-            set: fn ($value) => ['memb__pwd' => $value]
-        );
-    }
-
-    protected function email(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->mail_addr,
-            set: fn ($value) => ['mail_addr' => $value]
-        );
+        return [
+            Section::make('User Details')
+                ->schema([
+                    TextInput::make('memb___id')
+                        ->label('Username')
+                        ->disabled(),
+                    TextInput::make('mail_addr')
+                        ->label('Email')
+                        ->disabled(),
+                    TextInput::make('memb__pwd')
+                        ->label('Password')
+                        ->disabled(),
+                ]),
+            Fieldset::make('Account Level')
+                ->schema([
+                    Select::make('AccountLevel')
+                        ->label('VIP')
+                        ->options(AccountLevel::class)
+                        ->enum(AccountLevel::class),
+                    DateTimePicker::make('AccountExpireDate')
+                        ->label('Expire Date')
+                        ->required(),
+                ]),
+        ];
     }
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'memb___id', 'name');
+    }
+
+    public function characters(): HasMany
+    {
+        return $this->hasMany(Character::class, 'memb___id', 'AccountID');
     }
 }
