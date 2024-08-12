@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 
@@ -86,13 +87,24 @@ class User extends Authenticatable implements HasMember
         return $result;
     }
 
+    public function verify(): void
+    {
+        $this->email_verified_at = Carbon::now();
+
+        $this->save();
+    }
+
     public static function getForm(): array
     {
         return [
             Section::make('User Login Details')
+                ->description('View and update user account information, including email and password.')
+                ->aside()
+                ->columns(2)
                 ->schema([
                     TextInput::make('name')
                         ->label('Username')
+                        ->columnSpanFull()
                         ->disabled(),
                     TextInput::make('email')
                         ->email()
@@ -104,6 +116,7 @@ class User extends Authenticatable implements HasMember
                         ->dehydrated(false),
                     Checkbox::make('change_password')
                         ->label('Change password')
+                        ->columnSpanFull()
                         ->live()
                         ->afterStateUpdated(function (Set $set, $state) {
                             if (! $state) {

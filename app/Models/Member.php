@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\AccountLevel;
 use App\Models\Traits\MemberAccessors;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -51,8 +50,12 @@ class Member extends Model
     {
         return [
             Section::make('User Details')
+                ->description('User Details can be changed from User Logins.')
+                ->aside()
+                ->columns(2)
                 ->schema([
                     TextInput::make('memb___id')
+                        ->columnSpanFull()
                         ->label('Username')
                         ->disabled(),
                     TextInput::make('mail_addr')
@@ -62,14 +65,17 @@ class Member extends Model
                         ->label('Password')
                         ->disabled(),
                 ]),
-            Fieldset::make('Account Level')
+            Section::make('Account Level')
+                ->description('Change the account level and its expiration date.')
+                ->aside()
+                ->columns(2)
                 ->schema([
                     Select::make('AccountLevel')
-                        ->label('VIP')
+                        ->label('VIP Package')
                         ->options(AccountLevel::class)
                         ->enum(AccountLevel::class),
                     DateTimePicker::make('AccountExpireDate')
-                        ->label('Expire Date')
+                        ->label('Expiration Date')
                         ->required(),
                 ]),
         ];
@@ -82,6 +88,6 @@ class Member extends Model
 
     public function characters(): HasMany
     {
-        return $this->hasMany(Character::class, 'memb___id', 'AccountID');
+        return $this->hasMany(Character::class, 'AccountID', 'memb___id');
     }
 }

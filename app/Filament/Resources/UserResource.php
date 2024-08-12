@@ -10,7 +10,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserResource extends Resource
 {
@@ -65,7 +65,7 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('Verify Email')
+                Tables\Actions\Action::make('Verify')
                     ->visible(function ($record) {
                         return $record->email_verified_at === null;
                     })
@@ -73,9 +73,7 @@ class UserResource extends Resource
                     ->color('success')
                     ->requiresConfirmation()
                     ->action(function ($record) {
-                        $record->forceFill([
-                            'email_verified_at' => Carbon::now(),
-                        ])->save();
+                        $record->verify();
                     })
                     ->after(function () {
                         Notification::make()->success()->title('The email was verified successfully!')
@@ -85,6 +83,14 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('Verify selected')
+                        ->requiresConfirmation()
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->action(function (Collection $records) {
+                            $records->each->verify();
+                        })
+                        ->deselectRecordsAfterCompletion(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

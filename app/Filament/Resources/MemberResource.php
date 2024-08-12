@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\AccountLevel;
 use App\Filament\Resources\MemberResource\Pages;
+use App\Filament\Resources\MemberResource\RelationManagers\CharactersRelationManager;
 use App\Models\Member;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -86,7 +87,7 @@ class MemberResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CharactersRelationManager::class,
         ];
     }
 
