@@ -31,9 +31,6 @@ enum CharacterClass: int implements HasLabel
     case RageFighter = 96;
     case FistMaster = 98;
     case FistBlazer = 102;
-    case GrowLancer = 112;
-    case MirageLancer = 114;
-    case ShiningLancer = 118;
 
     public function getLabel(): string
     {
@@ -63,9 +60,19 @@ enum CharacterClass: int implements HasLabel
             self::RageFighter => 'Rage Fighter',
             self::FistMaster => 'Fist Master',
             self::FistBlazer => 'Fist Blazer',
-            self::GrowLancer => 'Grow Lancer',
-            self::MirageLancer => 'Mirage Lancer',
-            self::ShiningLancer => 'Shining Lancer',
+        };
+    }
+
+    public function getImagePath(): string
+    {
+        return match ($this) {
+            self::DarkWizard, self::SoulMaster, self::GrandMaster, self::SoulWizard => 'images/character_classes/dw.jpg',
+            self::DarkKnight, self::BladeKnight, self::BladeMaster, self::DragonKnight => 'images/character_classes/dk.jpg',
+            self::FairyElf, self::MuseElf, self::HighElf, self::NobleElf => 'images/character_classes/elf.jpg',
+            self::MagicGladiator, self::DuelMaster, self::MagicKnight => 'images/character_classes/mg.jpg',
+            self::DarkLord, self::LordEmperor, self::EmpireLord => 'images/character_classes/dl.jpg',
+            self::Summoner, self::BloodySummoner, self::DimensionMaster, self::DimensionSummoner => 'images/character_classes/sum.jpg',
+            self::RageFighter, self::FistMaster, self::FistBlazer => 'images/character_classes/rf.jpg',
         };
     }
 }

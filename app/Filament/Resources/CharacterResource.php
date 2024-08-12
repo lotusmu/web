@@ -3,9 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Enums\CharacterClass;
+use App\Filament\Columns\CharacterClassColumn;
+use App\Filament\Infolists\Components\CharacterClassEntry;
 use App\Filament\Resources\CharacterResource\Pages;
 use App\Models\Character;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Fieldset;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,6 +24,11 @@ class CharacterResource extends Resource
     protected static ?string $navigationGroup = 'Account & Characters';
 
     protected static ?int $navigationSort = 3;
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     public static function getGloballySearchableAttributes(): array
     {
@@ -49,8 +60,9 @@ class CharacterResource extends Resource
                 Tables\Columns\TextColumn::make('Name')
                     ->label('Character')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Class')
-                    ->formatStateUsing(fn (CharacterClass $state): string => $state->getLabel()),
+                CharacterClassColumn::make('Class')
+                    ->label('Class')
+                    ->imageSize(32),
                 Tables\Columns\TextColumn::make('cLevel')
                     ->label('Level')
                     ->numeric()
@@ -64,12 +76,69 @@ class CharacterResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Character Information')
+                    ->description('General information about the character.')
+                    ->aside()
+                    ->columns(6)
+                    ->schema([
+                        CharacterClassEntry::make('Class')
+                            ->label('Character Class'),
+                        TextEntry::make('Name')
+                            ->label('Character'),
+                        TextEntry::make('Class')
+                            ->label('Class'),
+                        TextEntry::make('ResetCount')
+                            ->label('Resets'),
+                        TextEntry::make('cLevel')
+                            ->label('Level'),
+                    ]),
+                Section::make('Other Information')
+                    ->description('Detailed information about the character.')
+                    ->aside()
+                    ->schema([
+                        Fieldset::make('Character Stats')
+                            ->columns(5)
+                            ->schema([
+                                TextEntry::make('Strength'),
+                                TextEntry::make('Dexterity'),
+                                TextEntry::make('Vitality'),
+                                TextEntry::make('Energy'),
+                                TextEntry::make('Leadership'),
+                            ]),
+                        Fieldset::make('Location')
+                            ->columns(3)
+                            ->schema([
+                                TextEntry::make('MapNumber')
+                                    ->label('Map Name'),
+                                TextEntry::make('MapPosX')
+                                    ->label('X Position'),
+                                TextEntry::make('MapPosY')
+                                    ->label('Y Position'),
+                            ]),
+                        Fieldset::make('Player Status')
+                            ->columns(3)
+                            ->schema([
+                                TextEntry::make('PkLevel')
+                                    ->label('PK Level'),
+                                TextEntry::make('PkCount')
+                                    ->label('Kills Count'),
+                                TextEntry::make('PkTime')
+                                    ->label('PK Time'),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -86,6 +155,7 @@ class CharacterResource extends Resource
             'index' => Pages\ListCharacters::route('/'),
             'create' => Pages\CreateCharacter::route('/create'),
             'edit' => Pages\EditCharacter::route('/{record}/edit'),
+            'view' => Pages\ViewCharacter::route('/{record}'),
         ];
     }
 }
