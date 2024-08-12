@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class MemberResource extends Resource
 {
@@ -21,6 +22,16 @@ class MemberResource extends Resource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['memb___id', 'mail_addr'];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return "{$record->name} ({$record->email})";
     }
 
     public static function form(Form $form): Form

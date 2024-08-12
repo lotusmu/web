@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class CharacterResource extends Resource
 {
@@ -17,6 +18,20 @@ class CharacterResource extends Resource
     protected static ?string $navigationGroup = 'Account & Characters';
 
     protected static ?int $navigationSort = 3;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['Name', 'Class'];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        $classLabel = $record->Class instanceof CharacterClass
+            ? $record->Class->getLabel()
+            : CharacterClass::from($record->Class)->getLabel();
+
+        return "{$record->Name} ({$classLabel})";
+    }
 
     public static function form(Form $form): Form
     {
