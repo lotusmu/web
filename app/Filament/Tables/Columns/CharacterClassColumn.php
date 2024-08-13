@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Columns;
+namespace App\Filament\Tables\Columns;
 
 use Closure;
 use Filament\Tables\Columns\Column;
 
 class CharacterClassColumn extends Column
 {
-    protected string $view = 'components.filament.tables.columns.character-class-column';
+    protected string $view = 'filament.tables.columns.character-class-column';
 
     protected int|Closure|null $imageSize = 40;
 

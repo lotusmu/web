@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Filament\Infolists\Components;
+namespace App\Filament\Infolists\Components\Entry;
 
-use App\Enums\CharacterClass;
 use Closure;
 use Filament\Infolists\Components\Entry;
 
 class CharacterClassEntry extends Entry
 {
-    protected string $view = 'components.filament.infolists.character-class-entry';
+    protected string $view = 'filament.infolists.entries.character-class';
 
     protected int|Closure|null $imageSize = 64;
 
@@ -27,7 +26,7 @@ class CharacterClassEntry extends Entry
     {
         $state = parent::getState();
         if (is_int($state)) {
-            return CharacterClass::from($state);
+            return CharacterClassEntry::from($state);
         }
         return $state;
     }

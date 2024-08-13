@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\MemberResource\RelationManagers;
 
-use App\Filament\Columns\CharacterClassColumn;
+use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Character;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;

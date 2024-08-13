@@ -3,9 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Enums\CharacterClass;
-use App\Filament\Columns\CharacterClassColumn;
-use App\Filament\Infolists\Components\CharacterClassEntry;
+use App\Filament\Infolists\Components\Entry\CharacterClassEntry;
 use App\Filament\Resources\CharacterResource\Pages;
+use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Character;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Fieldset;
