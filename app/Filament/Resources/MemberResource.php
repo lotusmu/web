@@ -58,8 +58,7 @@ class MemberResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('AccountLevel')
                     ->label('Account Level')
-                    ->icon(fn ($record) => $record->AccountLevel->getIcon())
-                    ->iconColor(fn ($record) => $record->AccountLevel->getColor()),
+                    ->badge(),
                 Tables\Columns\TextColumn::make('AccountExpireDate')
                     ->label('VIP Expire Date')
                     ->dateTime()
