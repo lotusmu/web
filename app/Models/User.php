@@ -10,6 +10,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,7 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 
-class User extends Authenticatable implements HasMember
+class User extends Authenticatable implements FilamentUser, HasMember
 {
     use HasFactory, Notifiable;
 
@@ -92,6 +94,11 @@ class User extends Authenticatable implements HasMember
         $this->email_verified_at = Carbon::now();
 
         $this->save();
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true; //$this->hasRole('admin');
     }
 
     public static function getForm(): array

@@ -11,6 +11,11 @@
 |
 */
 
+use App\Enums\CharacterClass;
+use App\Enums\Map;
+use App\Enums\PkLevel;
+use App\Models\Character;
+
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
@@ -41,6 +46,28 @@ expect()->extend('toBeOne', function () {
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+
+function createCharacter()
+{
+    return Character::create([
+        'AccountID' => fakeUsername(),
+        'Name' => fakeUsername(),
+        'Class' => CharacterClass::DarkWizard,
+        'ResetCount' => '0',
+        'cLevel' => '1',
+        'Strength' => '25',
+        'Dexterity' => '25',
+        'Vitality' => '25',
+        'Energy' => '25',
+        'Leadership' => '0',
+        'MapNumber' => Map::Lorencia,
+        'MapPosX' => '125',
+        'MapPosY' => '125',
+        'PkLevel' => PkLevel::Normal,
+        'PkCount' => '0',
+        'PkTime' => '0',
+    ]);
+}
 
 function fakeUsername(): string
 {

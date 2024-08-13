@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\CharacterClass;
 use App\Filament\Infolists\Components\Entry\CharacterClassEntry;
 use App\Filament\Resources\CharacterResource\Pages;
 use App\Filament\Tables\Columns\CharacterClassColumn;
@@ -30,6 +29,11 @@ class CharacterResource extends Resource
         return false;
     }
 
+    public static function canDelete(Model $record): bool
+    {
+        return false;
+    }
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['Name', 'Class'];
@@ -37,11 +41,7 @@ class CharacterResource extends Resource
 
     public static function getGlobalSearchResultTitle(Model $record): string
     {
-        $classLabel = $record->Class instanceof CharacterClass
-            ? $record->Class->getLabel()
-            : CharacterClass::from($record->Class)->getLabel();
-
-        return "{$record->Name} ({$classLabel})";
+        return "{$record->Name} ({$record->Class->getLabel()})";
     }
 
     public static function form(Form $form): Form
@@ -92,7 +92,7 @@ class CharacterResource extends Resource
                 Section::make('Character Information')
                     ->description('General information about the character.')
                     ->aside()
-                    ->columns(6)
+                    ->columns(5)
                     ->schema([
                         CharacterClassEntry::make('Class')
                             ->label('Character Class'),
@@ -153,7 +153,6 @@ class CharacterResource extends Resource
     {
         return [
             'index' => Pages\ListCharacters::route('/'),
-            'create' => Pages\CreateCharacter::route('/create'),
             'edit' => Pages\EditCharacter::route('/{record}/edit'),
             'view' => Pages\ViewCharacter::route('/{record}'),
         ];

@@ -16,6 +16,10 @@ class Member extends Model
 {
     use MemberAccessors;
 
+    public $incrementing = false;
+
+    public $timestamps = false;
+
     protected $connection = 'game_server_1';
 
     protected $table = 'MEMB_INFO';
@@ -23,10 +27,6 @@ class Member extends Model
     protected $primaryKey = 'memb___id';
 
     protected $keyType = 'string';
-
-    public $incrementing = false;
-
-    public $timestamps = false;
 
     protected $fillable = [
         'memb___id',

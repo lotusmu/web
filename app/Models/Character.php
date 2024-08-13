@@ -14,15 +14,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Character extends Model
 {
+    public $timestamps = false;
+
+    public $incrementing = false;
+
     protected $connection = 'game_server_1';
 
     protected $table = 'Character';
 
-    public $timestamps = false;
-
     protected $primaryKey = 'Name';
-
-    public $incrementing = false;
 
     protected $keyType = 'string';
 
@@ -75,11 +75,6 @@ class Character extends Model
         'Deads' => 'integer',
     ];
 
-    public function getClassName(): string
-    {
-        return $this->Class->getName();
-    }
-
     public static function getForm()
     {
         return [
@@ -124,19 +119,29 @@ class Character extends Model
                                 ->schema([
                                     TextInput::make('Strength')
                                         ->required()
+                                        ->minValue(1)
+                                        ->maxValue(32767)
                                         ->numeric(),
                                     TextInput::make('Dexterity')
                                         ->required()
+                                        ->minValue(1)
+                                        ->maxValue(32767)
                                         ->numeric(),
                                     TextInput::make('Vitality')
                                         ->required()
+                                        ->minValue(1)
+                                        ->maxValue(32767)
                                         ->numeric(),
                                     TextInput::make('Energy')
                                         ->required()
+                                        ->minValue(1)
+                                        ->maxValue(32767)
                                         ->numeric(),
                                     TextInput::make('Leadership')
                                         ->columnSpanFull()
                                         ->required()
+                                        ->minValue(0)
+                                        ->maxValue(32767)
                                         ->numeric()
                                         ->default(0),
                                 ]),
@@ -152,10 +157,14 @@ class Character extends Model
                                     TextInput::make('MapPosX')
                                         ->label('X Position')
                                         ->required()
+                                        ->minValue(0)
+                                        ->maxValue(255)
                                         ->numeric(),
                                     TextInput::make('MapPosY')
                                         ->label('Y Position')
                                         ->required()
+                                        ->minValue(0)
+                                        ->maxValue(255)
                                         ->numeric(),
                                 ]),
                             Tabs\Tab::make('Player Status')
@@ -171,16 +180,23 @@ class Character extends Model
                                         ->label('Kills Count')
                                         ->numeric()
                                         ->required()
+                                        ->minValue(0)
                                         ->default(0),
                                     TextInput::make('PkTime')
                                         ->label('PK Time')
                                         ->numeric()
+                                        ->minValue(0)
                                         ->required()
                                         ->default(0),
                                 ]),
                         ]),
                 ]),
         ];
+    }
+
+    public function getClassName(): string
+    {
+        return $this->Class->getName();
     }
 
     public function member(): BelongsTo
