@@ -9,16 +9,19 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Character extends Model
 {
+    use HasFactory;
+
     public $timestamps = false;
 
     public $incrementing = false;
 
-    protected $connection = 'game_server_1';
+    protected $connection = 'gamedb_main';
 
     protected $table = 'Character';
 
@@ -75,7 +78,7 @@ class Character extends Model
         'Deads' => 'integer',
     ];
 
-    public static function getForm()
+    public static function getForm(): array
     {
         return [
             Section::make('Character Information')

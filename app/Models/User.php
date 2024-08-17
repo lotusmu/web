@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Interfaces\HasMember;
 use App\Services\MemberService;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
@@ -42,17 +42,6 @@ class User extends Authenticatable implements FilamentUser, HasMember
         'password' => 'hashed',
     ];
 
-    public function setPasswordAttribute(string $value): void
-    {
-        $this->rawPassword = $value;
-        $this->attributes['password'] = Hash::make($value);
-    }
-
-    public function getRawPassword(): ?string
-    {
-        return $this->rawPassword;
-    }
-
     public static function boot(): void
     {
         parent::boot();
@@ -76,29 +65,9 @@ class User extends Authenticatable implements FilamentUser, HasMember
         });
     }
 
-    public function save(array $options = []): bool
+    public function member(): HasOne
     {
-        if ($this->exists && $this->isDirty('name')) {
-            throw new InvalidArgumentException('Username cannot be updated after creation.');
-        }
-
-        $result = parent::save($options);
-
-        $this->rawPassword = null;
-
-        return $result;
-    }
-
-    public function verify(): void
-    {
-        $this->email_verified_at = Carbon::now();
-
-        $this->save();
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true; //$this->hasRole('admin');
+        return $this->hasOne(Member::class, 'memb___id', 'name');
     }
 
     public static function getForm(): array
@@ -109,18 +78,23 @@ class User extends Authenticatable implements FilamentUser, HasMember
                 ->aside()
                 ->columns(2)
                 ->schema([
-                    TextInput::make('name')
+                    Placeholder::make('name')
                         ->label('Username')
-                        ->columnSpanFull()
-                        ->disabled(),
+                        ->content(fn ($record) => $record->name),
+                    Placeholder::make('email_verified_at')
+                        ->label('Email Verified At')
+                        ->content(function ($record) {
+                            if ($record->email_verified_at) {
+                                return Carbon::parse($record->email_verified_at)->format('M d, Y H:i:s');
+                            }
+
+                            return 'Not verified';
+                        }),
                     TextInput::make('email')
+                        ->columnSpanFull()
                         ->email()
                         ->required()
                         ->maxLength(255),
-                    DateTimePicker::make('email_verified_at')
-                        ->label('Email Verified At')
-                        ->disabled()
-                        ->dehydrated(false),
                     Checkbox::make('change_password')
                         ->label('Change password')
                         ->columnSpanFull()
@@ -149,8 +123,39 @@ class User extends Authenticatable implements FilamentUser, HasMember
         ];
     }
 
-    public function member(): HasOne
+    public function setPasswordAttribute(string $value): void
     {
-        return $this->hasOne(Member::class, 'memb___id', 'name');
+        $this->rawPassword = $value;
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function getRawPassword(): ?string
+    {
+        return $this->rawPassword;
+    }
+
+    public function verify(): void
+    {
+        $this->email_verified_at = Carbon::now();
+
+        $this->save();
+    }
+
+    public function save(array $options = []): bool
+    {
+        if ($this->exists && $this->isDirty('name')) {
+            throw new InvalidArgumentException('Username cannot be updated after creation.');
+        }
+
+        $result = parent::save($options);
+
+        $this->rawPassword = null;
+
+        return $result;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true; //$this->hasRole('admin');
     }
 }

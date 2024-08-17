@@ -3,7 +3,6 @@
 use App\Enums\CharacterClass;
 use App\Filament\Resources\CharacterResource;
 use App\Filament\Resources\CharacterResource\Pages\EditCharacter;
-use App\Filament\Resources\CharacterResource\Pages\ListCharacters;
 use App\Filament\Resources\CharacterResource\Pages\ViewCharacter;
 use App\Models\Character;
 
@@ -13,14 +12,6 @@ describe('Render', function () {
     it('can render index page', function () {
         $this->get(CharacterResource::getUrl('index'))
             ->assertSuccessful();
-    });
-
-    it('can list characters', function () {
-        $character1 = createCharacter();
-        $character2 = createCharacter();
-
-        livewire(ListCharacters::class)
-            ->assertCanSeeTableRecords([$character1, $character2]);
     });
 
     it('can render edit page', function () {

@@ -25,6 +25,11 @@ class MemberResource extends Resource
         return false;
     }
 
+    public static function canDelete(Model $record): bool
+    {
+        return false;
+    }
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['memb___id', 'mail_addr'];

@@ -6,12 +6,12 @@ use Filament\Support\Contracts\HasLabel;
 
 enum PkLevel: int implements HasLabel
 {
-    case Hero = 0;
-    case Commoner = 1;
-    case Normal = 2;
-    case AgainstMurderer = 3;
-    case Murderer = 4;
-    case Phonomania = 5;
+    case Hero = 1;
+    case Commoner = 2;
+    case Normal = 3;
+    case AgainstMurderer = 4;
+    case Murderer = 5;
+    case Phonomania = 6;
 
     public function getLabel(): string
     {

@@ -5,22 +5,23 @@ namespace App\Models;
 use App\Enums\AccountLevel;
 use App\Models\Traits\MemberAccessors;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Member extends Model
 {
-    use MemberAccessors;
+    use HasFactory, MemberAccessors;
 
     public $incrementing = false;
 
     public $timestamps = false;
 
-    protected $connection = 'game_server_1';
+    protected $connection = 'gamedb_main';
 
     protected $table = 'MEMB_INFO';
 
@@ -54,16 +55,17 @@ class Member extends Model
                 ->aside()
                 ->columns(2)
                 ->schema([
-                    TextInput::make('memb___id')
-                        ->columnSpanFull()
+                    Placeholder::make('memb___id')
                         ->label('Username')
-                        ->disabled(),
-                    TextInput::make('mail_addr')
+                        ->content(fn ($record) => $record->memb___id),
+
+                    Placeholder::make('mail_addr')
                         ->label('Email')
-                        ->disabled(),
-                    TextInput::make('memb__pwd')
+                        ->content(fn ($record) => $record->mail_addr),
+
+                    Placeholder::make('memb__pwd')
                         ->label('Password')
-                        ->disabled(),
+                        ->content(fn ($record) => $record->memb__pwd),
                 ]),
             Section::make('Account Level')
                 ->description('Change the account level and its expiration date.')
@@ -73,7 +75,8 @@ class Member extends Model
                     Select::make('AccountLevel')
                         ->label('VIP Package')
                         ->options(AccountLevel::class)
-                        ->enum(AccountLevel::class),
+                        ->enum(AccountLevel::class)
+                        ->required(),
                     DateTimePicker::make('AccountExpireDate')
                         ->label('Expiration Date')
                         ->required(),

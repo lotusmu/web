@@ -9,12 +9,12 @@ it('has the correct number of enum cases', function () {
 
 it('has the correct enum values and labels', function () {
     $expectedLevels = [
-        'Hero' => ['value' => 0, 'label' => 'Hero'],
-        'Commoner' => ['value' => 1, 'label' => 'Commoner'],
-        'Normal' => ['value' => 2, 'label' => 'Normal'],
-        'AgainstMurderer' => ['value' => 3, 'label' => 'Against Murderer'],
-        'Murderer' => ['value' => 4, 'label' => 'Murderer'],
-        'Phonomania' => ['value' => 5, 'label' => 'Phonomania'],
+        'Hero' => ['value' => 1, 'label' => 'Hero'],
+        'Commoner' => ['value' => 2, 'label' => 'Commoner'],
+        'Normal' => ['value' => 3, 'label' => 'Normal'],
+        'AgainstMurderer' => ['value' => 4, 'label' => 'Against Murderer'],
+        'Murderer' => ['value' => 5, 'label' => 'Murderer'],
+        'Phonomania' => ['value' => 6, 'label' => 'Phonomania'],
     ];
 
     foreach ($expectedLevels as $levelName => $details) {

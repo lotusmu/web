@@ -21,7 +21,7 @@ describe('User and Member Integration', function () {
         $this->assertDatabaseHas('MEMB_INFO', [
             'memb___id' => $name,
             'mail_addr' => $email,
-        ], 'game_server_1');
+        ], 'gamedb_main');
 
         expect($user->member)
             ->not->toBeNull()
@@ -49,7 +49,7 @@ describe('User and Member Integration', function () {
         $this->assertDatabaseHas('MEMB_INFO', [
             'memb___id' => $user->name,
             'mail_addr' => $newEmail,
-        ], 'game_server_1');
+        ], 'gamedb_main');
 
         expect($user->fresh()->member)
             ->not->toBeNull()
@@ -74,7 +74,7 @@ describe('User and Member Integration', function () {
 
         $this->assertDatabaseHas('MEMB_INFO', [
             'memb___id' => $user->name,
-        ], 'game_server_1');
+        ], 'gamedb_main');
 
         expect($user->fresh()->member)
             ->not->toBeNull()
@@ -95,7 +95,7 @@ describe('User and Member Integration', function () {
 
         $this->assertDatabaseMissing('users', ['name' => $name]);
 
-        $this->assertDatabaseMissing('MEMB_INFO', ['memb___id' => $memberId], 'game_server_1');
+        $this->assertDatabaseMissing('MEMB_INFO', ['memb___id' => $memberId], 'gamedb_main');
 
         expect(User::find($name))->toBeNull()
             ->and(Member::find($memberId))->toBeNull();
@@ -105,7 +105,7 @@ describe('User and Member Integration', function () {
 describe('Member Model', function () {
     it('uses the correct database connection and table name', function () {
         $member = new Member;
-        expect($member->getConnectionName())->toBe('game_server_1')
+        expect($member->getConnectionName())->toBe('gamedb_main')
             ->and($member->getTable())->toBe('MEMB_INFO');
     });
 
