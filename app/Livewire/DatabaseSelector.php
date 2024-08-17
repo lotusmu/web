@@ -2,53 +2,55 @@
 
 namespace App\Livewire;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use App\Models\GameServer;
 use Filament\Notifications\Notification;
 use Livewire\Component;
 
-class DatabaseSelector extends Component implements HasForms
+class DatabaseSelector extends Component
 {
-    use InteractsWithForms;
-
-    public ?array $data = [];
-
     public $selectedDatabase;
 
-    public function mount(): void
-    {
-        $this->form->fill();
-    }
+    public $databaseOptions;
 
-    public function form(Form $form): Form
+    public function mount()
     {
-        return $form
-            ->schema([
-                Select::make('selectedDatabase')
-                    ->label('Choose Database')
-                    ->options([
-                        'database1' => 'Database 1',
-                        'database2' => 'Database 2',
-                        'database3' => 'Database 3',
-                    ])
-                    ->required(),
-            ]);
-    }
-
-    public function save(): void
-    {
-
-        Notification::make()
-            ->title('Database Changed')
-            ->body('Switched successfully!')
-            ->success()
-            ->send();
+        $this->selectedDatabase = session('selected_server_connection', 'gamedb_main');
+        $this->databaseOptions = $this->getDatabaseOptions();
     }
 
     public function render()
     {
         return view('livewire.database-selector');
+    }
+
+    public function updateDatabase($newDatabase)
+    {
+        $this->selectedDatabase = $newDatabase;
+        session(['selected_server_connection' => $newDatabase]);
+
+        $this->dispatch('database-changed', $newDatabase);
+
+        Notification::make()
+            ->title('Server Changed')
+            ->body("Switched to {$this->databaseOptions[$newDatabase]['name']} - x{$this->databaseOptions[$newDatabase]['experience_rate']}")
+            ->success()
+            ->send();
+
+        $this->redirect(request()->header('Referer'));
+    }
+
+    private function getDatabaseOptions(): array
+    {
+        return GameServer::where('is_active', true)
+            ->get(['name', 'connection_name', 'experience_rate'])
+            ->mapWithKeys(function ($server) {
+                return [
+                    $server->connection_name => [
+                        'name' => $server->name,
+                        'experience_rate' => $server->experience_rate,
+                    ],
+                ];
+            })
+            ->toArray();
     }
 }
