@@ -72,6 +72,7 @@ class CharacterResource extends Resource
                     ->numeric()
                     ->sortable(),
             ])
+            ->defaultSort('ResetCount', 'desc')
             ->filters([
                 //
             ])

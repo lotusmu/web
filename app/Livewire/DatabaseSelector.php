@@ -23,7 +23,7 @@ class DatabaseSelector extends Component
         return view('livewire.database-selector');
     }
 
-    public function updateDatabase($newDatabase)
+    public function updateDatabase($newDatabase): void
     {
         $this->selectedDatabase = $newDatabase;
         session(['selected_server_connection' => $newDatabase]);
