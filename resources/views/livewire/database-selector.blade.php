@@ -3,24 +3,27 @@
         <x-slot name="trigger">
             <x-filament::button
                 icon="heroicon-o-server-stack"
-                color="gray">
+                color="gray"
+                tooltip="Change the current Server"
+                class="flex items-center gap-0 sm:gap-1.5"
+            >
                 <span class="hidden sm:block">
-                Current Server:
-                @if(isset($databaseOptions[$selectedDatabase]))
-                        {{ $databaseOptions[$selectedDatabase]['name'] }} -
-                        x{{ $databaseOptions[$selectedDatabase]['experience_rate'] }}
+                    Current Server:
+                    @if(isset($serverOptions[$selectedServerId]))
+                        {{ $serverOptions[$selectedServerId]['name'] }} -
+                        x{{ $serverOptions[$selectedServerId]['experience_rate'] }}
                     @else
                         Unknown
                     @endif
-                    </span>
+                </span>
             </x-filament::button>
         </x-slot>
 
         <x-filament::dropdown.list>
-            @foreach($databaseOptions as $value => $server)
+            @foreach($serverOptions as $id => $server)
                 <x-filament::dropdown.list.item
-                    wire:click="updateDatabase('{{ $value }}')"
-                    :color="$selectedDatabase === $value ? 'primary' : 'gray'"
+                    wire:click="updateServer({{ $id }})"
+                    :color="$selectedServerId == $id ? 'primary' : 'gray'"
                 >
                     {{ $server['name'] }} - x{{ $server['experience_rate'] }}
                 </x-filament::dropdown.list.item>

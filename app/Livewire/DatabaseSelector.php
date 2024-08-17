@@ -4,53 +4,56 @@ namespace App\Livewire;
 
 use App\Models\GameServer;
 use Filament\Notifications\Notification;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class DatabaseSelector extends Component
 {
-    public $selectedDatabase;
+    public $selectedServerId;
 
-    public $databaseOptions;
+    public $serverOptions;
 
     public function mount()
     {
-        $this->selectedDatabase = session('selected_server_connection', 'gamedb_main');
-        $this->databaseOptions = $this->getDatabaseOptions();
+        $this->serverOptions = $this->getServerOptions();
+        $this->selectedServerId = session('selected_server_id', $this->serverOptions->keys()->first());
     }
 
-    public function render()
+    public function updateServer($newServerId): void
     {
-        return view('livewire.database-selector');
-    }
+        $this->selectedServerId = $newServerId;
+        $server = GameServer::findOrFail($newServerId);
 
-    public function updateDatabase($newDatabase): void
-    {
-        $this->selectedDatabase = $newDatabase;
-        session(['selected_server_connection' => $newDatabase]);
+        session(['selected_server_id' => $newServerId]);
+        session(['selected_server_connection' => $server->connection_name]);
 
-        $this->dispatch('database-changed', $newDatabase);
+        $this->dispatch('database-changed', $server->connection_name);
 
         Notification::make()
             ->title('Server Changed')
-            ->body("Switched to {$this->databaseOptions[$newDatabase]['name']} - x{$this->databaseOptions[$newDatabase]['experience_rate']}")
+            ->body("Switched to {$server->name}")
             ->success()
             ->send();
 
         $this->redirect(request()->header('Referer'));
     }
 
-    private function getDatabaseOptions(): array
+    private function getServerOptions()
     {
         return GameServer::where('is_active', true)
-            ->get(['name', 'connection_name', 'experience_rate'])
+            ->get(['id', 'name', 'experience_rate'])
             ->mapWithKeys(function ($server) {
-                return [
-                    $server->connection_name => [
-                        'name' => $server->name,
-                        'experience_rate' => $server->experience_rate,
-                    ],
-                ];
-            })
-            ->toArray();
+                return [$server->id => [
+                    'name' => $server->name,
+                    'experience_rate' => $server->experience_rate,
+                ]];
+            });
+    }
+
+    public function render(): Application|Factory|\Illuminate\Contracts\View\View|View
+    {
+        return view('livewire.database-selector');
     }
 }
