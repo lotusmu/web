@@ -58,7 +58,8 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
-            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->globalSearchKeyBindings(['ctrl+k'])
+            ->globalSearchFieldKeyBindingSuffix()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

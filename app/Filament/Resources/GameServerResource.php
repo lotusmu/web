@@ -67,20 +67,17 @@ class GameServerResource extends Resource
                 Tables\Columns\TextColumn::make('connection_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('experience_rate')
-                    ->numeric()
-                    ->sortable(),
+                    ->numeric(),
                 Tables\Columns\TextColumn::make('drop_rate')
-                    ->numeric()
-                    ->sortable(),
+                    ->numeric(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('Active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
