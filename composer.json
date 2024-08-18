@@ -10,8 +10,10 @@
     "require": {
         "php": "^8.2",
         "filament/filament": "^3.2",
+        "filament/spatie-laravel-translatable-plugin": "^3.2",
         "laravel/framework": "^11.9",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "spatie/laravel-sluggable": "^3.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
