@@ -3,12 +3,6 @@
 namespace App\Models;
 
 use App\Enums\ArticleType;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,30 +35,18 @@ class Article extends Model
         'is_published' => 'boolean',
     ];
 
-    public static function getForm()
+    public function publish(): void
     {
-        return [
-            TextInput::make('title')
-                ->required(),
-            Textarea::make('excerpt')
-                ->required()
-                ->hint('A short summary of the article for preview'),
-            RichEditor::make('content')
-                ->required(),
-            Select::make('type')
-                ->options(ArticleType::class)
-                ->enum(ArticleType::class)
-                ->required(),
-            FileUpload::make('image')
-                ->image()
-                ->imageEditor()
-                ->directory('article-images')
-                ->visibility('public'),
-            Toggle::make('is_published')
-                ->hint('Publish article status')
-                ->label('Published')
-                ->default(false),
-        ];
+        $this->is_published = true;
+
+        $this->save();
+    }
+
+    public function archive(): void
+    {
+        $this->is_published = false;
+
+        $this->save();
     }
 
     public function getSlugOptions(): SlugOptions

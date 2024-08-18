@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Resources\ArticleResource;
-use Filament\Actions\LocaleSwitcher;
+use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateArticle extends CreateRecord
@@ -15,7 +15,7 @@ class CreateArticle extends CreateRecord
     protected function getHeaderActions(): array
     {
         return [
-            LocaleSwitcher::make(),
+            Actions\LocaleSwitcher::make(),
         ];
     }
 }

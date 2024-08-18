@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
+use App\Enums\ArticleType;
 use App\Filament\Resources\ArticleResource;
 use Filament\Actions;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 
 class ListArticles extends ListRecords
@@ -17,6 +19,21 @@ class ListArticles extends ListRecords
         return [
             Actions\LocaleSwitcher::make(),
             Actions\CreateAction::make(),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'all' => Tab::make('All Articles'),
+            'news' => Tab::make('News')
+                ->modifyQueryUsing(function ($query) {
+                    return $query->where('type', ArticleType::NEWS);
+                }),
+            'patch_notes' => Tab::make('Patch Notes')
+                ->modifyQueryUsing(function ($query) {
+                    return $query->where('type', ArticleType::PATCH_NOTE);
+                }),
         ];
     }
 }

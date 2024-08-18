@@ -2,9 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\ArticleType;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Article;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,7 +30,33 @@ class ArticleResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(Article::getForm());
+            ->schema([
+                Section::make()
+                    ->schema([
+                        TextInput::make('title')
+                            ->required(),
+                        Select::make('type')
+                            ->options(ArticleType::class)
+                            ->enum(ArticleType::class)
+                            ->required(),
+                        Toggle::make('is_published')
+                            ->label('Publish')
+                            ->helperText('Publish article status')
+                            ->columnSpanFull()
+                            ->default(true),
+                        Textarea::make('excerpt')
+                            ->maxLength(100)
+                            ->required()
+                            ->helperText('A short summary of the article for preview'),
+                        RichEditor::make('content')
+                            ->required(),
+                        FileUpload::make('image')
+                            ->image()
+                            ->imageEditor()
+                            ->directory('article-images')
+                            ->visibility('public'),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -29,8 +64,11 @@ class ArticleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->searchable()
                     ->translateLabel(),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('excerpt')
+                    ->searchable()
+                    ->limit(50),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\IconColumn::make('is_published')
                     ->boolean()
@@ -40,13 +78,46 @@ class ArticleResource extends Resource
                     ->falseColor('danger')
                     ->label('Published'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
                     ->dateTime(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('publish')
+                    ->visible(function ($record) {
+                        return $record->is_published === false;
+                    })
+                    ->icon('heroicon-o-check')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->action(function ($record) {
+                        $record->publish();
+                    })
+                    ->after(function () {
+                        Notification::make()->success()->title('Success!')
+                            ->body('The article was published successfully.')
+                            ->duration(2000)
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('archive')
+                    ->visible(function ($record) {
+                        return $record->is_published === true;
+                    })
+                    ->icon('heroicon-o-archive-box')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->action(function ($record) {
+                        $record->archive();
+                    })
+                    ->after(function () {
+                        Notification::make()->success()->title('Success!')
+                            ->body('The article was archived successfully.')
+                            ->duration(2000)
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
