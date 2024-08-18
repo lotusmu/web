@@ -65,10 +65,10 @@ class ArticleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
-                    ->translateLabel(),
+                    ->limit(20),
                 Tables\Columns\TextColumn::make('excerpt')
                     ->searchable()
-                    ->limit(50),
+                    ->limit(30),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\IconColumn::make('is_published')
                     ->boolean()
@@ -133,12 +133,17 @@ class ArticleResource extends Resource
         ];
     }
 
+    public static function getRecordRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListArticles::route('/'),
             'create' => Pages\CreateArticle::route('/create'),
-            'edit' => Pages\EditArticle::route('/{record}/edit'),
+            'edit' => Pages\EditArticle::route('/{record:slug}/edit'),
         ];
     }
 }

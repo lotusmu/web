@@ -13,7 +13,7 @@
                         {{ $serverOptions[$selectedServerId]['name'] }} -
                         x{{ $serverOptions[$selectedServerId]['experience_rate'] }}
                     @else
-                        Unknown
+                        Default
                     @endif
                 </span>
             </x-filament::button>

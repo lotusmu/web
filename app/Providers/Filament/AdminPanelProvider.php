@@ -55,7 +55,7 @@ class AdminPanelProvider extends PanelProvider
             ->globalSearchFieldKeyBindingSuffix()
             ->plugin(
                 SpatieLaravelTranslatablePlugin::make()
-                    ->defaultLocales(['en', 'bg']),
+                    ->defaultLocales(config('locales.available')),
             )
             ->middleware([
                 EncryptCookies::class,
