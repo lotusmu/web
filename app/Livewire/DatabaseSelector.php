@@ -33,7 +33,7 @@ class DatabaseSelector extends Component
 
         Notification::make()
             ->title('Server Changed')
-            ->body("Switched to {$server->name}")
+            ->body("Switched to {$server->name} - x{$server->experience_rate}")
             ->success()
             ->send();
 
