@@ -4,6 +4,10 @@ use App\Models\Member;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+beforeEach(function () {
+    refreshTable('MEMB_INFO', 'gamedb_main');
+});
+
 describe('User and Member Integration', function () {
     it('creates a member when creating a user', function () {
         $name = fakeUsername();

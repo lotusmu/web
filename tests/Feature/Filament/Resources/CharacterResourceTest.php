@@ -1,12 +1,37 @@
 <?php
 
 use App\Enums\CharacterClass;
+use App\Enums\Map;
+use App\Enums\PkLevel;
 use App\Filament\Resources\CharacterResource;
 use App\Filament\Resources\CharacterResource\Pages\EditCharacter;
 use App\Filament\Resources\CharacterResource\Pages\ViewCharacter;
 use App\Models\Character;
 
 use function Pest\Livewire\livewire;
+
+beforeEach(function () {
+    refreshTable('Character', 'gamedb_main');
+
+    $this->character = Character::create([
+        'AccountID' => fakeUsername(),
+        'Name' => fakeUsername(),
+        'Class' => CharacterClass::DarkWizard,
+        'ResetCount' => '0',
+        'cLevel' => '1',
+        'Strength' => '25',
+        'Dexterity' => '25',
+        'Vitality' => '25',
+        'Energy' => '25',
+        'Leadership' => '0',
+        'MapNumber' => Map::Lorencia,
+        'MapPosX' => '125',
+        'MapPosY' => '125',
+        'PkLevel' => PkLevel::Normal,
+        'PkCount' => '0',
+        'PkTime' => '0',
+    ]);
+});
 
 describe('Render', function () {
     it('can render index page', function () {
@@ -15,67 +40,61 @@ describe('Render', function () {
     });
 
     it('can render edit page', function () {
-        $character = createCharacter();
-
-        $this->get(CharacterResource::getUrl('edit', [$character]))
+        $this->get(CharacterResource::getUrl('edit', [$this->character]))
             ->assertSuccessful();
     });
 
     it('can retrieve data on edit page', function () {
-        $character = createCharacter();
-
         livewire(EditCharacter::class, [
-            'record' => $character->getRouteKey(),
+            'record' => $this->character->getRouteKey(),
         ])
             ->assertFormSet([
-                'Name' => $character->Name,
-                'Class' => $character->Class->value,
-                'ResetCount' => $character->ResetCount,
-                'cLevel' => $character->cLevel,
-                'Strength' => $character->Strength,
-                'Dexterity' => $character->Dexterity,
-                'Vitality' => $character->Vitality,
-                'Energy' => $character->Energy,
-                'Leadership' => $character->Leadership,
-                'MapNumber' => $character->MapNumber->value,
-                'MapPosX' => $character->MapPosX,
-                'MapPosY' => $character->MapPosY,
-                'PkLevel' => $character->PkLevel->value,
-                'PkCount' => $character->PkCount,
-                'PkTime' => $character->PkTime,
+                'Name' => $this->character->Name,
+                'Class' => $this->character->Class->value,
+                'ResetCount' => $this->character->ResetCount,
+                'cLevel' => $this->character->cLevel,
+                'Strength' => $this->character->Strength,
+                'Dexterity' => $this->character->Dexterity,
+                'Vitality' => $this->character->Vitality,
+                'Energy' => $this->character->Energy,
+                'Leadership' => $this->character->Leadership,
+                'MapNumber' => $this->character->MapNumber->value,
+                'MapPosX' => $this->character->MapPosX,
+                'MapPosY' => $this->character->MapPosY,
+                'PkLevel' => $this->character->PkLevel->value,
+                'PkCount' => $this->character->PkCount,
+                'PkTime' => $this->character->PkTime,
             ]);
     });
 
     it('can render view page', function () {
-        $character = createCharacter();
 
-        $this->get(CharacterResource::getUrl('view', [$character]))
+        $this->get(CharacterResource::getUrl('view', [$this->character]))
             ->assertSuccessful();
     });
 
     it('can retrieves the correct character on the view page', function () {
-        $character = createCharacter();
 
         livewire(ViewCharacter::class, [
-            'record' => $character->getRouteKey(),
+            'record' => $this->character->getRouteKey(),
         ])
             ->assertSuccessful()
-            ->assertSee($character->Name)
-            ->assertSee($character->Name)
-            ->assertSee($character->Class)
-            ->assertSee($character->ResetCount)
-            ->assertSee($character->cLevel)
-            ->assertSee($character->Strength)
-            ->assertSee($character->Dexterity)
-            ->assertSee($character->Vitality)
-            ->assertSee($character->Energy)
-            ->assertSee($character->Leadership)
-            ->assertSee($character->MapNumber)
-            ->assertSee($character->MapPosX)
-            ->assertSee($character->MapPosY)
-            ->assertSee($character->PkLevel)
-            ->assertSee($character->PkCount)
-            ->assertSee($character->PkTime);
+            ->assertSee($this->character->Name)
+            ->assertSee($this->character->Name)
+            ->assertSee($this->character->Class)
+            ->assertSee($this->character->ResetCount)
+            ->assertSee($this->character->cLevel)
+            ->assertSee($this->character->Strength)
+            ->assertSee($this->character->Dexterity)
+            ->assertSee($this->character->Vitality)
+            ->assertSee($this->character->Energy)
+            ->assertSee($this->character->Leadership)
+            ->assertSee($this->character->MapNumber)
+            ->assertSee($this->character->MapPosX)
+            ->assertSee($this->character->MapPosY)
+            ->assertSee($this->character->PkLevel)
+            ->assertSee($this->character->PkCount)
+            ->assertSee($this->character->PkTime);
     });
 });
 
@@ -87,9 +106,8 @@ describe('Create & Delete restrictions', function () {
     });
 
     it('returns false on canDelete', function () {
-        $character = createCharacter();
 
-        $result = CharacterResource::canDelete($character);
+        $result = CharacterResource::canDelete($this->character);
 
         $this->assertFalse($result);
     });
@@ -97,10 +115,8 @@ describe('Create & Delete restrictions', function () {
 
 describe('Edit', function () {
     it('can validate input', function () {
-        $character = createCharacter();
-
         livewire(EditCharacter::class, [
-            'record' => $character->getRouteKey(),
+            'record' => $this->character->getRouteKey(),
         ])
             ->fillForm([
                 'Name' => null,
@@ -110,10 +126,8 @@ describe('Edit', function () {
     });
 
     it('can save', function () {
-        $character = createCharacter();
-
         livewire(EditCharacter::class, [
-            'record' => $character->getRouteKey(),
+            'record' => $this->character->getRouteKey(),
         ])
             ->fillForm([
                 'Class' => CharacterClass::BladeMaster,
@@ -123,7 +137,7 @@ describe('Edit', function () {
             ->call('save')
             ->assertHasNoFormErrors();
 
-        expect($character->refresh())
+        expect($this->character->refresh())
             ->Class->toBe(CharacterClass::BladeMaster)
             ->ResetCount->toBe(10)
             ->cLevel->toBe(200);

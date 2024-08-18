@@ -4,7 +4,6 @@ namespace App\Filament\Resources\MemberResource\RelationManagers;
 
 use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Character;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
@@ -13,12 +12,6 @@ use Filament\Tables\Table;
 class CharactersRelationManager extends RelationManager
 {
     protected static string $relationship = 'characters';
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema(Character::getForm());
-    }
 
     public function table(Table $table): Table
     {

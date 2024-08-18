@@ -8,17 +8,21 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
 
+beforeEach(function () {
+    refreshTable('MEMB_INFO', 'gamedb_main');
+
+    $this->user = User::factory()->create();
+});
+
 describe('User Creation', function () {
     it('ensures user factory generates valid data', function () {
-        $user = User::factory()->create();
-        expect($user->name)->not->toBeEmpty()
-            ->and($user->email)->not->toBeEmpty()
-            ->and($user->password)->not->toBeEmpty();
+        expect($this->user->name)->not->toBeEmpty()
+            ->and($this->user->email)->not->toBeEmpty()
+            ->and($this->user->password)->not->toBeEmpty();
     });
 
     it('creates a user successfully', function () {
-        $user = User::factory()->create();
-        expect($user)->toBeTruthy();
+        expect($this->user)->toBeTruthy();
     });
 
     it('throws an exception when creating a user without a name', function () {
@@ -55,21 +59,19 @@ describe('User Creation', function () {
 
 describe('User Retrieval and Update', function () {
     it('retrieves a user by ID', function () {
-        $user = User::factory()->create();
-        $retrievedUser = User::find($user->id);
-        expect($retrievedUser->name)->toBe($user->name);
+        $retrievedUser = User::find($this->user->id);
+        expect($retrievedUser->name)->toBe($this->user->name);
     });
 
     it('updates the user email successfully', function () {
-        $user = User::factory()->create();
         $newEmail = fakeEmail();
-        $user->email = $newEmail;
-        $user->save();
-        expect($user->fresh()->email)->toBe($newEmail);
+        $this->user->email = $newEmail;
+        $this->user->save();
+        expect($this->user->fresh()->email)->toBe($newEmail);
     });
 
     it('throws an exception when trying to update the name', function () {
-        $user = User::factory()->create();
+        $user = $this->user;
         $originalUsername = $user->name;
 
         expect(function () use ($user) {
@@ -80,7 +82,7 @@ describe('User Retrieval and Update', function () {
     });
 
     it('updates a member when a user is updated', function () {
-        $user = User::factory()->create();
+        $user = $this->user;
         $oldEmail = $user->email;
         $newEmail = fakeEmail();
 
@@ -112,21 +114,19 @@ describe('User Retrieval and Update', function () {
 
 describe('User Deletion', function () {
     it('deletes a user successfully', function () {
-        $user = User::factory()->create();
-        $userId = $user->id;
+        $userId = $this->user->id;
 
-        $user->delete();
+        $this->user->delete();
 
         expect(User::find($userId))->toBeNull();
     });
 
     it('deletes member when user is deleted', function () {
-        $user = User::factory()->create();
-        $name = $user->name;
+        $name = $this->user->name;
 
         expect(Member::where('memb___id', $name)->exists())->toBeTrue();
 
-        $user->delete();
+        $this->user->delete();
 
         expect(Member::where('memb___id', $name)->exists())->toBeFalse();
     });
@@ -165,8 +165,7 @@ describe('Password Handling', function () {
 
 describe('Model Attributes', function () {
     it('checks user has correct fillable attributes', function () {
-        $user = new User;
-        expect($user->getFillable())->toBe([
+        expect($this->user->getFillable())->toBe([
             'name',
             'email',
             'password',
@@ -174,8 +173,7 @@ describe('Model Attributes', function () {
     });
 
     it('checks user has correct hidden attributes', function () {
-        $user = new User;
-        expect($user->getHidden())->toBe([
+        expect($this->user->getHidden())->toBe([
             'password',
             'remember_token',
         ]);
@@ -192,12 +190,10 @@ describe('Uniqueness Constraints', function () {
 
 describe('Relationships and Interfaces', function () {
     it('verifies the user has a member relationship', function () {
-        $user = User::factory()->create();
-        expect($user->member())->toBeInstanceOf(HasOne::class);
+        expect($this->user->member())->toBeInstanceOf(HasOne::class);
     });
 
     it('implements HasMember interface', function () {
-        $user = new User;
-        expect($user)->toBeInstanceOf(HasMember::class);
+        expect($this->user)->toBeInstanceOf(HasMember::class);
     });
 });

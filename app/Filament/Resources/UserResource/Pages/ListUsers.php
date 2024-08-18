@@ -14,11 +14,11 @@ class ListUsers extends ListRecords
     {
         return [
             'all' => Tab::make('All Users'),
-            'approved' => Tab::make('Verified')
+            'verified' => Tab::make('Verified')
                 ->modifyQueryUsing(function ($query) {
                     return $query->whereNot('email_verified_at', null);
                 }),
-            'submitted' => Tab::make('Not Verified')
+            'not_verified' => Tab::make('Not Verified')
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('email_verified_at', null);
                 }),

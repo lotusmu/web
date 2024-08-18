@@ -11,11 +11,6 @@
 |
 */
 
-use App\Enums\CharacterClass;
-use App\Enums\Map;
-use App\Enums\PkLevel;
-use App\Models\Character;
-
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
@@ -47,26 +42,23 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function createCharacter()
+function refreshTable(string $tableName, ?string $connection = null): void
 {
-    return Character::create([
-        'AccountID' => fakeUsername(),
-        'Name' => fakeUsername(),
-        'Class' => CharacterClass::DarkWizard,
-        'ResetCount' => '0',
-        'cLevel' => '1',
-        'Strength' => '25',
-        'Dexterity' => '25',
-        'Vitality' => '25',
-        'Energy' => '25',
-        'Leadership' => '0',
-        'MapNumber' => Map::Lorencia,
-        'MapPosX' => '125',
-        'MapPosY' => '125',
-        'PkLevel' => PkLevel::Normal,
-        'PkCount' => '0',
-        'PkTime' => '0',
-    ]);
+    $db = $connection ? DB::connection($connection) : DB::connection();
+
+    $isSqlServer = $db->getDriverName() === 'sqlsrv';
+
+    if ($isSqlServer) {
+        $db->statement('EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT ALL"');
+
+        $db->table($tableName)->delete();
+
+        $db->statement('EXEC sp_MSforeachtable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL"');
+    } else {
+        $db->statement('SET FOREIGN_KEY_CHECKS=0;');
+        $db->table($tableName)->truncate();
+        $db->statement('SET FOREIGN_KEY_CHECKS=1;');
+    }
 }
 
 function fakeUsername(): string

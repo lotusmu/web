@@ -21,7 +21,7 @@ class DatabaseSelector extends Component
         $this->selectedServerId = session('selected_server_id', $this->serverOptions->keys()->first());
     }
 
-    public function updateServer($newServerId): void
+    public function updateServer($newServerId, $referer = null): void
     {
         $this->selectedServerId = $newServerId;
         $server = GameServer::findOrFail($newServerId);
@@ -37,7 +37,7 @@ class DatabaseSelector extends Component
             ->success()
             ->send();
 
-        $this->redirect(request()->header('Referer'));
+        $this->redirect($referer ?? request()->header('Referer'));
     }
 
     private function getServerOptions()

@@ -10,6 +10,12 @@ use Illuminate\Support\Carbon;
 
 use function Pest\Livewire\livewire;
 
+beforeEach(function () {
+    refreshTable('MEMB_INFO', 'gamedb_main');
+
+    $this->user = User::factory()->create();
+});
+
 describe('Render', function () {
     it('can render index page', function () {
         $this->get(MemberResource::getUrl('index'))
@@ -17,9 +23,7 @@ describe('Render', function () {
     });
 
     it('can render edit page', function () {
-        $user = User::factory()->create();
-
-        $this->get(MemberResource::getUrl('edit', [$user->name]))
+        $this->get(MemberResource::getUrl('edit', [$this->user->name]))
             ->assertSuccessful();
     });
 });
@@ -32,9 +36,7 @@ describe('Create & Delete restrictions', function () {
     });
 
     it('returns false on canDelete', function () {
-        $user = User::factory()->create();
-
-        $result = MemberResource::canDelete($user->member);
+        $result = MemberResource::canDelete($this->user->member);
 
         $this->assertFalse($result);
     });
@@ -42,8 +44,7 @@ describe('Create & Delete restrictions', function () {
 
 describe('Edit', function () {
     it('validates account level and expiration date', function () {
-        $user = User::factory()->create();
-        $member = $user->member;
+        $member = $this->user->member;
 
         livewire(MemberResource\Pages\EditMember::class, [
             'record' => $member->getKey(),
@@ -60,8 +61,7 @@ describe('Edit', function () {
     });
 
     it('accepts valid account level and expiration date without errors', function () {
-        $user = User::factory()->create();
-        $member = $user->member;
+        $member = $this->user->member;
         $expirationDate = now()->addYear()->startOfMinute();
 
         livewire(EditMember::class, ['record' => $member->getRouteKey()])
@@ -74,8 +74,7 @@ describe('Edit', function () {
     });
 
     it('saves valid account level and expiration date to the database', function () {
-        $user = User::factory()->create();
-        $member = $user->member;
+        $member = $this->user->member;
         $expirationDate = now()->addYear()->startOfMinute();
 
         livewire(EditMember::class, ['record' => $member->getRouteKey()])

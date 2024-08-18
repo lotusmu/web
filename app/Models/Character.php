@@ -194,11 +194,6 @@ class Character extends GameModel
         ];
     }
 
-    public function getClassName(): string
-    {
-        return $this->Class->getName();
-    }
-
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'memb___id', 'AccountID');
