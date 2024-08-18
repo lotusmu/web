@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ArticleType;
 use App\Filament\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -130,4 +131,22 @@ todo('can delete article', function () {
         ->assertNotified();
 
     $this->assertModelMissing($article);
+});
+
+it('has correct tabs and filters articles', function () {
+    // Create articles of different types
+    $newsArticle = Article::factory()->create(['type' => ArticleType::NEWS]);
+    $patchNoteArticle = Article::factory()->create(['type' => ArticleType::PATCH_NOTE]);
+
+    $component = livewire(ArticleResource\Pages\ListArticles::class);
+
+    $component->assertCanSeeTableRecords([$newsArticle, $patchNoteArticle]);
+
+    $component->set('activeTab', 'news')
+        ->assertCanSeeTableRecords([$newsArticle])
+        ->assertCanNotSeeTableRecords([$patchNoteArticle]);
+
+    $component->set('activeTab', 'patch_notes')
+        ->assertCanSeeTableRecords([$patchNoteArticle])
+        ->assertCanNotSeeTableRecords([$newsArticle]);
 });

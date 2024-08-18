@@ -7,23 +7,19 @@ use Illuminate\Support\Facades\Config;
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 beforeEach(function () {
-    DB::beginTransaction();
+    $this->connectionName = fake()->unique()->word;
 
     $this->testServer = GameServer::factory()->create([
-        'connection_name' => 'test_connection',
+        'connection_name' => $this->connectionName,
     ]);
 });
 
-afterEach(function () {
-    DB::rollBack();
-});
-
 test('setConnection sets the correct connection', function () {
-    $result = DatabaseConnectionService::setConnection('test_connection');
+    $result = DatabaseConnectionService::setConnection($this->connectionName);
 
     expect($result->id)->toBe($this->testServer->id)
-        ->and(Config::get('database.connections.gamedb_main'))->toBe('test_connection');
-    $this->assertDatabaseHas('game_servers', ['connection_name' => 'test_connection']);
+        ->and(Config::get('database.connections.gamedb_main'))->toBe($this->connectionName);
+    $this->assertDatabaseHas('game_servers', ['connection_name' => $this->connectionName]);
 });
 
 test('setConnection throws exception for invalid connection name', function () {

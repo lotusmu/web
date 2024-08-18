@@ -2,14 +2,6 @@
 
 use App\Models\GameServer;
 
-beforeEach(function () {
-    DB::beginTransaction();
-});
-
-afterEach(function () {
-    DB::rollBack();
-});
-
 it('can be instantiated', function () {
     $gameServer = new GameServer;
     expect($gameServer)->toBeInstanceOf(GameServer::class);
@@ -29,11 +21,11 @@ it('has fillable attributes', function () {
 });
 
 it('can create a game server', function () {
-    $this->refreshDatabase();
+    $connectionName = fake()->unique()->word;
 
     $data = [
         'name' => 'Test Server',
-        'connection_name' => 'test_connection',
+        'connection_name' => $connectionName,
         'experience_rate' => 1.5,
         'drop_rate' => 2.0,
         'is_active' => true,
@@ -44,7 +36,7 @@ it('can create a game server', function () {
     $this->assertDatabaseHas('game_servers', $data);
     expect($gameServer)->toBeInstanceOf(GameServer::class)
         ->and($gameServer->name)->toBe('Test Server')
-        ->and($gameServer->connection_name)->toBe('test_connection')
+        ->and($gameServer->connection_name)->toBe($connectionName)
         ->and($gameServer->experience_rate)->toBe(1.5)
         ->and($gameServer->drop_rate)->toBe(2.0)
         ->and($gameServer->is_active)->toBeTrue();
