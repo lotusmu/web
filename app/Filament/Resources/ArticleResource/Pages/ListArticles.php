@@ -26,11 +26,11 @@ class ListArticles extends ListRecords
     {
         return [
             'all' => Tab::make('All Articles'),
-            'news' => Tab::make('News')
+            'news' => Tab::make(ArticleType::NEWS->getLabel())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('type', ArticleType::NEWS);
                 }),
-            'patch_notes' => Tab::make('Patch Notes')
+            'patch_notes' => Tab::make(ArticleType::PATCH_NOTE->getLabel())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('type', ArticleType::PATCH_NOTE);
                 }),
