@@ -7,9 +7,15 @@ use Illuminate\Support\Facades\Config;
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 beforeEach(function () {
+    DB::beginTransaction();
+
     $this->testServer = GameServer::factory()->create([
         'connection_name' => 'test_connection',
     ]);
+});
+
+afterEach(function () {
+    DB::rollBack();
 });
 
 test('setConnection sets the correct connection', function () {

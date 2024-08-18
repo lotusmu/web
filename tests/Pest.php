@@ -61,6 +61,11 @@ function refreshTable(string $tableName, ?string $connection = null): void
     }
 }
 
+function getRouteKeyFor($record)
+{
+    return $record->getRouteKey();
+}
+
 function fakeUsername(): string
 {
     return substr(fake()->userName, 0, 10);

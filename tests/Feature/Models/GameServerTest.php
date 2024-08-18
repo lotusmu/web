@@ -2,6 +2,14 @@
 
 use App\Models\GameServer;
 
+beforeEach(function () {
+    DB::beginTransaction();
+});
+
+afterEach(function () {
+    DB::rollBack();
+});
+
 it('can be instantiated', function () {
     $gameServer = new GameServer;
     expect($gameServer)->toBeInstanceOf(GameServer::class);
@@ -21,6 +29,8 @@ it('has fillable attributes', function () {
 });
 
 it('can create a game server', function () {
+    $this->refreshDatabase();
+
     $data = [
         'name' => 'Test Server',
         'connection_name' => 'test_connection',
