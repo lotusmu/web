@@ -65,11 +65,6 @@ class User extends Authenticatable implements FilamentUser, HasMember
         });
     }
 
-    public function member(): HasOne
-    {
-        return $this->hasOne(Member::class, 'memb___id', 'name');
-    }
-
     public static function getForm(): array
     {
         return [
@@ -157,5 +152,10 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function canAccessPanel(Panel $panel): bool
     {
         return true; //$this->hasRole('admin');
+    }
+
+    public function member(): HasOne
+    {
+        return $this->hasOne(Member::class, 'memb___id', 'name');
     }
 }

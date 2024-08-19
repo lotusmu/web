@@ -42,8 +42,8 @@ describe('Create & Delete restrictions', function () {
     });
 });
 
-describe('Edit', function () {
-    it('validates account level and expiration date', function () {
+describe('Edit account level and expiration date', function () {
+    it('validates', function () {
         $member = $this->user->member;
 
         livewire(MemberResource\Pages\EditMember::class, [
@@ -60,7 +60,7 @@ describe('Edit', function () {
             ->and($member->AccountExpireDate)->not->toBe('not-a-date');
     });
 
-    it('accepts valid account level and expiration date without errors', function () {
+    it('accepts valid data without errors', function () {
         $member = $this->user->member;
         $expirationDate = now()->addYear()->startOfMinute();
 
@@ -73,7 +73,7 @@ describe('Edit', function () {
             ->assertHasNoErrors(['AccountLevel', 'AccountExpireDate']);
     });
 
-    it('saves valid account level and expiration date to the database', function () {
+    it('saves valid data to the database', function () {
         $member = $this->user->member;
         $expirationDate = now()->addYear()->startOfMinute();
 
@@ -95,6 +95,42 @@ describe('Edit', function () {
 
         expect($storedDate->startOfMinute()->toDateTimeString())
             ->toBe($expirationDate->toDateTimeString());
+    });
+});
+
+describe('Edit tokens and zen', function () {
+    it('validates', function () {
+        $member = $this->user->member;
+
+        livewire(MemberResource\Pages\EditMember::class, [
+            'record' => $member->getKey(),
+        ])
+            ->fillForm([
+                'tokens' => -10,
+                'zen' => 'not-a-number',
+            ])
+            ->call('save');
+
+        $member->refresh();
+        expect($member->tokens)->not->toBe(-10)
+            ->and($member->zen)->not->toBe('not-a-number');
+    });
+
+    it('accepts valid data without errors and saves it', function () {
+        $member = $this->user->member;
+
+        livewire(EditMember::class, ['record' => $member->getRouteKey()])
+            ->fillForm([
+                'tokens' => 5000,
+                'zen' => 10000,
+            ])
+            ->call('save')
+            ->assertHasNoErrors(['tokens', 'zen']);
+
+        $member->refresh();
+
+        expect($member->tokens)->toBe(5000)
+            ->and($member->zen)->toBe(10000);
     });
 });
 

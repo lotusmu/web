@@ -49,10 +49,6 @@ class MemberResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->persistFiltersInSession()
-            ->filtersTriggerAction(function ($action) {
-                return $action->button()->label('Filters');
-            })
             ->columns([
                 Tables\Columns\TextColumn::make('memb___id')
                     ->label('Username')
@@ -70,6 +66,11 @@ class MemberResource extends Resource
                     ->formatStateUsing(function ($state, $record) {
                         return $record->AccountLevel === AccountLevel::Regular ? '-' : $state;
                     }),
+                Tables\Columns\TextColumn::make('tokens')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('credit.credits')
+                    ->label('Credits')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('AccountLevel')
@@ -78,13 +79,15 @@ class MemberResource extends Resource
                     ->placeholder('All Levels')
                     ->multiple(),
             ])
+            ->persistFiltersInSession()
+            ->filtersTriggerAction(function ($action) {
+                return $action->button()->label('Filters');
+            })
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 

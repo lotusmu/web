@@ -5,12 +5,15 @@ namespace App\Models;
 use App\Enums\AccountLevel;
 use App\Models\Traits\MemberAccessors;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Member extends Model
 {
@@ -40,10 +43,14 @@ class Member extends Model
         'ctl1_code',
         'AccountLevel',
         'AccountExpireDate',
+        'tokens',
+        'zen',
     ];
 
     protected $casts = [
         'AccountLevel' => AccountLevel::class,
+        'tokens' => 'integer',
+        'zen' => 'integer',
     ];
 
     public static function getForm(): array
@@ -52,16 +59,14 @@ class Member extends Model
             Section::make('User Details')
                 ->description('User Details can be changed from User Logins.')
                 ->aside()
-                ->columns(2)
+                ->columns(3)
                 ->schema([
                     Placeholder::make('memb___id')
                         ->label('Username')
                         ->content(fn ($record) => $record->memb___id),
-
                     Placeholder::make('mail_addr')
                         ->label('Email')
                         ->content(fn ($record) => $record->mail_addr),
-
                     Placeholder::make('memb__pwd')
                         ->label('Password')
                         ->content(fn ($record) => $record->memb__pwd),
@@ -80,12 +85,44 @@ class Member extends Model
                         ->label('Expiration Date')
                         ->required(),
                 ]),
+            Section::make('Resources')
+                ->description('Adjust member\'s balances.')
+                ->aside()
+                ->columns(2)
+                ->schema([
+                    TextInput::make('tokens')
+                        ->numeric()
+                        ->default(0)
+                        ->minValue(0)
+                        ->required(),
+                    Group::make()
+                        ->relationship('credit')
+                        ->schema([
+                            TextInput::make('WCoinC')
+                                ->label('Credits')
+                                ->numeric()
+                                ->default(0)
+                                ->minValue(0)
+                                ->required(),
+                        ]),
+                    TextInput::make('zen')
+                        ->columnSpanFull()
+                        ->numeric()
+                        ->default(0)
+                        ->minValue(0)
+                        ->required(),
+                ]),
         ];
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'memb___id', 'name');
+        return $this->belongsTo(User::class, 'name', 'memb___id');
+    }
+
+    public function credit(): HasOne
+    {
+        return $this->hasOne(Credit::class, 'AccountID', 'memb___id');
     }
 
     public function characters(): HasMany

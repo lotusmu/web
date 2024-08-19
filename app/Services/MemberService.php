@@ -21,6 +21,8 @@ class MemberService
             'ctl1_code' => 0,
             'AccountLevel' => 0,
             'AccountExpireDate' => now(),
+            'tokens' => 0,
+            'zen' => 0,
         ]);
     }
 

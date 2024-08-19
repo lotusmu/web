@@ -137,6 +137,8 @@ describe('Member Model', function () {
             'ctl1_code',
             'AccountLevel',
             'AccountExpireDate',
+            'tokens',
+            'zen',
         ];
 
         expect((new Member)->getFillable())->toContain(...$expectedFillable);
