@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Credit;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 beforeEach(function () {
     refreshTable('MEMB_INFO', 'gamedb_main');
@@ -175,7 +177,16 @@ describe('Member Model', function () {
 
         expect($relation)->toBeInstanceOf(BelongsTo::class)
             ->and($relation->getRelated())->toBeInstanceOf(User::class)
-            ->and($relation->getForeignKeyName())->toBe('memb___id')
-            ->and($relation->getOwnerKeyName())->toBe('name');
+            ->and($relation->getForeignKeyName())->toBe('name')
+            ->and($relation->getOwnerKeyName())->toBe('memb___id');
+    });
+
+    it('has credit relationship', function () {
+        $member = new Member;
+        $relation = $member->credit();
+
+        expect($relation)->toBeInstanceOf(HasOne::class)
+            ->and($relation->getRelated())->toBeInstanceOf(Credit::class)
+            ->and($relation->getForeignKeyName())->toBe('AccountID');
     });
 });

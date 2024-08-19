@@ -98,7 +98,7 @@ describe('Edit account level and expiration date', function () {
     });
 });
 
-describe('Edit tokens and zen', function () {
+describe('Edit tokens, credits and zen', function () {
     it('validates', function () {
         $member = $this->user->member;
 

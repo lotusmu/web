@@ -10,6 +10,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Support\RawJs;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -92,6 +93,8 @@ class Member extends Model
                 ->schema([
                     TextInput::make('tokens')
                         ->numeric()
+                        ->mask(RawJs::make('$money($input)'))
+                        ->stripCharacters(',')
                         ->default(0)
                         ->minValue(0)
                         ->required(),
@@ -101,6 +104,8 @@ class Member extends Model
                             TextInput::make('WCoinC')
                                 ->label('Credits')
                                 ->numeric()
+                                ->mask(RawJs::make('$money($input)'))
+                                ->stripCharacters(',')
                                 ->default(0)
                                 ->minValue(0)
                                 ->required(),
@@ -108,6 +113,8 @@ class Member extends Model
                     TextInput::make('zen')
                         ->columnSpanFull()
                         ->numeric()
+                        ->mask(RawJs::make('$money($input)'))
+                        ->stripCharacters(',')
                         ->default(0)
                         ->minValue(0)
                         ->required(),

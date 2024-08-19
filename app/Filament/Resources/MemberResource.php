@@ -67,9 +67,11 @@ class MemberResource extends Resource
                         return $record->AccountLevel === AccountLevel::Regular ? '-' : $state;
                     }),
                 Tables\Columns\TextColumn::make('tokens')
+                    ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('credit.credits')
+                Tables\Columns\TextColumn::make('credit.value')
                     ->label('Credits')
+                    ->numeric()
                     ->sortable(),
             ])
             ->filters([

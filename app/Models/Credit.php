@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Models\Traits\CreditAccessors;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Credit extends Model
 {
-    use CreditAccessors;
+    use CreditAccessors, HasFactory;
 
     public $incrementing = false;
 
@@ -23,6 +24,7 @@ class Credit extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
+        'AccountID',
         'WCoinC',
         //        'WCoinP',
         //        'GoblinPoint',
