@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\CreditAccessors;
+use App\Models\Concerns\CreditAccessors;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

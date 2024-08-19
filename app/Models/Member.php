@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AccountLevel;
-use App\Models\Traits\MemberAccessors;
+use App\Models\Concerns\MemberAccessors;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
