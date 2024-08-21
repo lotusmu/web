@@ -2,97 +2,109 @@
 
 namespace App\Filament\Resources\TicketResource\Pages;
 
-use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Filament\Resources\TicketResource;
 use App\Models\TicketReply;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Concerns\InteractsWithInfolists;
+use Filament\Infolists\Contracts\HasInfolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
+use Filament\Support\Enums\IconPosition;
 use Illuminate\Support\Facades\Auth;
 
-class ManageTicket extends Page
+class ManageTicket extends Page implements HasForms, HasInfolists
 {
-    use InteractsWithRecord;
-
-    public string $replyContent = '';
+    use InteractsWithForms, InteractsWithInfolists, InteractsWithRecord;
 
     protected static string $resource = TicketResource::class;
 
     protected static string $view = 'filament.resources.ticket-resource.pages.manage-ticket';
 
+    public ?array $data = [];
+
+    public ?array $replyData = [];
+
+    public function __construct()
+    {
+        $this->initializeReplyForm();
+    }
+
     public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
-        $this->form->fill($this->record->toArray());
+        $this->form->fill($this->record->attributesToArray());
     }
 
-    protected function getForms(): array
+    public function ticketInfolist(Infolist $infolist): Infolist
     {
-        return [
-            'form' => $this->makeForm()
-                ->schema($this->getFormSchema())
-                ->statePath('data')
-                ->model($this->record),
-            'replyForm' => $this->makeForm()
-                ->schema($this->getReplyFormSchema())
-                ->statePath('replyData'),
-        ];
+        return $infolist
+            ->record($this->record)
+            ->schema([
+                Section::make($this->record->title)
+                    ->columns(4)
+                    ->schema([
+                        TextEntry::make('user.name')
+                            ->label('Author')
+                            ->copyable()
+                            ->icon('heroicon-o-clipboard-document-list')
+                            ->iconPosition(IconPosition::After),
+                        TextEntry::make('category.name')
+                            ->label('Category'),
+                        TextEntry::make('priority')
+                            ->badge(),
+                        TextEntry::make('status')
+                            ->badge(),
+                        TextEntry::make('description')
+                            ->columnSpanFull()
+                            ->extraAttributes(['class' => 'prose dark:prose-invert'])
+                            ->html(),
+                    ]),
+            ]);
     }
 
-    protected function getFormSchema(): array
+    public function form(Form $form): Form
     {
-        return [
-            Section::make('Content')
-                ->columnSpan(2)
-                ->schema([
-                    TextInput::make('title')
-                        ->required()
-                        ->maxLength(255),
-                    RichEditor::make('description')
-                        ->required(),
-                ]),
-            Section::make('Status')
-                ->columnSpan(1)
-                ->schema([
-                    Select::make('ticket_category_id')
-                        ->label('Category')
-                        ->relationship('category', 'name')
-                        ->required(),
-                    Select::make('status')
-                        ->options(TicketStatus::class)
-                        ->enum(TicketStatus::class)
-                        ->required(),
-                    Select::make('priority')
-                        ->options(TicketPriority::class)
-                        ->enum(TicketPriority::class)
-                        ->required(),
-                    TextInput::make('user_id')
-                        ->required(),
-                ]),
-        ];
+        return $form
+            ->schema([
+                Select::make('status')
+                    ->options(TicketStatus::class)
+                    ->enum(TicketStatus::class)
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(function ($state) {
+                        $this->updateStatus($state);
+                    }),
+            ])
+            ->statePath('data')
+            ->model($this->record);
     }
 
-    protected function getReplyFormSchema(): array
+    protected function initializeReplyForm(): void
     {
-        return [
-            RichEditor::make('content')
-                ->label('Reply')
-                ->required(),
-        ];
+        $this->replyForm = $this->makeForm()
+            ->schema([
+                RichEditor::make('content')
+                    ->label('')
+                    ->required(),
+            ])
+            ->statePath('replyData');
     }
 
-    public function save(): void
+    public function updateStatus($newStatus): void
     {
-        $data = $this->form->getState();
-        $this->record->update($data);
+        $this->record->update(['status' => $newStatus]);
 
         Notification::make()->success()->title('Success!')
-            ->body('Ticket updated successfully.')
+            ->body('Ticket status updated successfully.')
             ->send();
     }
 
@@ -106,8 +118,6 @@ class ManageTicket extends Page
             'ticket_id' => $this->record->id,
         ]);
 
-        $this->replyForm->fill();
-
         Notification::make()->success()->title('Success!')
             ->body('Reply was sent successfully.')
             ->send();
@@ -116,6 +126,7 @@ class ManageTicket extends Page
     public function getViewData(): array
     {
         return [
+            'ticket' => $this->record,
             'replies' => $this->record->replies()->with('user')->orderBy('created_at', 'asc')->get(),
         ];
     }

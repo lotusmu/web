@@ -2,9 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Models\Ticket;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -27,7 +32,35 @@ class TicketResource extends Resource
     {
         return $form
             ->columns(3)
-            ->schema(Ticket::getForm());
+            ->schema([
+                Section::make('Content')
+                    ->columnSpan(2)
+                    ->schema([
+                        TextInput::make('title')
+                            ->required()
+                            ->maxLength(255),
+                        RichEditor::make('description')
+                            ->required(),
+                    ]),
+                Section::make('Status')
+                    ->columnSpan(1)
+                    ->schema([
+                        Select::make('ticket_category_id')
+                            ->label('Category')
+                            ->relationship('category', 'name')
+                            ->required(),
+                        Select::make('status')
+                            ->options(TicketStatus::class)
+                            ->enum(TicketStatus::class)
+                            ->required(),
+                        Select::make('priority')
+                            ->options(TicketPriority::class)
+                            ->enum(TicketPriority::class)
+                            ->required(),
+                        TextInput::make('user_id')
+                            ->required(),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -37,7 +70,7 @@ class TicketResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
+                    ->badge(),
                 Tables\Columns\TextColumn::make('priority')
                     ->badge(),
                 Tables\Columns\TextColumn::make('category.name')
