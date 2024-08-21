@@ -5,6 +5,7 @@ namespace App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource;
 use App\Models\TicketReply;
 use Filament\Forms\Components\RichEditor;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class ManageTicket extends Page
     {
         return [
             'ticket' => $this->record,
-            'replies' => $this->record->replies()->with('user')->orderBy('created_at', 'desc')->get(),
+            'replies' => $this->record->replies()->with('user')->orderBy('created_at', 'asc')->get(),
         ];
     }
 
@@ -48,10 +49,13 @@ class ManageTicket extends Page
         TicketReply::create([
             'content' => $this->replyContent,
             'user_id' => Auth::id(),
-            'ticket_id' => $this->ticket->id,
+            'ticket_id' => $this->record->id,
         ]);
 
         $this->reset('replyContent');
-        $this->notify('success', 'Reply added successfully.');
+
+        Notification::make()->success()->title('Success!')
+            ->body('Reply was sent successfully.')
+            ->send();
     }
 }

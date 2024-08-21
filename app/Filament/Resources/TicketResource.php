@@ -22,7 +22,7 @@ class TicketResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Ticket::count();
+        return (string) Ticket::whereNot('status', TicketStatus::CLOSED->value)->count();
     }
 
     public static function form(Form $form): Form

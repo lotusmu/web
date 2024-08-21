@@ -7,15 +7,17 @@
         <p><strong>Description:</strong> {{ $ticket->description }}</p>
     </x-filament::card>
 
-    <x-filament::card class="mt-6">
+    <x-filament::card>
         <h3 class="text-xl font-semibold mb-4">Replies</h3>
-        @foreach ($replies as $reply)
-            <div class="mb-4 p-4 bg-gray-100 rounded">
-                <p class="mb-2">{{ $reply->content }}</p>
-                <p class="text-sm text-gray-600">By {{ $reply->user->name }}
-                    on {{ $reply->created_at->format('M d, Y H:i') }}</p>
-            </div>
-        @endforeach
+        <div class="space-y-4">
+            @foreach ($replies as $reply)
+                <x-filament::card class="prose dark:prose-invert">
+                    <p class="mb-2">{!! $reply->content !!}</p>
+                    <p class="text-sm text-gray-600">By {{ $reply->user->name }}
+                        on {{ $reply->created_at->format('M d, Y H:i') }}</p>
+                </x-filament::card>
+            @endforeach
+        </div>
 
         <form wire:submit.prevent="addReply" class="mt-6">
             {{ $this->form }}
