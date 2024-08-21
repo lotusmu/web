@@ -2,11 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Models\Ticket;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,35 +27,7 @@ class TicketResource extends Resource
     {
         return $form
             ->columns(3)
-            ->schema([
-                Forms\Components\Section::make('Content')
-                    ->columnSpan(2)
-                    ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\RichEditor::make('description')
-                            ->required(),
-                    ]),
-                Forms\Components\Section::make('Status')
-                    ->columnSpan(1)
-                    ->schema([
-                        Forms\Components\Select::make('ticket_category_id')
-                            ->label('Category')
-                            ->relationship('category', 'name')
-                            ->required(),
-                        Forms\Components\Select::make('status')
-                            ->options(TicketStatus::class)
-                            ->enum(TicketStatus::class)
-                            ->required(),
-                        Forms\Components\Select::make('priority')
-                            ->options(TicketPriority::class)
-                            ->enum(TicketPriority::class)
-                            ->required(),
-                        Forms\Components\TextInput::make('user_id')
-                            ->required(),
-                    ]),
-            ]);
+            ->schema(Ticket::getForm());
     }
 
     public static function table(Table $table): Table

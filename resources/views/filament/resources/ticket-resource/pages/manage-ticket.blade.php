@@ -1,29 +1,33 @@
 <x-filament-panels::page>
-    <x-filament::card>
-        <h2 class="text-2xl font-bold mb-4">{{ $ticket->title }}</h2>
-        <p><strong>Status:</strong> {{ $ticket->status }}</p>
-        <p><strong>Priority:</strong> {{ $ticket->priority }}</p>
-        <p><strong>Category:</strong> {{ $ticket->category->name }}</p>
-        <p><strong>Description:</strong> {{ $ticket->description }}</p>
-    </x-filament::card>
+    <x-filament-panels::form wire:submit="save">
+        {{ $this->form }}
 
-    <x-filament::card>
-        <h3 class="text-xl font-semibold mb-4">Replies</h3>
-        <div class="space-y-4">
+        <x-filament::button type="submit" class="mt-4">
+            Save Changes
+        </x-filament::button>
+    </x-filament-panels::form>
+
+    <x-filament::section>
+        <h2 class="text-lg font-medium">Replies</h2>
+        <div class="space-y-4 mt-4">
             @foreach ($replies as $reply)
-                <x-filament::card class="prose dark:prose-invert">
-                    <p class="mb-2">{!! $reply->content !!}</p>
-                    <p class="text-sm text-gray-600">By {{ $reply->user->name }}
-                        on {{ $reply->created_at->format('M d, Y H:i') }}</p>
-                </x-filament::card>
+                <div class="bg-gray-100 rounded-lg p-4">
+                    <div class="prose max-w-none mb-2">
+                        {!! $reply->content !!}
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        By {{ $reply->user->name }} on {{ $reply->created_at->format('M d, Y H:i') }}
+                    </p>
+                </div>
             @endforeach
         </div>
 
-        <form wire:submit.prevent="addReply" class="mt-6">
-            {{ $this->form }}
+        <x-filament-panels::form wire:submit="addReply" class="mt-4">
+            {{ $this->replyForm }}
+
             <x-filament::button type="submit" class="mt-4">
-                Reply
+                Add Reply
             </x-filament::button>
-        </form>
-    </x-filament::card>
+        </x-filament-panels::form>
+    </x-filament::section>
 </x-filament-panels::page>
