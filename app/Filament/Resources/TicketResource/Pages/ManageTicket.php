@@ -5,11 +5,13 @@ namespace App\Filament\Resources\TicketResource\Pages;
 use App\Enums\TicketStatus;
 use App\Filament\Resources\TicketResource;
 use App\Models\TicketReply;
+use Filament\Actions\Action;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
@@ -33,15 +35,10 @@ class ManageTicket extends Page implements HasForms, HasInfolists
 
     public ?array $replyData = [];
 
-    public function __construct()
-    {
-        $this->initializeReplyForm();
-    }
-
     public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
-        $this->form->fill($this->record->attributesToArray());
+        $this->form->fill();
     }
 
     public function ticketInfolist(Infolist $infolist): Infolist
@@ -75,23 +72,6 @@ class ManageTicket extends Page implements HasForms, HasInfolists
     {
         return $form
             ->schema([
-                Select::make('status')
-                    ->options(TicketStatus::class)
-                    ->enum(TicketStatus::class)
-                    ->required()
-                    ->live()
-                    ->afterStateUpdated(function ($state) {
-                        $this->updateStatus($state);
-                    }),
-            ])
-            ->statePath('data')
-            ->model($this->record);
-    }
-
-    protected function initializeReplyForm(): void
-    {
-        $this->replyForm = $this->makeForm()
-            ->schema([
                 RichEditor::make('content')
                     ->label('')
                     ->required(),
@@ -99,18 +79,34 @@ class ManageTicket extends Page implements HasForms, HasInfolists
             ->statePath('replyData');
     }
 
-    public function updateStatus($newStatus): void
+    protected function getHeaderActions(): array
     {
-        $this->record->update(['status' => $newStatus]);
+        return [
+            Action::make('changeStatus')
+                ->label('Change Status')
+                ->form([
+                    Select::make('status')
+                        ->options(TicketStatus::class)
+                        ->enum(TicketStatus::class)
+                        ->afterStateUpdated(function ($state, Set $set) {
+                            $this->record->status = $state;
+                            $this->record->save();
 
-        Notification::make()->success()->title('Success!')
-            ->body('Ticket status updated successfully.')
-            ->send();
+                            Notification::make()
+                                ->success()
+                                ->title('Success!')
+                                ->body('Ticket status updated successfully.')
+                                ->send();
+                        }),
+                ]),
+        ];
     }
 
     public function addReply(): void
     {
-        $data = $this->replyForm->getState();
+        $data = $this->form->getState();
+
+        $this->form->validate();
 
         TicketReply::create([
             'content' => $data['content'],
@@ -118,8 +114,10 @@ class ManageTicket extends Page implements HasForms, HasInfolists
             'ticket_id' => $this->record->id,
         ]);
 
+        $this->form->fill();
+
         Notification::make()->success()->title('Success!')
-            ->body('Reply was sent successfully.')
+            ->body('Message sent successfully.')
             ->send();
     }
 
