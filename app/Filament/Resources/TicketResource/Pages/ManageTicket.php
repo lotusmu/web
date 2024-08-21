@@ -47,6 +47,7 @@ class ManageTicket extends Page implements HasForms, HasInfolists
             ->record($this->record)
             ->schema([
                 Section::make($this->record->title)
+                    ->collapsible()
                     ->columns(4)
                     ->schema([
                         TextEntry::make('user.name')
