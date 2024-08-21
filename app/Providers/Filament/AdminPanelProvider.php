@@ -39,6 +39,8 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make('Account & Characters')
                     ->icon('heroicon-o-user-group'),
+                NavigationGroup::make('Support')
+                    ->icon('heroicon-o-ticket'),
             ])
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
