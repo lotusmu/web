@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Interfaces\HasMember;
+use App\Models\Ticket\Ticket;
 use App\Services\MemberService;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Placeholder;
@@ -13,6 +14,7 @@ use Filament\Forms\Set;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -157,5 +159,10 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function member(): HasOne
     {
         return $this->hasOne(Member::class, 'memb___id', 'name');
+    }
+
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
     }
 }

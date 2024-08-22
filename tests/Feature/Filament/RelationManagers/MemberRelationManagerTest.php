@@ -52,14 +52,3 @@ it('can update member', function () {
         "Expected {$newExpireDate->toDateTimeString()}, but got {$storedExpireDate->toDateTimeString()}"
     );
 });
-
-it('can delete member', function () {
-    livewire(MemberRelationManager::class, [
-        'ownerRecord' => $this->user,
-        'pageClass' => EditUser::class,
-    ])
-        ->callTableAction('delete', $this->member)
-        ->assertHasNoTableActionErrors();
-
-    expect($this->user->fresh()->member)->toBeNull();
-});

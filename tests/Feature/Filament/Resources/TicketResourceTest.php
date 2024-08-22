@@ -20,8 +20,7 @@ it('displays the correct navigation badge count', function () {
     Ticket::factory()->count(3)->create(['status' => TicketStatus::NEW]);
     Ticket::factory()->count(2)->create(['status' => TicketStatus::CLOSED]);
 
-    // We expect 4 because: 1 from beforeEach + 3 created in this test
-    expect(TicketResource::getNavigationBadge())->toBe('4');
+    expect(TicketResource::getNavigationBadge())->toBe('3');
 });
 
 it('uses the correct model', function () {

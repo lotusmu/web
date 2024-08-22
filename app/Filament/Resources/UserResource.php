@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\MemberRelationManager;
+use App\Filament\Resources\UserResource\RelationManagers\TicketsRelationManager;
 use App\Models\User\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
@@ -122,6 +123,7 @@ class UserResource extends Resource
     {
         return [
             MemberRelationManager::class,
+            TicketsRelationManager::class,
         ];
     }
 

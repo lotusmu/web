@@ -40,12 +40,9 @@ class MemberRelationManager extends RelationManager
             ->recordTitleAttribute('member')
             ->columns([
                 Tables\Columns\TextColumn::make('memb___id')
-                    ->label('Username')
-                    ->sortable()
-                    ->searchable(),
+                    ->label('Username'),
                 Tables\Columns\TextColumn::make('mail_addr')
-                    ->label('Email')
-                    ->searchable(),
+                    ->label('Email'),
                 Tables\Columns\TextColumn::make('AccountLevel')
                     ->label('Account Level')
                     ->badge(),
@@ -60,18 +57,8 @@ class MemberRelationManager extends RelationManager
                 //
             ])
             ->paginated(false)
-            ->searchable(false)
-            ->headerActions([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }
