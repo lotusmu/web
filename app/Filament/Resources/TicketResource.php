@@ -28,7 +28,12 @@ class TicketResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return (string) Ticket::whereNot('status', TicketStatus::CLOSED->value)->count();
+        return (string) Ticket::whereNotIn('status', [TicketStatus::CLOSED->value, TicketStatus::RESOLVED->value])->count();
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     public static function form(Form $form): Form
@@ -114,7 +119,6 @@ class TicketResource extends Resource
     {
         return [
             'index' => Pages\ListTickets::route('/'),
-            'create' => Pages\CreateTicket::route('/create'),
             'edit' => Pages\EditTicket::route('/{record}/edit'),
             'manage' => Pages\ManageTicket::route('/{record}/manage'),
         ];
