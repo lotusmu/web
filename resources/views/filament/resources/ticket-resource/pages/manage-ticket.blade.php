@@ -6,19 +6,27 @@
             Conversation
         </x-slot:heading>
 
-        <div class="space-y-4">
-            @foreach ($replies as $reply)
-                <x-filament::card>
-                    <div class="prose dark:prose-invert max-w-none">
-                        {!! $reply->content !!}
-                    </div>
+        @if ($replies->isEmpty())
+            <x-filament-tables::empty-state icon="heroicon-o-x-mark" heading="No replies"/>
+        @else
+            <div class="space-y-4">
+                @foreach ($replies as $reply)
+                    <x-filament::section
+                        compact
+                        icon="heroicon-s-user"
+                        :heading="$reply->user->name">
+                        <div class="prose dark:prose-invert break-words">
+                            {!! $reply->content !!}
+                        </div>
 
-                    <div class="flex justify-end mt-4 text-sm text-gray-500 dark:text-gray-400">
-                        By {{ $reply->user->name }} on {{ $reply->created_at->format('M d, Y H:i') }}
-                    </div>
-                </x-filament::card>
-            @endforeach
-        </div>
+                        <div
+                            class="flex justify-end mt-4 text-sm text-gray-500 dark:text-gray-400">
+                            {{ $reply->created_at->format('M d, Y H:i') }}
+                        </div>
+                    </x-filament::section>
+                @endforeach
+            </div>
+        @endif
     </x-filament::section>
 
     <x-filament-panels::form wire:submit="addReply">
