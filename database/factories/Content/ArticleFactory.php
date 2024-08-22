@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Content;
 
 use App\Enums\ArticleType;
 use App\Models\Content\Article;

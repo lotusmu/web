@@ -4,19 +4,13 @@ namespace App\Models\Game;
 
 use App\Models\Concerns\CreditAccessors;
 use App\Models\User\Member;
+use App\Models\Utility\GameModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Credit extends Model
+class Credit extends GameModel
 {
     use CreditAccessors, HasFactory;
-
-    public $incrementing = false;
-
-    public $timestamps = false;
-
-    protected $connection = 'gamedb_main';
 
     protected $table = 'CashShopData';
 
@@ -24,17 +18,17 @@ class Credit extends Model
 
     protected $keyType = 'string';
 
+    public $incrementing = false;
+
+    public $timestamps = false;
+
     protected $fillable = [
         'AccountID',
         'WCoinC',
-        //        'WCoinP',
-        //        'GoblinPoint',
     ];
 
     protected $casts = [
         'WCoinC' => 'integer',
-        //        'WCoinP' => 'integer',
-        //        'GoblinPoint' => 'integer',
     ];
 
     public function member(): BelongsTo

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Game;
 
 use App\Models\Game\Credit;
 use App\Models\User\User;

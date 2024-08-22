@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ticket;
 
 use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;

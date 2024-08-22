@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Game;
 
 use App\Enums\CharacterClass;
 use App\Enums\Map;

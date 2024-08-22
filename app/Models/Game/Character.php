@@ -6,6 +6,7 @@ use App\Enums\CharacterClass;
 use App\Enums\Map;
 use App\Enums\PkLevel;
 use App\Models\User\Member;
+use App\Models\Utility\GameModel;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -17,15 +18,15 @@ class Character extends GameModel
 {
     use HasFactory;
 
-    public $timestamps = false;
-
-    public $incrementing = false;
-
     protected $table = 'Character';
 
     protected $primaryKey = 'Name';
 
     protected $keyType = 'string';
+
+    public $timestamps = false;
+
+    public $incrementing = false;
 
     protected $fillable = [
         'AccountID',
