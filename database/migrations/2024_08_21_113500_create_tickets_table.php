@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('status')->default(TicketStatus::OPEN->value);
+            $table->string('status')->default(TicketStatus::NEW->value);
             $table->string('priority')->default(TicketPriority::MEDIUM->value);
             $table->foreignIdFor(TicketCategory::class)->constrained();
             $table->foreignIdFor(User::class)->constrained();
