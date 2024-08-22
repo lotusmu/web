@@ -2,10 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Enums\TicketPriority;
+use App\Enums\TicketStatus;
+use App\Models\Ticket;
+use App\Models\TicketCategory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ticket>
+ * @extends Factory<Ticket>
  */
 class TicketFactory extends Factory
 {
@@ -17,7 +22,12 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
+            'status' => $this->faker->randomElement(TicketStatus::cases())->value,
+            'priority' => $this->faker->randomElement(TicketPriority::cases())->value,
+            'ticket_category_id' => TicketCategory::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }
