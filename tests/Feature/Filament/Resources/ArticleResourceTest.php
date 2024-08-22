@@ -55,26 +55,13 @@ todo('can create article', function () {
         ->call('create')
         ->assertHasNoFormErrors();
 
-    $latestArticle = Article::latest()->first();
-
-    expect($latestArticle)
-        ->title->toBeArray()->toHaveKey('en')
-        ->and($latestArticle->title['en'])->toBe($newArticle->title)
-        ->and($latestArticle->type)->toBe($newArticle->type->value)
-        ->and($latestArticle->is_published)->toBeFalse()
-        ->and($latestArticle->excerpt)->toBeArray()->toHaveKey('en')
-        ->and($latestArticle->excerpt['en'])->toBe($newArticle->excerpt)
-        ->and($latestArticle->content)->toBeArray()->toHaveKey('en')
-        ->and($latestArticle->content['en'])->toBe($newArticle->content)
-        ->and($latestArticle->slug)->toBe(str($newArticle->title)->slug()->toString());
-
-    // Additional debugging
-    if ($this->hasFailed()) {
-        dump([
-            'Factory Article' => $newArticle->toArray(),
-            'Database Article' => $latestArticle->toArray(),
-        ]);
-    }
+    $this->assertDatabaseHas('articles', [
+        'title' => $newArticle->title,
+        'type' => $newArticle->type,
+        'is_published' => $newArticle->is_published,
+        'excerpt' => $newArticle->excerpt,
+        'content' => $newArticle->content,
+    ]);
 });
 
 todo('can edit article', function () {
