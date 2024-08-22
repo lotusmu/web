@@ -4,7 +4,7 @@ namespace App\Filament\Resources\TicketResource\Pages;
 
 use App\Enums\TicketStatus;
 use App\Filament\Resources\TicketResource;
-use App\Models\TicketReply;
+use App\Models\Ticket\TicketReply;
 use Filament\Actions\Action;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;

@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\ArticleType;
-use App\Models\Article;
+use App\Models\Content\Article;
 
 beforeEach(function () {
     $this->article = Article::factory()->create([

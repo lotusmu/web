@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
 use App\Filament\Resources\TicketResource\Pages;
-use App\Models\Ticket;
+use App\Models\Ticket\Ticket;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;

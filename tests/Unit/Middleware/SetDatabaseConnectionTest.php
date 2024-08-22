@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Middleware\SetDatabaseConnection;
-use App\Models\GameServer;
+use App\Models\Utility\GameServer;
 use App\Services\DatabaseConnectionService;
 use Illuminate\Http\Request;
 

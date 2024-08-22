@@ -3,7 +3,7 @@
 use App\Enums\AccountLevel;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\RelationManagers\MemberRelationManager;
-use App\Models\User;
+use App\Models\User\User;
 use Carbon\Carbon;
 
 use function Pest\Livewire\livewire;

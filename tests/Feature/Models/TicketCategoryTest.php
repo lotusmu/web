@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Ticket;
-use App\Models\TicketCategory;
+use App\Models\Ticket\Ticket;
+use App\Models\Ticket\TicketCategory;
 
 beforeEach(function () {
     $this->category = TicketCategory::factory()->create();

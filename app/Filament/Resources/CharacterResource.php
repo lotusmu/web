@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Infolists\Components\Entry\CharacterClassEntry;
 use App\Filament\Resources\CharacterResource\Pages;
 use App\Filament\Tables\Columns\CharacterClassColumn;
-use App\Models\Character;
+use App\Models\Game\Character;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;

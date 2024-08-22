@@ -4,8 +4,8 @@ use App\Enums\AccountLevel;
 use App\Filament\Resources\CharacterResource;
 use App\Filament\Resources\MemberResource;
 use App\Filament\Resources\MemberResource\Pages\EditMember;
-use App\Models\Member;
-use App\Models\User;
+use App\Models\User\Member;
+use App\Models\User\User;
 use Illuminate\Support\Carbon;
 
 use function Pest\Livewire\livewire;

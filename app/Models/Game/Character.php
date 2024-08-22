@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Game;
 
 use App\Enums\CharacterClass;
 use App\Enums\Map;
 use App\Enums\PkLevel;
+use App\Models\User\Member;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;

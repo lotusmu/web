@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\GameServer;
+use App\Models\Utility\GameServer;
 
 it('can be instantiated', function () {
     $gameServer = new GameServer;

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Credit;
-use App\Models\User;
+use App\Models\Game\Credit;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CreditFactory extends Factory

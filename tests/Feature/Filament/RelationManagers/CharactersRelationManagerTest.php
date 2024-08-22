@@ -2,8 +2,8 @@
 
 use App\Filament\Resources\MemberResource\Pages\EditMember;
 use App\Filament\Resources\MemberResource\RelationManagers\CharactersRelationManager;
-use App\Models\Character;
-use App\Models\User;
+use App\Models\Game\Character;
+use App\Models\User\User;
 
 use function Pest\Livewire\livewire;
 

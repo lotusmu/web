@@ -2,7 +2,7 @@
 
 use App\Enums\ArticleType;
 use App\Filament\Resources\ArticleResource;
-use App\Models\Article;
+use App\Models\Content\Article;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 use function Pest\Livewire\livewire;

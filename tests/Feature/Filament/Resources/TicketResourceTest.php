@@ -6,8 +6,8 @@ use App\Filament\Resources\TicketResource;
 use App\Filament\Resources\TicketResource\Pages\EditTicket;
 use App\Filament\Resources\TicketResource\Pages\ListTickets;
 use App\Filament\Resources\TicketResource\Pages\ManageTicket;
-use App\Models\Ticket;
-use App\Models\User;
+use App\Models\Ticket\Ticket;
+use App\Models\User\User;
 
 use function Pest\Livewire\livewire;
 

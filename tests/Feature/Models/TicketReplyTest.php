@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Ticket;
-use App\Models\TicketReply;
-use App\Models\User;
+use App\Models\Ticket\Ticket;
+use App\Models\Ticket\TicketReply;
+use App\Models\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

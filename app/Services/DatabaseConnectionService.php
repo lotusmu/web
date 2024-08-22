@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\GameServer;
+use App\Models\Utility\GameServer;
 use Illuminate\Support\Facades\Config;
 
 class DatabaseConnectionService

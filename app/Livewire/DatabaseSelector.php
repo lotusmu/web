@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\GameServer;
+use App\Models\Utility\GameServer;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;

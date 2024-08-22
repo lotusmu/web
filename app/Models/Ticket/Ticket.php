@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Ticket;
 
 use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

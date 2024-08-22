@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DownloadResource\Pages;
-use App\Models\Download;
+use App\Models\Content\Download;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

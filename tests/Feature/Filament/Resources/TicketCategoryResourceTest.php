@@ -2,7 +2,7 @@
 
 use App\Filament\Resources\TicketCategoryResource;
 use App\Filament\Resources\TicketCategoryResource\Pages\ListTicketCategories;
-use App\Models\TicketCategory;
+use App\Models\Ticket\TicketCategory;
 use Illuminate\Support\Str;
 
 use function Pest\Livewire\livewire;

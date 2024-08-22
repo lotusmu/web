@@ -2,7 +2,7 @@
 
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Carbon;
 

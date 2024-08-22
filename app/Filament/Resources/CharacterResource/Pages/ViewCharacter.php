@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\CharacterResource\Pages;
 
 use App\Filament\Resources\CharacterResource;
-use App\Models\Character;
+use App\Models\Game\Character;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 

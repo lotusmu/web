@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\ArticleType;
 use App\Filament\Resources\ArticleResource\Pages;
-use App\Models\Article;
+use App\Models\Content\Article;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;

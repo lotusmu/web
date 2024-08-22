@@ -6,7 +6,7 @@ use App\Enums\PkLevel;
 use App\Filament\Resources\CharacterResource;
 use App\Filament\Resources\CharacterResource\Pages\EditCharacter;
 use App\Filament\Resources\CharacterResource\Pages\ViewCharacter;
-use App\Models\Character;
+use App\Models\Game\Character;
 
 use function Pest\Livewire\livewire;
 

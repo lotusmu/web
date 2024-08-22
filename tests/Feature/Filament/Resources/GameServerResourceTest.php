@@ -1,7 +1,7 @@
 <?php
 
 use App\Filament\Resources\GameServerResource;
-use App\Models\GameServer;
+use App\Models\Utility\GameServer;
 use Illuminate\Support\Facades\Config;
 
 describe('pages', function () {

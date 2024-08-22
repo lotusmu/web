@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\GameServer;
+use App\Models\Utility\GameServer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 

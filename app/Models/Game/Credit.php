@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Game;
 
 use App\Models\Concerns\CreditAccessors;
+use App\Models\User\Member;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\TicketCategory;
+use App\Models\Ticket\TicketCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

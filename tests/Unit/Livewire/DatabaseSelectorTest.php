@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\DatabaseSelector;
-use App\Models\GameServer;
+use App\Models\Utility\GameServer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Session;
 use Livewire\Livewire;

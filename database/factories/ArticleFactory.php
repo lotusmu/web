@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\ArticleType;
-use App\Models\Article;
+use App\Models\Content\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\GameModel;
+use App\Models\Game\GameModel;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 

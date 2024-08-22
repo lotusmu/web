@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Credit;
-use App\Models\Member;
-use App\Models\User;
+use App\Models\Game\Credit;
+use App\Models\User\Member;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 

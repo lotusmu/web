@@ -2,8 +2,8 @@
 
 use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
-use App\Models\TicketCategory;
-use App\Models\User;
+use App\Models\Ticket\TicketCategory;
+use App\Models\User\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

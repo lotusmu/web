@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Member;
-use App\Models\User;
+use App\Models\User\Member;
+use App\Models\User\User;
 
 class MemberService
 {

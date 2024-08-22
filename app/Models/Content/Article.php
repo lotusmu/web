@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Content;
 
 use App\Enums\ArticleType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;

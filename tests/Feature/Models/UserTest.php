@@ -1,8 +1,8 @@
 <?php
 
 use App\Interfaces\HasMember;
-use App\Models\Member;
-use App\Models\User;
+use App\Models\User\Member;
+use App\Models\User\User;
 use App\Services\MemberService;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\QueryException;

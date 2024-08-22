@@ -4,9 +4,9 @@ namespace Database\Factories;
 
 use App\Enums\TicketPriority;
 use App\Enums\TicketStatus;
-use App\Models\Ticket;
-use App\Models\TicketCategory;
-use App\Models\User;
+use App\Models\Ticket\Ticket;
+use App\Models\Ticket\TicketCategory;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 use App\Enums\AccountLevel;
 use App\Models\Concerns\MemberAccessors;
+use App\Models\Game\Character;
+use App\Models\Game\Credit;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;

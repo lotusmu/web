@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\MemberResource\RelationManagers;
 
 use App\Filament\Tables\Columns\CharacterClassColumn;
-use App\Models\Character;
+use App\Models\Game\Character;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;

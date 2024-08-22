@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TicketCategoryResource\Pages;
-use App\Models\TicketCategory;
+use App\Models\Ticket\TicketCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

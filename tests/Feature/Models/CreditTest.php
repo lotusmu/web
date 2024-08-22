@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Credit;
-use App\Models\Member;
+use App\Models\Game\Credit;
+use App\Models\User\Member;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 beforeEach(function () {
