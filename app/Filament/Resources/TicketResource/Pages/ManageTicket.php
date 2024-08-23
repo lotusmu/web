@@ -75,6 +75,10 @@ class ManageTicket extends Page implements HasForms, HasInfolists
             ->schema([
                 RichEditor::make('content')
                     ->label('')
+                    ->disableToolbarButtons([
+                        'h2',
+                        'h3',
+                    ])
                     ->required(),
             ])
             ->statePath('replyData');

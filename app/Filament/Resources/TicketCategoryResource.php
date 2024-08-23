@@ -25,6 +25,7 @@ class TicketCategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->columnSpanFull()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -61,8 +62,6 @@ class TicketCategoryResource extends Resource
     {
         return [
             'index' => Pages\ListTicketCategories::route('/'),
-            'create' => Pages\CreateTicketCategory::route('/create'),
-            'edit' => Pages\EditTicketCategory::route('/{record}/edit'),
         ];
     }
 }

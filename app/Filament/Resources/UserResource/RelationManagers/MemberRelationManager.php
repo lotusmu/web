@@ -5,9 +5,12 @@ namespace App\Filament\Resources\UserResource\RelationManagers;
 use App\Enums\AccountLevel;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -28,6 +31,36 @@ class MemberRelationManager extends RelationManager
                                 ->enum(AccountLevel::class),
                             DateTimePicker::make('AccountExpireDate')
                                 ->label('Expire Date')
+                                ->required(),
+                        ]),
+                    Fieldset::make('Resources')
+                        ->schema([
+                            TextInput::make('tokens')
+                                ->numeric()
+                                ->mask(RawJs::make('$money($input)'))
+                                ->stripCharacters(',')
+                                ->default(0)
+                                ->minValue(0)
+                                ->required(),
+                            Group::make()
+                                ->relationship('credit')
+                                ->schema([
+                                    TextInput::make('WCoinC')
+                                        ->label('Credits')
+                                        ->numeric()
+                                        ->mask(RawJs::make('$money($input)'))
+                                        ->stripCharacters(',')
+                                        ->default(0)
+                                        ->minValue(0)
+                                        ->required(),
+                                ]),
+                            TextInput::make('zen')
+                                ->columnSpanFull()
+                                ->numeric()
+                                ->mask(RawJs::make('$money($input)'))
+                                ->stripCharacters(',')
+                                ->default(0)
+                                ->minValue(0)
                                 ->required(),
                         ]),
                 ]
