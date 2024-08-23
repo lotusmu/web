@@ -21,33 +21,23 @@ describe('pages', function () {
     it('has correct pages', function () {
         $pages = TicketCategoryResource::getPages();
 
-        expect($pages)->toHaveCount(3)
-            ->and(array_keys($pages))->toBe(['index', 'create', 'edit']);
+        expect($pages)->toHaveCount(1)
+            ->and(array_keys($pages))->toBe(['index']);
     });
 
     it('can render list page', function () {
         $this->get(TicketCategoryResource::getUrl('index'))->assertSuccessful();
-    });
-
-    it('can render edit page', function () {
-        $category = TicketCategory::factory()->create();
-        $this->get(TicketCategoryResource::getUrl('edit', ['record' => $category]))->assertSuccessful();
-    });
-
-    it('can render create page', function () {
-        $this->get(TicketCategoryResource::getUrl('create'))->assertSuccessful();
     });
 });
 
 it('can create a ticket category', function () {
     $newCategory = TicketCategory::factory()->make();
 
-    livewire(TicketCategoryResource\Pages\CreateTicketCategory::class)
-        ->fillForm([
+    livewire(ListTicketCategories::class)
+        ->callAction('create', data: [
             'name' => $newCategory->name,
         ])
-        ->call('create')
-        ->assertHasNoFormErrors();
+        ->assertHasNoActionErrors();
 
     $this->assertDatabaseHas('ticket_categories', [
         'name' => $newCategory->name,
@@ -58,14 +48,11 @@ it('can update a ticket category', function () {
     $category = TicketCategory::factory()->create();
     $newData = TicketCategory::factory()->make();
 
-    livewire(TicketCategoryResource\Pages\EditTicketCategory::class, [
-        'record' => $category->getKey(),
-    ])
-        ->fillForm([
+    livewire(ListTicketCategories::class)
+        ->callTableAction('edit', $category, data: [
             'name' => $newData->name,
         ])
-        ->call('save')
-        ->assertHasNoFormErrors();
+        ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('ticket_categories', [
         'id' => $category->id,
@@ -85,19 +72,17 @@ it('can delete a ticket category', function () {
 });
 
 it('validates required fields', function () {
-    livewire(TicketCategoryResource\Pages\CreateTicketCategory::class)
-        ->fillForm([
+    livewire(ListTicketCategories::class)
+        ->callAction('create', data: [
             'name' => '',
         ])
-        ->call('create')
-        ->assertHasFormErrors(['name' => 'required']);
+        ->assertHasActionErrors(['name' => 'required']);
 });
 
 it('validates max length of name', function () {
-    livewire(TicketCategoryResource\Pages\CreateTicketCategory::class)
-        ->fillForm([
+    livewire(ListTicketCategories::class)
+        ->callAction('create', data: [
             'name' => Str::random(256),
         ])
-        ->call('create')
-        ->assertHasFormErrors(['name' => 'max']);
+        ->assertHasActionErrors(['name' => 'max']);
 });

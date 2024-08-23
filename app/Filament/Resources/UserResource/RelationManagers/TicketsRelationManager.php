@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
 use App\Filament\Resources\TicketResource;
+use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,5 +28,10 @@ class TicketsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
             ]);
+    }
+
+    public function getPageClass(): string
+    {
+        return ManageRelatedRecords::class;
     }
 }
