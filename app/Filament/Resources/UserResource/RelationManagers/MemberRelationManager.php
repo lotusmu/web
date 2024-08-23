@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
 use App\Enums\AccountLevel;
+use App\Models\User\Member;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Group;
@@ -10,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\IconPosition;
 use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -73,7 +75,12 @@ class MemberRelationManager extends RelationManager
             ->recordTitleAttribute('member')
             ->columns([
                 Tables\Columns\TextColumn::make('memb___id')
-                    ->label('Username'),
+                    ->label('Username')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->iconPosition(IconPosition::After)
+                    ->url(function (Member $record) {
+                        return route('filament.admin.resources.members.edit', ['record' => $record]);
+                    }),
                 Tables\Columns\TextColumn::make('mail_addr')
                     ->label('Email'),
                 Tables\Columns\TextColumn::make('AccountLevel')
