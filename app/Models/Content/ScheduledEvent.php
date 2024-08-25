@@ -2,13 +2,8 @@
 
 namespace App\Models\Content;
 
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\Toggle;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class ScheduledEvent extends Model
@@ -27,70 +22,9 @@ class ScheduledEvent extends Model
         'is_active' => 'boolean',
     ];
 
-    public function getForm()
+    public function scopeActive(Builder $query): Builder
     {
-        return [
-            Section::make('Event Details')
-                ->columns(2)
-                ->schema([
-                    Group::make()
-                        ->schema([
-                            TextInput::make('name')
-                                ->label('Event Name')
-                                ->required(),
-                            Select::make('recurrence_type')
-                                ->default('daily')
-                                ->options([
-                                    'daily' => 'Daily',
-                                    'weekly' => 'Weekly',
-                                    'interval' => 'Interval',
-                                ])
-                                ->required()
-                                ->reactive(),
-                            TextInput::make('interval_minutes')
-                                ->label('Event Interval (minutes)')
-                                ->type('number')
-                                ->visible(fn (callable $get) => $get('recurrence_type') === 'interval')
-                                ->required(fn (callable $get) => $get('recurrence_type') === 'interval')
-                                ->minValue(fn (callable $get) => $get('recurrence_type') === 'interval' ? 1 : null),
-                            Toggle::make('is_active')
-                                ->default(true)
-                                ->required(),
-                        ]),
-                    Group::make()
-                        ->schema([
-                            Repeater::make('schedule')
-                                ->schema([
-                                    Select::make('day')
-                                        ->options([
-                                            'monday' => 'Monday',
-                                            'tuesday' => 'Tuesday',
-                                            'wednesday' => 'Wednesday',
-                                            'thursday' => 'Thursday',
-                                            'friday' => 'Friday',
-                                            'saturday' => 'Saturday',
-                                            'sunday' => 'Sunday',
-                                        ])
-                                        ->required()
-                                        ->visible(fn (callable $get) => $get('../../recurrence_type') === 'weekly'),
-                                    TimePicker::make('time')
-                                        ->seconds(false)
-                                        ->timezone('Europe/Sofia')
-                                        ->required(),
-                                ])
-                                ->minItems(1)
-                                ->maxItems(fn (callable $get) => $get('recurrence_type') === 'interval' ? 1 : null)
-                                ->label(fn (callable $get) => $get('recurrence_type') === 'weekly' ? 'Weekly Schedule' :
-                                    ($get('recurrence_type') === 'interval' ? 'First Occurrence' : 'Daily Schedule')
-                                )
-                                ->helperText(fn (callable $get) => $get('recurrence_type') === 'weekly' ? 'Specify times for each day of the week' :
-                                    ($get('recurrence_type') === 'interval' ? 'Specify the time for the first occurrence' : 'Specify times for each day')
-                                ),
-
-                        ]),
-
-                ]),
-        ];
+        return $query->where('is_active', true);
     }
 
     public function activate(): void
@@ -105,5 +39,65 @@ class ScheduledEvent extends Model
         $this->is_active = false;
 
         $this->save();
+    }
+
+    public function getNextOccurrence(): ?Carbon
+    {
+        $nextOccurrence = null;
+
+        foreach ($this->schedule as $scheduleItem) {
+            if (! isset($scheduleItem['time']) || ! is_string($scheduleItem['time'])) {
+                continue;
+            }
+
+            $startDateTime = Carbon::createFromFormat('H:i', $scheduleItem['time']);
+            $occurrence = $this->calculateNextOccurrence($scheduleItem, $startDateTime);
+
+            if (! $nextOccurrence || ($occurrence && $occurrence->lt($nextOccurrence))) {
+                $nextOccurrence = $occurrence;
+            }
+        }
+
+        return $nextOccurrence;
+    }
+
+    private function calculateNextOccurrence(array $scheduleItem, Carbon $startDateTime): ?Carbon
+    {
+        switch ($this->recurrence_type) {
+            case 'daily':
+                return $this->getNextDailyOccurrence($startDateTime);
+            case 'weekly':
+                return $this->getNextWeeklyOccurrence($scheduleItem, $startDateTime);
+            case 'interval':
+                return $this->getNextIntervalOccurrence($startDateTime);
+            default:
+                return null;
+        }
+    }
+
+    private function getNextDailyOccurrence(Carbon $startDateTime): Carbon
+    {
+        return Carbon::now()
+            ->setTimeFrom($startDateTime)
+            ->addDay(Carbon::now()->gt($startDateTime));
+    }
+
+    private function getNextWeeklyOccurrence(array $scheduleItem, Carbon $startDateTime): Carbon
+    {
+        return Carbon::now()
+            ->next($scheduleItem['day'])
+            ->setTimeFrom($startDateTime)
+            ->addWeek(Carbon::now()->gt($startDateTime));
+    }
+
+    private function getNextIntervalOccurrence(Carbon $startDateTime): Carbon
+    {
+        $occurrence = Carbon::now()->startOfDay()->setTimeFrom($startDateTime);
+
+        while ($occurrence->lte(Carbon::now())) {
+            $occurrence->addMinutes($this->interval_minutes);
+        }
+
+        return $occurrence;
     }
 }
