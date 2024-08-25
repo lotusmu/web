@@ -1,0 +1,164 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Filament\Resources\ScheduledEventResource\Pages;
+use App\Models\Content\ScheduledEvent;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+
+class ScheduledEventResource extends Resource
+{
+    protected static ?string $model = ScheduledEvent::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make('Event Details')
+                    ->columns(2)
+                    ->schema([
+                        Group::make()
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('Event Name')
+                                    ->required(),
+                                Select::make('recurrence_type')
+                                    ->default('daily')
+                                    ->options([
+                                        'daily' => 'Daily',
+                                        'weekly' => 'Weekly',
+                                        'interval' => 'Interval',
+                                    ])
+                                    ->required()
+                                    ->reactive(),
+                                TextInput::make('interval_minutes')
+                                    ->label('Event Interval (minutes)')
+                                    ->type('number')
+                                    ->visible(fn (callable $get) => $get('recurrence_type') === 'interval')
+                                    ->required(fn (callable $get) => $get('recurrence_type') === 'interval')
+                                    ->minValue(fn (callable $get) => $get('recurrence_type') === 'interval' ? 1 : null),
+                                Toggle::make('is_active')
+                                    ->default(true)
+                                    ->required(),
+                            ]),
+                        Group::make()
+                            ->schema([
+                                Repeater::make('schedule')
+                                    ->schema([
+                                        Select::make('day')
+                                            ->options([
+                                                'monday' => 'Monday',
+                                                'tuesday' => 'Tuesday',
+                                                'wednesday' => 'Wednesday',
+                                                'thursday' => 'Thursday',
+                                                'friday' => 'Friday',
+                                                'saturday' => 'Saturday',
+                                                'sunday' => 'Sunday',
+                                            ])
+                                            ->required()
+                                            ->visible(fn (callable $get) => $get('../../recurrence_type') === 'weekly'),
+                                        TimePicker::make('time')
+                                            ->format('HH:mm')
+                                            ->seconds(false)
+                                            ->timezone('Europe/Sofia')
+                                            ->required(),
+                                    ])
+                                    ->minItems(1)
+                                    ->maxItems(fn (callable $get) => $get('recurrence_type') === 'interval' ? 1 : PHP_INT_MAX)
+                                    ->label(fn (callable $get) => $get('recurrence_type') === 'weekly' ? 'Weekly Schedule' :
+                                        ($get('recurrence_type') === 'interval' ? 'First Occurrence' : 'Daily Schedule')
+                                    )
+                                    ->helperText(fn (callable $get) => $get('recurrence_type') === 'weekly' ? 'Specify times for each day of the week' :
+                                        ($get('recurrence_type') === 'interval' ? 'Specify the time for the first occurrence' : 'Specify times for each day')
+                                    ),
+
+                            ]),
+
+                    ]),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('recurrence_type'),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('activate')
+                        ->visible(function ($record) {
+                            return $record->is_active === false;
+                        })
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->action(function ($record) {
+                            $record->activate();
+                        })
+                        ->after(function () {
+                            Notification::make()->success()->title('Success!')
+                                ->body('Activated successfully.')
+                                ->duration(2000)
+                                ->send();
+                        }),
+                    Tables\Actions\Action::make('deactivate')
+                        ->visible(function ($record) {
+                            return $record->is_active === true;
+                        })
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->action(function ($record) {
+                            $record->deactivate();
+                        })
+                        ->after(function () {
+                            Notification::make()->success()->title('Success!')
+                                ->body('Deactivated successfully.')
+                                ->duration(2000)
+                                ->send();
+                        }),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListScheduledEvents::route('/'),
+            'create' => Pages\CreateScheduledEvent::route('/create'),
+            'edit' => Pages\EditScheduledEvent::route('/{record}/edit'),
+        ];
+    }
+}
