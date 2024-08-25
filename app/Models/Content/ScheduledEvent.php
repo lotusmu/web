@@ -2,6 +2,7 @@
 
 namespace App\Models\Content;
 
+use App\Enums\ScheduledEventType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -10,17 +11,32 @@ class ScheduledEvent extends Model
 {
     protected $fillable = [
         'name',
+        'type',
         'recurrence_type',
         'schedule',
         'interval_minutes',
         'is_active',
+        'sort_order',
     ];
 
     protected $casts = [
+        'type' => ScheduledEventType::class,
         'schedule' => 'array',
         'interval_minutes' => 'integer',
         'is_active' => 'boolean',
+        'sort_order' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (! $model->sort_order) {
+                $model->sort_order = static::max('sort_order') + 1;
+            }
+        });
+    }
 
     public function scopeActive(Builder $query): Builder
     {
@@ -30,14 +46,12 @@ class ScheduledEvent extends Model
     public function activate(): void
     {
         $this->is_active = true;
-
         $this->save();
     }
 
     public function deactivate(): void
     {
         $this->is_active = false;
-
         $this->save();
     }
 
@@ -63,38 +77,44 @@ class ScheduledEvent extends Model
 
     private function calculateNextOccurrence(array $scheduleItem, Carbon $startDateTime): ?Carbon
     {
-        switch ($this->recurrence_type) {
-            case 'daily':
-                return $this->getNextDailyOccurrence($startDateTime);
-            case 'weekly':
-                return $this->getNextWeeklyOccurrence($scheduleItem, $startDateTime);
-            case 'interval':
-                return $this->getNextIntervalOccurrence($startDateTime);
-            default:
-                return null;
-        }
+        return match ($this->recurrence_type) {
+            'daily' => $this->getNextDailyOccurrence($startDateTime),
+            'weekly' => $this->getNextWeeklyOccurrence($scheduleItem, $startDateTime),
+            'interval' => $this->getNextIntervalOccurrence($startDateTime),
+            default => null,
+        };
     }
 
     private function getNextDailyOccurrence(Carbon $startDateTime): Carbon
     {
-        return Carbon::now()
-            ->setTimeFrom($startDateTime)
-            ->addDay(Carbon::now()->gt($startDateTime));
+        $now = Carbon::now();
+        $occurrence = $now->copy()->setTimeFrom($startDateTime);
+
+        if ($occurrence->lte($now)) {
+            $occurrence->addDay();
+        }
+
+        return $occurrence;
     }
 
     private function getNextWeeklyOccurrence(array $scheduleItem, Carbon $startDateTime): Carbon
     {
-        return Carbon::now()
-            ->next($scheduleItem['day'])
-            ->setTimeFrom($startDateTime)
-            ->addWeek(Carbon::now()->gt($startDateTime));
+        $now = Carbon::now();
+        $occurrence = $now->copy()->next($scheduleItem['day'])->setTimeFrom($startDateTime);
+
+        if ($occurrence->lte($now)) {
+            $occurrence->addWeek();
+        }
+
+        return $occurrence;
     }
 
     private function getNextIntervalOccurrence(Carbon $startDateTime): Carbon
     {
-        $occurrence = Carbon::now()->startOfDay()->setTimeFrom($startDateTime);
+        $now = Carbon::now();
+        $occurrence = $now->copy()->startOfDay()->setTimeFrom($startDateTime);
 
-        while ($occurrence->lte(Carbon::now())) {
+        while ($occurrence->lte($now)) {
             $occurrence->addMinutes($this->interval_minutes);
         }
 

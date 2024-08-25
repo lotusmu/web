@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\ScheduledEventType;
 use App\Filament\Resources\ScheduledEventResource\Pages;
 use App\Models\Content\ScheduledEvent;
 use Filament\Forms\Components\Group;
@@ -34,6 +35,10 @@ class ScheduledEventResource extends Resource
                             ->schema([
                                 TextInput::make('name')
                                     ->label('Event Name')
+                                    ->required(),
+                                Select::make('type')
+                                    ->options(ScheduledEventType::class)
+                                    ->enum(ScheduledEventType::class)
                                     ->required(),
                                 Select::make('recurrence_type')
                                     ->default('daily')
@@ -71,7 +76,6 @@ class ScheduledEventResource extends Resource
                                             ->required()
                                             ->visible(fn (callable $get) => $get('../../recurrence_type') === 'weekly'),
                                         TimePicker::make('time')
-                                            ->format('HH:mm')
                                             ->seconds(false)
                                             ->timezone('Europe/Sofia')
                                             ->required(),
@@ -84,9 +88,7 @@ class ScheduledEventResource extends Resource
                                     ->helperText(fn (callable $get) => $get('recurrence_type') === 'weekly' ? 'Specify times for each day of the week' :
                                         ($get('recurrence_type') === 'interval' ? 'Specify the time for the first occurrence' : 'Specify times for each day')
                                     ),
-
                             ]),
-
                     ]),
             ]);
     }
@@ -96,10 +98,15 @@ class ScheduledEventResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('recurrence_type'),
+                Tables\Columns\TextColumn::make('type')
+                    ->badge(),
+                Tables\Columns\TextColumn::make('recurrence_type')
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
             ])
+            ->defaultSort('sort_order')
+            ->reorderable('sort_order')
             ->filters([
                 //
             ])
