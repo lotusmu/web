@@ -39,7 +39,15 @@ class GameServerResource extends Resource
                             ->required()
                             ->numeric(),
                         Toggle::make('is_active')
-                            ->required(),
+                            ->label('Server Status')
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->onIcon('heroicon-s-check')
+                            ->offIcon('heroicon-s-x-mark')
+                            ->default(true)
+                            ->required()
+                            ->inline(false)
+                            ->helperText('Toggle to activate or deactivate the server.'),
                     ]),
             ]);
     }

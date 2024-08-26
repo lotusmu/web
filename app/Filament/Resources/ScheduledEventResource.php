@@ -140,42 +140,38 @@ class ScheduledEventResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('activate')
-                        ->visible(function ($record) {
-                            return $record->is_active === false;
-                        })
-                        ->icon('heroicon-o-check-circle')
-                        ->color('success')
-                        ->requiresConfirmation()
-                        ->action(function ($record) {
-                            $record->activate();
-                        })
-                        ->after(function () {
-                            Notification::make()->success()->title('Success!')
-                                ->body('Activated successfully.')
-                                ->duration(2000)
-                                ->send();
-                        }),
-                    Tables\Actions\Action::make('deactivate')
-                        ->visible(function ($record) {
-                            return $record->is_active === true;
-                        })
-                        ->icon('heroicon-o-x-circle')
-                        ->color('danger')
-                        ->requiresConfirmation()
-                        ->action(function ($record) {
-                            $record->deactivate();
-                        })
-                        ->after(function () {
-                            Notification::make()->success()->title('Success!')
-                                ->body('Deactivated successfully.')
-                                ->duration(2000)
-                                ->send();
-                        }),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ]),
+                Tables\Actions\Action::make('activate')
+                    ->visible(function ($record) {
+                        return $record->is_active === false;
+                    })
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->action(function ($record) {
+                        $record->activate();
+                    })
+                    ->after(function () {
+                        Notification::make()->success()->title('Success!')
+                            ->body('Activated successfully.')
+                            ->duration(2000)
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('deactivate')
+                    ->visible(function ($record) {
+                        return $record->is_active === true;
+                    })
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->action(function ($record) {
+                        $record->deactivate();
+                    })
+                    ->after(function () {
+                        Notification::make()->success()->title('Success!')
+                            ->body('Deactivated successfully.')
+                            ->duration(2000)
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

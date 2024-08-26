@@ -6,6 +6,7 @@ use App\Enums\ArticleType;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Content\Article;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -32,29 +33,39 @@ class ArticleResource extends Resource
         return $form
             ->schema([
                 Section::make()
+                    ->columns(2)
                     ->schema([
-                        TextInput::make('title')
-                            ->required(),
-                        Select::make('type')
-                            ->options(ArticleType::class)
-                            ->enum(ArticleType::class)
-                            ->required(),
-                        Toggle::make('is_published')
-                            ->label('Publish')
-                            ->helperText('Publish article status')
-                            ->columnSpanFull()
-                            ->default(true),
-                        Textarea::make('excerpt')
-                            ->maxLength(100)
-                            ->required()
-                            ->helperText('A short summary of the article for preview'),
-                        RichEditor::make('content')
-                            ->required(),
-                        FileUpload::make('image')
-                            ->image()
-                            ->imageEditor()
-                            ->directory('article-images')
-                            ->visibility('public'),
+                        Group::make()
+                            ->schema([
+                                TextInput::make('title')
+                                    ->required(),
+                                Select::make('type')
+                                    ->options(ArticleType::class)
+                                    ->enum(ArticleType::class)
+                                    ->required(),
+                                FileUpload::make('image')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->directory('article-images')
+                                    ->visibility('public'),
+                                Toggle::make('is_published')
+                                    ->label('Publish')
+                                    ->helperText('Publish article status')
+                                    ->helperText('Toggle to publish or archive the article.')
+                                    ->columnSpanFull()
+                                    ->default(true)
+                                    ->inline(false)
+                                    ->required(),
+                            ]),
+                        Group::make()
+                            ->schema([
+                                Textarea::make('excerpt')
+                                    ->maxLength(100)
+                                    ->required()
+                                    ->helperText('A short summary of the article for preview'),
+                                RichEditor::make('content')
+                                    ->required(),
+                            ]),
                     ]),
             ]);
     }
