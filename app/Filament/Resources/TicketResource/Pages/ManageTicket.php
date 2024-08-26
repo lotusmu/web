@@ -52,8 +52,9 @@ class ManageTicket extends Page implements HasForms, HasInfolists
                     ->schema([
                         TextEntry::make('user.name')
                             ->label('Author')
-                            ->copyable()
-                            ->icon('heroicon-o-clipboard-document-list')
+                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->iconPosition(IconPosition::After)
+                            ->url(fn ($record) => route('filament.admin.resources.members.edit', ['record' => $record->user->name]))
                             ->iconPosition(IconPosition::After),
                         TextEntry::make('category.name')
                             ->label('Category'),

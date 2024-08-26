@@ -24,6 +24,7 @@
                 <x-filament::dropdown.list.item
                     wire:click="updateServer({{ $id }})"
                     :color="$selectedServerId == $id ? 'primary' : 'gray'"
+                    :icon="$selectedServerId == $id ? 'heroicon-c-check' : ''"
                 >
                     {{ $server['name'] }} - x{{ $server['experience_rate'] }}
                 </x-filament::dropdown.list.item>

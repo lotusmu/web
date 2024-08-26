@@ -32,6 +32,8 @@ class CharactersRelationManager extends RelationManager
                     ->numeric()
                     ->sortable(),
             ])
+            ->paginated(false)
+            ->defaultPaginationPageOption(10)
             ->filters([
                 //
             ])

@@ -12,6 +12,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,9 @@ class CharacterResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('AccountID')
                     ->label('Username')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->iconPosition(IconPosition::After)
+                    ->url(fn ($record) => route('filament.admin.resources.members.edit', ['record' => $record->AccountID]))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('Name')
                     ->label('Character')
@@ -93,10 +97,15 @@ class CharacterResource extends Resource
                 Section::make('Character Information')
                     ->description('General information about the character.')
                     ->aside()
-                    ->columns(5)
+                    ->columns(6)
                     ->schema([
                         CharacterClassEntry::make('Class')
                             ->label('Character Class'),
+                        TextEntry::make('AccountID')
+                            ->label('Username')
+                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->iconPosition(IconPosition::After)
+                            ->url(fn ($record) => route('filament.admin.resources.members.edit', ['record' => $record->AccountID])),
                         TextEntry::make('Name')
                             ->label('Character'),
                         TextEntry::make('Class')
