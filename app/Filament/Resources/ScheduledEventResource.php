@@ -41,23 +41,40 @@ class ScheduledEventResource extends Resource
                                     ->enum(ScheduledEventType::class)
                                     ->required(),
                                 Select::make('recurrence_type')
-                                    ->default('daily')
                                     ->options([
                                         'daily' => 'Daily',
                                         'weekly' => 'Weekly',
                                         'interval' => 'Interval',
                                     ])
+                                    ->default('daily')
+                                    ->helperText('Event occurs every day at the specified time(s).')
+                                    ->afterStateUpdated(function (Select $component, $state) {
+                                        $helperText = match ($state) {
+                                            'daily' => 'Event occurs every day at the specified time(s).',
+                                            'weekly' => 'Event occurs on specific days of the week at the specified time(s).',
+                                            'interval' => 'Event occurs at regular intervals (e.g., every 2 hours).',
+                                        };
+                                        $component->helperText($helperText);
+                                    })
                                     ->required()
                                     ->reactive(),
                                 TextInput::make('interval_minutes')
                                     ->label('Event Interval (minutes)')
                                     ->type('number')
+                                    ->helperText('Enter the number of minutes between each occurrence of the event.')
                                     ->visible(fn (callable $get) => $get('recurrence_type') === 'interval')
                                     ->required(fn (callable $get) => $get('recurrence_type') === 'interval')
                                     ->minValue(fn (callable $get) => $get('recurrence_type') === 'interval' ? 1 : null),
                                 Toggle::make('is_active')
+                                    ->label('Event Status')
+                                    ->onColor('success')
+                                    ->offColor('danger')
+                                    ->onIcon('heroicon-s-check')
+                                    ->offIcon('heroicon-s-x-mark')
                                     ->default(true)
-                                    ->required(),
+                                    ->required()
+                                    ->inline(false)
+                                    ->helperText('Toggle to activate or deactivate the event in the schedule.'),
                             ]),
                         Group::make()
                             ->schema([
@@ -74,20 +91,32 @@ class ScheduledEventResource extends Resource
                                                 'sunday' => 'Sunday',
                                             ])
                                             ->required()
-                                            ->visible(fn (callable $get) => $get('../../recurrence_type') === 'weekly'),
+                                            ->visible(function (callable $get) {
+                                                return $get('../../recurrence_type') === 'weekly';
+                                            }),
                                         TimePicker::make('time')
                                             ->seconds(false)
                                             ->timezone('Europe/Sofia')
                                             ->required(),
                                     ])
                                     ->minItems(1)
-                                    ->maxItems(fn (callable $get) => $get('recurrence_type') === 'interval' ? 1 : PHP_INT_MAX)
-                                    ->label(fn (callable $get) => $get('recurrence_type') === 'weekly' ? 'Weekly Schedule' :
-                                        ($get('recurrence_type') === 'interval' ? 'First Occurrence' : 'Daily Schedule')
-                                    )
-                                    ->helperText(fn (callable $get) => $get('recurrence_type') === 'weekly' ? 'Specify times for each day of the week' :
-                                        ($get('recurrence_type') === 'interval' ? 'Specify the time for the first occurrence' : 'Specify times for each day')
-                                    ),
+                                    ->maxItems(function (callable $get) {
+                                        return $get('recurrence_type') === 'interval' ? 1 : PHP_INT_MAX;
+                                    })
+                                    ->label(function (callable $get) {
+                                        return match ($get('recurrence_type')) {
+                                            'weekly' => 'Weekly Schedule',
+                                            'interval' => 'Interval Start Time',
+                                            default => 'Daily Schedule',
+                                        };
+                                    })
+                                    ->helperText(function (callable $get) {
+                                        return match ($get('recurrence_type')) {
+                                            'weekly' => 'Set the time for each day the event occurs',
+                                            'interval' => 'Set the start time for the recurring interval',
+                                            default => 'Set the time(s) the event occurs each day',
+                                        };
+                                    }),
                             ]),
                     ]),
             ]);

@@ -23,7 +23,6 @@
                     itemDate.setDate(itemDate.getDate() + dayDiff);
                 }
 
-                // If the calculated time is in the past, move to next occurrence
                 while (itemDate <= now) {
                     itemDate.setDate(itemDate.getDate() + (recurrenceType === 'weekly' ? 7 : 1));
                 }
