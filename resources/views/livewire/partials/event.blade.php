@@ -8,22 +8,36 @@
         color: '#00AAAA',
         fontWeight: 'bold'
     },
-    calculateNextOccurrence(startTime, recurrenceType, intervalMinutes) {
-        const now = new Date();
-        let start = new Date(startTime);
+       calculateNextOccurrence(startTime, recurrenceType, intervalMinutes) {
+    const now = new Date();
+    let start = new Date(startTime);
 
-        while (start <= now) {
-            if (recurrenceType === 'interval') {
-                start = new Date(start.getTime() + intervalMinutes * 60000);
-            } else if (recurrenceType === 'daily') {
-                start.setDate(start.getDate() + 1);
-            } else if (recurrenceType === 'weekly') {
-                start.setDate(start.getDate() + 7);
-            }
+    if (recurrenceType === 'weekly') {
+        const dayDiff = (start.getDay() - now.getDay() + 7) % 7;
+
+        start.setDate(now.getDate() + dayDiff);
+        start.setFullYear(now.getFullYear());
+        start.setMonth(now.getMonth());
+
+        if (start <= now) {
+            start.setDate(start.getDate() + 7);
         }
+    } else if (recurrenceType === 'daily') {
+        start.setFullYear(now.getFullYear());
+        start.setMonth(now.getMonth());
+        start.setDate(now.getDate());
 
-        return start;
-    },
+        if (start <= now) {
+            start.setDate(start.getDate() + 1);
+        }
+    } else if (recurrenceType === 'interval') {
+        const minutesSinceStart = (now - start) / 60000;
+        const intervalsPassed = Math.floor(minutesSinceStart / intervalMinutes);
+        start = new Date(start.getTime() + (intervalsPassed + 1) * intervalMinutes * 60000);
+    }
+
+    return start;
+},
     calculateCountdown() {
         const now = new Date();
         let start = this.calculateNextOccurrence('{{ $event['start_time']->toIso8601String() }}', '{{ $event['recurrence_type'] }}', {{ $event['interval_minutes'] ?? 0 }});

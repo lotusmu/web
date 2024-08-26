@@ -27,7 +27,7 @@ class ScheduledEvent extends Model
         'sort_order' => 'integer',
     ];
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -58,7 +58,6 @@ class ScheduledEvent extends Model
     public function getNextOccurrence(): ?Carbon
     {
         $nextOccurrence = null;
-
         foreach ($this->schedule as $scheduleItem) {
             if (! isset($scheduleItem['time']) || ! is_string($scheduleItem['time'])) {
                 continue;
@@ -109,15 +108,13 @@ class ScheduledEvent extends Model
         return $occurrence;
     }
 
-    private function getNextIntervalOccurrence(Carbon $startDateTime): Carbon
+    private function getNextIntervalOccurrence(Carbon $initialStartTime): Carbon
     {
         $now = Carbon::now();
-        $occurrence = $now->copy()->startOfDay()->setTimeFrom($startDateTime);
+        $minutesSinceStart = $now->diffInMinutes($initialStartTime);
+        $intervalsPassed = floor($minutesSinceStart / $this->interval_minutes);
+        $nextOccurrence = $initialStartTime->copy()->addMinutes(($intervalsPassed + 1) * $this->interval_minutes);
 
-        while ($occurrence->lte($now)) {
-            $occurrence->addMinutes($this->interval_minutes);
-        }
-
-        return $occurrence;
+        return $nextOccurrence;
     }
 }
