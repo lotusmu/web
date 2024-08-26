@@ -3,44 +3,54 @@
     nextOccurrence: '',
     totalSeconds: 0,
     isHighlighted: false,
-    highlightThreshold: 55,
+    highlightThreshold: 115,
     highlightStyle: {
         color: '#00AAAA',
         fontWeight: 'bold'
     },
-       calculateNextOccurrence(startTime, recurrenceType, intervalMinutes) {
-    const now = new Date();
-    let start = new Date(startTime);
+    calculateNextOccurrence(startTime, recurrenceType, schedule, intervalMinutes) {
+        const now = new Date();
+        let nextOccurrence = null;
 
-    if (recurrenceType === 'weekly') {
-        const dayDiff = (start.getDay() - now.getDay() + 7) % 7;
+        if (recurrenceType === 'weekly' || recurrenceType === 'daily') {
+            schedule.forEach(item => {
+                let [hours, minutes] = item.time.split(':').map(Number);
+                let itemDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
 
-        start.setDate(now.getDate() + dayDiff);
-        start.setFullYear(now.getFullYear());
-        start.setMonth(now.getMonth());
+                if (recurrenceType === 'weekly') {
+                    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                    const dayDiff = (days.indexOf(item.day) - itemDate.getDay() + 7) % 7;
+                    itemDate.setDate(itemDate.getDate() + dayDiff);
+                }
 
-        if (start <= now) {
-            start.setDate(start.getDate() + 7);
+                // If the calculated time is in the past, move to next occurrence
+                while (itemDate <= now) {
+                    itemDate.setDate(itemDate.getDate() + (recurrenceType === 'weekly' ? 7 : 1));
+                }
+
+                if (!nextOccurrence || itemDate < nextOccurrence) {
+                    nextOccurrence = itemDate;
+                }
+            });
+        } else if (recurrenceType === 'interval') {
+            let start = new Date(startTime);
+            const minutesSinceStart = (now - start) / 60000;
+            const intervalsPassed = Math.floor(minutesSinceStart / intervalMinutes);
+            nextOccurrence = new Date(start.getTime() + (intervalsPassed + 1) * intervalMinutes * 60000);
         }
-    } else if (recurrenceType === 'daily') {
-        start.setFullYear(now.getFullYear());
-        start.setMonth(now.getMonth());
-        start.setDate(now.getDate());
 
-        if (start <= now) {
-            start.setDate(start.getDate() + 1);
-        }
-    } else if (recurrenceType === 'interval') {
-        const minutesSinceStart = (now - start) / 60000;
-        const intervalsPassed = Math.floor(minutesSinceStart / intervalMinutes);
-        start = new Date(start.getTime() + (intervalsPassed + 1) * intervalMinutes * 60000);
-    }
+        return nextOccurrence || new Date(startTime);
+    },
 
-    return start;
-},
     calculateCountdown() {
         const now = new Date();
-        let start = this.calculateNextOccurrence('{{ $event['start_time']->toIso8601String() }}', '{{ $event['recurrence_type'] }}', {{ $event['interval_minutes'] ?? 0 }});
+        const schedule = JSON.parse('{{ json_encode($event['schedule']) }}');
+        let start = this.calculateNextOccurrence(
+            '{{ $event['start_time']->toIso8601String() }}',
+            '{{ $event['recurrence_type'] }}',
+            schedule,
+            {{ $event['interval_minutes'] ?? 0 }}
+        );
 
         this.nextOccurrence = start.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 

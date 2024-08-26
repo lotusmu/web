@@ -33,6 +33,7 @@ class ScheduledEventService
             'recurrence_type' => $event->recurrence_type,
             'interval_minutes' => $event->interval_minutes,
             'sort_order' => $event->sort_order,
+            'schedule' => $event->schedule,
         ];
     }
 }
