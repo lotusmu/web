@@ -9,7 +9,7 @@ class SetDatabaseConnection
 {
     public function handle($request, Closure $next)
     {
-        $connectionName = session('selected_server_connection');
+        $connectionName = session('game_db_connection');
 
         if ($connectionName) {
             DatabaseConnectionService::setConnection($connectionName);

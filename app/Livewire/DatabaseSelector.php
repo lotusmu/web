@@ -3,9 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\Utility\GameServer;
+use App\Services\DatabaseConnectionService;
+use Exception;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -15,7 +18,7 @@ class DatabaseSelector extends Component
 
     public $serverOptions;
 
-    public function mount()
+    public function mount(): void
     {
         $this->serverOptions = $this->getServerOptions();
         $this->selectedServerId = session('selected_server_id', $this->serverOptions->keys()->first());
@@ -26,21 +29,28 @@ class DatabaseSelector extends Component
         $this->selectedServerId = $newServerId;
         $server = GameServer::findOrFail($newServerId);
 
-        session(['selected_server_id' => $newServerId]);
-        session(['selected_server_connection' => $server->connection_name]);
+        try {
+            DatabaseConnectionService::setConnection($server->connection_name);
 
-        $this->dispatch('database-changed', $server->connection_name);
+            session(['selected_server_id' => $newServerId]);
 
-        Notification::make()
-            ->title('Server Changed')
-            ->body("Switched to {$server->name} - x{$server->experience_rate}")
-            ->success()
-            ->send();
+            Notification::make()
+                ->title('Success!')
+                ->body("Switched to {$server->name} - x{$server->experience_rate}")
+                ->success()
+                ->send();
 
-        $this->redirect($referer ?? request()->header('Referer'));
+            $this->redirect($referer ?? request()->header('Referer'));
+        } catch (Exception $e) {
+            Notification::make()
+                ->title('Error')
+                ->body('Failed to switch server: '.$e->getMessage())
+                ->danger()
+                ->send();
+        }
     }
 
-    private function getServerOptions()
+    private function getServerOptions(): Collection
     {
         return GameServer::where('is_active', true)
             ->get(['id', 'name', 'experience_rate'])

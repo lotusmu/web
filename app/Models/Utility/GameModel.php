@@ -7,16 +7,32 @@ use Illuminate\Support\Facades\Config;
 
 abstract class GameModel extends Model
 {
-    protected $connection = 'gamedb_main';
+    protected static bool $connectionSet = false;
 
-    public function getConnection()
+    public function __construct(array $attributes = [])
     {
-        $selectedConnection = session('selected_server_connection');
+        parent::__construct($attributes);
 
-        if ($selectedConnection && Config::get("database.connections.{$selectedConnection}")) {
-            return app('db')->connection($selectedConnection);
+        $this->setGameConnection();
+    }
+
+    public function setGameConnection(): void
+    {
+        $gameConnection = session('game_db_connection', 'gamedb_main');
+
+        if (Config::has("database.connections.{$gameConnection}")) {
+            $this->setConnection($gameConnection);
+        } else {
+            $this->setConnection('gamedb_main');
         }
+    }
 
-        return app('db')->connection($this->connection);
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::retrieved(function ($model) {
+            $model->setGameConnection();
+        });
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Utility\GameServer;
-use Illuminate\Support\Facades\Config;
 
 class DatabaseConnectionService
 {
@@ -11,9 +10,7 @@ class DatabaseConnectionService
     {
         $server = GameServer::where('connection_name', $connectionName)->firstOrFail();
 
-        Config::set('database.connections.gamedb_main', $connectionName);
-
-        app('db')->purge($connectionName);
+        session(['game_db_connection' => $connectionName]);
 
         return $server;
     }

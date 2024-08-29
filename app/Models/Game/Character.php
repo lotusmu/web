@@ -88,9 +88,7 @@ class Character extends GameModel
                     TextInput::make('Name')
                         ->label('Character Name')
                         ->columnSpanFull()
-                        ->required()
-                        ->minLength(4)
-                        ->maxLength(10),
+                        ->disabled(),
                     Select::make('Class')
                         ->label('Class')
                         ->columnSpanFull()

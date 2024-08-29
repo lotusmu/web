@@ -71,8 +71,7 @@ class MemberResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('credit.value')
                     ->label('Credits')
-                    ->numeric()
-                    ->sortable(),
+                    ->numeric(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('AccountLevel')
