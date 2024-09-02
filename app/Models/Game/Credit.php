@@ -3,14 +3,17 @@
 namespace App\Models\Game;
 
 use App\Models\Concerns\CreditAccessors;
+use App\Models\Concerns\GameConnection;
 use App\Models\User\Member;
-use App\Models\Utility\GameModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Credit extends GameModel
+class Credit extends Model
 {
-    use CreditAccessors, HasFactory;
+    use CreditAccessors;
+    use GameConnection;
+    use HasFactory;
 
     protected $table = 'CashShopData';
 

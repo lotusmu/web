@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Utility\GameServer;
-use App\Services\DatabaseConnectionService;
 use Exception;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\Factory;
@@ -30,9 +29,10 @@ class DatabaseSelector extends Component
         $server = GameServer::findOrFail($newServerId);
 
         try {
-            DatabaseConnectionService::setConnection($server->connection_name);
-
-            session(['selected_server_id' => $newServerId]);
+            session([
+                'selected_server_id' => $newServerId,
+                'game_db_connection' => $server->connection_name,
+            ]);
 
             Notification::make()
                 ->title('Success!')

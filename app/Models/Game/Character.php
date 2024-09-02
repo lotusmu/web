@@ -5,17 +5,19 @@ namespace App\Models\Game;
 use App\Enums\CharacterClass;
 use App\Enums\Map;
 use App\Enums\PkLevel;
+use App\Models\Concerns\GameConnection;
 use App\Models\User\Member;
-use App\Models\Utility\GameModel;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Character extends GameModel
+class Character extends Model
 {
+    use GameConnection;
     use HasFactory;
 
     protected $table = 'Character';
@@ -76,6 +78,11 @@ class Character extends GameModel
         'Kills' => 'integer',
         'Deads' => 'integer',
     ];
+
+    public static function getFillableFields(): array
+    {
+        return (new static)->getFillable();
+    }
 
     public static function getForm(): array
     {
@@ -196,6 +203,6 @@ class Character extends GameModel
 
     public function member(): BelongsTo
     {
-        return $this->belongsTo(Member::class, 'memb___id', 'AccountID');
+        return $this->belongsTo(Member::class, 'AccountID', 'memb___id');
     }
 }

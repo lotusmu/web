@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class CharacterResource extends Resource
@@ -166,5 +167,10 @@ class CharacterResource extends Resource
             'edit' => Pages\EditCharacter::route('/{record}/edit'),
             'view' => Pages\ViewCharacter::route('/{record}'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->select(Character::getFillableFields());
     }
 }
