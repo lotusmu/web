@@ -45,7 +45,7 @@ class MemberRelationManager extends RelationManager
                                 ->minValue(0)
                                 ->required(),
                             Group::make()
-                                ->relationship('credit')
+                                ->relationship('wallet')
                                 ->schema([
                                     TextInput::make('WCoinC')
                                         ->label('Credits')
@@ -56,14 +56,19 @@ class MemberRelationManager extends RelationManager
                                         ->minValue(0)
                                         ->required(),
                                 ]),
-                            TextInput::make('zen')
+                            Group::make()
+                                ->relationship('wallet')
                                 ->columnSpanFull()
-                                ->numeric()
-                                ->mask(RawJs::make('$money($input)'))
-                                ->stripCharacters(',')
-                                ->default(0)
-                                ->minValue(0)
-                                ->required(),
+                                ->schema([
+                                    TextInput::make('zen')
+                                        ->numeric()
+                                        ->mask(RawJs::make('$money($input)'))
+                                        ->stripCharacters(',')
+                                        ->default(0)
+                                        ->minValue(0)
+                                        ->required(),
+                                ]),
+
                         ]),
                 ]
             );

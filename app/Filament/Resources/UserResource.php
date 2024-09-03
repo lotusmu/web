@@ -15,7 +15,6 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
@@ -30,16 +29,6 @@ class UserResource extends Resource
     public static function canCreate(): bool
     {
         return false;
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['name', 'email'];
-    }
-
-    public static function getGlobalSearchResultTitle(Model $record): string
-    {
-        return "{$record->name} ({$record->email})";
     }
 
     public static function form(Form $form): Form

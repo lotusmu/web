@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Game\Credit;
+use App\Models\Game\Wallet;
 use App\Models\User\Member;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -181,12 +181,12 @@ describe('Member Model', function () {
             ->and($relation->getOwnerKeyName())->toBe('memb___id');
     });
 
-    it('has credit relationship', function () {
+    it('has wallet relationship', function () {
         $member = new Member;
-        $relation = $member->credit();
+        $relation = $member->wallet();
 
         expect($relation)->toBeInstanceOf(HasOne::class)
-            ->and($relation->getRelated())->toBeInstanceOf(Credit::class)
+            ->and($relation->getRelated())->toBeInstanceOf(Wallet::class)
             ->and($relation->getForeignKeyName())->toBe('AccountID');
     });
 });

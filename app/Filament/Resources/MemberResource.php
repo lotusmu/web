@@ -69,7 +69,7 @@ class MemberResource extends Resource
                 Tables\Columns\TextColumn::make('tokens')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('credit.value')
+                Tables\Columns\TextColumn::make('wallet.credits')
                     ->label('Credits')
                     ->numeric(),
             ])

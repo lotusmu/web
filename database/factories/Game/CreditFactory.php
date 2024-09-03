@@ -2,13 +2,13 @@
 
 namespace Database\Factories\Game;
 
-use App\Models\Game\Credit;
+use App\Models\Game\Wallet;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CreditFactory extends Factory
 {
-    protected $model = Credit::class;
+    protected $model = Wallet::class;
 
     public function definition(): array
     {
@@ -17,6 +17,7 @@ class CreditFactory extends Factory
         return [
             'AccountID' => $user->name,
             'WCoinC' => $this->faker->numberBetween($min = 0, $max = 5000),
+            'zen' => $this->faker->numberBetween($min = 0, $max = 50000000),
         ];
     }
 }

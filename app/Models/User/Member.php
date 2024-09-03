@@ -5,7 +5,7 @@ namespace App\Models\User;
 use App\Enums\AccountLevel;
 use App\Models\Concerns\MemberAccessors;
 use App\Models\Game\Character;
-use App\Models\Game\Credit;
+use App\Models\Game\Wallet;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
@@ -47,13 +47,11 @@ class Member extends Model
         'AccountLevel',
         'AccountExpireDate',
         'tokens',
-        'zen',
     ];
 
     protected $casts = [
         'AccountLevel' => AccountLevel::class,
         'tokens' => 'integer',
-        'zen' => 'integer',
     ];
 
     public static function getForm(): array
@@ -101,7 +99,7 @@ class Member extends Model
                         ->minValue(0)
                         ->required(),
                     Group::make()
-                        ->relationship('credit')
+                        ->relationship('wallet')
                         ->schema([
                             TextInput::make('WCoinC')
                                 ->label('Credits')
@@ -112,14 +110,18 @@ class Member extends Model
                                 ->minValue(0)
                                 ->required(),
                         ]),
-                    TextInput::make('zen')
+                    Group::make()
+                        ->relationship('wallet')
                         ->columnSpanFull()
-                        ->numeric()
-                        ->mask(RawJs::make('$money($input)'))
-                        ->stripCharacters(',')
-                        ->default(0)
-                        ->minValue(0)
-                        ->required(),
+                        ->schema([
+                            TextInput::make('zen')
+                                ->numeric()
+                                ->mask(RawJs::make('$money($input)'))
+                                ->stripCharacters(',')
+                                ->default(0)
+                                ->minValue(0)
+                                ->required(),
+                        ]),
                 ]),
         ];
     }
@@ -129,9 +131,9 @@ class Member extends Model
         return $this->belongsTo(User::class, 'name', 'memb___id');
     }
 
-    public function credit(): HasOne
+    public function wallet(): HasOne
     {
-        return $this->hasOne(Credit::class, 'AccountID', 'memb___id');
+        return $this->hasOne(Wallet::class, 'AccountID', 'memb___id');
     }
 
     public function characters(): HasMany
