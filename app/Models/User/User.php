@@ -150,8 +150,8 @@ class User extends Authenticatable implements FilamentUser, HasMember
             ->useLogName('auth')
             ->setDescriptionForEvent(function (string $eventName) {
                 return match ($eventName) {
-                    'created' => "New user registration: {$this->name} (ID: {$this->id})",
-                    'updated' => "Password updated for user: {$this->name} (ID: {$this->id})",
+                    'created' => "New user registration: {$this->name}",
+                    'updated' => "Password updated for user: {$this->name}",
                     default => null,
                 };
             });
