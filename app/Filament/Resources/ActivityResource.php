@@ -13,7 +13,6 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 
 class ActivityResource extends Resource
@@ -33,11 +32,11 @@ class ActivityResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('causer.name')
                     ->label('Performed By')
-                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->state(fn ($record) => self::getCauserInfo($record)['name'])
+                    ->color(fn ($record) => self::getCauserInfo($record)['color'])
+                    ->icon(fn ($record) => self::getCauserInfo($record)['icon'])
                     ->iconPosition(IconPosition::After)
-                    ->url(fn (Model $record): ?string => $record->causer
-                        ? route('filament.admin.resources.members.edit', ['record' => $record->causer->name])
-                        : null)
+                    ->url(fn ($record) => self::getCauserInfo($record)['url'])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('properties.ip_address')
                     ->label('IP Address')
@@ -102,11 +101,10 @@ class ActivityResource extends Resource
                     ->schema([
                         TextEntry::make('causer.name')
                             ->label('Performed By')
-                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->state(fn ($record) => self::getCauserInfo($record)['name'])
+                            ->icon(fn ($record) => self::getCauserInfo($record)['icon'])
                             ->iconPosition(IconPosition::After)
-                            ->url(fn ($record) => $record->causer ?
-                                route('filament.admin.resources.members.edit', ['record' => $record->causer->name])
-                                : null),
+                            ->url(fn ($record) => self::getCauserInfo($record)['url']),
                         TextEntry::make('created_at')
                             ->label('Timestamp')
                             ->dateTime(),
@@ -154,6 +152,25 @@ class ActivityResource extends Resource
         return [
             'index' => Pages\ListActivities::route('/'),
             'view' => Pages\ViewActivity::route('/{record}'),
+        ];
+    }
+
+    protected static function getCauserInfo($record): array
+    {
+        if ($record->causer) {
+            return [
+                'name' => $record->causer->name,
+                'color' => null,
+                'icon' => 'heroicon-o-arrow-top-right-on-square',
+                'url' => route('filament.admin.resources.members.edit', ['record' => $record->causer->name]),
+            ];
+        }
+
+        return [
+            'name' => 'System',
+            'color' => 'primary',
+            'icon' => null,
+            'url' => null,
         ];
     }
 }
