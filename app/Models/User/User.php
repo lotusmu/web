@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 use Spatie\Activitylog\LogOptions;
@@ -150,11 +149,9 @@ class User extends Authenticatable implements FilamentUser, HasMember
             ->dontSubmitEmptyLogs()
             ->useLogName('auth')
             ->setDescriptionForEvent(function (string $eventName) {
-                $performer = Auth::user() ? Auth::user()->name : 'System';
-
                 return match ($eventName) {
-                    'created' => $this->name.' registered successfully',
-                    'updated' => 'Password updated by '.$performer,
+                    'created' => "New user registration: {$this->name} (ID: {$this->id})",
+                    'updated' => "Password updated for user: {$this->name} (ID: {$this->id})",
                     default => null,
                 };
             });
