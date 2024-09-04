@@ -28,20 +28,18 @@ class MemberService
     public function updateMember(User $user): void
     {
         $member = $user->member();
-        if ($member) {
-            $updates = [];
+        $updates = [];
 
-            if ($user->isDirty('email')) {
-                $updates['mail_addr'] = $user->email;
-            }
+        if ($user->isDirty('email')) {
+            $updates['mail_addr'] = $user->email;
+        }
 
-            if ($user->getRawPassword()) {
-                $updates['memb__pwd'] = $user->getRawPassword();
-            }
+        if ($user->getRawPassword()) {
+            $updates['memb__pwd'] = $user->getRawPassword();
+        }
 
-            if (! empty($updates)) {
-                $member->update($updates);
-            }
+        if (! empty($updates)) {
+            $member->update($updates);
         }
     }
 }

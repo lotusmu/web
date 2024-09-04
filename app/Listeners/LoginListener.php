@@ -2,21 +2,23 @@
 
 namespace App\Listeners;
 
-use App\Services\LoginActivityService;
+use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Auth\Events\Login;
 
 class LoginListener
 {
-    protected LoginActivityService $loginActivityService;
-
-    public function __construct(LoginActivityService $loginActivityService)
-    {
-        $this->loginActivityService = $loginActivityService;
-
-    }
-
     public function handle(Login $event): void
     {
-        $this->loginActivityService->record(request(), $event->user);
+        $this->recordLoginActivity($event->user);
+    }
+
+    public function recordLoginActivity($user): void
+    {
+        activity('auth')
+            ->performedOn($user)
+            ->withProperties([
+                ...IdentityProperties::capture(),
+            ])
+            ->log(':subject.name logged in successfully');
     }
 }
