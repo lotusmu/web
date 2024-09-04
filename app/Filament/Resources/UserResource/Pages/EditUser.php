@@ -16,4 +16,12 @@ class EditUser extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function mutateFormDataBeforeSave(array $data): array
+    {
+        // Remove the change_password field from the data array
+        unset($data['change_password']);
+
+        return $data;
+    }
 }

@@ -22,7 +22,6 @@ class MemberService
             'AccountLevel' => 0,
             'AccountExpireDate' => now(),
             'tokens' => 0,
-            'zen' => 0,
         ]);
     }
 

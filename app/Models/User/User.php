@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 use Spatie\Activitylog\LogOptions;
@@ -50,22 +51,12 @@ class User extends Authenticatable implements FilamentUser, HasMember
     {
         parent::boot();
 
-        static::creating(function (User $user) {
-            if (! $user->name) {
-                throw new InvalidArgumentException('Username is required when creating a new user.');
-            }
-        });
-
         static::created(function (User $user) {
             app(MemberService::class)->createMember($user);
         });
 
         static::updated(function (User $user) {
             app(MemberService::class)->updateMember($user);
-        });
-
-        static::deleted(function (User $user) {
-            $user->member()->delete();
         });
     }
 
@@ -104,7 +95,6 @@ class User extends Authenticatable implements FilamentUser, HasMember
                                 $set('password_confirmation', null);
                             }
                         }),
-
                     TextInput::make('password')
                         ->password()
                         ->required(fn (Get $get): bool => (bool) $get('change_password'))
@@ -156,9 +146,18 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email'])
-            ->logOnlyDirty()
-            ->dontSubmitEmptyLogs();
+            ->logOnly(['password'])
+            ->dontSubmitEmptyLogs()
+            ->useLogName('auth')
+            ->setDescriptionForEvent(function (string $eventName) {
+                $performer = Auth::user() ? Auth::user()->name : 'System';
+
+                return match ($eventName) {
+                    'created' => $this->name.' registered successfully',
+                    'updated' => 'Password updated by '.$performer,
+                    default => null,
+                };
+            });
     }
 
     public function canAccessPanel(Panel $panel): bool

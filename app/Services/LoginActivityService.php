@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Http\Request;
 
 class LoginActivityService
@@ -11,9 +12,8 @@ class LoginActivityService
         activity('auth')
             ->performedOn($user)
             ->withProperties([
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->userAgent(),
+                ...IdentityProperties::capture(),
             ])
-            ->log('User logged in');
+            ->log(':subject.name logged in successfully');
     }
 }

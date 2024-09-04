@@ -8,10 +8,12 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 
 class ActivityResource extends Resource
@@ -26,11 +28,22 @@ class ActivityResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('subject.name')
+                    ->label('Subject')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('causer.name')
                     ->label('Performed By')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->iconPosition(IconPosition::After)
+                    ->url(fn (Model $record): ?string => $record->causer
+                        ? route('filament.admin.resources.members.edit', ['record' => $record->causer->name])
+                        : null)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('properties.ip_address')
                     ->label('IP Address')
+                    ->copyable()
+                    ->icon('heroicon-o-clipboard-document-list')
+                    ->iconPosition(IconPosition::After)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
@@ -88,21 +101,28 @@ class ActivityResource extends Resource
                     ->columns(2)
                     ->schema([
                         TextEntry::make('causer.name')
-                            ->label('Performed By'),
+                            ->label('Performed By')
+                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->iconPosition(IconPosition::After)
+                            ->url(fn ($record) => $record->causer ?
+                                route('filament.admin.resources.members.edit', ['record' => $record->causer->name])
+                                : null),
                         TextEntry::make('created_at')
                             ->label('Timestamp')
                             ->dateTime(),
                         TextEntry::make('log_name')
                             ->label('Category')
                             ->formatStateUsing(fn ($state) => ucwords($state)),
-                        TextEntry::make('description')
-                            ->label('Activity Type'),
+                        TextEntry::make('description'),
                     ]),
 
-                Section::make('Additional Information')
+                Section::make('Identity Information')
                     ->schema([
                         TextEntry::make('properties.ip_address')
-                            ->label('IP Address'),
+                            ->label('IP Address')
+                            ->copyable()
+                            ->icon('heroicon-o-clipboard-document-list')
+                            ->iconPosition(IconPosition::After),
                         TextEntry::make('properties.user_agent')
                             ->label('User Agent')
                             ->columnSpan(2),
