@@ -2,15 +2,9 @@
 
 namespace App\Models\User;
 
+use App\Actions\SyncMember;
 use App\Interfaces\HasMember;
 use App\Models\Ticket\Ticket;
-use App\Services\MemberService;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,65 +44,13 @@ class User extends Authenticatable implements FilamentUser, HasMember
     {
         parent::boot();
 
-        static::created(function (User $user) {
-            app(MemberService::class)->createMember($user);
-        });
-
-        static::updated(function (User $user) {
-            app(MemberService::class)->updateMember($user);
-        });
+        static::created(static::syncMember(...));
+        static::updated(static::syncMember(...));
     }
 
-    public static function getForm(): array
+    protected static function syncMember(User $user): void
     {
-        return [
-            Section::make('User Login Details')
-                ->description('View and update user account information, including email and password.')
-                ->aside()
-                ->columns(2)
-                ->schema([
-                    Placeholder::make('name')
-                        ->label('Username')
-                        ->content(fn ($record) => $record->name),
-                    Placeholder::make('email_verified_at')
-                        ->label('Email Verified At')
-                        ->content(function ($record) {
-                            if ($record->email_verified_at) {
-                                return Carbon::parse($record->email_verified_at)->format('M d, Y H:i:s');
-                            }
-
-                            return 'Not verified';
-                        }),
-                    TextInput::make('email')
-                        ->columnSpanFull()
-                        ->email()
-                        ->required()
-                        ->maxLength(255),
-                    Checkbox::make('change_password')
-                        ->label('Change password')
-                        ->columnSpanFull()
-                        ->live()
-                        ->afterStateUpdated(function (Set $set, $state) {
-                            if (! $state) {
-                                $set('password', null);
-                                $set('password_confirmation', null);
-                            }
-                        }),
-                    TextInput::make('password')
-                        ->password()
-                        ->required(fn (Get $get): bool => (bool) $get('change_password'))
-                        ->maxLength(255)
-                        ->visible(fn (Get $get): bool => (bool) $get('change_password'))
-                        ->confirmed(),
-
-                    TextInput::make('password_confirmation')
-                        ->password()
-                        ->required(fn (Get $get): bool => (bool) $get('change_password'))
-                        ->maxLength(255)
-                        ->visible(fn (Get $get): bool => (bool) $get('change_password'))
-                        ->dehydrated(false),
-                ]),
-        ];
+        app(SyncMember::class)->handle($user);
     }
 
     public function setPasswordAttribute(string $value): void
@@ -120,13 +62,6 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function getRawPassword(): ?string
     {
         return $this->rawPassword;
-    }
-
-    public function verify(): void
-    {
-        $this->email_verified_at = Carbon::now();
-
-        $this->save();
     }
 
     public function save(array $options = []): bool
@@ -145,13 +80,13 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['password'])
+            ->logOnly(['password', 'email'])
             ->dontSubmitEmptyLogs()
             ->useLogName('auth')
             ->setDescriptionForEvent(function (string $eventName) {
                 return match ($eventName) {
                     'created' => "New user registration: {$this->name}",
-                    'updated' => "Password updated for user: {$this->name}",
+                    'updated' => "{$this->name} updated their account information",
                     default => null,
                 };
             });
@@ -160,6 +95,13 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function canAccessPanel(Panel $panel): bool
     {
         return true; //$this->hasRole('admin');
+    }
+
+    public function verify(): void
+    {
+        $this->email_verified_at = Carbon::now();
+
+        $this->save();
     }
 
     public function member(): HasOne

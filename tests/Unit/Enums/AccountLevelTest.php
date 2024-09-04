@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\AccountLevel;
+use App\Enums\Game\AccountLevel;
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;

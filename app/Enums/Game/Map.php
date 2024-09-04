@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Game;
 
 use Filament\Support\Contracts\HasLabel;
 
@@ -228,5 +228,4 @@ enum Map: int implements HasLabel
             self::BurningKethotum => 'Burning Kethotum',
         };
     }
-
 }

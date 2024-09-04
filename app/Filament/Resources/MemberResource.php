@@ -2,12 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\AccountLevel;
+use App\Enums\Game\AccountLevel;
 use App\Filament\Resources\MemberResource\Pages;
 use App\Filament\Resources\MemberResource\RelationManagers\CharactersRelationManager;
 use App\Models\User\Member;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -43,7 +50,74 @@ class MemberResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(Member::getForm());
+            ->schema([
+                Section::make('User Details')
+                    ->description('User Details can be changed from User Logins.')
+                    ->aside()
+                    ->columns(3)
+                    ->schema([
+                        Placeholder::make('memb___id')
+                            ->label('Username')
+                            ->content(fn ($record) => $record->memb___id),
+                        Placeholder::make('mail_addr')
+                            ->label('Email')
+                            ->content(fn ($record) => $record->mail_addr),
+                        Placeholder::make('memb__pwd')
+                            ->label('Password')
+                            ->content(fn ($record) => $record->memb__pwd),
+                    ]),
+                Section::make('Account Level')
+                    ->description('Change the account level and its expiration date.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
+                        Select::make('AccountLevel')
+                            ->label('VIP Package')
+                            ->options(AccountLevel::class)
+                            ->enum(AccountLevel::class)
+                            ->required(),
+                        DateTimePicker::make('AccountExpireDate')
+                            ->label('Expiration Date')
+                            ->required(),
+                    ]),
+                Section::make('Resources')
+                    ->description('Adjust member\'s balances.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('tokens')
+                            ->numeric()
+                            ->mask(RawJs::make('$money($input)'))
+                            ->stripCharacters(',')
+                            ->default(0)
+                            ->minValue(0)
+                            ->required(),
+                        Group::make()
+                            ->relationship('wallet')
+                            ->schema([
+                                TextInput::make('WCoinC')
+                                    ->label('Credits')
+                                    ->numeric()
+                                    ->mask(RawJs::make('$money($input)'))
+                                    ->stripCharacters(',')
+                                    ->default(0)
+                                    ->minValue(0)
+                                    ->required(),
+                            ]),
+                        Group::make()
+                            ->relationship('wallet')
+                            ->columnSpanFull()
+                            ->schema([
+                                TextInput::make('zen')
+                                    ->numeric()
+                                    ->mask(RawJs::make('$money($input)'))
+                                    ->stripCharacters(',')
+                                    ->default(0)
+                                    ->minValue(0)
+                                    ->required(),
+                            ]),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -103,7 +177,6 @@ class MemberResource extends Resource
     {
         return [
             'index' => Pages\ListMembers::route('/'),
-            'create' => Pages\CreateMember::route('/create'),
             'edit' => Pages\EditMember::route('/{record}/edit'),
         ];
     }

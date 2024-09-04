@@ -2,7 +2,7 @@
 
 namespace App\Models\Content;
 
-use App\Enums\ArticleType;
+use App\Enums\Content\ArticleType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

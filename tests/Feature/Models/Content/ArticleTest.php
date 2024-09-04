@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\ArticleType;
+use App\Enums\Content\ArticleType;
 use App\Models\Content\Article;
 
 beforeEach(function () {

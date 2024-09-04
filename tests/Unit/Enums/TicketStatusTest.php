@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\TicketStatus;
+use App\Enums\Ticket\TicketStatus;
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;

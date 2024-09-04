@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\TicketPriority;
-use App\Enums\TicketStatus;
+use App\Enums\Ticket\TicketPriority;
+use App\Enums\Ticket\TicketStatus;
 use App\Filament\Resources\TicketResource;
 use App\Filament\Resources\TicketResource\Pages\EditTicket;
 use App\Filament\Resources\TicketResource\Pages\ListTickets;

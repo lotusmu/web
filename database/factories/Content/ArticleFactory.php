@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Content;
 
-use App\Enums\ArticleType;
+use App\Enums\Content\ArticleType;
 use App\Models\Content\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

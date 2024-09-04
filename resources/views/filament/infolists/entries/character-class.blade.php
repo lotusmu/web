@@ -1,5 +1,5 @@
 @php
-    use App\Enums\CharacterClass;
+    use App\Enums\Game\CharacterClass;
     $state = $getState();
     $imageSize = $getImageSize();
 @endphp

@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Map;
+use App\Enums\Game\Map;
 use Filament\Support\Contracts\HasLabel;
 
 it('has the correct number of enum cases', function () {

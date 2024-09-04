@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
-use App\Enums\AccountLevel;
+use App\Enums\Game\AccountLevel;
 use App\Models\User\Member;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
@@ -23,55 +23,53 @@ class MemberRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema(
-                [
-                    Fieldset::make('Account Level')
-                        ->schema([
-                            Select::make('AccountLevel')
-                                ->label('VIP')
-                                ->options(AccountLevel::class)
-                                ->enum(AccountLevel::class),
-                            DateTimePicker::make('AccountExpireDate')
-                                ->label('Expire Date')
-                                ->required(),
-                        ]),
-                    Fieldset::make('Resources')
-                        ->schema([
-                            TextInput::make('tokens')
-                                ->numeric()
-                                ->mask(RawJs::make('$money($input)'))
-                                ->stripCharacters(',')
-                                ->default(0)
-                                ->minValue(0)
-                                ->required(),
-                            Group::make()
-                                ->relationship('wallet')
-                                ->schema([
-                                    TextInput::make('WCoinC')
-                                        ->label('Credits')
-                                        ->numeric()
-                                        ->mask(RawJs::make('$money($input)'))
-                                        ->stripCharacters(',')
-                                        ->default(0)
-                                        ->minValue(0)
-                                        ->required(),
-                                ]),
-                            Group::make()
-                                ->relationship('wallet')
-                                ->columnSpanFull()
-                                ->schema([
-                                    TextInput::make('zen')
-                                        ->numeric()
-                                        ->mask(RawJs::make('$money($input)'))
-                                        ->stripCharacters(',')
-                                        ->default(0)
-                                        ->minValue(0)
-                                        ->required(),
-                                ]),
+            ->schema([
+                Fieldset::make('Account Level')
+                    ->schema([
+                        Select::make('AccountLevel')
+                            ->label('VIP')
+                            ->options(AccountLevel::class)
+                            ->enum(AccountLevel::class),
+                        DateTimePicker::make('AccountExpireDate')
+                            ->label('Expire Date')
+                            ->required(),
+                    ]),
+                Fieldset::make('Resources')
+                    ->schema([
+                        TextInput::make('tokens')
+                            ->numeric()
+                            ->mask(RawJs::make('$money($input)'))
+                            ->stripCharacters(',')
+                            ->default(0)
+                            ->minValue(0)
+                            ->required(),
+                        Group::make()
+                            ->relationship('wallet')
+                            ->schema([
+                                TextInput::make('WCoinC')
+                                    ->label('Credits')
+                                    ->numeric()
+                                    ->mask(RawJs::make('$money($input)'))
+                                    ->stripCharacters(',')
+                                    ->default(0)
+                                    ->minValue(0)
+                                    ->required(),
+                            ]),
+                        Group::make()
+                            ->relationship('wallet')
+                            ->columnSpanFull()
+                            ->schema([
+                                TextInput::make('zen')
+                                    ->numeric()
+                                    ->mask(RawJs::make('$money($input)'))
+                                    ->stripCharacters(',')
+                                    ->default(0)
+                                    ->minValue(0)
+                                    ->required(),
+                            ]),
 
-                        ]),
-                ]
-            );
+                    ]),
+            ]);
     }
 
     public function table(Table $table): Table

@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\TicketPriority;
-use App\Enums\TicketStatus;
+use App\Enums\Ticket\TicketPriority;
+use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\TicketCategory;
 use App\Models\User\User;
 use Illuminate\Database\Migrations\Migration;

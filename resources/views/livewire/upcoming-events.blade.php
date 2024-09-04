@@ -1,4 +1,4 @@
-@php use App\Enums\ScheduledEventType; @endphp
+@php use App\Enums\Game\ScheduledEventType; @endphp
 <div>
     <style>
         @keyframes pulse {

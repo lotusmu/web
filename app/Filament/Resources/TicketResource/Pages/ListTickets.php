@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\TicketResource\Pages;
 
-use App\Enums\TicketStatus;
+use App\Enums\Ticket\TicketStatus;
 use App\Filament\Resources\TicketResource;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;

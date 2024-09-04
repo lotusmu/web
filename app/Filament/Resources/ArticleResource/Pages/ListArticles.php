@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
-use App\Enums\ArticleType;
+use App\Enums\Content\ArticleType;
 use App\Filament\Resources\ArticleResource;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;

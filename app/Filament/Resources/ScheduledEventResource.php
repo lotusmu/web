@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\ScheduledEventType;
+use App\Enums\Game\ScheduledEventType;
 use App\Filament\Resources\ScheduledEventResource\Pages;
 use App\Models\Content\ScheduledEvent;
 use Filament\Forms\Components\Group;

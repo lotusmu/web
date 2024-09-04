@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\TicketPriority;
+use App\Enums\Ticket\TicketPriority;
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;

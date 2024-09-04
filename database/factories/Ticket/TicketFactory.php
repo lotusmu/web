@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Ticket;
 
-use App\Enums\TicketPriority;
-use App\Enums\TicketStatus;
+use App\Enums\Ticket\TicketPriority;
+use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketCategory;
 use App\Models\User\User;

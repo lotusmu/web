@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\CharacterClass;
+use App\Enums\Game\CharacterClass;
 use Filament\Support\Contracts\HasLabel;
 
 it('has the correct number of enum cases', function () {

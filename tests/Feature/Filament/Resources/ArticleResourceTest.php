@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\ArticleType;
+use App\Enums\Content\ArticleType;
 use App\Filament\Resources\ArticleResource;
 use App\Models\Content\Article;
 use Illuminate\Database\Eloquent\Factories\Sequence;

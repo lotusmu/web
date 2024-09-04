@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\PkLevel;
+use App\Enums\Game\PkLevel;
 use Filament\Support\Contracts\HasLabel;
 
 it('has the correct number of enum cases', function () {

@@ -6,8 +6,14 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\MemberRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\TicketsRelationManager;
 use App\Models\User\User;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -15,6 +21,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 
 class UserResource extends Resource
 {
@@ -34,7 +41,54 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(User::getForm());
+            ->schema([
+                Section::make('User Login Details')
+                    ->description('View and update user account information, including email and password.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
+                        Placeholder::make('name')
+                            ->label('Username')
+                            ->content(fn ($record) => $record->name),
+                        Placeholder::make('email_verified_at')
+                            ->label('Email Verified At')
+                            ->content(function ($record) {
+                                if ($record->email_verified_at) {
+                                    return Carbon::parse($record->email_verified_at)->format('M d, Y H:i:s');
+                                }
+
+                                return 'Not verified';
+                            }),
+                        TextInput::make('email')
+                            ->columnSpanFull()
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        Checkbox::make('change_password')
+                            ->label('Change password')
+                            ->columnSpanFull()
+                            ->live()
+                            ->afterStateUpdated(function (Set $set, $state) {
+                                if (! $state) {
+                                    $set('password', null);
+                                    $set('password_confirmation', null);
+                                }
+                            }),
+                        TextInput::make('password')
+                            ->password()
+                            ->required(fn (Get $get): bool => (bool) $get('change_password'))
+                            ->maxLength(255)
+                            ->visible(fn (Get $get): bool => (bool) $get('change_password'))
+                            ->confirmed(),
+
+                        TextInput::make('password_confirmation')
+                            ->password()
+                            ->required(fn (Get $get): bool => (bool) $get('change_password'))
+                            ->maxLength(255)
+                            ->visible(fn (Get $get): bool => (bool) $get('change_password'))
+                            ->dehydrated(false),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -114,7 +168,6 @@ class UserResource extends Resource
                             $records->each->verify();
                         })
                         ->deselectRecordsAfterCompletion(),
-                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

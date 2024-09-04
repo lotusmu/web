@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\AccountLevel;
+use App\Enums\Game\AccountLevel;
 use App\Filament\Resources\CharacterResource;
 use App\Filament\Resources\MemberResource;
 use App\Filament\Resources\MemberResource\Pages\EditMember;

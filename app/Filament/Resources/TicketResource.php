@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\TicketPriority;
-use App\Enums\TicketStatus;
+use App\Enums\Ticket\TicketPriority;
+use App\Enums\Ticket\TicketStatus;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Models\Ticket\Ticket;
 use Filament\Forms\Components\DatePicker;

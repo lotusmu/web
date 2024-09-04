@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Ticket;
 
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;

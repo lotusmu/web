@@ -1,8 +1,8 @@
 <?php
 
-use App\Enums\CharacterClass;
-use App\Enums\Map;
-use App\Enums\PkLevel;
+use App\Enums\Game\CharacterClass;
+use App\Enums\Game\Map;
+use App\Enums\Game\PkLevel;
 use App\Filament\Resources\CharacterResource;
 use App\Filament\Resources\CharacterResource\Pages\EditCharacter;
 use App\Filament\Resources\CharacterResource\Pages\ViewCharacter;

@@ -2,7 +2,7 @@
 
 namespace App\Models\Content;
 
-use App\Enums\ScheduledEventType;
+use App\Enums\Game\ScheduledEventType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

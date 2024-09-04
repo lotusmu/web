@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\ArticleType;
+use App\Enums\Content\ArticleType;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Content\Article;
 use Filament\Forms\Components\FileUpload;

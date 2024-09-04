@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Game;
 
-use App\Enums\CharacterClass;
-use App\Enums\Map;
-use App\Enums\PkLevel;
+use App\Enums\Game\CharacterClass;
+use App\Enums\Game\Map;
+use App\Enums\Game\PkLevel;
 use App\Models\Game\Character;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

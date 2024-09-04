@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\ScheduledEventType;
+use App\Enums\Game\ScheduledEventType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
