@@ -32,39 +32,48 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()
-                    ->columns(2)
+                Group::make()
+                    ->columnSpanFull()
+                    ->columns(3)
                     ->schema([
-                        Group::make()
+                        Section::make()
+                            ->columnSpan(2)
                             ->schema([
                                 TextInput::make('title')
                                     ->required(),
-                                Select::make('type')
-                                    ->options(ArticleType::class)
-                                    ->enum(ArticleType::class)
-                                    ->required(),
-                                FileUpload::make('image')
-                                    ->image()
-                                    ->imageEditor()
-                                    ->directory('article-images')
-                                    ->visibility('public'),
-                                Toggle::make('is_published')
-                                    ->label('Publish')
-                                    ->helperText('Publish article status')
-                                    ->helperText('Toggle to publish or archive the article.')
-                                    ->columnSpanFull()
-                                    ->default(true)
-                                    ->inline(false)
-                                    ->required(),
-                            ]),
-                        Group::make()
-                            ->schema([
                                 Textarea::make('excerpt')
                                     ->maxLength(100)
                                     ->required()
                                     ->helperText('A short summary of the article for preview'),
                                 RichEditor::make('content')
                                     ->required(),
+                            ]),
+                        Group::make()
+                            ->columnSpan(1)
+                            ->schema([
+                                Section::make()
+                                    ->schema([
+                                        Select::make('type')
+                                            ->options(ArticleType::class)
+                                            ->enum(ArticleType::class)
+                                            ->required(),
+                                        Toggle::make('is_published')
+                                            ->label('Publish')
+                                            ->helperText('Publish article status')
+                                            ->helperText('Toggle to publish or archive the article.')
+                                            ->columnSpanFull()
+                                            ->default(true)
+                                            ->inline(false)
+                                            ->required(),
+                                    ]),
+                                Section::make()
+                                    ->schema([
+                                        FileUpload::make('image')
+                                            ->image()
+                                            ->imageEditor()
+                                            ->directory('article-images')
+                                            ->visibility('public'),
+                                    ]),
                             ]),
                     ]),
             ]);
