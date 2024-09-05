@@ -218,11 +218,6 @@ class CharacterResource extends Resource
                     ->schema([
                         CharacterClassEntry::make('Class')
                             ->label('Character Class'),
-                        TextEntry::make('AccountID')
-                            ->label('Username')
-                            ->icon('heroicon-o-arrow-top-right-on-square')
-                            ->iconPosition(IconPosition::After)
-                            ->url(fn ($record) => route('filament.admin.resources.members.edit', ['record' => $record->AccountID])),
                         TextEntry::make('Name')
                             ->label('Character'),
                         TextEntry::make('Class')
@@ -231,6 +226,11 @@ class CharacterResource extends Resource
                             ->label('Resets'),
                         TextEntry::make('cLevel')
                             ->label('Level'),
+                        TextEntry::make('AccountID')
+                            ->label('Username')
+                            ->icon('heroicon-o-arrow-top-right-on-square')
+                            ->iconPosition(IconPosition::After)
+                            ->url(fn ($record) => route('filament.admin.resources.members.edit', ['record' => $record->AccountID])),
                     ]),
                 Section::make('Other Information')
                     ->description('Detailed information about the character.')
