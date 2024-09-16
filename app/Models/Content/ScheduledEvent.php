@@ -5,10 +5,13 @@ namespace App\Models\Content;
 use App\Enums\Game\ScheduledEventType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ScheduledEvent extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'type',

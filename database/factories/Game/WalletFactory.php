@@ -6,7 +6,7 @@ use App\Models\Game\Wallet;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CreditFactory extends Factory
+class WalletFactory extends Factory
 {
     protected $model = Wallet::class;
 

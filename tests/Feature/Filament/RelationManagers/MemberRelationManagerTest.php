@@ -48,7 +48,5 @@ it('can update member', function () {
 
     $storedExpireDate = Carbon::parse($this->member->AccountExpireDate)->startOfDay();
 
-    expect($storedExpireDate->equalTo($newExpireDate))->toBeTrue(
-        "Expected {$newExpireDate->toDateTimeString()}, but got {$storedExpireDate->toDateTimeString()}"
-    );
+    expect($storedExpireDate->equalTo($newExpireDate))->toBeTrue();
 });

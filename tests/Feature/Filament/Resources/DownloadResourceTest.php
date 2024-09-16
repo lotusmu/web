@@ -68,7 +68,7 @@ it('can create a download with external storage', function () {
 });
 
 it('can edit an existing download', function () {
-    $download = Download::factory()->create();
+    $download = Download::factory()->external()->create();
 
     Livewire::test(DownloadResource\Pages\EditDownload::class, ['record' => $download->id])
         ->set('data.name', 'Updated Download')

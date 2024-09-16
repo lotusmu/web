@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -32,14 +33,13 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(Login::class)
             ->brandLogo(asset('images/logo/logo-hor-light.svg'))
             ->darkModeBrandLogo(asset('images/logo/logo-hor-dark.svg'))
             ->favicon(asset('images/icon.svg'))
             ->font('Figtree')
             ->colors([
                 'primary' => Color::Sky,
-                //                'gray' => Color::Slate,
             ])
             ->navigationGroups([
                 NavigationGroup::make('Account & Characters')

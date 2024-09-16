@@ -44,6 +44,7 @@ class Member extends Model
 
     protected $casts = [
         'AccountLevel' => AccountLevel::class,
+        'AccountExpireDate' => 'datetime',
         'tokens' => 'integer',
     ];
 

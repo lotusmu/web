@@ -10,26 +10,27 @@ beforeEach(function () {
 });
 
 it('can create a credit instance', function () {
-    $credit = Wallet::factory()->create();
+    $wallet = Wallet::factory()->create();
 
-    expect($credit)->toBeInstanceOf(Wallet::class);
+    expect($wallet)->toBeInstanceOf(Wallet::class);
 });
 
 it('has the correct table name', function () {
-    $credit = new Wallet;
-    expect($credit->getTable())->toBe('CashShopData');
+    $wallet = new Wallet;
+
+    expect($wallet->getTable())->toBe('CashShopData');
 });
 
 it('uses the correct connection', function () {
-    $credit = new Wallet;
+    $wallet = new Wallet;
 
-    expect($credit->getConnectionName())->toBe('gamedb_main');
+    expect($wallet->getConnectionName())->toBe('gamedb_main');
 });
 
 it('has a non-incrementing primary key', function () {
-    $credit = new Wallet;
+    $wallet = new Wallet;
 
-    expect($credit->incrementing)->toBeFalse();
+    expect($wallet->incrementing)->toBeFalse();
 });
 
 it('has the correct primary key', function () {
@@ -37,20 +38,24 @@ it('has the correct primary key', function () {
 });
 
 it('has the correct fillable attributes', function () {
-    $credit = new Wallet;
+    $wallet = new Wallet;
 
-    expect($credit->getFillable())->toBe(['AccountID', 'WCoinC']);
+    expect($wallet->getFillable())->toBe(['AccountID', 'WCoinC', 'zen']);
 });
 
-it('casts WCoinC to integer', function () {
-    $credit = Wallet::factory()->create(['WCoinC' => '100']);
+it('casts WCoinC and zen to integer', function () {
+    $wallet = Wallet::factory()->create([
+        'WCoinC' => '100',
+        'zen' => '100',
+    ]);
 
-    expect($credit->WCoinC)->toBeInt();
+    expect($wallet->WCoinC)->toBeInt()
+        ->and($wallet->zen)->toBeInt();
 });
 
 it('belongs to a member', function () {
-    $credit = new Wallet;
-    $relation = $credit->member();
+    $wallet = new Wallet;
+    $relation = $wallet->member();
 
     expect($relation)->toBeInstanceOf(BelongsTo::class)
         ->and($relation->getRelated())->toBeInstanceOf(Member::class)

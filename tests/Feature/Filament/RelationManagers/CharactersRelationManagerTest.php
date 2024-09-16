@@ -24,7 +24,6 @@ it('can render relation manager', function () {
 });
 
 it('can list characters', function () {
-
     livewire(CharactersRelationManager::class, [
         'ownerRecord' => $this->member,
         'pageClass' => EditMember::class,

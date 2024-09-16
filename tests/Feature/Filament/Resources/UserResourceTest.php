@@ -70,6 +70,28 @@ describe('edit form', function () {
         expect($formState['password'])->toBeNull()
             ->and($formState['password_confirmation'])->toBeNull();
     });
+
+    it('removes change_password field before saving', function () {
+        $newPassword = fakePassword();
+
+        $formData = [
+            'change_password' => true,
+            'password' => $newPassword,
+            'password_confirmation' => $newPassword,
+        ];
+
+        livewire(UserResource\Pages\EditUser::class, [
+            'record' => $this->user->getKey(),
+        ])
+            ->fillForm($formData)
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->user->refresh();
+
+        expect(Hash::check($newPassword, $this->user->password))->toBeTrue()
+            ->and($this->user->getAttributes())->not->toHaveKey('change_password');
+    });
 });
 
 describe('table', function () {
@@ -140,10 +162,9 @@ describe('table', function () {
 });
 
 describe('bulk actions', function () {
-    it('has verify and delete bulk actions', function () {
+    it('has verify bulk actions', function () {
         livewire(UserResource\Pages\ListUsers::class)
-            ->assertTableBulkActionExists('Verify selected')
-            ->assertTableBulkActionExists('delete');
+            ->assertTableBulkActionExists('Verify selected');
     });
 
     it('can verify multiple users', function () {

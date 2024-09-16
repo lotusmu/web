@@ -14,7 +14,7 @@
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
+)->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -61,11 +61,6 @@ function refreshTable(string $tableName, ?string $connection = null): void
     }
 }
 
-function getRouteKeyFor($record)
-{
-    return $record->getRouteKey();
-}
-
 function fakeUsername(): string
 {
     return substr(fake()->userName, 0, 10);
@@ -76,7 +71,7 @@ function fakeEmail(): string
     return fake()->unique()->safeEmail();
 }
 
-function fakePassword()
+function fakePassword(): string
 {
     return fake()->password(4, 10);
 }

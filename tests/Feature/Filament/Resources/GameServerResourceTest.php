@@ -18,7 +18,7 @@ describe('pages', function () {
         DB::rollBack();
     });
 
-    it('does not have create page', function () {
+    it('can render create page', function () {
         $this->get(GameServerResource::getUrl('create'))->assertSuccessful();
     });
 });

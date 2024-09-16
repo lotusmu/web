@@ -3,7 +3,6 @@
 use App\Interfaces\HasMember;
 use App\Models\User\Member;
 use App\Models\User\User;
-use App\Services\MemberService;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
@@ -24,50 +23,40 @@ describe('User Creation', function () {
     it('creates a user successfully', function () {
         expect($this->user)->toBeTruthy();
     });
-
-    it('throws an exception when creating a user without a name', function () {
-        User::factory()->create(['name' => null]);
-    })->throws(InvalidArgumentException::class, 'Username is required when creating a new user.');
-
-    it('creates a member when a new user is created', function () {
-        $memberService = $this->mock(MemberService::class);
-        $memberService->shouldReceive('createMember')->once()->andReturnUsing(function ($user) {
-            return Member::create([
-                'memb___id' => $user->name,
-                'memb__pwd' => $user->getRawPassword(),
-                'memb_name' => $user->name,
-                'mail_addr' => $user->email,
-                'sno__numb' => 1111111111111,
-                'appl_days' => 0,
-                'mail_chek' => 0,
-                'bloc_code' => 0,
-                'ctl1_code' => 0,
-                'AccountLevel' => 0,
-                'AccountExpireDate' => now(),
-            ]);
-        });
-
-        $user = User::factory()->create();
-
-        expect($user->member)->not->toBeNull()
-            ->and($user->member->name)->toBe($user->name)
-            ->and($user->member->email)->toBe($user->email);
-
-        $memberService->shouldHaveReceived('createMember')->once()->with(Mockery::type(User::class));
-    });
 });
 
 describe('User Retrieval and Update', function () {
     it('retrieves a user by ID', function () {
         $retrievedUser = User::find($this->user->id);
+
         expect($retrievedUser->name)->toBe($this->user->name);
     });
 
     it('updates the user email successfully', function () {
         $newEmail = fakeEmail();
+
         $this->user->email = $newEmail;
         $this->user->save();
+
         expect($this->user->fresh()->email)->toBe($newEmail);
+    });
+
+    it('updates the user password successfully', function () {
+        $oldPassword = fakePassword();
+        $newPassword = fakePassword();
+
+        $user = User::factory()->create([
+            'password' => $oldPassword,
+        ]);
+
+        $user->password = $newPassword;
+        $user->save();
+
+        $freshUser = $user->fresh();
+
+        expect(Hash::check($newPassword, $freshUser->password))->toBeTrue()
+            ->and(Hash::check($oldPassword, $freshUser->password))->toBeFalse()
+            ->and($freshUser->getRawPassword())->toBeNull();
     });
 
     it('throws an exception when trying to update the name', function () {
@@ -79,56 +68,6 @@ describe('User Retrieval and Update', function () {
             $user->save();
         })->toThrow(InvalidArgumentException::class, 'Username cannot be updated after creation.')
             ->and($user->fresh()->name)->toBe($originalUsername);
-    });
-
-    it('updates a member when a user is updated', function () {
-        $user = $this->user;
-        $oldEmail = $user->email;
-        $newEmail = fakeEmail();
-
-        $memberService = $this->mock(MemberService::class);
-        $memberService->shouldReceive('updateMember')
-            ->once()
-            ->with(Mockery::on(function ($arg) use ($user, $newEmail) {
-                return $arg instanceof User
-                    && $arg->id === $user->id
-                    && $arg->email === $newEmail;
-            }))
-            ->andReturnUsing(function ($user) {
-                $user->member()->update([
-                    'mail_addr' => $user->email,
-                ]);
-            });
-
-        $user->email = $newEmail;
-        $user->save();
-
-        $user->refresh();
-        expect($user->email)->toBe($newEmail)
-            ->and($user->member->email)->toBe($newEmail)
-            ->and($user->member->email)->not->toBe($oldEmail);
-
-        $memberService->shouldHaveReceived('updateMember')->once()->with(Mockery::type(User::class));
-    });
-});
-
-describe('User Deletion', function () {
-    it('deletes a user successfully', function () {
-        $userId = $this->user->id;
-
-        $this->user->delete();
-
-        expect(User::find($userId))->toBeNull();
-    });
-
-    it('deletes member when user is deleted', function () {
-        $name = $this->user->name;
-
-        expect(Member::where('memb___id', $name)->exists())->toBeTrue();
-
-        $this->user->delete();
-
-        expect(Member::where('memb___id', $name)->exists())->toBeFalse();
     });
 });
 

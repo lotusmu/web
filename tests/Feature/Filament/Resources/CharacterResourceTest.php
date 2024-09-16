@@ -68,13 +68,11 @@ describe('Render', function () {
     });
 
     it('can render view page', function () {
-
         $this->get(CharacterResource::getUrl('view', [$this->character]))
             ->assertSuccessful();
     });
 
     it('can retrieves the correct character on the view page', function () {
-
         livewire(ViewCharacter::class, [
             'record' => $this->character->getRouteKey(),
         ])
@@ -106,7 +104,6 @@ describe('Create & Delete restrictions', function () {
     });
 
     it('returns false on canDelete', function () {
-
         $result = CharacterResource::canDelete($this->character);
 
         $this->assertFalse($result);
@@ -119,10 +116,10 @@ describe('Edit', function () {
             'record' => $this->character->getRouteKey(),
         ])
             ->fillForm([
-                'Name' => null,
+                'cLevel' => null,
             ])
             ->call('save')
-            ->assertHasFormErrors(['Name' => 'required']);
+            ->assertHasFormErrors(['cLevel' => 'required']);
     });
 
     it('can save', function () {

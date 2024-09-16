@@ -60,7 +60,7 @@ describe('Edit account level and expiration date', function () {
             ->and($member->AccountExpireDate)->not->toBe('not-a-date');
     });
 
-    it('accepts valid data without errors', function () {
+    it('accepts valid data without errors and saves it to the database', function () {
         $member = $this->user->member;
         $expirationDate = now()->addYear()->startOfMinute();
 
@@ -71,18 +71,6 @@ describe('Edit account level and expiration date', function () {
             ])
             ->call('save')
             ->assertHasNoErrors(['AccountLevel', 'AccountExpireDate']);
-    });
-
-    it('saves valid data to the database', function () {
-        $member = $this->user->member;
-        $expirationDate = now()->addYear()->startOfMinute();
-
-        livewire(EditMember::class, ['record' => $member->getRouteKey()])
-            ->fillForm([
-                'AccountLevel' => AccountLevel::Bronze,
-                'AccountExpireDate' => $expirationDate,
-            ])
-            ->call('save');
 
         $member->refresh();
 
@@ -98,7 +86,7 @@ describe('Edit account level and expiration date', function () {
     });
 });
 
-describe('Edit tokens, credits and zen', function () {
+describe('Edit tokens', function () {
     it('validates', function () {
         $member = $this->user->member;
 
@@ -107,13 +95,11 @@ describe('Edit tokens, credits and zen', function () {
         ])
             ->fillForm([
                 'tokens' => -10,
-                'zen' => 'not-a-number',
             ])
             ->call('save');
 
         $member->refresh();
-        expect($member->tokens)->not->toBe(-10)
-            ->and($member->zen)->not->toBe('not-a-number');
+        expect($member->tokens)->not->toBe(-10);
     });
 
     it('accepts valid data without errors and saves it', function () {
@@ -122,15 +108,13 @@ describe('Edit tokens, credits and zen', function () {
         livewire(EditMember::class, ['record' => $member->getRouteKey()])
             ->fillForm([
                 'tokens' => 5000,
-                'zen' => 10000,
             ])
             ->call('save')
-            ->assertHasNoErrors(['tokens', 'zen']);
+            ->assertHasNoErrors(['tokens']);
 
         $member->refresh();
 
-        expect($member->tokens)->toBe(5000)
-            ->and($member->zen)->toBe(10000);
+        expect($member->tokens)->toBe(5000);
     });
 });
 

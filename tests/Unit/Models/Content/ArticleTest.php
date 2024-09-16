@@ -15,6 +15,7 @@ beforeEach(function () {
 
 it('can create an article', function () {
     expect($this->article)->toBeInstanceOf(Article::class);
+
     $this->assertModelExists($this->article);
 });
 

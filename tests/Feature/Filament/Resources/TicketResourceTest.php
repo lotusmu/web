@@ -13,7 +13,10 @@ use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
-    $this->ticket = Ticket::factory()->create(['user_id' => $this->user->id]);
+    $this->ticket = Ticket::factory()->create([
+        'user_id' => $this->user->id,
+        'status' => TicketStatus::CLOSED,
+    ]);
 });
 
 it('displays the correct navigation badge count', function () {
@@ -57,8 +60,31 @@ describe('pages', function () {
         $this->get(TicketResource::getUrl('edit', ['record' => $this->ticket]))->assertSuccessful();
     });
 
+    it('can render manage ticket page', function () {
+        $this->actingAs($this->user)
+            ->get(ManageTicket::getUrl(['record' => $this->ticket]))
+            ->assertSuccessful();
+    });
+
     it('does not have create page', function () {
         expect(TicketResource::getPages())->not->toHaveKey('create');
+    });
+
+    it('has correct tabs and filters tickets', function () {
+        $activeTicket = Ticket::factory()->create(['status' => TicketStatus::IN_PROGRESS]);
+        $resolvedTicket = Ticket::factory()->create(['status' => TicketStatus::RESOLVED]);
+
+        $component = livewire(ListTickets::class);
+
+        $component->assertCanSeeTableRecords([$activeTicket, $resolvedTicket]);
+
+        $component->set('activeTab', 'active')
+            ->assertCanSeeTableRecords([$activeTicket])
+            ->assertCanNotSeeTableRecords([$resolvedTicket]);
+
+        $component->set('activeTab', 'resolved')
+            ->assertCanSeeTableRecords([$resolvedTicket])
+            ->assertCanNotSeeTableRecords([$activeTicket]);
     });
 });
 
@@ -99,12 +125,6 @@ describe('edit operations', function () {
 });
 
 describe('manage tickets', function () {
-    it('can render manage ticket page', function () {
-        $this->actingAs($this->user)
-            ->get(ManageTicket::getUrl(['record' => $this->ticket]))
-            ->assertSuccessful();
-    });
-
     it('can add a reply to the ticket', function () {
         $replyContent = 'This is a test reply.';
 

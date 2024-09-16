@@ -75,6 +75,6 @@ it('belongs to a member', function () {
 
     expect($relation)->toBeInstanceOf(BelongsTo::class)
         ->and($relation->getRelated())->toBeInstanceOf(Member::class)
-        ->and($relation->getForeignKeyName())->toBe('memb___id')
-        ->and($relation->getOwnerKeyName())->toBe('AccountID');
+        ->and($relation->getForeignKeyName())->toBe('AccountID')
+        ->and($relation->getOwnerKeyName())->toBe('memb___id');
 });

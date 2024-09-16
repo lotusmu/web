@@ -19,7 +19,6 @@ class EditUser extends EditRecord
 
     public function mutateFormDataBeforeSave(array $data): array
     {
-        // Remove the change_password field from the data array
         unset($data['change_password']);
 
         return $data;

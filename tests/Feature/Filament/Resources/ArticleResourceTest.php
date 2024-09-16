@@ -41,7 +41,7 @@ it('can sort articles by creation date', function () {
         ->assertCanSeeTableRecords($articles->sortByDesc('created_at'));
 });
 
-todo('can create article', function () {
+it('can create article', function () {
     $newArticle = Article::factory()->archived()->make();
 
     livewire(ArticleResource\Pages\CreateArticle::class)
@@ -52,41 +52,17 @@ todo('can create article', function () {
             'excerpt' => $newArticle->excerpt,
             'content' => $newArticle->content,
         ])
+        ->assertActionExists('create')
         ->call('create')
         ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas('articles', [
-        'title' => $newArticle->title,
+        'title->en' => $newArticle->title,
         'type' => $newArticle->type,
-        'is_published' => $newArticle->is_published,
-        'excerpt' => $newArticle->excerpt,
-        'content' => $newArticle->content,
+        'is_published' => $newArticle->is_published ? 1 : 0,
+        'excerpt->en' => $newArticle->excerpt,
+        'content->en' => $newArticle->content,
     ]);
-});
-
-todo('can edit article', function () {
-    $article = Article::factory()->create();
-    $newData = Article::factory()->make();
-
-    livewire(ArticleResource\Pages\EditArticle::class, [
-        'record' => getRouteKeyFor($article),
-    ])
-        ->fillForm([
-            'title' => ['en' => $newData->title['en']],
-            'type' => $newData->type,
-            'is_published' => $newData->is_published,
-            'excerpt' => ['en' => $newData->excerpt['en']],
-            'content' => ['en' => $newData->content['en']],
-        ])
-        ->call('save')
-        ->assertHasNoFormErrors();
-
-    expect($article->refresh())
-        ->title->toBe($newData->title)
-        ->type->toBe($newData->type)
-        ->is_published->toBe($newData->is_published)
-        ->excerpt->toBe($newData->excerpt)
-        ->content->toBe($newData->content);
 });
 
 it('can publish article', function () {
@@ -109,19 +85,7 @@ it('can archive article', function () {
     expect($article->refresh()->is_published)->toBeFalse();
 });
 
-todo('can delete article', function () {
-    $article = Article::factory()->create();
-
-    livewire(ArticleResource\Pages\ListArticles::class)
-        ->assertTableActionExists('delete')
-        ->callTableAction('delete', $article)
-        ->assertNotified();
-
-    $this->assertModelMissing($article);
-});
-
 it('has correct tabs and filters articles', function () {
-    // Create articles of different types
     $newsArticle = Article::factory()->create(['type' => ArticleType::NEWS]);
     $patchNoteArticle = Article::factory()->create(['type' => ArticleType::PATCH_NOTE]);
 
