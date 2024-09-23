@@ -1,7 +1,12 @@
 <?php
 
-use App\Models\User;
+use App\Models\User\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Volt;
+
+beforeEach(function () {
+    Auth::logout();
+});
 
 test('login screen can be rendered', function () {
     $response = $this->get('/login');
@@ -12,10 +17,10 @@ test('login screen can be rendered', function () {
 });
 
 test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['password' => 'password']);
 
     $component = Volt::test('pages.auth.login')
-        ->set('form.email', $user->email)
+        ->set('form.name', $user->name)
         ->set('form.password', 'password');
 
     $component->call('login');

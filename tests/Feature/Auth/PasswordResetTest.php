@@ -2,10 +2,16 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Volt\Volt;
+
+beforeEach(function () {
+    Auth::logout();
+});
 
 test('reset password link screen can be rendered', function () {
     $response = $this->get('/forgot-password');
@@ -70,4 +76,7 @@ test('password can be reset with valid token', function () {
 
         return true;
     });
+
+    expect(Hash::check('password', $user->fresh()->password))->toBeTrue()
+        ->and($user->fresh()->member->password)->toBe('password');
 });
