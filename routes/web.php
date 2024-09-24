@@ -2,14 +2,15 @@
 
 use App\Livewire\UpcomingEvents;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
+Volt::route('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::view('profile', 'profile')
+Volt::route('/profile', 'profile.index')
     ->middleware(['auth'])
     ->name('profile');
 

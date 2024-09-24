@@ -15,7 +15,6 @@
         "laravel/tinker": "^2.9",
         "league/csv": "^9.16",
         "livewire/flux-pro": "^1.0",
-        "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-sluggable": "^3.6"
