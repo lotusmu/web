@@ -45,7 +45,7 @@ new class extends Component {
 
         <flux:separator vertical variant="subtle" class="my-2"/>
 
-        <flux:dropdown class="max-lg:hidden">
+        <flux:dropdown>
             <flux:navbar.item icon-trailing="chevron-down">Information</flux:navbar.item>
 
             <flux:navmenu>
