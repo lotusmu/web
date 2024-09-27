@@ -100,6 +100,10 @@ new class extends Component {
             </div>
         @endif
 
-        <flux:button type="submit" variant="primary">{{ __('Save') }}</flux:button>
+        <flux:button type="submit" variant="primary">
+            <flux:icon.loading wire:loading variant="mini" class="hidden"/>
+
+            {{ __('Save') }}
+        </flux:button>
     </form>
 </div>

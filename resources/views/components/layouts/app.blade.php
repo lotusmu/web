@@ -66,7 +66,9 @@
     {{ $slot }}
 </flux:main>
 
+@persist('toast')
 <flux:toast/>
+@endpersist
 
 @livewireScripts
 @fluxScripts
@@ -76,7 +78,6 @@
         color-scheme: dark;
     }
 </style>
-
 <script data-navigate-once="">
     document.addEventListener('livewire:navigated', () => {
         // wire:navigate will wipe out the dark class on the body element, se we need to reapply it...

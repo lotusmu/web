@@ -1,44 +1,68 @@
 <?php
 
-use function Livewire\Volt\{state};
+use App\Models\Game\Character;
+use Livewire\Attributes\Computed;
+use Livewire\Volt\Component;
+use App\Enums\Game\CharacterClass;
 
-state();
+new class extends Component {
+    public $sortBy = 'ResetCount';
+    public $sortDirection = 'desc';
 
-?>
+    public function sort($column)
+    {
+        if ($this->sortBy === $column) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortBy        = $column;
+            $this->sortDirection = 'asc';
+        }
+    }
 
-<div>
-    <flux:heading>Radio Group</flux:heading>
+    #[Computed]
+    public function characters()
+    {
+        return Character::query()
+            ->select('Name', 'cLevel', 'ResetCount', 'Class')
+            ->where('AccountID', auth()->user()->name)
+            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->get();
+    }
+} ?>
+
+<flux:card class="w-1/3">
+    <flux:heading size="lg">
+        Characters
+    </flux:heading>
+
     <flux:subheading>
-        Here are some sweet sweet radio buttons, staying with a beautiful flux card.
+        Here are all your lovely little characters.
     </flux:subheading>
 
-    <flux:card class="mt-6 max-w-xl">
-        <flux:fieldset>
-            <flux:legend>Role</flux:legend>
+    <flux:table>
+        <flux:columns>
+            <flux:column>Character</flux:column>
+            <flux:column>Class</flux:column>
+            <flux:column>Level</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'ResetCount'" :direction="$sortDirection"
+                         wire:click="sort('ResetCount')">Resets
+            </flux:column>
+        </flux:columns>
 
-            <flux:radio.group>
-                <flux:radio
-                    value="administrator"
-                    label="Administrator"
-                    description="Administrator users can perform any action."
-                    checked
-                />
-                <flux:radio
-                    value="editor"
-                    label="Editor"
-                    description="Editor users have the ability to read, create, and update."
-                />
-                <flux:radio
-                    value="viewer"
-                    label="Viewer"
-                    description="Viewer users only have the ability to read. Create, and update are restricted."
-                />
-            </flux:radio.group>
-        </flux:fieldset>
-    </flux:card>
+        <flux:rows>
+            @foreach ($this->characters as $character)
+                <flux:row :key="$character->Name">
+                    <flux:cell>{{ $character->Name }}</flux:cell>
+                    <flux:cell class="flex items-center gap-3">
+                        <flux:avatar size="xs"
+                                     src="{{ asset($character->Class->getImagePath()) }}"/>
 
-    <div class="max-w-xl space-y-2 mt-6">
-        <flux:input icon="user"/>
-        <flux:input icon="lock-closed" type="password"/>
-    </div>
-</div>
+                        {{  $character->Class->getLabel()  }}
+                    </flux:cell>
+                    <flux:cell>{{ $character->cLevel }}</flux:cell>
+                    <flux:cell>{{ $character->ResetCount }}</flux:cell>
+                </flux:row>
+            @endforeach
+        </flux:rows>
+    </flux:table>
+</flux:card>
