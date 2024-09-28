@@ -1,31 +1,18 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Home') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..600&display=swap" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    @fluxStyles
+    @include('layouts.components.head')
 </head>
-<body class="min-h-screen bg-white dark:bg-zinc-800 antialiased transition-colors">
+<body class="min-h-screen antialiased">
 
-<flux:sidebar sticky stashable class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
+<livewire:layout.header/>
+
+<flux:sidebar stashable sticky
+              class="lg:hidden bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
-    <x-brand wire:navigate size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="dark:hidden"/>
-
-    <x-brand wire:navigate size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}"
-             class="hidden dark:block"/>
+    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="dark:hidden"/>
+    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}" class="hidden dark:flex"/>
 
     <flux:navlist variant="outline">
         <flux:navlist.item wire:navigate icon="home" href="/dashboard">Dashboard</flux:navlist.item>
@@ -38,31 +25,37 @@
         <flux:navlist.item wire:navigate icon="gift" href="#">Donate</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="hand-thumb-up" href="#">Vote</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="list-bullet" href="#">Activities</flux:navlist.item>
+        <flux:separator variant="subtle" class="my-px"/>
+        <flux:navlist.item icon="information-circle" href="#">Help</flux:navlist.item>
     </flux:navlist>
-
-    <flux:spacer/>
-
-    <flux:navlist variant="outline">
-        <flux:navlist.item wire:navigate icon="cog-6-tooth" href="/profile">Settings</flux:navlist.item>
-        <flux:navlist.item wire:navigate icon="information-circle" href="#">Help</flux:navlist.item>
-    </flux:navlist>
-    <flux:dropdown position="top" align="left" class="max-lg:hidden">
-        <flux:profile avatar="https://fluxui.dev/img/demo/user.png" name="Game Server"/>
-
-        <flux:menu>
-            <flux:menu.radio.group>
-                <flux:menu.radio checked>Yoskreth - x10</flux:menu.radio>
-                <flux:menu.radio>Carnage - x200</flux:menu.radio>
-            </flux:menu.radio.group>
-        </flux:menu>
-    </flux:dropdown>
 </flux:sidebar>
 
-<livewire:layout.header/>
+<flux:main container>
+    <div class="flex gap-10 mt-2 lg:mt-8 max-w-[60rem] mx-auto">
+        <div class="min-w-[13rem] max-lg:hidden flex-col min-h-full">
+            <flux:navlist>
+                <flux:navlist.item wire:navigate icon="home" href="/dashboard">Dashboard</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="wallet" href="#">Wallet</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="clock" href="#">Event Entries</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="building-library" href="#">Castle Siege</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="fire" href="#">Buy VIP</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="eye-slash" href="#">Hide Info</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="arrows-pointing-out" href="#">Unstuck Character
+                </flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="gift" href="#">Donate</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="hand-thumb-up" href="#">Vote</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="list-bullet" href="#">Activities</flux:navlist.item>
+                <flux:separator variant="subtle" class="my-px"/>
+                <flux:navlist.item icon="information-circle" href="#">Help</flux:navlist.item>
+            </flux:navlist>
+        </div>
 
-<flux:main class="bg-white dark:bg-zinc-800">
-    {{ $slot }}
+        <div class="flex-1">
+            {{ $slot }}
+        </div>
+    </div>
 </flux:main>
+
 
 @persist('toast')
 <flux:toast/>
@@ -71,11 +64,6 @@
 @livewireScripts
 @fluxScripts
 
-<style>
-    :root:has(body.dark) {
-        color-scheme: dark;
-    }
-</style>
 <script data-navigate-once="">
     document.addEventListener('livewire:navigated', () => {
         // wire:navigate will wipe out the dark class on the body element, se we need to reapply it...

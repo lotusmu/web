@@ -21,7 +21,7 @@ new #[Layout('layouts.app')] class extends Component {
         </x-flux::subheading>
     </header>
 
-    <flux:tab.group variant="flush" class="mt-8 max-w-xl">
+    <flux:tab.group variant="flush" class="mt-8">
         <flux:tabs wire:model="tab">
             <flux:tab name="email" icon="envelope">Email</flux:tab>
             <flux:tab name="password" icon="lock-closed">Password</flux:tab>

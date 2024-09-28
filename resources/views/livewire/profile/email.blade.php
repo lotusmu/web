@@ -8,7 +8,6 @@ use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public string $name = '';
     public string $email = '';
 
     /**
@@ -16,7 +15,6 @@ new class extends Component {
      */
     public function mount(): void
     {
-        $this->name  = Auth::user()->name;
         $this->email = Auth::user()->email;
     }
 
@@ -78,7 +76,6 @@ new class extends Component {
     </header>
 
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
-        <flux:input wire:model="name" label="{{__('Username')}}" disabled/>
         <flux:input wire:model="email" label="{{('Email')}}"/>
 
         @if (auth()->user() instanceof MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())

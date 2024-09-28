@@ -15,29 +15,13 @@ new class extends Component {
     }
 }; ?>
 
-<flux:header class="!block bg-white lg:bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700">
-    <flux:navbar class="lg:hidden w-full">
-        <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
+<flux:header sticky container class="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700">
+    <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 
-        <flux:spacer/>
+    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="max-lg:hidden dark:hidden"/>
+    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}" class="max-lg:!hidden hidden dark:flex"/>
 
-        <flux:navbar.item href="/admin">Admin Dashboard</flux:navbar.item>
-        <flux:button variant="ghost" size="sm" icon="moon" tooltip="Toggle dark mode"
-                     x-on:click="$store.darkMode.toggle()"/>
-
-        <flux:separator variant="subtle" vertical class="mx-4"/>
-
-        <flux:dropdown>
-            <flux:button variant="ghost" size="sm"
-                         icon-trailing="chevron-down">{{ auth()->user()->name }}</flux:button>
-
-            <flux:menu>
-                <livewire:logout/>
-            </flux:menu>
-        </flux:dropdown>
-    </flux:navbar>
-
-    <flux:navbar scrollable>
+    <flux:navbar class="-mb-px max-lg:hidden">
         <flux:navbar.item href="#" wire:navigate>News</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>Files</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>Rankings</flux:navbar.item>
@@ -54,27 +38,47 @@ new class extends Component {
                 <flux:navmenu.item href="#" wire:navigate>Wiki</flux:navmenu.item>
             </flux:navmenu>
         </flux:dropdown>
+    </flux:navbar>
 
-        <flux:spacer/>
+    <flux:spacer/>
 
-        <div class="flex items-center gap-1 max-lg:hidden">
-            <flux:navbar.item href="/admin">Admin Dashboard</flux:navbar.item>
-            <flux:button variant="ghost" size="sm" icon="moon" tooltip="Toggle dark mode"
-                         x-on:click="$store.darkMode.toggle()"/>
+    <flux:navbar class="mr-4">
+        <flux:button variant="ghost" size="sm" icon="moon" tooltip="Toggle dark mode"
+                     x-on:click="$store.darkMode.toggle()"/>
 
+        <flux:dropdown>
+            <flux:button icon="ellipsis-vertical" variant="ghost" class="lg:hidden"/>
 
-            <flux:separator vertical variant="subtle" class="my-2 mx-4"/>
+            <flux:menu>
+                <flux:menu.item href="#" wire:navigate>News</flux:menu.item>
+                <flux:menu.item href="#" wire:navigate>Files</flux:menu.item>
+                <flux:menu.item href="#" wire:navigate>Rankings</flux:menu.item>
+                <flux:menu.item href="/upcoming-events">Event Times</flux:menu.item>
 
+                <flux:menu.group heading="Information">
+                    <flux:menu.item href="#">Basic Information</flux:menu.item>
+                    <flux:menu.item href="#">Patch Notes</flux:menu.item>
+                    <flux:menu.item href="#" wire:navigate>Wiki</flux:menu.item>
+                </flux:menu.group>
+            </flux:menu>
+        </flux:dropdown>
 
-            <flux:dropdown>
-                <flux:button variant="ghost" size="sm"
-                             icon-trailing="chevron-down">{{ auth()->user()->name }}</flux:button>
+        <flux:separator variant="subtle" vertical class="mx-4"/>
 
-                <flux:menu>
-                    <flux:menu.item icon="arrow-right-start-on-rectangle" wire:click="logout">Logout
-                    </flux:menu.item>
-                </flux:menu>
-            </flux:dropdown>
-        </div>
+        <flux:dropdown>
+            <flux:button variant="ghost" size="sm"
+                         icon-trailing="chevron-down">{{ auth()->user()->name }}</flux:button>
+
+            <flux:menu>
+                <flux:menu.item wire:navigate icon="squares-2x2" href="/admin">Admin Dashboard</flux:menu.item>
+                <flux:menu.item wire:navigate icon="cog-6-tooth" href="/profile">Settings</flux:menu.item>
+
+                <flux:menu.separator/>
+
+                <flux:menu.item icon="arrow-right-start-on-rectangle" wire:click="logout">
+                    Logout
+                </flux:menu.item>
+            </flux:menu>
+        </flux:dropdown>
     </flux:navbar>
 </flux:header>

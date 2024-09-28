@@ -3,7 +3,7 @@
 <head>
     @include('layouts.components.head')
 </head>
-<body class="bg-white dark:bg-zinc-900 antialiased min-h-screen">
+<body class="min-h-screen antialiased">
 
 <flux:main class="flex min-h-screen bg-white dark:bg-zinc-900 !p-0">
     <div class="flex-1 flex justify-center items-center">

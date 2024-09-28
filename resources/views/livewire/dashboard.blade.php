@@ -31,7 +31,7 @@ new #[Layout('layouts.app')] class extends Component {
     }
 } ?>
 
-<flux:card class="w-1/3">
+<flux:card>
     <flux:heading size="lg">
         Characters
     </flux:heading>
@@ -40,7 +40,7 @@ new #[Layout('layouts.app')] class extends Component {
         Here are all your lovely little characters.
     </flux:subheading>
 
-    <flux:table>
+    <flux:table class="mt-6">
         <flux:columns>
             <flux:column>Character</flux:column>
             <flux:column>Class</flux:column>
@@ -55,10 +55,11 @@ new #[Layout('layouts.app')] class extends Component {
                 <flux:row :key="$character->Name">
                     <flux:cell>{{ $character->Name }}</flux:cell>
                     <flux:cell class="flex items-center gap-3">
-                        <flux:avatar size="xs"
-                                     src="{{ asset($character->Class->getImagePath()) }}"/>
+                        <flux:avatar size="xs" src="{{ asset($character->Class->getImagePath()) }}"/>
 
+                        <span class="max-lg:hidden">
                         {{  $character->Class->getLabel()  }}
+                        </span>
                     </flux:cell>
                     <flux:cell>{{ $character->cLevel }}</flux:cell>
                     <flux:cell>{{ $character->ResetCount }}</flux:cell>

@@ -6,13 +6,14 @@
 
 @php
     $classes = Flux::classes()
-        ->add('h-10 px-3 overflow-hidden')
-        ->add(match ($size) { // Size...
-        'base' => '', // Full image size
-        'sm' => 'size-3/4',
-    });
+        ->add('flex items-center h-8 px-3 overflow-hidden');
+
+    $imageSize = match($size) {
+        'base' => '',
+        'sm' => 'w-3/4',
+    }
 @endphp
 
 <a href="{{ $href }}" {{ $attributes->class([ $classes ]) }} data-flux-brand>
-    <img src="{{ $logo }}" alt="Brand logo image"/>
+    <img src="{{ $logo }}" alt="Brand logo image" class="{{$imageSize}}"/>
 </a>
