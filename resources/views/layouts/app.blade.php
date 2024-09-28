@@ -22,12 +22,10 @@
 <flux:sidebar sticky stashable class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
-    <flux:brand wire:navigate logo="{{asset('images/logo/icon.svg')}}"
-                name="Lotus Mu"
-                class="px-2 dark:hidden"/>
-    <flux:brand wire:navigate logo="{{asset('images/logo/icon.svg')}}"
-                name="Lotus Mu"
-                class="px-2 hidden dark:flex"/>
+    <x-brand wire:navigate size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="dark:hidden"/>
+
+    <x-brand wire:navigate size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}"
+             class="hidden dark:block"/>
 
     <flux:navlist variant="outline">
         <flux:navlist.item wire:navigate icon="home" href="/dashboard">Dashboard</flux:navlist.item>

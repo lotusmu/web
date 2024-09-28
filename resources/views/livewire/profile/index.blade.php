@@ -2,9 +2,10 @@
 
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new class extends Component {
+new #[Layout('layouts.app')] class extends Component {
     #[\Livewire\Attributes\Url]
     public string $tab = 'email';
 }; ?>

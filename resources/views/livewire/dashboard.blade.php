@@ -2,10 +2,11 @@
 
 use App\Models\Game\Character;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use App\Enums\Game\CharacterClass;
 
-new class extends Component {
+new #[Layout('layouts.app')] class extends Component {
     public $sortBy = 'ResetCount';
     public $sortDirection = 'desc';
 

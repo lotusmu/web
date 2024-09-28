@@ -1,30 +1,84 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    @include('layouts.components.head')
+</head>
+<body class="bg-white dark:bg-zinc-900 antialiased min-h-screen">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<flux:main>
+    {{ $slot }}
+</flux:main>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+@persist('toast')
+<flux:toast/>
+@endpersist
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/" wire:navigate>
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+@livewireScripts
+@fluxScripts
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
-        </div>
-    </body>
+<script data-navigate-once="">
+    document.addEventListener('livewire:navigated', () => {
+        // wire:navigate will wipe out the dark class on the body element, se we need to reapply it...
+        Alpine.store('darkMode').applyToBody()
+    })
+
+    Alpine.store('darkMode', {
+        on: false,
+
+        toggle() {
+            this.on = !this.on
+        },
+
+        init() {
+            this.on = this.wantsDarkMode()
+
+            Alpine.effect(() => {
+                document.dispatchEvent(new CustomEvent('dark-mode-toggled', {detail: {isDark: this.on}, bubbles: true}))
+
+                this.applyToBody()
+            })
+
+            // Putting this in a set timeout to wait for the iframes to be loaded...
+            setTimeout(() => {
+                Alpine.effect(() => {
+                    this.applyToIframes()
+                })
+            }, 5000)
+
+            let media = window.matchMedia('(prefers-color-scheme: dark)')
+
+            media.addEventListener('change', e => {
+                this.on = media.matches
+            })
+        },
+
+        wantsDarkMode() {
+            let media = window.matchMedia('(prefers-color-scheme: dark)')
+
+            if (window.localStorage.getItem('darkMode') === '') {
+                return media.matches
+            } else {
+                return JSON.parse(window.localStorage.getItem('darkMode'))
+            }
+        },
+
+        applyToBody() {
+            let state = this.on
+
+            window.localStorage.setItem('darkMode', JSON.stringify(state))
+
+            state ? document.body.classList.add('dark') : document.body.classList.remove('dark')
+        },
+
+        applyToIframes() {
+            let state = this.on
+
+            // Update dark mode inside iframes...
+            state
+                ? document.querySelectorAll('iframe').forEach(iframe => iframe.contentDocument?.querySelector('body')?.classList?.add('dark'))
+                : document.querySelectorAll('iframe').forEach(iframe => iframe.contentDocument?.querySelector('body')?.classList?.remove('dark'))
+        }
+    })
+</script>
+</body>
 </html>
