@@ -6,7 +6,7 @@
 
 @php
     $classes = Flux::classes()
-        ->add('flex items-center h-8 px-3 overflow-hidden');
+        ->add('flex items-center h-8 overflow-hidden');
 
     $imageSize = match($size) {
         'base' => '',

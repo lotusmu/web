@@ -66,7 +66,7 @@ new class extends Component {
         <flux:separator variant="subtle" vertical class="mx-4"/>
 
         <flux:dropdown>
-            <flux:button variant="ghost" size="sm"
+            <flux:button variant="ghost" size="sm" inset="right"
                          icon-trailing="chevron-down">{{ auth()->user()->name }}</flux:button>
 
             <flux:menu>
