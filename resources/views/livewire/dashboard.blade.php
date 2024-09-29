@@ -30,41 +30,69 @@ new #[Layout('layouts.app')] class extends Component {
             ->get();
     }
 } ?>
+<div class="space-y-6">
+    <div class="grid sm:grid-cols-3 gap-6">
+        <flux:card>
+            <flux:subheading class="flex items-center gap-1">
+                Web Coins
+            </flux:subheading>
+            <flux:heading size="xl">
+                1,200
+            </flux:heading>
+        </flux:card>
+        <flux:card>
+            <flux:subheading class="flex items-center gap-1">
+                Credits
+            </flux:subheading>
+            <flux:heading size="xl">
+                1,500
+            </flux:heading>
+        </flux:card>
+        <flux:card>
+            <flux:subheading class="flex items-center gap-1">
+                Zen
+            </flux:subheading>
+            <flux:heading size="xl">
+                50kk
+            </flux:heading>
+        </flux:card>
+    </div>
 
-<flux:card>
-    <flux:heading size="lg">
-        Characters
-    </flux:heading>
+    <flux:card>
+        <flux:heading size="lg">
+            Characters
+        </flux:heading>
 
-    <flux:subheading>
-        Here are all your lovely little characters.
-    </flux:subheading>
+        <flux:subheading>
+            Here are all your lovely little characters.
+        </flux:subheading>
 
-    <flux:table class="mt-6">
-        <flux:columns>
-            <flux:column>Character</flux:column>
-            <flux:column>Class</flux:column>
-            <flux:column>Level</flux:column>
-            <flux:column sortable :sorted="$sortBy === 'ResetCount'" :direction="$sortDirection"
-                         wire:click="sort('ResetCount')">Resets
-            </flux:column>
-        </flux:columns>
+        <flux:table class="mt-6">
+            <flux:columns>
+                <flux:column>Character</flux:column>
+                <flux:column>Class</flux:column>
+                <flux:column>Level</flux:column>
+                <flux:column sortable :sorted="$sortBy === 'ResetCount'" :direction="$sortDirection"
+                             wire:click="sort('ResetCount')">Resets
+                </flux:column>
+            </flux:columns>
 
-        <flux:rows>
-            @foreach ($this->characters as $character)
-                <flux:row :key="$character->Name">
-                    <flux:cell>{{ $character->Name }}</flux:cell>
-                    <flux:cell class="flex items-center gap-3">
-                        <flux:avatar size="xs" src="{{ asset($character->Class->getImagePath()) }}"/>
+            <flux:rows>
+                @foreach ($this->characters as $character)
+                    <flux:row :key="$character->Name">
+                        <flux:cell>{{ $character->Name }}</flux:cell>
+                        <flux:cell class="flex items-center gap-3">
+                            <flux:avatar size="xs" src="{{ asset($character->Class->getImagePath()) }}"/>
 
-                        <span class="max-lg:hidden">
+                            <span class="max-sm:hidden">
                         {{  $character->Class->getLabel()  }}
                         </span>
-                    </flux:cell>
-                    <flux:cell>{{ $character->cLevel }}</flux:cell>
-                    <flux:cell>{{ $character->ResetCount }}</flux:cell>
-                </flux:row>
-            @endforeach
-        </flux:rows>
-    </flux:table>
-</flux:card>
+                        </flux:cell>
+                        <flux:cell>{{ $character->cLevel }}</flux:cell>
+                        <flux:cell>{{ $character->ResetCount }}</flux:cell>
+                    </flux:row>
+                @endforeach
+            </flux:rows>
+        </flux:table>
+    </flux:card>
+</div>

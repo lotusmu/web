@@ -1,4 +1,21 @@
-<div>
+<?php
+
+use App\Models\Concerns\GameConnectionSelector;
+use Livewire\Volt\Component;
+
+new class extends Component {
+    use GameConnectionSelector;
+
+    public $filament = false;
+
+    public function mount(): void
+    {
+        $this->loadConnectionOptions();
+    }
+}; ?>
+
+@if($filament)
+    {{-- Filament-specific markup --}}
     <x-filament::dropdown>
         <x-slot name="trigger">
             <x-filament::button
@@ -31,4 +48,30 @@
             @endforeach
         </x-filament::dropdown.list>
     </x-filament::dropdown>
-</div>
+@else
+    {{-- Regular markup --}}
+    <flux:dropdown>
+        <flux:button icon-trailing="chevron-down" variant="ghost">
+            @if(isset($serverOptions[$selectedServerId]))
+                {{ $serverOptions[$selectedServerId]['name'] }} -
+                x{{ $serverOptions[$selectedServerId]['experience_rate'] }}
+            @else
+                Default
+            @endif
+        </flux:button>
+
+        <flux:menu>
+            <flux:menu.radio.group>
+                @foreach($serverOptions as $id => $server)
+                    <flux:menu.radio
+                        wire:click="updateServer({{ $id }})"
+                        :checked="$selectedServerId == $id"
+                    >
+                        {{ $server['name'] }} -
+                        x{{ $server['experience_rate'] }}
+                    </flux:menu.radio>
+                @endforeach
+            </flux:menu.radio.group>
+        </flux:menu>
+    </flux:dropdown>
+@endif

@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Models\Concerns;
 
 use App\Models\Utility\GameServer;
 use Exception;
 use Filament\Notifications\Notification;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
-use Illuminate\View\View;
-use Livewire\Component;
 
-class DatabaseSelector extends Component
+trait GameConnectionSelector
 {
     public $selectedServerId;
 
     public $serverOptions;
 
-    public function mount(): void
+    public function loadConnectionOptions(): void
     {
         $this->serverOptions = $this->getServerOptions();
         $this->selectedServerId = session('selected_server_id', $this->serverOptions->keys()->first());
@@ -60,10 +56,5 @@ class DatabaseSelector extends Component
                     'experience_rate' => $server->experience_rate,
                 ]];
             });
-    }
-
-    public function render(): Application|Factory|\Illuminate\Contracts\View\View|View
-    {
-        return view('livewire.database-selector');
     }
 }
