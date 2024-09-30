@@ -44,7 +44,7 @@ new class extends Component {
     <flux:spacer/>
 
     <flux:navbar class="mr-4">
-        <livewire:connection-switch/>
+        <livewire:connection-selector/>
 
         <flux:button variant="ghost" size="sm" icon="moon" tooltip="Toggle dark mode"
                      x-on:click="$store.darkMode.toggle()" class="max-lg:hidden"/>

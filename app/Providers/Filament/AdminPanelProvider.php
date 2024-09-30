@@ -90,7 +90,7 @@ class AdminPanelProvider extends PanelProvider
         FilamentView::registerRenderHook(
             PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             fn (): string => Blade::render("
-                @livewire('connection-switch', [
+                @livewire('connection-selector', [
                     'filament' => true,
                 ])
             ")

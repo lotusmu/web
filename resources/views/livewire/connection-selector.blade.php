@@ -1,16 +1,89 @@
 <?php
 
-use App\Models\Concerns\GameConnectionSelector;
+use App\Models\Utility\GameServer;
+use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
+use Filament\Notifications\Notification;
 
 new class extends Component {
-    use GameConnectionSelector;
 
     public $filament = false;
 
+    public $selectedServerId;
+
+    public $serverOptions;
+
     public function mount(): void
     {
-        $this->loadConnectionOptions();
+        $this->serverOptions    = $this->getServerOptions();
+        $this->selectedServerId = session('selected_server_id', $this->serverOptions->keys()->first());
+    }
+
+    public function updateServer($newServerId, $referer = null): void
+    {
+        $this->selectedServerId = $newServerId;
+        $server                 = GameServer::findOrFail($newServerId);
+
+        try {
+            session([
+                'selected_server_id' => $newServerId,
+                'game_db_connection' => $server->connection_name,
+            ]);
+
+            $this->sendNotification($server);
+
+            $this->redirect($referer ?? request()->header('Referer'));
+        } catch (Exception $e) {
+            $this->sendErrorNotification($e->getMessage());
+        }
+    }
+
+    private function sendNotification(GameServer $server): void
+    {
+        $message = "Switched to {$server->name} - x{$server->experience_rate}";
+
+        if ($this->filament) {
+            Notification::make()
+                ->title('Success!')
+                ->body($message)
+                ->success()
+                ->send();
+        } else {
+            Flux::toast(
+                heading: __('Success!'),
+                text: __($message),
+            );
+        }
+    }
+
+    private function sendErrorNotification(string $message): void
+    {
+        if ($this->filament) {
+            Notification::make()
+                ->title('Error')
+                ->body('Failed to switch server: '.$message)
+                ->danger()
+                ->send();
+        } else {
+            Flux::toast(
+                heading: __('Error'),
+                text: __('Failed to switch server: '.$message),
+            );
+        }
+    }
+
+    private function getServerOptions(): Collection
+    {
+        return GameServer::where('is_active', true)
+            ->get(['id', 'name', 'experience_rate'])
+            ->mapWithKeys(function ($server) {
+                return [
+                    $server->id => [
+                        'name'            => $server->name,
+                        'experience_rate' => $server->experience_rate,
+                    ]
+                ];
+            });
     }
 }; ?>
 
