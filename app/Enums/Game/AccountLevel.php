@@ -29,8 +29,18 @@ enum AccountLevel: int implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::Regular => null,
             self::Bronze => Color::Orange,
-            self::Silver => Color::Gray,
+            self::Silver => Color::Zinc,
             self::Gold => Color::Yellow,
+        };
+    }
+
+    public function badgeColor(): string|array|null
+    {
+        return match ($this) {
+            self::Regular => null,
+            self::Bronze => 'orange',
+            self::Silver => 'zinc',
+            self::Gold => 'yellow',
         };
     }
 

@@ -16,13 +16,13 @@
 
     <flux:navlist variant="outline">
         <flux:navlist.item wire:navigate icon="home" href="/dashboard">Dashboard</flux:navlist.item>
-        <flux:navlist.item wire:navigate icon="wallet" href="#">Wallet</flux:navlist.item>
+        <flux:navlist.item wire:navigate icon="wallet" href="/wallet">Wallet</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="clock" href="#">Event Entries</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="building-library" href="#">Castle Siege</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="fire" href="#">Buy VIP</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="eye-slash" href="#">Hide Info</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="arrows-pointing-out" href="#">Unstuck Character</flux:navlist.item>
-        <flux:navlist.item wire:navigate icon="gift" href="#">Donate</flux:navlist.item>
+        <flux:navlist.item wire:navigate icon="sparkles" href="#">Donate</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="hand-thumb-up" href="#">Vote</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="list-bullet" href="#">Activities</flux:navlist.item>
         <flux:separator variant="subtle" class="my-px"/>
@@ -35,14 +35,14 @@
         <div class="min-w-[13rem] max-lg:hidden flex-col min-h-full">
             <flux:navlist>
                 <flux:navlist.item wire:navigate icon="home" href="/dashboard">Dashboard</flux:navlist.item>
-                <flux:navlist.item wire:navigate icon="wallet" href="#">Wallet</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="wallet" href="/wallet">Wallet</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="clock" href="#">Event Entries</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="building-library" href="#">Castle Siege</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="fire" href="#">Buy VIP</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="eye-slash" href="#">Hide Info</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="arrows-pointing-out" href="#">Unstuck Character
                 </flux:navlist.item>
-                <flux:navlist.item wire:navigate icon="gift" href="#">Donate</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="sparkles" href="#">Donate</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="hand-thumb-up" href="#">Vote</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="list-bullet" href="#">Activities</flux:navlist.item>
                 <flux:separator variant="subtle" class="my-px"/>

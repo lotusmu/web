@@ -58,8 +58,6 @@ new class extends Component {
 
 
         <flux:button type="submit" variant="primary">
-            <flux:icon.loading wire:loading variant="mini" class="hidden"/>
-
             {{ __('Save') }}
         </flux:button>
     </form>
