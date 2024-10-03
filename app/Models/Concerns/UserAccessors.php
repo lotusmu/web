@@ -7,11 +7,15 @@ use Illuminate\Support\Number;
 
 trait UserAccessors
 {
-    private function format($value): object
+    private function format($value, string $method = 'format', int $precision = 0): object
     {
-        return new class($value)
+        return new class($value, $method, $precision)
         {
-            public function __construct(private int $value) {}
+            public function __construct(
+                private readonly int $value,
+                private readonly string $method,
+                private readonly int $precision
+            ) {}
 
             public function __toString(): string
             {
@@ -20,7 +24,11 @@ trait UserAccessors
 
             public function format(): string
             {
-                return Number::format($this->value, locale: 'bg');
+                return match ($this->method) {
+                    'abbreviate' => Number::abbreviate($this->value, precision: $this->precision),
+
+                    default => Number::format($this->value, locale: 'bg'),
+                };
             }
         };
     }
@@ -28,34 +36,21 @@ trait UserAccessors
     protected function tokens(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->format($this->member->tokens ?? 0)
+            get: fn () => $this->format($this->member->tokens)
         );
     }
 
     protected function credits(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->format($this->member->wallet->credits ?? 0)
+            get: fn () => $this->format($this->member->wallet->credits)
         );
     }
 
     protected function zen(): Attribute
     {
         return Attribute::make(
-            get: fn () => new class($this->member->wallet->zen ?? 0)
-            {
-                public function __construct(private int $value) {}
-
-                public function __toString(): string
-                {
-                    return (string) $this->value;
-                }
-
-                public function format(): string
-                {
-                    return Number::abbreviate($this->value, precision: 2);
-                }
-            }
+            get: fn () => $this->format($this->member->wallet->zen, 'abbreviate', 2)
         );
     }
 }
