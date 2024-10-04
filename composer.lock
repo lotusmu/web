@@ -3099,23 +3099,23 @@
         },
         {
             "name": "livewire/flux",
-            "version": "v1.0.4",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/flux.git",
-                "reference": "8cf8e1612c4a6325510155f5bc5059d560b33228"
+                "reference": "d0728b00f07731711b6d9a8dc5d5e8d6af6c11e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/flux/zipball/8cf8e1612c4a6325510155f5bc5059d560b33228",
-                "reference": "8cf8e1612c4a6325510155f5bc5059d560b33228",
+                "url": "https://api.github.com/repos/livewire/flux/zipball/d0728b00f07731711b6d9a8dc5d5e8d6af6c11e0",
+                "reference": "d0728b00f07731711b6d9a8dc5d5e8d6af6c11e0",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "^10.0|^11.0",
                 "illuminate/support": "^10.0|^11.0",
                 "illuminate/view": "^10.0|^11.0",
-                "laravel/prompts": "^0.1|^0.2",
+                "laravel/prompts": "^0.1|^0.2|^0.3",
                 "livewire/livewire": "^3.5",
                 "php": "^8.1",
                 "symfony/console": "^6.0|^7.0"
@@ -3156,25 +3156,25 @@
             ],
             "support": {
                 "issues": "https://github.com/livewire/flux/issues",
-                "source": "https://github.com/livewire/flux/tree/v1.0.4"
+                "source": "https://github.com/livewire/flux/tree/v1.0.8"
             },
-            "time": "2024-09-30T17:21:00+00:00"
+            "time": "2024-10-03T23:36:00+00:00"
         },
         {
             "name": "livewire/flux-pro",
-            "version": "1.0.4",
+            "version": "1.0.8",
             "dist": {
                 "type": "zip",
-                "url": "https://composer.fluxui.dev/download/9d228be3-5eb1-4dca-af87-fd61e4b53e3e/flux-pro-1.0.4.zip",
-                "reference": "62a5dd3d0db7048ae04a91ee9c70c9e8ed8fa242",
-                "shasum": "56ea89acafbb4eed8040b5e6cb643b90138cdd76"
+                "url": "https://composer.fluxui.dev/download/9d291d18-7e64-4903-9387-c5197cf99751/flux-pro-1.0.8.zip",
+                "reference": "bd2416c50f83fc4670e1195ab85ad78b9c8b34b5",
+                "shasum": "1ce6cd01463dd4172daa9f81c63fcd54616d7146"
             },
             "require": {
                 "illuminate/console": "^10.0|^11.0",
                 "illuminate/support": "^10.0|^11.0",
                 "illuminate/view": "^10.0|^11.0",
-                "laravel/prompts": "^0.1.24|^0.2",
-                "livewire/flux": "^1.0.4",
+                "laravel/prompts": "^0.1.24|^0.2|^0.3",
+                "livewire/flux": "1.0.8",
                 "livewire/livewire": "^3.5",
                 "php": "^8.1",
                 "symfony/console": "^6.0|^7.0"
@@ -3215,7 +3215,7 @@
                 "livewire",
                 "ui"
             ],
-            "time": "2024-09-30T17:23:35+00:00"
+            "time": "2024-10-03T23:44:35+00:00"
         },
         {
             "name": "livewire/livewire",

@@ -1,9 +1,51 @@
 <?php
 
+use App\Actions\TransferResources;
+use App\Models\User\User;
+use App\Services\ResourceTypeValidator;
+use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    //
+    public $sender;
+    public $recipientName = '';
+    public ?User $recipient = null;
+    public string $resourceType = '';
+    public int $amount;
+
+    public function mount(): void
+    {
+        $this->sender = Auth::user()->id;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'recipientName' => 'required|exists:users,name',
+            'resourceType'  => 'required',
+            'amount'        => 'required|integer|min:1',
+        ];
+    }
+
+    public function updatedRecipientName()
+    {
+        $this->recipient = User::where('name', $this->recipientName)->first();
+    }
+
+    public function transfer(TransferResources $action): void
+    {
+        $this->validate();
+
+        if ( ! $this->recipient) {
+            $this->addError('recipientName', 'Recipient not found.');
+
+            return;
+        }
+
+        $sender = User::findOrFail($this->sender);
+
+        $action->handle($sender, $this->recipient, $this->resourceType, $this->amount);
+    }
 }; ?>
 
 <div>
@@ -17,11 +59,12 @@ new class extends Component {
         </x-flux::subheading>
     </header>
 
-    <form class="mt-6 space-y-6">
-        <flux:select variant="listbox" placeholder="{{__('Choose currency type...')}}">
-            <flux:option>{{__('Tokens')}}</flux:option>
-            <flux:option>{{__('Credits')}}</flux:option>
-            <flux:option>{{__('Zen')}}</flux:option>
+
+    <form wire:submit="transfer" class="mt-6 space-y-6">
+        <flux:select wire:model="resourceType" variant="listbox" placeholder="{{__('Choose currency type...')}}">
+            <flux:option value="tokens">{{__('Tokens')}}</flux:option>
+            <flux:option value="credits">{{__('Credits')}}</flux:option>
+            <flux:option value="zen">{{__('Zen')}}</flux:option>
         </flux:select>
 
         <div x-data="{
@@ -32,9 +75,9 @@ new class extends Component {
             }"
              class="grid sm:grid-cols-2 items-end gap-4">
             <flux:input
+                wire:model="amount"
                 type="number"
                 label="{{ __('Amount') }}"
-                x-model.number="amount"
                 @input="amount = parseInt($event.target.value) || 0"
                 min="0"
                 step="1"
@@ -48,17 +91,9 @@ new class extends Component {
         </div>
 
         <flux:input
-            type="text"
+            wire:model="recipientName"
             label="{{ __('Recipient') }}"
-            x-model="recipient"
             placeholder="{{ __('Enter character name') }}"
-        />
-
-        <flux:textarea
-            label="{{ __('Message (optional)') }}"
-            x-model="message"
-            placeholder="{{ __('Add a short message to your gift...') }}"
-            rows="3"
         />
 
         <flux:button type="submit" variant="primary">

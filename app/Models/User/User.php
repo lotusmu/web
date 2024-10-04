@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use App\Actions\SyncMember;
 use App\Interfaces\HasMember;
+use App\Models\Concerns\ManagesResources;
 use App\Models\Concerns\UserAccessors;
 use App\Models\Ticket\Ticket;
 use Filament\Models\Contracts\FilamentUser;
@@ -23,6 +24,7 @@ class User extends Authenticatable implements FilamentUser, HasMember
 {
     use HasFactory;
     use LogsActivity;
+    use ManagesResources;
     use Notifiable;
     use UserAccessors;
 

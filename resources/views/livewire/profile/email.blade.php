@@ -60,7 +60,7 @@ new class extends Component {
 
         $user->sendEmailVerificationNotification();
 
-        Session::flash('status', 'verification-link-sent');
+        Flux::toast(__('A new verification link has been sent to your email address.'))
     }
 }; ?>
 
@@ -83,17 +83,10 @@ new class extends Component {
                 <p class="text-sm mt-2 text-gray-800">
                     {{ __('Your email address is unverified.') }}
 
-                    <button wire:click.prevent="sendVerification"
-                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <flux:button wire:click.prevent="sendVerification" variant="primary">
                         {{ __('Click here to re-send the verification email.') }}
-                    </button>
+                    </flux:button>
                 </p>
-
-                @if (session('status') === 'verification-link-sent')
-                    <p class="mt-2 font-medium text-sm text-green-600">
-                        {{ __('A new verification link has been sent to your email address.') }}
-                    </p>
-                @endif
             </div>
         @endif
 
