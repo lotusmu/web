@@ -1,6 +1,8 @@
 <?php
 
 use App\Actions\TransferResources;
+use App\Models\Game\Character;
+use App\Models\User\Member;
 use App\Models\User\User;
 use App\Services\ResourceTypeValidator;
 use Livewire\Attributes\Rule;
@@ -8,10 +10,10 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public $sender;
-    public $recipientName = '';
-    public ?User $recipient = null;
+    public $recipient = '';
     public string $resourceType = '';
     public int $amount;
+
 
     public function mount(): void
     {
@@ -21,30 +23,46 @@ new class extends Component {
     public function rules(): array
     {
         return [
-            'recipientName' => 'required|exists:users,name',
-            'resourceType'  => 'required',
-            'amount'        => 'required|integer|min:1',
+            'recipient'    => 'required|string|min:4|max:10',
+            'resourceType' => 'required|in:tokens,credits,zen',
+            'amount'       => 'required|integer|min:1',
         ];
     }
 
-    public function updatedRecipientName()
+    public function getRecipientUserProperty()
     {
-        $this->recipient = User::where('name', $this->recipientName)->first();
+        $character = Character::where('Name', $this->recipient)->first();
+
+        if ( ! $character) {
+            return null;
+        }
+
+        $member = Member::where('memb___id', $character->AccountID)->first();
+
+        if ( ! $member) {
+            return null;
+        }
+
+        return User::where('name', $member->memb___id)->first();
     }
 
     public function transfer(TransferResources $action): void
     {
         $this->validate();
 
-        if ( ! $this->recipient) {
-            $this->addError('recipientName', 'Recipient not found.');
+        $recipientUser = $this->recipientUser;
+
+        if ( ! $recipientUser) {
+            $this->addError('recipient', 'Character not found or no associated user account.');
 
             return;
         }
 
         $sender = User::findOrFail($this->sender);
 
-        $action->handle($sender, $this->recipient, $this->resourceType, $this->amount);
+        $action->handle($sender, $recipientUser, $this->resourceType, $this->amount);
+
+        $this->reset(['recipient', 'resourceType', 'amount']);
     }
 }; ?>
 
@@ -73,7 +91,7 @@ new class extends Component {
                     return this.amount > 0 ? Math.ceil(this.amount * 1.05) : 0;
                 }
             }"
-             class="grid sm:grid-cols-2 items-end gap-4">
+             class="grid sm:grid-cols-2 items-start gap-4">
             <flux:input
                 wire:model="amount"
                 type="number"
@@ -91,7 +109,7 @@ new class extends Component {
         </div>
 
         <flux:input
-            wire:model="recipientName"
+            wire:model="recipient"
             label="{{ __('Recipient') }}"
             placeholder="{{ __('Enter character name') }}"
         />
