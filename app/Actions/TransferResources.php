@@ -2,14 +2,17 @@
 
 namespace App\Actions;
 
+use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
 use Flux;
 
 class TransferResources
 {
-    public function handle(User $sender, User $recipient, string $type, int $amount): bool
+    public function handle(User $sender, User $recipient, ResourceType $type, int $amount, int $taxAmount): bool
     {
-        if (! $sender->resource($type)->decrement($amount)) {
+        $totalAmount = $amount + $taxAmount;
+
+        if (! $sender->resource($type)->decrement($totalAmount)) {
             return false;
         }
 
@@ -17,7 +20,7 @@ class TransferResources
 
         Flux::toast(
             heading: 'Success',
-            text: "You've send {$amount} {$type} to {$recipient->name}.",
+            text: "You've send {$amount} {$type->getLabel()} to {$recipient->name}. Tax paid: {$taxAmount} {$type->getLabel()}.",
         );
 
         return true;

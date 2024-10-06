@@ -4,14 +4,15 @@ namespace App\Models\Concerns;
 
 use App\Actions\DecrementResource;
 use App\Actions\IncrementResource;
+use App\Enums\Utility\ResourceType;
 
 trait ManagesResources
 {
-    public function resource(string $type): object
+    public function resource(ResourceType $type): object
     {
         return new class($this, $type)
         {
-            public function __construct(private $user, private readonly string $type) {}
+            public function __construct(private $user, private readonly ResourceType $type) {}
 
             public function increment(int $amount): bool
             {

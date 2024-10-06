@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
+use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
-use App\Services\ResourceTypeValidator;
 use Flux;
 use Illuminate\Support\Str;
 
@@ -11,11 +11,9 @@ readonly class DecrementResource
 {
     public function __construct(
         private User $user,
-        private string $resourceType,
+        private ResourceType $resourceType,
         private int $amount
-    ) {
-        ResourceTypeValidator::validate($this->resourceType);
-    }
+    ) {}
 
     public function handle(): bool
     {
@@ -49,17 +47,17 @@ readonly class DecrementResource
     private function decrementResource(): void
     {
         match ($this->resourceType) {
-            'tokens' => $this->user->member->tokens -= $this->amount,
-            'credits' => $this->user->member->wallet->credits -= $this->amount,
-            'zen' => $this->user->member->wallet->zen -= $this->amount,
+            ResourceType::TOKENS => $this->user->member->tokens -= $this->amount,
+            ResourceType::CREDITS => $this->user->member->wallet->credits -= $this->amount,
+            ResourceType::ZEN => $this->user->member->wallet->zen -= $this->amount,
         };
     }
 
     private function saveChanges(): void
     {
         match ($this->resourceType) {
-            'tokens' => $this->user->member->save(),
-            'credits', 'zen' => $this->user->member->wallet->save(),
+            ResourceType::TOKENS => $this->user->member->save(),
+            ResourceType::CREDITS, ResourceType::ZEN => $this->user->member->wallet->save(),
         };
     }
 
@@ -70,7 +68,7 @@ readonly class DecrementResource
         activity('resource_change')
             ->performedOn($this->user)
             ->withProperties([
-                'resource_type' => Str::title($this->resourceType),
+                'resource_type' => Str::title($this->resourceType->value),
                 'amount' => $this->amount,
                 'new_value' => $newValue,
             ])
@@ -80,9 +78,9 @@ readonly class DecrementResource
     private function getResourceValue(): int
     {
         return match ($this->resourceType) {
-            'tokens' => $this->user->member->tokens,
-            'credits' => $this->user->member->wallet->credits,
-            'zen' => $this->user->member->wallet->zen,
+            ResourceType::TOKENS => $this->user->member->tokens,
+            ResourceType::CREDITS => $this->user->member->wallet->credits,
+            ResourceType::ZEN => $this->user->member->wallet->zen,
         };
     }
 }

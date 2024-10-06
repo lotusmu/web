@@ -1,35 +1,43 @@
 <?php
 
 use App\Actions\TransferResources;
+use App\Enums\Utility\OperationType;
+use App\Enums\Utility\ResourceType;
 use App\Models\Game\Character;
 use App\Models\User\Member;
 use App\Models\User\User;
-use App\Services\ResourceTypeValidator;
-use Livewire\Attributes\Rule;
+use App\Models\Utility\Tax;
+use Illuminate\Validation\Rules\Enum;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public $sender;
-    public $recipient = '';
-    public string $resourceType = '';
-    public int $amount;
-
+    public string $recipient = '';
+    public ?ResourceType $resourceType = null;
+    public int $amount = 0;
 
     public function mount(): void
     {
         $this->sender = Auth::user()->id;
     }
 
+    #[Computed]
+    public function taxRate(): float
+    {
+        return Tax::getRateFor(OperationType::TRANSFER);
+    }
+
     public function rules(): array
     {
         return [
             'recipient'    => 'required|string|min:4|max:10',
-            'resourceType' => 'required|in:tokens,credits,zen',
+            'resourceType' => ['required', new Enum(ResourceType::class)],
             'amount'       => 'required|integer|min:1',
         ];
     }
 
-    public function getRecipientUserProperty()
+    public function getRecipientUserProperty(): ?User
     {
         $character = Character::where('Name', $this->recipient)->first();
 
@@ -60,7 +68,9 @@ new class extends Component {
 
         $sender = User::findOrFail($this->sender);
 
-        $action->handle($sender, $recipientUser, $this->resourceType, $this->amount);
+        $taxAmount = round($this->amount * ($this->taxRate / 100));
+
+        $action->handle($sender, $recipientUser, $this->resourceType, $this->amount, $taxAmount);
 
         $this->reset(['recipient', 'resourceType', 'amount']);
     }
@@ -77,32 +87,32 @@ new class extends Component {
         </x-flux::subheading>
     </header>
 
-
     <form wire:submit="transfer" class="mt-6 space-y-6">
-        <flux:select wire:model="resourceType" variant="listbox" placeholder="{{__('Choose currency type...')}}">
-            <flux:option value="tokens">{{__('Tokens')}}</flux:option>
-            <flux:option value="credits">{{__('Credits')}}</flux:option>
-            <flux:option value="zen">{{__('Zen')}}</flux:option>
+        <flux:select wire:model.live="resourceType" variant="listbox" placeholder="{{__('Choose currency type...')}}">
+            @foreach(ResourceType::cases() as $type)
+                <flux:option value="{{ $type->value }}">{{ __($type->getLabel()) }}</flux:option>
+            @endforeach
         </flux:select>
 
         <div x-data="{
-                amount: 0,
+               amount: $wire.entangle('amount'),
+                taxRate: {{ $this->taxRate }},
                 get totalWithTax() {
-                    return this.amount > 0 ? Math.ceil(this.amount * 1.05) : 0;
+                    if (this.amount <= 0) return 0;
+                    const taxAmount = Math.round(this.amount * (this.taxRate / 100));
+                    return this.amount + taxAmount;
                 }
-            }"
-             class="grid sm:grid-cols-2 items-start gap-4">
+            }" class="grid sm:grid-cols-2 items-start gap-4">
             <flux:input
-                wire:model="amount"
+                x-model.number="amount"
                 type="number"
                 label="{{ __('Amount') }}"
-                @input="amount = parseInt($event.target.value) || 0"
                 min="0"
                 step="1"
             />
             <flux:input
                 type="number"
-                label="{{ __('Total (including 5% tax)') }}"
+                label="{{ __('Total (including ' . $this->taxRate . '% tax)') }}"
                 x-bind:value="totalWithTax"
                 disabled
             />
