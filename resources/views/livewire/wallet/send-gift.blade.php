@@ -3,6 +3,7 @@
 use App\Actions\TransferResources;
 use App\Enums\Utility\OperationType;
 use App\Enums\Utility\ResourceType;
+use App\Models\Concerns\Taxable;
 use App\Models\Game\Character;
 use App\Models\User\Member;
 use App\Models\User\User;
@@ -12,6 +13,8 @@ use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
+    use Taxable;
+
     public $sender;
     public string $recipient = '';
     public ?ResourceType $resourceType = null;
@@ -20,12 +23,7 @@ new class extends Component {
     public function mount(): void
     {
         $this->sender = Auth::user()->id;
-    }
-
-    #[Computed]
-    public function taxRate(): float
-    {
-        return Tax::getRateFor(OperationType::TRANSFER);
+        $this->initializeTaxable();
     }
 
     public function rules(): array
@@ -58,9 +56,7 @@ new class extends Component {
     {
         $this->validate();
 
-        $recipientUser = $this->recipientUser;
-
-        if ( ! $recipientUser) {
+        if ( ! $this->recipientUser) {
             $this->addError('recipient', 'Character not found or no associated user account.');
 
             return;
@@ -68,9 +64,9 @@ new class extends Component {
 
         $sender = User::findOrFail($this->sender);
 
-        $taxAmount = round($this->amount * ($this->taxRate / 100));
+        $taxAmount = $this->calculateTax($this->amount);
 
-        $action->handle($sender, $recipientUser, $this->resourceType, $this->amount, $taxAmount);
+        $action->handle($sender, $this->recipientUser, $this->resourceType, $this->amount, $taxAmount);
 
         $this->reset(['recipient', 'resourceType', 'amount']);
     }
