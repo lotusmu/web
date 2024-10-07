@@ -72,6 +72,11 @@ new class extends Component {
         updateDestination() {
             if (this.source === 'wallet') {
                 this.destination = 'character';
+            } else if (this.source === 'character' && this.destination === 'character') {
+                // Reset destination character if it's the same as source character
+                if (this.sourceCharacter === this.destinationCharacter) {
+                    this.destinationCharacter = '';
+                }
             }
         }
     }"
@@ -123,8 +128,10 @@ new class extends Component {
                 <flux:select wire:model="destinationCharacter" variant="listbox"
                              placeholder="{{ __('Select destination character') }}">
                     @foreach($this->characters as $character)
-                        <flux:option value="{{ $character['name'] }}"
-                                     x-bind:disabled="source === 'character' && sourceCharacter === '{{ $character['name'] }}'">
+                        <flux:option
+                            value="{{ $character['name'] }}"
+                            x-show="source !== 'character' || sourceCharacter !== '{{ $character['name'] }}'"
+                        >
                             {{ $character['name'] }} ({{ number_format($character['zen']) }})
                         </flux:option>
                     @endforeach
