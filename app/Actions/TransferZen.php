@@ -10,27 +10,29 @@ use Flux;
 
 class TransferZen
 {
-    private const MAX_CHARACTER_ZEN = 2000000000; // 2 billion
+    private const MAX_ZEN = 2000000000; // 2 billion
 
-    public function handle(User $user, string $source, string $destination, string $sourceCharacter, string $destinationCharacter, int $amount): bool
+    private const WALLET_TO_CHAR = ['wallet', 'character'];
+
+    private const CHAR_TO_WALLET = ['character', 'wallet'];
+
+    private const CHAR_TO_CHAR = ['character', 'character'];
+
+    public function handle(User $user, string $from, string $to, string $fromChar, string $toChar, int $amount): bool
     {
-        return match ([$source, $destination]) {
-            ['wallet', 'character'] => $this->transferFromWalletToCharacter($user, $destinationCharacter, $amount),
-            ['character', 'wallet'] => $this->transferFromCharacterToWallet($user, $sourceCharacter, $amount),
-            ['character', 'character'] => $this->transferBetweenCharacters($user, $sourceCharacter, $destinationCharacter, $amount),
-            default => $this->handleInvalidTransfer(),
+        return match ([$from, $to]) {
+            self::WALLET_TO_CHAR => $this->fromWalletToChar($user, $toChar, $amount),
+            self::CHAR_TO_WALLET => $this->fromCharToWallet($user, $fromChar, $amount),
+            self::CHAR_TO_CHAR => $this->betweenChars($user, $fromChar, $toChar, $amount),
+            default => $this->invalidTransfer(),
         };
     }
 
-    private function transferFromWalletToCharacter(User $user, string $characterName, int $amount): bool
+    private function fromWalletToChar(User $user, string $charName, int $amount): bool
     {
-        $character = $this->getCharacter($user, $characterName);
+        $char = $this->getChar($user, $charName);
 
-        if (! $this->validateCharacter($character, $characterName)) {
-            return false;
-        }
-
-        if (! $this->validateCharacterZenLimit($character, $amount)) {
+        if (! $this->validate($user, null, $char, $amount, 'wallet_to_char')) {
             return false;
         }
 
@@ -38,85 +40,75 @@ class TransferZen
             return false;
         }
 
-        $character->increment('Money', $amount);
-        $this->recordActivity($user, 'wallet', $characterName, $amount);
-        $this->notifySuccess("Transferred {$amount} Zen from wallet to {$characterName}.");
+        $char->increment('Money', $amount);
+        $this->recordActivity($user, 'wallet', $charName, $amount);
+        $this->success('Transferred '.$this->format($amount)." Zen from wallet to {$charName}.");
 
         return true;
     }
 
-    private function transferFromCharacterToWallet(User $user, string $characterName, int $amount): bool
+    private function fromCharToWallet(User $user, string $charName, int $amount): bool
     {
-        $character = $this->getCharacter($user, $characterName);
+        $char = $this->getChar($user, $charName);
 
-        if (! $this->validateCharacter($character, $characterName)) {
+        if (! $this->validate($user, $char, null, $amount, 'char_to_wallet')) {
             return false;
         }
 
-        if (! $this->validateCharacterZenAmount($character, $amount)) {
-            return false;
-        }
-
-        $character->decrement('Money', $amount);
+        $char->decrement('Money', $amount);
         $user->resource(ResourceType::ZEN)->increment($amount);
-        $this->recordActivity($user, $characterName, 'wallet', $amount);
-        $this->notifySuccess("Transferred {$amount} Zen from {$characterName} to Zen Wallet.");
+        $this->recordActivity($user, $charName, 'wallet', $amount);
+        $this->success('Transferred '.$this->format($amount)." Zen from {$charName} to Zen Wallet.");
 
         return true;
     }
 
-    private function transferBetweenCharacters(User $user, string $sourceCharacter, string $destinationCharacter, int $amount): bool
+    private function betweenChars(User $user, string $fromChar, string $toChar, int $amount): bool
     {
-        $source = $this->getCharacter($user, $sourceCharacter);
-        $destination = $this->getCharacter($user, $destinationCharacter);
+        $from = $this->getChar($user, $fromChar);
+        $to = $this->getChar($user, $toChar);
 
-        if (! $this->validateCharacters($source, $destination, $sourceCharacter, $destinationCharacter)) {
+        if (! $this->validate($user, $from, $to, $amount, 'char_to_char')) {
             return false;
         }
 
-        if (! $this->validateCharacterZenAmount($source, $amount)) {
-            return false;
-        }
-
-        if (! $this->validateCharacterZenLimit($destination, $amount)) {
-            return false;
-        }
-
-        $source->decrement('Money', $amount);
-        $destination->increment('Money', $amount);
-        $this->recordActivity($user, $sourceCharacter, $destinationCharacter, $amount);
-        $this->notifySuccess("Transferred {$amount} Zen from {$sourceCharacter} to {$destinationCharacter}.");
+        $from->decrement('Money', $amount);
+        $to->increment('Money', $amount);
+        $this->recordActivity($user, $fromChar, $toChar, $amount);
+        $this->success('Transferred '.$this->format($amount)." Zen from {$fromChar} to {$toChar}.");
 
         return true;
     }
 
-    private function recordActivity(User $user, string $source, string $destination, int $amount): void
+    private function validate(User $user, ?Character $from, ?Character $to, int $amount, string $type): bool
     {
-        $properties = [
-            'amount' => $amount,
-            'source' => $source,
-            'destination' => $destination,
-            'wallet_balance' => $user->zen->format(),
-            ...IdentityProperties::capture(),
-        ];
-
-        $logMessage = 'Transferred :properties.amount Zen from :properties.source to :properties.destination. Wallet balance: :properties.wallet_balance';
-
-        if ($source !== 'wallet' && $destination !== 'wallet') {
-            $sourceCharacter = $this->getCharacter($user, $source);
-            $destinationCharacter = $this->getCharacter($user, $destination);
-            $properties['source_balance'] = $sourceCharacter->Money;
-            $properties['destination_balance'] = $destinationCharacter->Money;
-            $logMessage .= ". {$source} balance: :properties.source_balance, {$destination} balance: :properties.destination_balance";
-        } elseif ($source !== 'wallet') {
-            $sourceCharacter = $this->getCharacter($user, $source);
-            $properties['source_balance'] = $sourceCharacter->Money;
-            $logMessage .= ". {$source} balance: :properties.source_balance";
-        } elseif ($destination !== 'wallet') {
-            $destinationCharacter = $this->getCharacter($user, $destination);
-            $properties['destination_balance'] = $destinationCharacter->Money;
-            $logMessage .= ". {$destination} balance: :properties.destination_balance";
+        if ($from && ! $this->validateChar($from, $from->Name)) {
+            return false;
         }
+
+        if ($to && ! $this->validateChar($to, $to->Name)) {
+            return false;
+        }
+
+        if ($type === 'char_to_wallet' || $type === 'char_to_char') {
+            if (! $this->validateAmount($from, $amount)) {
+                return false;
+            }
+        }
+
+        if ($type === 'wallet_to_char' || $type === 'char_to_char') {
+            if (! $this->validateLimit($to, $amount)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function recordActivity(User $user, string $from, string $to, int $amount): void
+    {
+        $properties = $this->activityProps($user, $from, $to, $amount);
+        $logMessage = $this->generateLogMessage($properties);
 
         activity('zen_transfer')
             ->performedOn($user)
@@ -124,15 +116,56 @@ class TransferZen
             ->log($logMessage);
     }
 
-    private function getCharacter(User $user, string $characterName): ?Character
+    private function activityProps(User $user, string $from, string $to, int $amount): array
     {
-        return $user->member->characters()->where('Name', $characterName)->first();
+        $properties = [
+            'amount' => $this->format($amount),
+            'from' => $from,
+            'to' => $to,
+            'wallet_balance' => $this->format($user->getResourceValue(ResourceType::ZEN)),
+            ...IdentityProperties::capture(),
+        ];
+
+        if ($from !== 'wallet') {
+            $fromChar = $this->getChar($user, $from);
+            $properties['from_balance'] = $this->format($fromChar->Money);
+        }
+
+        if ($to !== 'wallet') {
+            $toChar = $this->getChar($user, $to);
+            $properties['to_balance'] = $this->format($toChar->Money);
+        }
+
+        return $properties;
     }
 
-    private function validateCharacter(?Character $character, string $characterName): bool
+    private function generateLogMessage(array $props): string
     {
-        if (! $character) {
-            $this->notifyError("Character {$characterName} not found.");
+        $log = "Transferred {$props['amount']} Zen from {$props['from']} to {$props['to']}. Wallet balance: {$props['wallet_balance']}";
+
+        if (isset($props['from_balance'])) {
+            $log .= ". {$props['from']} balance: {$props['from_balance']}";
+        }
+
+        if (isset($props['to_balance'])) {
+            $log .= ". {$props['to']} balance: {$props['to_balance']}";
+        }
+
+        return $log;
+    }
+
+    private function getChar(User $user, string $name): ?Character
+    {
+        return $user->member->characters()
+            ->where('Name', $name)
+            ->where('member_id', $user->member->id)
+            ->first();
+    }
+
+    private function validateChar(?Character $char, string $name): bool
+    {
+        if (! $char) {
+            $this->error("Character {$name} not found.");
 
             return false;
         }
@@ -140,10 +173,10 @@ class TransferZen
         return true;
     }
 
-    private function validateCharacters(?Character $source, ?Character $destination, string $sourceCharacter, string $destinationCharacter): bool
+    private function validateAmount(Character $char, int $amount): bool
     {
-        if (! $source || ! $destination) {
-            $this->notifyError('One or both characters not found.');
+        if ($char->Money < $amount) {
+            $this->error('Insufficient Zen on character.');
 
             return false;
         }
@@ -151,10 +184,10 @@ class TransferZen
         return true;
     }
 
-    private function validateCharacterZenAmount(Character $character, int $amount): bool
+    private function validateLimit(Character $char, int $amount): bool
     {
-        if ($character->Money < $amount) {
-            $this->notifyError('Insufficient Zen on character.');
+        if ($char->Money + $amount > self::MAX_ZEN) {
+            $this->error("Transfer would exceed the maximum Zen limit for {$char->Name}.");
 
             return false;
         }
@@ -162,31 +195,30 @@ class TransferZen
         return true;
     }
 
-    private function validateCharacterZenLimit(Character $character, int $amount): bool
+    private function invalidTransfer(): bool
     {
-        if ($character->Money + $amount > self::MAX_CHARACTER_ZEN) {
-            $this->notifyError("Transfer would exceed the maximum Zen limit for {$character->Name}.");
-
-            return false;
-        }
-
-        return true;
-    }
-
-    private function handleInvalidTransfer(): bool
-    {
-        $this->notifyError('Invalid transfer type.');
+        $this->error('Invalid transfer type.');
 
         return false;
     }
 
-    private function notifySuccess(string $message): void
+    private function format(int $amount): string
     {
-        Flux::toast(heading: 'Success', text: $message);
+        return number_format($amount);
     }
 
-    private function notifyError(string $message): void
+    private function notify(string $heading, string $message): void
     {
-        Flux::toast(heading: 'Error', text: $message);
+        Flux::toast(heading: $heading, text: $message);
+    }
+
+    private function success(string $message): void
+    {
+        $this->notify('Success', $message);
+    }
+
+    private function error(string $message): void
+    {
+        $this->notify('Error', $message);
     }
 }
