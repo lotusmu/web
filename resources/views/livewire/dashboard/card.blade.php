@@ -16,7 +16,6 @@ new #[Layout('layouts.app')] class extends Component {
         $this->user = auth()->user();
     }
 
-
     #[Computed]
     public function resources(): object
     {
@@ -28,7 +27,7 @@ new #[Layout('layouts.app')] class extends Component {
     }
 
     #[Computed]
-    public function accountLevel()
+    public function accountLevel(): ?array
     {
         $level = $this->user->member->AccountLevel;
         if ($level === AccountLevel::Regular) {
@@ -45,7 +44,7 @@ new #[Layout('layouts.app')] class extends Component {
 <flux:card class="flex max-sm:flex-col justify-evenly gap-2 text-center">
     <div>
         <flux:subheading>
-            Tokens
+            {{__('Tokens')}}
         </flux:subheading>
         <flux:heading size="xl">
             {{ $this->resources->tokens }}
@@ -57,7 +56,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div>
         <flux:subheading>
-            Credits
+            {{__('Credits')}}
         </flux:subheading>
         <flux:heading size="xl">
             {{ $this->resources->credits }}
@@ -69,7 +68,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div>
         <flux:subheading>
-            Zen
+            {{__('Zen')}}
         </flux:subheading>
         <flux:heading size="xl">
             {{ $this->resources->zen }}
@@ -81,7 +80,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div>
         <flux:subheading>
-            Account Level
+            {{__('Account Level')}}
         </flux:subheading>
 
         @if ($this->accountLevel)
@@ -90,7 +89,7 @@ new #[Layout('layouts.app')] class extends Component {
             </flux:badge>
         @else
             <flux:heading size="xl">
-                Regular
+                {{__('Regular')}}
             </flux:heading>
         @endif
     </div>

@@ -31,7 +31,7 @@ new class extends Component {
         return [
             'recipient'    => 'required|string|min:4|max:10',
             'resourceType' => ['required', new Enum(ResourceType::class)],
-            'amount'       => 'required|integer|min:1',
+            'amount'       => 'required|integer|min:100',
         ];
     }
 
@@ -84,7 +84,7 @@ new class extends Component {
     </header>
 
     <form wire:submit="transfer" class="mt-6 space-y-6">
-        <flux:select wire:model.live="resourceType" variant="listbox" placeholder="{{__('Choose currency type...')}}">
+        <flux:select wire:model="resourceType" variant="listbox" placeholder="{{__('Choose currency type...')}}">
             @foreach(ResourceType::cases() as $type)
                 <flux:option value="{{ $type->value }}">{{ __($type->getLabel()) }}</flux:option>
             @endforeach
@@ -100,6 +100,7 @@ new class extends Component {
                 }
             }" class="grid sm:grid-cols-2 items-start gap-4">
             <flux:input
+                wire:model="amount"
                 x-model.number="amount"
                 type="number"
                 label="{{ __('Amount') }}"

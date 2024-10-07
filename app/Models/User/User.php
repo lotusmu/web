@@ -5,7 +5,6 @@ namespace App\Models\User;
 use App\Actions\SyncMember;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
-use App\Models\Concerns\UserAccessors;
 use App\Models\Ticket\Ticket;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -26,7 +25,6 @@ class User extends Authenticatable implements FilamentUser, HasMember
     use LogsActivity;
     use ManagesResources;
     use Notifiable;
-    use UserAccessors;
 
     protected ?string $rawPassword = null;
 

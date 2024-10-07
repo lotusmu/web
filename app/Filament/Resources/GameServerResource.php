@@ -18,6 +18,8 @@ class GameServerResource extends Resource
 {
     protected static ?string $model = GameServer::class;
 
+    protected static ?string $navigationGroup = 'Settings';
+
     protected static ?string $navigationIcon = 'heroicon-o-server-stack';
 
     public static function form(Form $form): Form

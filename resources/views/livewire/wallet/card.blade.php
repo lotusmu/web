@@ -26,7 +26,7 @@ new class extends Component {
 <div class="grid sm:grid-cols-3 gap-6">
     <flux:card>
         <flux:subheading>
-            Tokens
+            {{__('Tokens')}}
         </flux:subheading>
         <flux:heading size="xl">
             {{ $this->resources->tokens }}
@@ -35,7 +35,7 @@ new class extends Component {
 
     <flux:card>
         <flux:subheading>
-            Credits
+            {{__('Credits')}}
         </flux:subheading>
         <flux:heading size="xl">
             {{ $this->resources->credits }}
@@ -44,7 +44,7 @@ new class extends Component {
 
     <flux:card>
         <flux:subheading>
-            Zen
+            {{__('Zen')}}
         </flux:subheading>
         <flux:heading size="xl">
             {{ $this->resources->zen }}

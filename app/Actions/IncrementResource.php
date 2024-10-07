@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
-use Illuminate\Support\Str;
 
 readonly class IncrementResource
 {
@@ -18,7 +17,6 @@ readonly class IncrementResource
     {
         $this->incrementResource();
         $this->saveChanges();
-        $this->recordActivity();
 
         return true;
     }
@@ -37,29 +35,6 @@ readonly class IncrementResource
         match ($this->resourceType) {
             ResourceType::TOKENS => $this->user->member->save(),
             ResourceType::CREDITS, ResourceType::ZEN => $this->user->member->wallet->save(),
-        };
-    }
-
-    public function recordActivity(): void
-    {
-        $newValue = $this->getResourceValue();
-
-        activity('resource_change')
-            ->performedOn($this->user)
-            ->withProperties([
-                'resource_type' => Str::title($this->resourceType->value),
-                'amount' => $this->amount,
-                'new_value' => $newValue,
-            ])
-            ->log(':properties.resource_type increased by :properties.amount. New total: :properties.new_value');
-    }
-
-    private function getResourceValue(): int
-    {
-        return match ($this->resourceType) {
-            ResourceType::TOKENS => $this->user->member->tokens,
-            ResourceType::CREDITS => $this->user->member->wallet->credits,
-            ResourceType::ZEN => $this->user->member->wallet->zen,
         };
     }
 }
