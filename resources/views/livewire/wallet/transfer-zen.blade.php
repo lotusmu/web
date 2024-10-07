@@ -18,15 +18,14 @@ new class extends Component {
         </flux:heading>
 
         <x-flux::subheading>
-            {{ __('Move Zen seamlessly between your wallet, warehouse, and characters.') }}
+            {{ __('Move Zen seamlessly between your wallet, and characters.') }}
         </x-flux::subheading>
     </header>
 
-    <div class="flex max-lg:flex-col max-lg:space-y-6">
+    <div class="flex max-sm:flex-col max-sm:space-y-6">
         <div class="space-y-6 flex-1">
             <flux:radio.group x-model="source" label="{{ __('From (Source)') }}">
                 <flux:radio value="wallet" label="{{ __('Zen Wallet') }} (5.02B)"/>
-                <flux:radio value="warehouse" label="{{ __('Warehouse') }} (1.34M)"/>
                 <flux:radio value="character" label="{{ __('Character') }}"/>
             </flux:radio.group>
 
@@ -41,19 +40,16 @@ new class extends Component {
             </div>
         </div>
 
-        <div class="mt-6 shrink-0 w-32 max-lg:hidden">
+        <div class="mt-8 shrink-0 w-32 max-sm:hidden">
             <flux:icon.chevron-double-right/>
         </div>
 
-        <flux:separator class="lg:hidden"/>
+        <flux:separator class="sm:hidden"/>
 
         <div class="space-y-6 flex-1">
             <flux:radio.group x-model="destination" label="{{ __('To (Destination)') }}">
                 <template x-if="source !== 'wallet'">
                     <flux:radio value="wallet" label="{{ __('Zen Wallet') }} (5.02B)"/>
-                </template>
-                <template x-if="source !== 'warehouse'">
-                    <flux:radio value="warehouse" label="{{ __('Warehouse') }} (1.34M)"/>
                 </template>
                 <flux:radio value="character" label="{{ __('Character') }}"/>
             </flux:radio.group>
@@ -72,9 +68,10 @@ new class extends Component {
     </div>
 
     <flux:input
-        type="number"
-        label="{{ __('Amount of Zen to transfer') }}"
+        wire:model="amount"
         x-model.number="amount"
+        type="number"
+        label="{{ __('Amount') }}"
         min="1"
         step="1"
     />

@@ -23,7 +23,7 @@ new class extends Component {
     }
 } ?>
 
-<div class="grid sm:grid-cols-3 gap-6">
+<div class="grid sm:grid-cols-3 gap-6 max-sm:text-center max-sm:gap-2">
     <flux:card>
         <flux:subheading>
             {{__('Tokens')}}
