@@ -84,7 +84,7 @@ class TransferZen
 
         Flux::toast(
             heading: 'Success',
-            text: "Transferred {$amount} Zen from {$characterName} to wallet."
+            text: "Transferred {$amount} Zen from {$characterName} to Zen Wallet."
         );
 
         return true;

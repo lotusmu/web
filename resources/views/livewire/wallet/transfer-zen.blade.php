@@ -37,7 +37,7 @@ new class extends Component {
     }
 
     #[Computed]
-    public function walletZen()
+    public function zenWallet()
     {
         return Auth::user()->getResourceValue(ResourceType::ZEN);
     }
@@ -69,15 +69,26 @@ new class extends Component {
         destination: $wire.entangle('destination'),
         sourceCharacter: $wire.entangle('sourceCharacter'),
         destinationCharacter: $wire.entangle('destinationCharacter'),
+        characters: {{ Js::from($this->characters) }},
+        zenWallet: {{ $this->zenWallet }},
         updateDestination() {
             if (this.source === 'wallet') {
                 this.destination = 'character';
             } else if (this.source === 'character' && this.destination === 'character') {
-                // Reset destination character if it's the same as source character
                 if (this.sourceCharacter === this.destinationCharacter) {
                     this.destinationCharacter = '';
                 }
             }
+        },
+        get finalDestinationBalance() {
+            let currentBalance = 0;
+            if (this.destination === 'wallet') {
+                currentBalance = this.zenWallet;
+            } else if (this.destination === 'character' && this.destinationCharacter) {
+                const character = this.characters.find(c => c.name === this.destinationCharacter);
+                currentBalance = character ? character.zen : 0;
+            }
+            return currentBalance + (this.amount || 0);
         }
     }"
      x-effect="updateDestination"
@@ -95,7 +106,7 @@ new class extends Component {
     <div class="flex max-sm:flex-col max-sm:space-y-6">
         <div class="space-y-6 flex-1">
             <flux:radio.group wire:model="source" label="{{ __('From (Source)') }}">
-                <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->walletZen) }})"/>
+                <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->zenWallet) }})"/>
                 <flux:radio value="character" label="{{ __('Character') }}"/>
             </flux:radio.group>
 
@@ -119,7 +130,7 @@ new class extends Component {
 
         <div class="space-y-6 flex-1">
             <flux:radio.group wire:model="destination" label="{{ __('To (Destination)') }}">
-                <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->walletZen) }})"
+                <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->zenWallet) }})"
                             x-bind:disabled="source === 'wallet'"/>
                 <flux:radio value="character" label="{{ __('Character') }}"/>
             </flux:radio.group>
@@ -140,14 +151,22 @@ new class extends Component {
         </div>
     </div>
 
-    <flux:input
-        wire:model="amount"
-        x-model.number="amount"
-        type="number"
-        label="{{ __('Amount') }}"
-        min="0"
-        step="1"
-    />
+    <div class="grid sm:grid-cols-2 items-start gap-4">
+        <flux:input
+            wire:model="amount"
+            x-model.number="amount"
+            type="number"
+            label="{{ __('Amount') }}"
+            min="0"
+            step="1"
+        />
+        <flux:input
+            label="{{ __('Final Destination Balance') }}"
+            x-bind:value="new Intl.NumberFormat().format(finalDestinationBalance)"
+            type="text"
+            disabled
+        />
+    </div>
 
     <flux:button wire:click="transfer" type="button" variant="primary">
         {{ __('Transfer') }}

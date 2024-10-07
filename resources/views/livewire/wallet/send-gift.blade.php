@@ -108,9 +108,9 @@ new class extends Component {
                 step="1"
             />
             <flux:input
-                type="number"
                 label="{{ __('Total (including ' . $this->taxRate . '% tax)') }}"
-                x-bind:value="totalWithTax"
+                x-bind:value="new Intl.NumberFormat().format(totalWithTax)"
+                type="text"
                 disabled
             />
         </div>
