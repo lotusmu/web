@@ -1,16 +1,74 @@
 <?php
 
+use App\Actions\TransferZen;
+use App\Enums\Utility\ResourceType;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Enum;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
-//
+    public $source = '';
+    public $destination = '';
+    public $sourceCharacter = '';
+    public $destinationCharacter = '';
+    public $amount = 0;
+
+    public function rules(): array
+    {
+        return [
+            'source'               => 'required|in:wallet,character',
+            'destination'          => 'required|in:wallet,character|different:source',
+            'sourceCharacter'      => 'required_if:source,character',
+            'destinationCharacter' => 'required_if:destination,character',
+            'amount'               => 'required|integer|min:1',
+        ];
+    }
+
+    #[Computed]
+    public function characters()
+    {
+        return Auth::user()->member->characters->map(function ($character) {
+            return [
+                'name' => $character->Name,
+                'zen'  => $character->Money,
+            ];
+        });
+    }
+
+    #[Computed]
+    public function walletZen()
+    {
+        return Auth::user()->getResourceValue(ResourceType::ZEN);
+    }
+
+    public function transfer(TransferZen $action): void
+    {
+        $this->validate();
+
+        $user = Auth::user();
+
+        $success = $action->handle(
+            $user,
+            $this->source,
+            $this->destination,
+            $this->sourceCharacter,
+            $this->destinationCharacter,
+            $this->amount
+        );
+
+        if ($success) {
+            $this->reset(['source', 'destination', 'sourceCharacter', 'destinationCharacter', 'amount']);
+        }
+    }
 }; ?>
+
 <div x-data="{
-    source: '',
-    destination: '',
-    sourceCharacter: '',
-    destinationCharacter: '',
-    amount: 0
+    source: $wire.entangle('source'),
+    destination: $wire.entangle('destination'),
+    sourceCharacter: $wire.entangle('sourceCharacter'),
+    destinationCharacter: $wire.entangle('destinationCharacter'),
+    amount: $wire.entangle('amount')
 }" class="space-y-6">
     <header>
         <flux:heading size="lg">
@@ -18,24 +76,25 @@ new class extends Component {
         </flux:heading>
 
         <x-flux::subheading>
-            {{ __('Move Zen seamlessly between your wallet, and characters.') }}
+            {{ __('Move Zen seamlessly between your wallet and characters.') }}
         </x-flux::subheading>
     </header>
 
     <div class="flex max-sm:flex-col max-sm:space-y-6">
         <div class="space-y-6 flex-1">
-            <flux:radio.group x-model="source" label="{{ __('From (Source)') }}">
-                <flux:radio value="wallet" label="{{ __('Zen Wallet') }} (5.02B)"/>
+            <flux:radio.group wire:model="source" label="{{ __('From (Source)') }}">
+                <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->walletZen) }})"/>
                 <flux:radio value="character" label="{{ __('Character') }}"/>
             </flux:radio.group>
 
             <div x-show="source === 'character'">
-                <flux:select variant="listbox" placeholder="{{ __('Select source character') }}"
-                             x-model="sourceCharacter">
-                    <flux:option>Photograph (543.00M)</flux:option>
-                    <flux:option>Design (543.00M)</flux:option>
-                    <flux:option>development (543.00M)</flux:option>
-                    <flux:option>Accounting (543.00M)</flux:option>
+                <flux:select wire:model="sourceCharacter" variant="listbox"
+                             placeholder="{{ __('Select source character') }}">
+                    @foreach($this->characters as $character)
+                        <flux:option value="{{ $character['name'] }}">{{ $character['name'] }}
+                            ({{ number_format($character['zen']) }})
+                        </flux:option>
+                    @endforeach
                 </flux:select>
             </div>
         </div>
@@ -47,36 +106,35 @@ new class extends Component {
         <flux:separator class="sm:hidden"/>
 
         <div class="space-y-6 flex-1">
-            <flux:radio.group x-model="destination" label="{{ __('To (Destination)') }}">
+            <flux:radio.group wire:model="destination" label="{{ __('To (Destination)') }}">
                 <template x-if="source !== 'wallet'">
-                    <flux:radio value="wallet" label="{{ __('Zen Wallet') }} (5.02B)"/>
+                    <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->walletZen) }})"/>
                 </template>
                 <flux:radio value="character" label="{{ __('Character') }}"/>
             </flux:radio.group>
 
             <div x-show="destination === 'character'">
-                <flux:select variant="listbox" placeholder="{{ __('Select destination character') }}"
-                             x-model="destinationCharacter">
-                    <flux:option>Photography (543.00M)</flux:option>
-                    <flux:option>Design services (543.00M)</flux:option>
-                    <flux:option>Web development (543.00M)</flux:option>
-                    <flux:option>Accounting (543.00M)</flux:option>
+                <flux:select wire:model="destinationCharacter" variant="listbox"
+                             placeholder="{{ __('Select destination character') }}">
+                    @foreach($this->characters as $character)
+                        <flux:option value="{{ $character['name'] }}">{{ $character['name'] }}
+                            ({{ number_format($character['zen']) }})
+                        </flux:option>
+                    @endforeach
                 </flux:select>
             </div>
-
         </div>
     </div>
 
     <flux:input
         wire:model="amount"
-        x-model.number="amount"
         type="number"
         label="{{ __('Amount') }}"
         min="1"
         step="1"
     />
 
-    <flux:button type="submit" variant="primary">
-        {{ __('Submit') }}
+    <flux:button wire:click="transfer" type="button" variant="primary">
+        {{ __('Transfer') }}
     </flux:button>
 </div>
