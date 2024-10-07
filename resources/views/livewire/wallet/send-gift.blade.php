@@ -91,7 +91,7 @@ new class extends Component {
         </flux:select>
 
         <div x-data="{
-               amount: $wire.entangle('amount'),
+                amount: $wire.entangle('amount'),
                 taxRate: {{ $this->taxRate }},
                 get totalWithTax() {
                     if (this.amount <= 0) return 0;

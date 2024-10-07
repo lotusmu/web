@@ -18,7 +18,7 @@ new class extends Component {
     {
         return [
             'source'               => 'required|in:wallet,character',
-            'destination'          => 'required|in:wallet,character|different:source',
+            'destination'          => 'required|in:wallet,character',
             'sourceCharacter'      => 'required_if:source,character',
             'destinationCharacter' => 'required_if:destination,character',
             'amount'               => 'required|integer|min:1',
@@ -64,12 +64,19 @@ new class extends Component {
 }; ?>
 
 <div x-data="{
-    source: $wire.entangle('source'),
-    destination: $wire.entangle('destination'),
-    sourceCharacter: $wire.entangle('sourceCharacter'),
-    destinationCharacter: $wire.entangle('destinationCharacter'),
-    amount: $wire.entangle('amount')
-}" class="space-y-6">
+        amount: $wire.entangle('amount'),
+        source: $wire.entangle('source'),
+        destination: $wire.entangle('destination'),
+        sourceCharacter: $wire.entangle('sourceCharacter'),
+        destinationCharacter: $wire.entangle('destinationCharacter'),
+        updateDestination() {
+            if (this.source === 'wallet') {
+                this.destination = 'character';
+            }
+        }
+    }"
+     x-effect="updateDestination"
+     class="space-y-6">
     <header>
         <flux:heading size="lg">
             {{ __('Transfer Zen') }}
@@ -107,9 +114,8 @@ new class extends Component {
 
         <div class="space-y-6 flex-1">
             <flux:radio.group wire:model="destination" label="{{ __('To (Destination)') }}">
-                <template x-if="source !== 'wallet'">
-                    <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->walletZen) }})"/>
-                </template>
+                <flux:radio value="wallet" label="{{ __('Zen Wallet') }} ({{ number_format($this->walletZen) }})"
+                            x-bind:disabled="source === 'wallet'"/>
                 <flux:radio value="character" label="{{ __('Character') }}"/>
             </flux:radio.group>
 
@@ -117,8 +123,9 @@ new class extends Component {
                 <flux:select wire:model="destinationCharacter" variant="listbox"
                              placeholder="{{ __('Select destination character') }}">
                     @foreach($this->characters as $character)
-                        <flux:option value="{{ $character['name'] }}">{{ $character['name'] }}
-                            ({{ number_format($character['zen']) }})
+                        <flux:option value="{{ $character['name'] }}"
+                                     x-bind:disabled="source === 'character' && sourceCharacter === '{{ $character['name'] }}'">
+                            {{ $character['name'] }} ({{ number_format($character['zen']) }})
                         </flux:option>
                     @endforeach
                 </flux:select>
@@ -128,9 +135,10 @@ new class extends Component {
 
     <flux:input
         wire:model="amount"
+        x-model.number="amount"
         type="number"
         label="{{ __('Amount') }}"
-        min="1"
+        min="0"
         step="1"
     />
 

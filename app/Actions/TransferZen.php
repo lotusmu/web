@@ -9,6 +9,8 @@ use Flux;
 
 class TransferZen
 {
+    private const MAX_CHARACTER_ZEN = 2000000000; // 2 billion
+
     public function handle(User $user, string $source, string $destination, string $sourceCharacter, string $destinationCharacter, int $amount): bool
     {
         return match ([$source, $destination]) {
@@ -27,6 +29,15 @@ class TransferZen
             Flux::toast(
                 heading: 'Error',
                 text: 'Character not found.'
+            );
+
+            return false;
+        }
+
+        if ($character->Money + $amount > self::MAX_CHARACTER_ZEN) {
+            Flux::toast(
+                heading: 'Error',
+                text: "Transfer would exceed the maximum Zen limit for {$characterName}."
             );
 
             return false;
@@ -51,7 +62,8 @@ class TransferZen
         $character = $this->getCharacter($user, $characterName);
 
         if (! $character) {
-            Flux::toast(heading: 'Error',
+            Flux::toast(
+                heading: 'Error',
                 text: 'Character not found.'
             );
 
@@ -96,6 +108,15 @@ class TransferZen
             Flux::toast(
                 heading: 'Error',
                 text: 'Insufficient Zen on source character.'
+            );
+
+            return false;
+        }
+
+        if ($destination->Money + $amount > self::MAX_CHARACTER_ZEN) {
+            Flux::toast(
+                heading: 'Error',
+                text: "Transfer would exceed the maximum Zen limit for {$destinationCharacter}."
             );
 
             return false;
