@@ -22,8 +22,8 @@ new class extends Component {
 
     public function mount(): void
     {
-        $this->sender = Auth::user()->id;
-        $this->initializeTaxable();
+        $this->sender        = Auth::user()->id;
+        $this->operationType = OperationType::TRANSFER;
     }
 
     public function rules(): array

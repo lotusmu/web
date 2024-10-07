@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
+use App\Support\ActivityLog\IdentityProperties;
 use Flux;
 use Illuminate\Support\Str;
 
@@ -40,6 +41,7 @@ class TransferResources
                 'resource_type' => Str::title($resourceType->value),
                 'amount' => $amount,
                 'new_value' => $newValue,
+                ...IdentityProperties::capture(),
             ])
             ->log(':properties.resource_type sent to :properties.recipient. Amount: :properties.amount (incl. tax). New balance: :properties.new_value :properties.resource_type');
     }

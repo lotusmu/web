@@ -9,9 +9,11 @@ trait Taxable
 {
     protected float $taxRate;
 
+    public OperationType $operationType = OperationType::TRANSFER;
+
     public function initializeTaxable(): void
     {
-        $this->taxRate = Tax::getRateFor(OperationType::TRANSFER);
+        $this->taxRate = Tax::getRateFor($this->operationType);
     }
 
     public function calculateTax(float $amount): float
@@ -24,5 +26,10 @@ trait Taxable
         $taxAmount = $this->calculateTax($amount);
 
         return $amount + $taxAmount;
+    }
+
+    public function bootTaxable(): void
+    {
+        $this->initializeTaxable();
     }
 }

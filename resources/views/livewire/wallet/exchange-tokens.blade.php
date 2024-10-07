@@ -1,39 +1,36 @@
 <?php
 
+use App\Actions\ExchangeResources;
+use App\Enums\Utility\OperationType;
+use App\Models\Concerns\Taxable;
 use App\Models\User\User;
+use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public User $user;
-    public int $amount;
+    use Taxable;
 
-    public function mount()
+    public User $user;
+
+    #[Validate('required|integer|min:1')]
+    public int $amount = 0;
+
+    public function mount(): void
     {
-        $this->user = auth()->user();
+        $this->user          = auth()->user();
+        $this->operationType = OperationType::EXCHANGE;
+        $this->initializeTaxable();
     }
 
-    public function exchange()
+    public function exchange(ExchangeResources $action): void
     {
-        $this->validate([
-            'amount' => 'required|integer|min:1',
-        ]);
+        $this->validate();
 
-        $wallet = $this->user->member->wallet;
+        $taxAmount = $this->calculateTax($this->amount);
 
-        if ($this->user->member->tokens < $this->amount) {
-            Flux::toast('Insufficient tokens', 'error');
+        $action->handle($this->user, $this->amount, $taxAmount);
 
-            return;
-        }
-
-        $this->user->member->tokens -= $this->amount;
-        $wallet->credits            += $this->amount;
-        $wallet->save();
-        $this->user->member->save();
-
-        Flux::toast('Credits updated successfully', 'success');
-
-        $this->amount = 0;
+        $this->reset('amount');
     }
 }; ?>
 
@@ -44,18 +41,35 @@ new class extends Component {
         </flux:heading>
 
         <x-flux::subheading>
-            {{ __('Exchange your tokens for credits at a 1:1 ratio.') }}
+            {{ __('Exchange your tokens for credits.') }}
         </x-flux::subheading>
     </header>
 
     <form wire:submit="exchange" class="mt-6 space-y-6">
-        <flux:input
-            type="number"
-            label="{{ __('Amount') }}"
-            wire:model="amount"
-            min="0"
-            step="1"
-        />
+        <div x-data="{
+                amount: $wire.entangle('amount'),
+                taxRate: {{ $this->taxRate }},
+                get totalWithTax() {
+                    if (this.amount <= 0) return 0;
+                    const taxAmount = Math.round(this.amount * (this.taxRate / 100));
+                    return this.amount - taxAmount;
+                }
+            }" class="grid sm:grid-cols-2 items-start gap-4">
+            <flux:input
+                wire:model="amount"
+                x-model.number="amount"
+                type="number"
+                label="{{ __('Amount') }}"
+                min="0"
+                step="1"
+            />
+            <flux:input
+                type="number"
+                label="{{ __('Amount after tax (' . $this->taxRate . '% tax)') }}"
+                x-bind:value="totalWithTax"
+                disabled
+            />
+        </div>
         <flux:button type="submit" variant="primary">
             {{ __('Submit') }}
         </flux:button>

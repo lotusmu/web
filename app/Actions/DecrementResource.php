@@ -36,7 +36,7 @@ readonly class DecrementResource
 
         Flux::toast(
             heading: 'Warning',
-            text: "Insufficient {$this->resourceType}. You need {$this->amount} but only have {$currentValue}.",
+            text: "Insufficient {$this->resourceType->getLabel()}. You need {$this->amount} but only have {$currentValue}.",
         );
 
         return false;
