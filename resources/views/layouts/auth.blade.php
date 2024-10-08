@@ -66,11 +66,11 @@
             </div>
 
             <div class="mb-6 italic font-base text-3xl xl:text-4xl">
-                Join the adventure and conquer the realms in Lotus Mu!
+                {{__('The Journey Begins Here')}}
             </div>
 
             <div class="text-lg font-medium">
-                Embark on an epic quest in this Masterpiece.
+                {{__('Beyond the veil of nostalgia lies a land of untold wonders and hidden mysteries')}}
             </div>
         </div>
     </div>

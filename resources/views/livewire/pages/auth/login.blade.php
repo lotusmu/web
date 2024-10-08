@@ -25,7 +25,7 @@ new #[Layout('layouts.auth')] class extends Component {
 
 <div class="space-y-6">
     <flux:heading size="xl" class="text-center">
-        Welcome Back
+        {{__('Welcome Back')}}
     </flux:heading>
 
     <form wire:submit="login" class="flex flex-col gap-6">
