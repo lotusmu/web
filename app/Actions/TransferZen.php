@@ -158,7 +158,6 @@ class TransferZen
     {
         return $user->member->characters()
             ->where('Name', $name)
-            ->where('member_id', $user->member->id)
             ->first();
     }
 

@@ -59,6 +59,7 @@ new class extends Component {
 
         if ($success) {
             $this->reset(['source', 'destination', 'sourceCharacter', 'destinationCharacter', 'amount']);
+            $this->dispatch('resourcesUpdated');
         }
     }
 }; ?>

@@ -66,9 +66,18 @@ new class extends Component {
 
         $taxAmount = $this->calculateTax($this->amount);
 
-        $action->handle($sender, $this->recipientUser, $this->resourceType, $this->amount, $taxAmount);
+        $success = $action->handle(
+            $sender,
+            $this->recipientUser,
+            $this->resourceType,
+            $this->amount,
+            $taxAmount
+        );
 
-        $this->reset(['recipient', 'resourceType', 'amount']);
+        if ($success) {
+            $this->reset(['recipient', 'resourceType', 'amount']);
+            $this->dispatch('resourcesUpdated');
+        }
     }
 }; ?>
 

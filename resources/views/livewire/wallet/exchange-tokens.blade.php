@@ -28,9 +28,16 @@ new class extends Component {
 
         $taxAmount = $this->calculateTax($this->amount);
 
-        $action->handle($this->user, $this->amount, $taxAmount);
+        $success = $action->handle(
+            $this->user,
+            $this->amount,
+            $taxAmount
+        );
 
-        $this->reset('amount');
+        if ($success) {
+            $this->reset('amount');
+            $this->dispatch('resourcesUpdated');
+        }
     }
 }; ?>
 

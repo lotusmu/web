@@ -2,6 +2,7 @@
 
 use App\Models\User\User;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class extends Component {
@@ -20,6 +21,12 @@ new class extends Component {
             'credits' => $this->user->credits->format(),
             'zen'     => $this->user->zen->format(),
         ];
+    }
+    
+    #[On('resourcesUpdated')]
+    public function onResourcesUpdated(): void
+    {
+        $this->user->refresh();
     }
 } ?>
 
