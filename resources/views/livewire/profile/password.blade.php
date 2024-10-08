@@ -52,9 +52,9 @@ new class extends Component {
     </header>
 
     <form wire:submit="updatePassword" class="mt-6 space-y-6">
-        <flux:input type="password" wire:model="current_password" label="{{__('Current Password')}}"/>
-        <flux:input type="password" wire:model="password" label="{{__('New Password')}}"/>
-        <flux:input type="password" wire:model="password_confirmation" label="{{__('Confirm Password')}}"/>
+        <flux:input viewable type="password" wire:model="current_password" label="{{__('Current Password')}}"/>
+        <flux:input viewable type="password" wire:model="password" label="{{__('New Password')}}"/>
+        <flux:input viewable type="password" wire:model="password_confirmation" label="{{__('Confirm Password')}}"/>
 
 
         <flux:button type="submit" variant="primary">

@@ -45,7 +45,7 @@ new #[Layout('layouts.auth')] class extends Component {
     </div>
 
     <form wire:submit="confirmPassword" class="flex flex-col gap-6">
-        <flux:input wire:model="password" type="password" label="{{__('Password')}}"/>
+        <flux:input viewable wire:model="password" type="password" label="{{__('Password')}}"/>
 
         <flux:button variant="primary" type="submit">
             {{ __('Confirm') }}

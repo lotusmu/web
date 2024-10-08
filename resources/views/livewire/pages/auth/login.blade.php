@@ -38,7 +38,7 @@ new #[Layout('layouts.auth')] class extends Component {
                     {{  __('Forgot password?') }}
                 </flux:link>
             </flux:label>
-            <flux:input wire:model="form.password" type="password" placeholder="Your password"/>
+            <flux:input viewable wire:model="form.password" type="password" placeholder="Your password"/>
         </flux:field>
 
         <flux:field>

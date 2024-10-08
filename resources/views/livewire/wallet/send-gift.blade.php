@@ -109,10 +109,11 @@ new class extends Component {
                 }
             }" class="grid sm:grid-cols-2 items-start gap-4">
             <flux:input
+                clearable
+                label="{{ __('Amount') }}"
                 wire:model="amount"
                 x-model.number="amount"
                 type="number"
-                label="{{ __('Amount') }}"
                 min="0"
                 step="1"
             />
@@ -125,6 +126,7 @@ new class extends Component {
         </div>
 
         <flux:input
+            clearable
             wire:model="recipient"
             label="{{ __('Recipient') }}"
             placeholder="{{ __('Enter character name') }}"

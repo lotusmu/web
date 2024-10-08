@@ -63,6 +63,7 @@ new class extends Component {
                 }
             }" class="grid sm:grid-cols-2 items-start gap-4">
             <flux:input
+                clearable
                 wire:model="amount"
                 x-model.number="amount"
                 type="number"
