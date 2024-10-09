@@ -10,6 +10,7 @@ use App\Models\User\Member;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Character extends Model
 {
@@ -83,5 +84,10 @@ class Character extends Model
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'AccountID', 'memb___id');
+    }
+
+    public function entries(): HasMany
+    {
+        return $this->hasMany(Entry::class, 'Name', 'Name');
     }
 }

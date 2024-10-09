@@ -36,7 +36,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 <div class="space-y-6">
     <header>
-        <flux:heading size="lg">
+        <flux:heading size="xl">
             {{ __('Activity Logs') }}
         </flux:heading>
 

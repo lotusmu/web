@@ -17,7 +17,7 @@
     <flux:navlist variant="outline">
         <flux:navlist.item wire:navigate icon="home" href="/dashboard">Dashboard</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="wallet" href="/wallet">Wallet</flux:navlist.item>
-        <flux:navlist.item wire:navigate icon="clock" href="#">Event Entries</flux:navlist.item>
+        <flux:navlist.item wire:navigate icon="clock" href="/entries">Event Entries</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="building-library" href="#">Castle Siege</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="fire" href="#">Buy VIP</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="eye-slash" href="#">Hide Info</flux:navlist.item>
@@ -36,7 +36,7 @@
             <flux:navlist>
                 <flux:navlist.item wire:navigate icon="home" href="/dashboard">Dashboard</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="wallet" href="/wallet">Wallet</flux:navlist.item>
-                <flux:navlist.item wire:navigate icon="clock" href="#">Event Entries</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="clock" href="/entries">Event Entries</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="building-library" href="#">Castle Siege</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="fire" href="#">Buy VIP</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="eye-slash" href="#">Hide Info</flux:navlist.item>
