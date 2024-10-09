@@ -14,6 +14,10 @@ Volt::route('wallet', 'wallet.index')
     ->middleware(['auth', 'verified'])
     ->name('wallet');
 
+Volt::route('activities', 'activities')
+    ->middleware(['auth', 'verified'])
+    ->name('activities');
+
 Volt::route('/profile', 'profile.index')
     ->middleware(['auth'])
     ->name('profile');

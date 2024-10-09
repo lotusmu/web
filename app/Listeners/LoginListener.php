@@ -19,6 +19,6 @@ class LoginListener
             ->withProperties([
                 ...IdentityProperties::capture(),
             ])
-            ->log(':subject.name logged in successfully');
+            ->log('Logged in successfully.');
     }
 }

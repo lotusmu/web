@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Game\Character;
 use App\Models\User\User;
@@ -108,20 +109,22 @@ class TransferZen
     private function recordActivity(User $user, string $from, string $to, int $amount): void
     {
         $properties = $this->activityProps($user, $from, $to, $amount);
-        $logMessage = $this->generateLogMessage($properties);
+
+        $description = 'Transferred :properties.amount Zen from :properties.from to :properties.to.';
 
         activity('zen_transfer')
             ->performedOn($user)
             ->withProperties($properties)
-            ->log($logMessage);
+            ->log($description);
     }
 
     private function activityProps(User $user, string $from, string $to, int $amount): array
     {
         $properties = [
-            'amount' => $this->format($amount),
+            'activity_type' => ActivityType::INTERNAL->value,
             'from' => $from,
             'to' => $to,
+            'amount' => $this->format($amount),
             'wallet_balance' => $this->format($user->getResourceValue(ResourceType::ZEN)),
             ...IdentityProperties::capture(),
         ];
@@ -137,21 +140,6 @@ class TransferZen
         }
 
         return $properties;
-    }
-
-    private function generateLogMessage(array $props): string
-    {
-        $log = "Transferred {$props['amount']} Zen from {$props['from']} to {$props['to']}. Wallet balance: {$props['wallet_balance']}";
-
-        if (isset($props['from_balance'])) {
-            $log .= ". {$props['from']} balance: {$props['from_balance']}";
-        }
-
-        if (isset($props['to_balance'])) {
-            $log .= ". {$props['to']} balance: {$props['to_balance']}";
-        }
-
-        return $log;
     }
 
     private function getChar(User $user, string $name): ?Character

@@ -16,13 +16,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable implements FilamentUser, HasMember
 {
     use HasFactory;
-    use LogsActivity;
     use ManagesResources;
     use Notifiable;
 
@@ -81,21 +78,6 @@ class User extends Authenticatable implements FilamentUser, HasMember
         return $result;
     }
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['password', 'email'])
-            ->dontSubmitEmptyLogs()
-            ->useLogName('auth')
-            ->setDescriptionForEvent(function (string $eventName) {
-                return match ($eventName) {
-                    'created' => "New user registration: {$this->name}",
-                    'updated' => "{$this->name} updated their account information",
-                    default => null,
-                };
-            });
-    }
-
     public function canAccessPanel(Panel $panel): bool
     {
         return true; //$this->hasRole('admin');
@@ -106,6 +88,10 @@ class User extends Authenticatable implements FilamentUser, HasMember
         $this->email_verified_at = Carbon::now();
 
         $this->save();
+
+        activity('auth')
+            ->performedOn($this)
+            ->log('Email address verified by system.');
     }
 
     public function member(): HasOne

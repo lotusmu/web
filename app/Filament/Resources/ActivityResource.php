@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ActivityResource\Pages;
 use Filament\Forms\Components\DatePicker;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -55,7 +56,9 @@ class ActivityResource extends Resource
                             ->whereNotNull('log_name')
                             ->pluck('log_name', 'log_name')
                             ->mapWithKeys(function ($item) {
-                                return [$item => ucwords($item)];
+                                $formatted = str_replace('_', ' ', $item);
+
+                                return [$item => ucwords($formatted)];
                             })
                             ->toArray();
                     })
@@ -111,7 +114,7 @@ class ActivityResource extends Resource
                             ->dateTime(),
                         TextEntry::make('log_name')
                             ->label('Category')
-                            ->formatStateUsing(fn ($state) => ucwords($state)),
+                            ->formatStateUsing(fn ($state) => ucwords(str_replace('_', ' ', $state))),
                         TextEntry::make('description'),
                     ]),
 
@@ -138,6 +141,15 @@ class ActivityResource extends Resource
                         TextEntry::make('causer_id')
                             ->label('Causer ID'),
                     ])->columns(2),
+
+                Section::make('All Properties')
+                    ->collapsible()
+                    ->collapsed()
+                    ->schema([
+                        KeyValueEntry::make('properties')
+                            ->label('')
+                            ->columnSpan('full'),
+                    ]),
             ]);
     }
 

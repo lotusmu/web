@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User\User;
+use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,6 +32,13 @@ new #[Layout('layouts.auth')] class extends Component {
         unset($validated['terms']);
 
         event(new Registered($user = User::create($validated)));
+
+        activity('auth')
+            ->performedOn($user)
+            ->withProperties([
+                ...IdentityProperties::capture(),
+            ])
+            ->log("New user registration: {$user->name}");
 
         Auth::login($user);
 

@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
 use App\Support\ActivityLog\IdentityProperties;
@@ -27,35 +28,41 @@ class ExchangeResources
     public function recordActivity(User $user, int $amount, int $taxAmount): void
     {
         $properties = [
-            'amount' => $amount,
-            'credit_balance' => $user->credits->format(),
+            'activity_type' => ActivityType::INTERNAL->value,
+            'amount' => $this->format($amount),
             'token_balance' => $user->tokens->format(),
+            'credit_balance' => $user->credits->format(),
             ...IdentityProperties::capture(),
         ];
 
-        $logMessage = $taxAmount > 0
-            ? 'Exchanged: :properties.amount tokens for credits. Tax: :properties.tax_amount tokens. New balances - Credits: :properties.credit_balance, Tokens: :properties.token_balance'
-            : 'Exchanged: :properties.amount tokens for credits. New balances - Credits: :properties.credit_balance, Tokens: :properties.token_balance';
-
         if ($taxAmount > 0) {
-            $properties['tax_amount'] = $taxAmount;
+            $properties['tax_amount'] = $this->format($taxAmount);
         }
 
-        activity('resource_change')
+        $description = $taxAmount > 0
+            ? 'Exchanged: :properties.amount tokens for credits. Tax: :properties.tax_amount tokens.'
+            : 'Exchanged: :properties.amount tokens for credits.';
+
+        activity('resource_exchange')
             ->performedOn($user)
             ->withProperties($properties)
-            ->log($logMessage);
+            ->log($description);
     }
 
     public function notifyUser(int $taxAmount, int $amount): void
     {
         $toastText = $taxAmount > 0
-            ? "{$amount} tokens exchanged for credits (Tax: {$taxAmount} tokens)"
-            : "{$amount} tokens exchanged for credits";
+            ? "{$this->format($amount)} tokens exchanged for credits (Tax: {$this->format($taxAmount)} tokens)"
+            : "{$this->format($amount)} tokens exchanged for credits";
 
         Flux::toast(
             heading: 'Success',
             text: $toastText,
         );
+    }
+
+    private function format(int $amount): string
+    {
+        return number_format($amount);
     }
 }

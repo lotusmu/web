@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -16,6 +17,8 @@ new class extends Component {
      */
     public function updatePassword(): void
     {
+        $user = Auth::user();
+        
         try {
             $validated = $this->validate([
                 'current_password' => ['required', 'string', 'current_password'],
@@ -27,11 +30,18 @@ new class extends Component {
             throw $e;
         }
 
-        Auth::user()->update([
+        $user->update([
             'password' => $validated['password'],
         ]);
 
         $this->reset('current_password', 'password', 'password_confirmation');
+
+        activity('auth')
+            ->performedOn($user)
+            ->withProperties([
+                ...IdentityProperties::capture(),
+            ])
+            ->log("Updated their password.");
 
         Flux::toast(
             heading: 'Changes saved.',

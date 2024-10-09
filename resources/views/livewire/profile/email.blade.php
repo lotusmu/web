@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User\User;
+use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -39,6 +40,13 @@ new class extends Component {
 
         $user->save();
 
+        activity('auth')
+            ->performedOn($user)
+            ->withProperties([
+                ...IdentityProperties::capture(),
+            ])
+            ->log("Updated their email address.");
+
         Flux::toast(
             heading: 'Changes saved.',
             text: 'You can always update this in your settings.',
@@ -60,7 +68,7 @@ new class extends Component {
 
         $user->sendEmailVerificationNotification();
 
-        Flux::toast(__('A new verification link has been sent to your email address.'))
+        Flux::toast(__('A new verification link has been sent to your email address.'));
     }
 }; ?>
 

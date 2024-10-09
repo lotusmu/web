@@ -24,7 +24,7 @@
         <flux:navlist.item wire:navigate icon="arrows-pointing-out" href="#">Unstuck Character</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="sparkles" href="#">Donate</flux:navlist.item>
         <flux:navlist.item wire:navigate icon="hand-thumb-up" href="#">Vote</flux:navlist.item>
-        <flux:navlist.item wire:navigate icon="list-bullet" href="#">Activities</flux:navlist.item>
+        <flux:navlist.item wire:navigate icon="list-bullet" href="/activities">Activities</flux:navlist.item>
         <flux:separator variant="subtle" class="my-px"/>
         <flux:navlist.item icon="information-circle" href="#">Help</flux:navlist.item>
     </flux:navlist>
@@ -44,7 +44,7 @@
                 </flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="sparkles" href="#">Donate</flux:navlist.item>
                 <flux:navlist.item wire:navigate icon="hand-thumb-up" href="#">Vote</flux:navlist.item>
-                <flux:navlist.item wire:navigate icon="list-bullet" href="#">Activities</flux:navlist.item>
+                <flux:navlist.item wire:navigate icon="list-bullet" href="/activities">Activities</flux:navlist.item>
                 <flux:separator variant="subtle" class="my-px"/>
                 <flux:navlist.item icon="information-circle" href="#">Help</flux:navlist.item>
             </flux:navlist>

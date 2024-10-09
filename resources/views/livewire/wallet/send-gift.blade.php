@@ -1,6 +1,6 @@
 <?php
 
-use App\Actions\TransferResources;
+use App\Actions\SendResources;
 use App\Enums\Utility\OperationType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Concerns\Taxable;
@@ -52,7 +52,7 @@ new class extends Component {
         return User::where('name', $member->memb___id)->first();
     }
 
-    public function transfer(TransferResources $action): void
+    public function transfer(SendResources $action): void
     {
         $this->validate();
 
