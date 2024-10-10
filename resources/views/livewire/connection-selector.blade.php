@@ -50,7 +50,8 @@ new class extends Component {
                 ->send();
         } else {
             Flux::toast(
-                heading: __('Success!'),
+                variant: 'success',
+                heading: __('Server Switched'),
                 text: __($message),
             );
         }
@@ -66,7 +67,8 @@ new class extends Component {
                 ->send();
         } else {
             Flux::toast(
-                heading: __('Error'),
+                variant: 'danger',
+                heading: __('Server Switch Failed'),
                 text: __('Failed to switch server: '.$message),
             );
         }

@@ -36,7 +36,19 @@ enum TicketStatus: string implements HasColor, HasIcon, HasLabel
             self::ON_HOLD => Color::Amber,
             self::PENDING => Color::Orange,
             self::RESOLVED => Color::Teal,
-            self::CLOSED => Color::Gray,
+            self::CLOSED => Color::Zinc,
+        };
+    }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::NEW => 'emerald',
+            self::IN_PROGRESS => 'blue',
+            self::ON_HOLD => 'amber',
+            self::PENDING => 'orange',
+            self::RESOLVED => 'teal',
+            self::CLOSED => 'zinc',
         };
     }
 
@@ -49,6 +61,18 @@ enum TicketStatus: string implements HasColor, HasIcon, HasLabel
             self::PENDING => 'heroicon-o-clock',
             self::RESOLVED => 'heroicon-o-check-circle',
             self::CLOSED => 'heroicon-o-x-circle',
+        };
+    }
+
+    public function icon(): ?string
+    {
+        return match ($this) {
+            self::NEW => 'plus-circle',
+            self::IN_PROGRESS => 'play',
+            self::ON_HOLD => 'pause',
+            self::PENDING => 'clock',
+            self::RESOLVED => 'check-circle',
+            self::CLOSED => 'x-circle',
         };
     }
 }

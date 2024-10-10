@@ -194,18 +194,18 @@ class TransferZen
         return number_format($amount);
     }
 
-    private function notify(string $heading, string $message): void
+    private function notify(string $heading, string $message, string $variant): void
     {
-        Flux::toast(heading: $heading, text: $message);
+        Flux::toast(heading: $heading, text: $message, variant: $variant);
     }
 
     private function success(string $message): void
     {
-        $this->notify('Success', $message);
+        $this->notify(__('Success'), $message, 'success');
     }
 
     private function error(string $message): void
     {
-        $this->notify('Error', $message);
+        $this->notify(__('Error'), $message, 'error');
     }
 }

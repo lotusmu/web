@@ -29,4 +29,13 @@ enum TicketPriority: string implements HasColor, HasLabel
             self::HIGH => Color::Red,
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::LOW => 'green',
+            self::MEDIUM => 'yellow',
+            self::HIGH => 'red',
+        };
+    }
 }

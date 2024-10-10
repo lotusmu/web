@@ -56,7 +56,8 @@ class ExchangeResources
             : "{$this->format($amount)} tokens exchanged for credits";
 
         Flux::toast(
-            heading: 'Success',
+            variant: 'success',
+            heading: 'Exchange completed',
             text: $toastText,
         );
     }

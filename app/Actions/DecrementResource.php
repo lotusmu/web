@@ -35,8 +35,9 @@ readonly class DecrementResource
         }
 
         Flux::toast(
-            heading: 'Warning',
-            text: "Insufficient {$this->resourceType->getLabel()}. You need {$this->amount} but only have {$currentValue}.",
+            variant: 'warning',
+            heading: 'Insufficient Funds',
+            text: "Insufficient {$this->resourceType->getLabel()}. You need {$this->format($this->amount)} but only have {$this->format($currentValue)}.",
         );
 
         return false;
@@ -57,5 +58,10 @@ readonly class DecrementResource
             ResourceType::TOKENS => $this->user->member->save(),
             ResourceType::CREDITS, ResourceType::ZEN => $this->user->member->wallet->save(),
         };
+    }
+
+    private function format(int $amount): string
+    {
+        return number_format($amount);
     }
 }

@@ -18,7 +18,7 @@ new class extends Component {
     public function updatePassword(): void
     {
         $user = Auth::user();
-        
+
         try {
             $validated = $this->validate([
                 'current_password' => ['required', 'string', 'current_password'],
@@ -44,7 +44,8 @@ new class extends Component {
             ->log("Updated their password.");
 
         Flux::toast(
-            heading: 'Changes saved.',
+            variant: 'success',
+            heading: 'Changes saved',
             text: 'You can always update this in your settings.',
         );
     }

@@ -22,6 +22,18 @@ Volt::route('activities', 'activities.index')
     ->middleware(['auth', 'verified'])
     ->name('activities');
 
+Volt::route('support', 'support.index')
+    ->middleware(['auth', 'verified'])
+    ->name('support');
+
+Volt::route('support/create-ticket', 'support.create-ticket')
+    ->middleware(['auth', 'verified'])
+    ->name('support.create-ticket');
+
+Volt::route('support/ticket/{ticket}', 'support.show-ticket')
+    ->middleware(['auth', 'verified'])
+    ->name('support.show-ticket');
+
 Volt::route('/profile', 'profile.index')
     ->middleware(['auth'])
     ->name('profile');

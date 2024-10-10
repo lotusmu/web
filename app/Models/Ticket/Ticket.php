@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
@@ -27,6 +28,11 @@ class Ticket extends Model
         'status' => TicketStatus::class,
         'priority' => TicketPriority::class,
     ];
+
+    public function truncatedTitle($limit = 50): string
+    {
+        return Str::limit($this->title, $limit, '...');
+    }
 
     public function category(): BelongsTo
     {
