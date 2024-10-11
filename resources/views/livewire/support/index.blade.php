@@ -20,7 +20,7 @@ new #[Layout('layouts.app')] class extends Component {
     }
 }; ?>
 
-<div class="space-y-6">
+<div class="space-y-8">
     <header class="flex items-center max-sm:flex-col-reverse max-sm:items-start max-sm:gap-4">
         <div>
             <flux:heading size="xl">
@@ -35,7 +35,7 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:spacer/>
 
         <flux:button :href="route('support.create-ticket')"
-                     size="sm" icon="plus">
+                     wire:navigate size="sm" icon="plus">
             {{__('New Ticket')}}
         </flux:button>
     </header>
