@@ -54,7 +54,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:badge>
     </flux:cell>
 
-    <flux:cell>
+    <flux:cell align="end">
         <flux:dropdown align="end">
             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal"
                          wire:click.stop/>
