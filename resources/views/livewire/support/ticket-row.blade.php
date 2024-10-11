@@ -2,42 +2,36 @@
 
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
     public Ticket $ticket;
 
-    public function reopenTicket($ticketId)
+    public function mount(Ticket $ticket): void
     {
-        $ticket = $this->getUserTicket($ticketId);
-
-        if ( ! $ticket) {
-            return $this->showTicketError();
+        if ($ticket->user_id !== auth()->id()) {
+            throw new ModelNotFoundException(__('Ticket not found or you don\'t have permission to view it.'));
         }
 
-        $ticket->update(['status' => TicketStatus::IN_PROGRESS]);
+        $this->ticket = $ticket;
+    }
 
-        $this->ticket->refresh();
+    public function reopenTicket(): void
+    {
+        $this->ticket->update(['status' => TicketStatus::IN_PROGRESS]);
 
-        return Flux::toast(
+        Flux::toast(
             variant: 'success',
             heading: __('Ticket Reopened'),
             text: __('We\'re on it! We\'ll reach out about this ticket as soon as possible.')
         );
     }
 
-    public function markAsResolved($ticketId)
+    public function markAsResolved(): void
     {
-        $ticket = $this->getUserTicket($ticketId);
-
-        if ( ! $ticket) {
-            return $this->showTicketError();
-        }
-
-        $ticket->update(['status' => TicketStatus::RESOLVED]);
-
-        $this->ticket->refresh();
+        $this->ticket->update(['status' => TicketStatus::RESOLVED]);
 
         Flux::toast(
             variant: 'success',
@@ -46,52 +40,52 @@ new #[Layout('layouts.app')] class extends Component {
         );
     }
 
-    private function getUserTicket($ticketId)
+    public function navigateToTicket()
     {
-        return Ticket::where('id', $ticketId)
-            ->where('user_id', Auth::id())
-            ->first();
+        return $this->redirect(route('support.show-ticket', ['ticket' => $this->ticket->id]), navigate: true);
     }
+}
 
-    private function showTicketError()
-    {
-        return Flux::toast(
-            variant: 'danger',
-            heading: __('Error'),
-            text: __('Ticket not found or you don\'t have permission to modify it.')
-        );
-    }
-}; ?>
+?>
 
-<flux:row>
+<flux:row class="cursor-pointer" wire:click="navigateToTicket">
     <flux:cell>{{ $this->ticket->truncatedTitle() }}</flux:cell>
+
     <flux:cell>{{ $this->ticket->category->name }}</flux:cell>
+
     <flux:cell>
-        <flux:badge inset="top bottom" size="sm" :color="$this->ticket->status->color()"
+        <flux:badge size="sm" :color="$this->ticket->status->color()"
                     :icon="$this->ticket->status->icon()">
             {{ $this->ticket->status->getLabel() }}
         </flux:badge>
     </flux:cell>
+
     <flux:cell>
-        <flux:badge inset="top bottom" size="sm" :color="$this->ticket->priority->color()">
+        <flux:badge size="sm" :color="$this->ticket->priority->color()">
             {{ $this->ticket->priority->getLabel() }}
         </flux:badge>
     </flux:cell>
+
     <flux:cell>
         <flux:dropdown align="end">
             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal"
-                         inset="top bottom"></flux:button>
+                         wire:click.stop/>
 
             <flux:menu variant="solid">
-                <flux:menu.item :href="route('support.show-ticket', $this->ticket->id)" icon="eye">
+                <flux:menu.item icon="eye"
+                                wire:navigate
+                                :href="route('support.show-ticket', $this->ticket->id)"
+                                wire:click.stop>
                     {{ __('View Details') }}
                 </flux:menu.item>
+
                 @if(!in_array($this->ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
-                    <flux:menu.item icon="check-circle" wire:click="markAsResolved({{ $this->ticket->id }})">
+                    <flux:menu.item icon="check-circle"
+                                    wire:click.stop="markAsResolved">
                         {{ __('Mark as Resolved') }}
                     </flux:menu.item>
                 @else
-                    <flux:menu.item icon="arrow-path" wire:click="reopenTicket({{ $this->ticket->id }})">
+                    <flux:menu.item icon="arrow-path" wire:click.stop="reopenTicket">
                         {{ __('Reopen Ticket') }}
                     </flux:menu.item>
                 @endif
@@ -99,4 +93,3 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:dropdown>
     </flux:cell>
 </flux:row>
-

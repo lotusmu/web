@@ -2,16 +2,21 @@
 
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Livewire\WithPagination;
 
 new #[Layout('layouts.app')] class extends Component {
+    use WithPagination;
+
+    #[Computed]
     public function tickets()
     {
         return Ticket::where('user_id', auth()->id())
             ->with('category')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(5);
     }
 }; ?>
 
@@ -35,7 +40,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:button>
     </header>
 
-    <flux:table>
+    <flux:table :paginate="$this->tickets">
         <flux:columns>
             <flux:column>{{ __('Subject') }}</flux:column>
             <flux:column>{{ __('Category') }}</flux:column>
@@ -44,7 +49,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:columns>
         <flux:rows>
             @forelse ($this->tickets() as $ticket)
-                <livewire:support.ticket-row :$ticket/>
+                <livewire:support.ticket-row :$ticket :key="$ticket->id"/>
             @empty
                 <flux:row>
                     <flux:cell colspan="4">

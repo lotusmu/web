@@ -10,14 +10,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
-use Filament\Forms\Components\RichEditor;
 
-new #[Layout('layouts.app')] class extends Component implements HasForms {
-    use InteractsWithForms;
-
+new #[Layout('layouts.app')] class extends Component {
     public ?string $title = '';
 
     public ?int $ticket_category_id = null;
@@ -26,31 +20,12 @@ new #[Layout('layouts.app')] class extends Component implements HasForms {
 
     public ?string $description = '';
 
-    public function mount(): void
-    {
-        $this->form->fill();
-    }
-
     #[Computed]
     public function categories()
     {
         return Cache::remember('ticket_categories', now()->addDay(), function () {
             return TicketCategory::select('id', 'name')->orderBy('name')->get();
         });
-    }
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                RichEditor::make('description')
-                    ->label('')
-                    ->disableToolbarButtons([
-                        'h2',
-                        'h3',
-                    ])
-                    ->required(),
-            ]);
     }
 
     public function create()
@@ -120,7 +95,8 @@ new #[Layout('layouts.app')] class extends Component implements HasForms {
                 @endforeach
             </flux:select>
 
-            <flux:select wire:model="priority" variant="listbox" placeholder="{{__('Choose priority...')}}">
+            <flux:select wire:model="priority" variant="listbox"
+                         placeholder="{{__('Choose priority...')}}">
                 @foreach(TicketPriority::cases() as $priority)
                     <flux:option :value="$priority->value">
                         {{ $priority->getLabel() }}
@@ -129,11 +105,7 @@ new #[Layout('layouts.app')] class extends Component implements HasForms {
             </flux:select>
         </div>
 
-        <flux:field>
-            <flux:label>Description</flux:label>
-
-            {{ $this->form }}
-        </flux:field>
+        <flux:textarea wire:model="description" label="Description" rows="8"/>
 
         <flux:button type="submit" variant="primary">
             {{ __('Submit') }}
