@@ -42,7 +42,7 @@ new #[Layout('layouts.app')] class extends Component {
             'title'              => $this->title,
             'ticket_category_id' => $this->ticket_category_id,
             'priority'           => $this->priority,
-            'description'        => $this->description,
+            'description'        => nl2br($this->description),
             'status'             => TicketStatus::NEW,
         ]);
 
@@ -65,14 +65,14 @@ new #[Layout('layouts.app')] class extends Component {
 }; ?>
 
 <div class="space-y-6">
-    <header class="flex items-center">
+    <header class="flex items-center max-sm:flex-col-reverse max-sm:items-start max-sm:gap-4">
         <div>
             <flux:heading size="xl">
-                {{ __('Support') }}
+                {{ __('Create New Ticket') }}
             </flux:heading>
 
             <x-flux::subheading>
-                {{ __('Get help with your questions, issues, or feedback.') }}
+                {{ __('Submit a new support ticket for your questions or issues.') }}
             </x-flux::subheading>
         </div>
 
@@ -80,15 +80,17 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:button :href="route('support')"
                      wire:navigate
-                     variant="ghost" size="sm" icon="arrow-left"
-                     inset="top bottom">{{__('Back to Tickets')}}</flux:button>
+                     inset="left"
+                     variant="ghost" size="sm" icon="arrow-left">
+            {{__('Back to Tickets')}}
+        </flux:button>
     </header>
 
     <form wire:submit="create" class="space-y-6">
 
         <flux:input wire:model="title" label="Title"/>
 
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-6 max-sm:flex-col">
             <flux:select wire:model="ticket_category_id" variant="listbox" placeholder="{{__('Choose category...')}}">
                 @foreach($this->categories as $category)
                     <flux:option value="{{ $category->id }}">{{ $category->name }}</flux:option>
@@ -107,15 +109,11 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:textarea wire:model="description" label="Description" rows="8"/>
 
-        <flux:button type="submit" variant="primary">
-            {{ __('Submit') }}
-        </flux:button>
+        <div class="flex">
+            <flux:spacer/>
+            <flux:button type="submit" variant="primary">
+                {{ __('Submit') }}
+            </flux:button>
+        </div>
     </form>
 </div>
-
-@push('styles')
-    @filamentStyles
-@endpush
-@push('scripts')
-    @filamentScripts
-@endpush

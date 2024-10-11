@@ -13,9 +13,9 @@
                 @foreach ($replies as $reply)
                     <x-filament::section
                         compact
-                        icon="heroicon-s-user"
+                        icon="heroicon-m-user"
                         :heading="$reply->user->name">
-                        <div class="prose dark:prose-invert break-words">
+                        <div>
                             {!! $reply->content !!}
                         </div>
 

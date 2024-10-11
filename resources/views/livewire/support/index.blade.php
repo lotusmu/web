@@ -21,7 +21,7 @@ new #[Layout('layouts.app')] class extends Component {
 }; ?>
 
 <div class="space-y-6">
-    <header class="flex items-center">
+    <header class="flex items-center max-sm:flex-col-reverse max-sm:items-start max-sm:gap-4">
         <div>
             <flux:heading size="xl">
                 {{ __('Support') }}
@@ -35,7 +35,7 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:spacer/>
 
         <flux:button :href="route('support.create-ticket')"
-                     size="sm" icon="plus" inset="top bottom">
+                     size="sm" icon="plus">
             {{__('New Ticket')}}
         </flux:button>
     </header>
@@ -44,8 +44,8 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:columns>
             <flux:column>{{ __('Subject') }}</flux:column>
             <flux:column>{{ __('Category') }}</flux:column>
-            <flux:column>{{ __('Status') }}</flux:column>
             <flux:column>{{ __('Priority') }}</flux:column>
+            <flux:column>{{ __('Status') }}</flux:column>
         </flux:columns>
         <flux:rows>
             @forelse ($this->tickets() as $ticket)

@@ -20,24 +20,12 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function reopenTicket(): void
     {
-        $this->ticket->update(['status' => TicketStatus::IN_PROGRESS]);
-
-        Flux::toast(
-            variant: 'success',
-            heading: __('Ticket Reopened'),
-            text: __('We\'re on it! We\'ll reach out about this ticket as soon as possible.')
-        );
+        $this->ticket->reopenTicket();
     }
 
     public function markAsResolved(): void
     {
-        $this->ticket->update(['status' => TicketStatus::RESOLVED]);
-
-        Flux::toast(
-            variant: 'success',
-            heading: __('Ticket Resolved'),
-            text: __('Thank you for your patience. The ticket has been marked as resolved.')
-        );
+        $this->ticket->markAsResolved();
     }
 
     public function navigateToTicket()
@@ -54,15 +42,15 @@ new #[Layout('layouts.app')] class extends Component {
     <flux:cell>{{ $this->ticket->category->name }}</flux:cell>
 
     <flux:cell>
-        <flux:badge size="sm" :color="$this->ticket->status->color()"
-                    :icon="$this->ticket->status->icon()">
-            {{ $this->ticket->status->getLabel() }}
+        <flux:badge size="sm" :color="$this->ticket->priority->color()">
+            {{ $this->ticket->priority->getLabel() }}
         </flux:badge>
     </flux:cell>
 
     <flux:cell>
-        <flux:badge size="sm" :color="$this->ticket->priority->color()">
-            {{ $this->ticket->priority->getLabel() }}
+        <flux:badge size="sm" :color="$this->ticket->status->color()"
+                    :icon="$this->ticket->status->icon()">
+            {{ $this->ticket->status->getLabel() }}
         </flux:badge>
     </flux:cell>
 
@@ -85,7 +73,8 @@ new #[Layout('layouts.app')] class extends Component {
                         {{ __('Mark as Resolved') }}
                     </flux:menu.item>
                 @else
-                    <flux:menu.item icon="arrow-path" wire:click.stop="reopenTicket">
+                    <flux:menu.item icon="arrow-path"
+                                    wire:click.stop="reopenTicket">
                         {{ __('Reopen Ticket') }}
                     </flux:menu.item>
                 @endif

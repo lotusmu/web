@@ -6,38 +6,17 @@ use App\Models\Ticket\TicketReply;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
-use Filament\Forms\Components\RichEditor;
 
-new #[Layout('layouts.app')] class extends Component implements HasForms {
-    use InteractsWithForms;
+new #[Layout('layouts.app')] class extends Component {
 
     public Ticket $ticket;
 
     #[Rule('required|string')]
-    public $replyContent = '';
+    public string $content = '';
 
     public function mount(Ticket $ticket)
     {
-        $this->ticket = $ticket->load(['category', 'replies.user']);
-        $this->form->fill();
-    }
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                RichEditor::make('replyContent')
-                    ->label('')
-                    ->placeholder(__('Type your reply here...'))
-                    ->disableToolbarButtons([
-                        'attachFiles',
-                        'codeBlock',
-                    ])
-                    ->required(),
-            ]);
+        $this->loadTicket($ticket);
     }
 
     public function submitReply()
@@ -46,17 +25,13 @@ new #[Layout('layouts.app')] class extends Component implements HasForms {
 
         $reply = $this->ticket->replies()->create([
             'user_id' => auth()->id(),
-            'content' => $this->replyContent,
+            'content' => nl2br($this->content),
         ]);
 
         if ($reply) {
             $this->ticket->update(['status' => TicketStatus::IN_PROGRESS]);
-            $this->ticket->refresh();
-            $this->reset('replyContent');
-            $this->form->fill();
-
-            // Reload the ticket with fresh data including the new reply
-            $this->ticket = $this->ticket->fresh(['replies.user']);
+            $this->reset('content');
+            $this->loadTicket($this->ticket);
 
             Flux::toast(
                 variant: 'success',
@@ -72,33 +47,26 @@ new #[Layout('layouts.app')] class extends Component implements HasForms {
         }
     }
 
-    public function reopenTicket()
+    public function reopenTicket(): void
     {
-        $this->ticket->update(['status' => TicketStatus::IN_PROGRESS]);
-        $this->ticket->refresh();
-
-        Flux::toast(
-            variant: 'success',
-            heading: __('Ticket Reopened'),
-            text: __('The ticket has been reopened. We\'ll address your concerns as soon as possible.')
-        );
+        $this->ticket->reopenTicket();
+        $this->loadTicket($this->ticket);
     }
 
-    public function markAsResolved()
+    public function markAsResolved(): void
     {
-        $this->ticket->update(['status' => TicketStatus::RESOLVED]);
-        $this->ticket->refresh();
+        $this->ticket->markAsResolved();
+        $this->loadTicket($this->ticket);
+    }
 
-        Flux::toast(
-            variant: 'success',
-            heading: __('Ticket Resolved'),
-            text: __('The ticket has been marked as resolved. Thank you for your patience.')
-        );
+    private function loadTicket(Ticket $ticket): void
+    {
+        $this->ticket = $ticket->fresh(['category', 'replies.user']);
     }
 }; ?>
 
-<div class="space-y-6">
-    <header class="flex items-center">
+<div class="space-y-8">
+    <header class="flex items-center max-sm:flex-col-reverse max-sm:items-start max-sm:gap-4">
         <div>
             <flux:heading size="xl">
                 {{ __('Ticket Details') }}
@@ -113,83 +81,133 @@ new #[Layout('layouts.app')] class extends Component implements HasForms {
 
         <flux:button :href="route('support')"
                      wire:navigate
-                     variant="ghost" size="sm" icon="arrow-left"
-                     inset="top bottom">{{__('Back to Tickets')}}</flux:button>
+                     inset="left"
+                     variant="ghost" size="sm" icon="arrow-left">
+            {{__('Back to Tickets')}}
+        </flux:button>
     </header>
 
-    <flux:card>
-        <div class="space-y-4">
-            <div class="flex justify-between items-center">
-                <flux:heading size="lg">{{ $ticket->title }}</flux:heading>
-                <div class="flex space-x-2">
-                    <flux:badge size="sm" :color="$ticket->status->color()" :icon="$ticket->status->icon()">
-                        {{ $ticket->status->getLabel() }}
-                    </flux:badge>
+    <flux:card class="space-y-8">
+        <div class="flex justify-between items-center">
+            <flux:heading size="lg">
+                {{ $ticket->title }}
+            </flux:heading>
+
+            @if(!in_array($ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
+                <flux:button wire:click="markAsResolved"
+                             size="sm"
+                             variant="filled"
+                             inset="top bottom"
+                             icon="check-circle">
+                    {{ __('Mark as Resolved') }}
+                </flux:button>
+            @else
+                <flux:button wire:click="reopenTicket"
+                             size="sm"
+                             variant="filled"
+                             inset="top bottom"
+                             icon="arrow-path">
+                    {{ __('Reopen Ticket') }}
+                </flux:button>
+            @endif
+        </div>
+
+        <div class="flex items-center justify-between max-sm:grid max-sm:grid-cols-2 max-sm:gap-4">
+            <div>
+                <flux:heading>
+                    {{ __('Category') }}
+                </flux:heading>
+                <flux:subheading>
+                    {{ $ticket->category->name }}
+                </flux:subheading>
+            </div>
+
+            <div>
+                <flux:heading>
+                    {{ __('Created') }}
+                </flux:heading>
+                <flux:subheading>
+                    {{ $ticket->created_at->format('M d, Y H:i') }}
+                </flux:subheading>
+            </div>
+
+            <div>
+                <flux:heading>
+                    {{ __('Priority') }}
+                </flux:heading>
+                <flux:subheading>
                     <flux:badge size="sm" :color="$ticket->priority->color()">
                         {{ $ticket->priority->getLabel() }}
                     </flux:badge>
-                </div>
+                </flux:subheading>
             </div>
-            <p class="text-sm text-gray-500">{{ __('Category') }}: {{ $ticket->category->name }}</p>
-            <p class="text-sm text-gray-500">{{ __('Created') }}: {{ $ticket->created_at->diffForHumans() }}</p>
-            <div class="prose max-w-none">
+
+            <div>
+                <flux:heading>
+                    {{ __('Status') }}
+                </flux:heading>
+                <flux:subheading>
+                    <flux:badge size="sm" :color="$ticket->status->color()" :icon="$ticket->status->icon()">
+                        {{ $ticket->status->getLabel() }}
+                    </flux:badge>
+                </flux:subheading>
+            </div>
+        </div>
+
+        <div>
+            <flux:heading>
+                {{ __('Description') }}
+            </flux:heading>
+            <flux:text class="mt-2">
                 {!! $ticket->description !!}
-            </div>
+            </flux:text>
         </div>
     </flux:card>
 
-    <flux:card>
-        <flux:heading size="lg" class="mb-4">{{ __('Replies') }}</flux:heading>
+    <flux:card class="space-y-8">
+        <flux:heading size="lg">
+            {{ __('Conversation') }}
+        </flux:heading>
+
         <div class="space-y-4">
             @forelse ($ticket->replies as $reply)
-                <div class="border-b border-gray-200 pb-4 last:border-b-0">
-                    <div class="flex justify-between items-center mb-2">
-                        <p class="font-semibold">{{ $reply->user->name ?? __('Unknown User') }}</p>
-                        <p class="text-sm text-gray-500">{{ $reply->created_at->diffForHumans() }}</p>
+                <flux:card class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <flux:heading class="flex items-center gap-1 !mb-0">
+                            <flux:icon.user variant="mini"/>
+                            {{ $reply->user->name ?? __('Unknown User') }}
+                        </flux:heading>
+                        <flux:subheading>
+                            {{ $reply->created_at->format('M d, Y H:i') }}
+                        </flux:subheading>
                     </div>
-                    <div class="prose dark:prose-invert break-words">
+
+                    <flux:separator/>
+
+                    <flux:text>
                         {!! $reply->content !!}
-                    </div>
-                </div>
+                    </flux:text>
+                </flux:card>
+
             @empty
-                <p>{{ __('No replies yet.') }}</p>
+                <flux:text>{{ __('No replies yet.') }}</flux:text>
             @endforelse
         </div>
+
+        @if(!in_array($ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
+            <div>
+                <form wire:submit="submitReply" class="space-y-4">
+                    <flux:textarea wire:model="content" label="Reply"/>
+
+                    <div class="flex">
+                        <flux:spacer/>
+                        <flux:button type="submit" variant="primary">
+                            {{ __('Submit') }}
+                        </flux:button>
+                    </div>
+                </form>
+            </div>
+        @endif
     </flux:card>
 
-    @if(!in_array($ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
-        <flux:card>
-            <flux:heading size="lg" class="mb-4">{{ __('Add Reply') }}</flux:heading>
-            <form wire:submit="submitReply" class="space-y-4">
-                <flux:textarea wire:model="replyContent"/>
-                <flux:button type="submit" variant="primary">
-                    {{ __('Submit Reply') }}
-                </flux:button>
-            </form>
-        </flux:card>
-    @else
-        <flux:card>
-            <div class="text-center">
-                <p class="mb-4">{{ __('This ticket is currently closed or resolved.') }}</p>
-                <flux:button wire:click="reopenTicket">
-                    {{ __('Reopen Ticket') }}
-                </flux:button>
-            </div>
-        </flux:card>
-    @endif
-
-    @if(!in_array($ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
-        <div class="flex justify-end">
-            <flux:button wire:click="markAsResolved">
-                {{ __('Mark as Resolved') }}
-            </flux:button>
-        </div>
-    @endif
 </div>
-
-@push('styles')
-    @filamentStyles
-@endpush
-@push('scripts')
-    @filamentScripts
-@endpush
