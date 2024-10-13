@@ -12,7 +12,7 @@
         Castle Siege
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="fire" href="/vip">
-        Buy VIP
+        Account Level
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="eye-slash" href="#">
         Hide Info
