@@ -34,6 +34,10 @@ Volt::route('support/ticket/{ticket}', 'support.show-ticket')
     ->middleware(['auth', 'verified'])
     ->name('support.show-ticket');
 
+Volt::route('vip', 'vip.index')
+    ->middleware(['auth', 'verified'])
+    ->name('vip');
+
 Volt::route('/profile', 'profile.index')
     ->middleware(['auth'])
     ->name('profile');
