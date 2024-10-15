@@ -11,7 +11,8 @@
     <flux:navlist.item wire:navigate icon="building-library" href="#">
         Castle Siege
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate icon="fire" href="/vip">
+    <flux:navlist.item wire:navigate icon="fire" href="/vip"
+                       :current="request()->is('vip') || request()->is('vip/*')">
         Account Level
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="eye-slash" href="#">

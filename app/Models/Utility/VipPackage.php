@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VipPackage extends Model
 {
-    protected $fillable = ['level', 'is_best_value', 'duration', 'cost'];
+    protected $fillable = ['level', 'duration', 'cost', 'is_best_value', 'sort_order'];
 
     protected $casts = [
         'level' => AccountLevel::class,

@@ -65,6 +65,7 @@ class VipPackageResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('level')
+                    ->badge()
                     ->label('Account Level'),
                 Tables\Columns\TextColumn::make('duration')
                     ->formatStateUsing(fn (int $state): string => "{$state} days")
@@ -76,6 +77,8 @@ class VipPackageResource extends Resource
                     ->boolean()
                     ->label('Best Value'),
             ])
+            ->defaultSort('sort_order')
+            ->reorderable('sort_order')
             ->filters([
                 //
             ])

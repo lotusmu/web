@@ -126,7 +126,7 @@ new class extends Component {
 @else
     {{-- Regular markup --}}
     <flux:dropdown>
-        <flux:button icon-trailing="chevron-down" variant="ghost">
+        <flux:button icon-trailing="chevron-down" variant="ghost" size="sm">
             @if(isset($serverOptions[$selectedServerId]))
                 {{ $serverOptions[$selectedServerId]['name'] }} -
                 x{{ $serverOptions[$selectedServerId]['experience_rate'] }}

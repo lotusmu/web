@@ -37,7 +37,7 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <flux:row class="cursor-pointer" wire:click="navigateToTicket">
-    <flux:cell>{{ $this->ticket->truncatedTitle() }}</flux:cell>
+    <flux:cell variant="strong">{{ $this->ticket->truncatedTitle() }}</flux:cell>
 
     <flux:cell>{{ $this->ticket->category->name }}</flux:cell>
 

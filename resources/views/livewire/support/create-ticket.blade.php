@@ -23,9 +23,9 @@ new #[Layout('layouts.app')] class extends Component {
     #[Computed]
     public function categories()
     {
-        return Cache::remember('ticket_categories', now()->addDay(), function () {
-            return TicketCategory::select('id', 'name')->orderBy('name')->get();
-        });
+//        return Cache::remember('ticket_categories', now()->addDay(), function () {
+        return TicketCategory::select('id', 'name')->orderBy('name')->get();
+//        });
     }
 
     public function create()

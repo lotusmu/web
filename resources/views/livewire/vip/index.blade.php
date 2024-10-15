@@ -1,126 +1,107 @@
 <?php
 
+use App\Models\User\User;
+use App\Models\Utility\VipPackage;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
+use App\Enums\Game\AccountLevel;
 
 new #[Layout('layouts.app')] class extends Component {
-//
+    public User $user;
+
+    public function mount(): void
+    {
+        $this->user = auth()->user();
+
+        if ($this->user->member->AccountLevel === AccountLevel::Regular) {
+            Redirect::route('vip.purchase');
+        }
+    }
+
+    #[Computed]
+    public function accountLevel(): ?array
+    {
+        $level = $this->user->member->AccountLevel;
+        if ($level === AccountLevel::Regular) {
+            return null;
+        }
+
+        return [
+            'label' => $this->user->member->AccountLevel->getLabel(),
+            'color' => $this->user->member->AccountLevel->badgeColor(),
+        ];
+    }
+
+    #[Computed]
+    public function packages()
+    {
+        return VipPackage::orderBy('level', 'asc')->get();
+    }
 }; ?>
 
 <div class="space-y-8">
-    <header>
-        <flux:heading size="xl">
-            {{ __('Upgrade Your Account') }}
-        </flux:heading>
+    <header class="flex items-center max-md:flex-col-reverse max-md:items-start max-md:gap-4">
+        <div>
+            <flux:heading size="xl">
+                {{ __('Account Level') }}
+            </flux:heading>
 
-        <x-flux::subheading>
-            {{ __('Get a head start and accelerate your progress with our premium packages.') }}
-        </x-flux::subheading>
+            <flux:subheading>
+                {{ __('Upgrade your account, or extend your VIP subscription for continued benefits.') }}
+            </flux:subheading>
+        </div>
+
+        <flux:spacer/>
+
+        <flux:modal.trigger name="extend-subscription">
+            <flux:button size="sm" icon-trailing="chevron-right">
+                {{__('Extend Now')}}
+            </flux:button>
+        </flux:modal.trigger>
     </header>
 
-    <div class="grid grid-cols-2 gap-4">
-        <div
-            class="col-span-2 p-2 flex flex-col gap-2 rounded-2xl border border-zinc-200 dark:border-zinc-700/75 bg-zinc-100 dark:bg-zinc-900">
-
-            <div
-                class="flex flex-col space-y-8 h-full rounded-lg shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-800">
-
-                <x-vip.package-tier-header
-                    :tokens="450"
-                    :duration="30"
-                    tier="Gold"
-                    is-best-value
-                />
-
-                <div class="grid grid-cols-2 gap-3">
-                    <x-vip.bonus-list/>
-                </div>
-
-                <div>
-                    <flux:modal.trigger name="upgrade-to-gold">
-                        <flux:button variant="primary" icon-trailing="chevron-right"
-                                     class="!text-base !h-12 xl:translate-y-px w-full">
-                            Upgrade to Gold
-                        </flux:button>
-                    </flux:modal.trigger>
-
-                    <flux:modal name="upgrade-to-gold" class="min-w-[22rem] space-y-6">
-                        <div>
-                            <flux:heading size="lg">Upgrade to Gold?</flux:heading>
-
-                            <flux:subheading>
-                                <p>You're about to upgrade your account to Gold.</p>
-                                <p>Enjoy exclusive benefits and accelerate your progress!</p>
-                            </flux:subheading>
-                        </div>
-
-                        <div>
-                            <flux:text class="flex gap-1">
-                                Price:
-                                <flux:heading>450 tokens</flux:heading>
-                            </flux:text>
-                            <flux:text class="flex gap-1">
-                                Duration:
-                                <flux:heading>30 days</flux:heading>
-                            </flux:text>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <flux:spacer/>
-
-                            <flux:modal.close>
-                                <flux:button variant="ghost">Cancel</flux:button>
-                            </flux:modal.close>
-
-                            <flux:button type="submit" variant="primary">Confirm</flux:button>
-                        </div>
-                    </flux:modal>
-                </div>
-            </div>
+    <flux:card class="flex items-center">
+        <div>
+            <flux:heading>
+                Current Tier
+            </flux:heading>
+            <flux:subheading>
+                Active until September 23, 2024
+            </flux:subheading>
         </div>
 
-        <div
-            class="p-2 flex flex-col gap-2 rounded-2xl border border-zinc-200 dark:border-zinc-700/75 bg-zinc-100 dark:bg-zinc-900">
-            <div
-                class="flex flex-col space-y-8 h-full rounded-lg shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-800">
+        <flux:spacer/>
 
-                <x-vip.package-tier-header
-                    :tokens="90"
-                    :duration="3"
-                    tier="Bronze"
-                />
+        <flux:badge icon="fire" size="lg" color="{{ $this->accountLevel['color'] }}" inset="top bottom">
+            {{ $this->accountLevel['label'] }}
+        </flux:badge>
+    </flux:card>
 
-                <div class="mb-8 flex flex-col gap-3 xl:-translate-y-px">
-                    <x-vip.bonus-list/>
-                </div>
-
-                <flux:button variant="filled" icon-trailing="chevron-right"
-                             class="!text-base !h-12 xl:translate-y-px">
-                    Upgrade to Bronze
-                </flux:button>
-            </div>
+    <flux:modal name="extend-subscription" class="md:w-96 space-y-6">
+        <div>
+            <flux:heading size="lg">Extend Your Subscription</flux:heading>
+            <flux:subheading>Choose a package to extend your VIP.</flux:subheading>
         </div>
 
-        <div
-            class="p-2 flex flex-col gap-2 rounded-2xl border border-zinc-200 dark:border-zinc-700/75 bg-zinc-100 dark:bg-zinc-900">
-            <div
-                class="flex flex-col space-y-8 h-full rounded-lg shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-800">
+        <form class="space-y-6">
+            <flux:select variant="listbox" placeholder="{{__('Choose package...')}}">
+                @foreach($this->packages as $package)
+                    <flux:option value="{{$package['level']}}">
+                        {{$package['duration']}} days ({{$package['cost']}} tokens)
+                    </flux:option>
+                @endforeach
+            </flux:select>
 
-                <x-vip.package-tier-header
-                    :tokens="140"
-                    :duration="7"
-                    tier="Silver"
-                />
+            <div class=" flex gap-2">
+                <flux:spacer/>
 
-                <div class="mb-8 flex flex-col gap-3 xl:-translate-y-px">
-                    <x-vip.bonus-list/>
-                </div>
+                <flux:modal.close>
+                    <flux:button variant="ghost">Cancel</flux:button>
+                </flux:modal.close>
 
-                <flux:button variant="filled" icon-trailing="chevron-right"
-                             class="!text-base !h-12 xl:translate-y-px">
-                    Upgrade to Silver
-                </flux:button>
+                <flux:button type="submit" variant="primary">Confirm</flux:button>
             </div>
-        </div>
-    </div>
+        </form>
+    </flux:modal>
 </div>

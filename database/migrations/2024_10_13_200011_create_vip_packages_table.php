@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('is_best_value')->default(false);
             $table->unsignedSmallInteger('duration');
             $table->unsignedSmallInteger('cost');
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }

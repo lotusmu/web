@@ -29,7 +29,7 @@
     <flux:spacer/>
 
     @if ($isBestValue)
-        <flux:badge icon="fire" inset="left" color="orange">
+        <flux:badge icon="fire" color="orange">
             Best Value · 50% off
         </flux:badge>
     @endif

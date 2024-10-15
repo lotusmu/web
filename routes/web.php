@@ -38,6 +38,10 @@ Volt::route('vip', 'vip.index')
     ->middleware(['auth', 'verified'])
     ->name('vip');
 
+Volt::route('vip/purchase', 'vip.purchase')
+    ->middleware(['auth', 'verified'])
+    ->name('vip.purchase');
+
 Volt::route('/profile', 'profile.index')
     ->middleware(['auth'])
     ->name('profile');
