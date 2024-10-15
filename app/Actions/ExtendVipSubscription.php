@@ -9,7 +9,7 @@ use App\Models\Utility\VipPackage;
 use App\Support\ActivityLog\IdentityProperties;
 use Flux;
 
-class UpgradeAccountLevel
+class ExtendVipSubscription
 {
     public function handle(User $user, VipPackage $package): bool
     {
@@ -17,19 +17,33 @@ class UpgradeAccountLevel
             return false;
         }
 
-        $user->member->AccountLevel = $package->level;
-        $user->member->AccountExpireDate = now()->addDays($package->duration);
+        $this->updateAccountLevel($user, $package);
+        $this->extendExpiration($user, $package);
         $user->member->save();
 
         $this->recordActivity($user, $package);
 
         Flux::toast(
             variant: 'success',
-            heading: 'Account Upgrade Successful',
-            text: "Your account has been upgraded to {$package->level->getLabel()} VIP for {$package->duration} days.",
+            heading: 'VIP Subscription Extended',
+            text: "Your VIP subscription has been extended for {$package->duration} days.",
         );
 
         return true;
+    }
+
+    private function updateAccountLevel(User $user, VipPackage $package): void
+    {
+        if ($package->level->value > $user->member->AccountLevel->value) {
+            $user->member->AccountLevel = $package->level;
+        }
+    }
+
+    private function extendExpiration(User $user, VipPackage $package): void
+    {
+        $currentExpiration = $user->member->AccountExpireDate;
+        $newExpiration = now()->max($currentExpiration)->addDays($package->duration);
+        $user->member->AccountExpireDate = $newExpiration;
     }
 
     private function recordActivity(User $user, VipPackage $package): void
@@ -43,6 +57,6 @@ class UpgradeAccountLevel
                 'duration' => $package->duration,
                 ...IdentityProperties::capture(),
             ])
-            ->log('Upgraded account level to :properties.level for :properties.duration days');
+            ->log('Extended VIP subscription for :properties.duration days');
     }
 }

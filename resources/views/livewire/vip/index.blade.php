@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\ExtendVipSubscription;
 use App\Models\User\User;
 use App\Models\Utility\VipPackage;
 use Livewire\Attributes\Layout;
@@ -9,6 +10,8 @@ use App\Enums\Game\AccountLevel;
 
 new #[Layout('layouts.app')] class extends Component {
     public User $user;
+
+    public $packageId;
 
     public function mount(): void
     {
@@ -28,8 +31,9 @@ new #[Layout('layouts.app')] class extends Component {
         }
 
         return [
-            'label' => $this->user->member->AccountLevel->getLabel(),
-            'color' => $this->user->member->AccountLevel->badgeColor(),
+            'label'      => $this->user->member->AccountLevel->getLabel(),
+            'color'      => $this->user->member->AccountLevel->badgeColor(),
+            'expireDate' => $this->user->member->AccountExpireDate,
         ];
     }
 
@@ -37,6 +41,17 @@ new #[Layout('layouts.app')] class extends Component {
     public function packages()
     {
         return VipPackage::orderBy('level', 'asc')->get();
+    }
+
+    public function extend(ExtendVipSubscription $action): void
+    {
+        $package = VipPackage::findOrFail($this->packageId);
+
+        if ($action->handle($this->user, $package)) {
+            $this->modal('extend-subscription')->close();
+
+            $this->reset('packageId');
+        }
     }
 }; ?>
 
@@ -61,21 +76,31 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:modal.trigger>
     </header>
 
-    <flux:card class="flex items-center">
-        <div>
-            <flux:heading>
-                Current Tier
-            </flux:heading>
-            <flux:subheading>
-                Active until September 23, 2024
-            </flux:subheading>
+    <flux:card class="space-y-8">
+        <div class="flex items-center">
+            <div>
+                <flux:heading>
+                    {{__('Current Tier')}}
+                </flux:heading>
+                <flux:subheading>
+                    Active until {{ $this->accountLevel['expireDate']->format('F d, Y H:i') }}
+                </flux:subheading>
+            </div>
+
+            <flux:spacer/>
+
+            <flux:badge icon="fire" size="lg" color="{{ $this->accountLevel['color'] }}" inset="top bottom">
+                {{ $this->accountLevel['label'] }}
+            </flux:badge>
         </div>
 
-        <flux:spacer/>
+        <div>
+            <flux:heading class="mb-2">Benefits</flux:heading>
 
-        <flux:badge icon="fire" size="lg" color="{{ $this->accountLevel['color'] }}" inset="top bottom">
-            {{ $this->accountLevel['label'] }}
-        </flux:badge>
+            <div class="grid gap-3 sm:grid-cols-2">
+                <x-vip.benefits-list/>
+            </div>
+        </div>
     </flux:card>
 
     <flux:modal name="extend-subscription" class="md:w-96 space-y-6">
@@ -84,16 +109,16 @@ new #[Layout('layouts.app')] class extends Component {
             <flux:subheading>Choose a package to extend your VIP.</flux:subheading>
         </div>
 
-        <form class="space-y-6">
-            <flux:select variant="listbox" placeholder="{{__('Choose package...')}}">
+        <form wire:submit="extend" class="space-y-6">
+            <flux:select wire:model="packageId" variant="listbox" placeholder="{{__('Choose package...')}}">
                 @foreach($this->packages as $package)
-                    <flux:option value="{{$package['level']}}">
-                        {{$package['duration']}} days ({{$package['cost']}} tokens)
+                    <flux:option value="{{$package->id}}">
+                        {{$package->duration}} days ({{$package->cost}} tokens)
                     </flux:option>
                 @endforeach
             </flux:select>
 
-            <div class=" flex gap-2">
+            <div class="flex gap-2">
                 <flux:spacer/>
 
                 <flux:modal.close>

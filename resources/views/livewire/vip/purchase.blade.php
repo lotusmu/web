@@ -1,10 +1,12 @@
 <?php
 
+use App\Actions\UpgradeAccountLevel;
 use App\Enums\Game\AccountLevel;
 use App\Models\User\User;
 use App\Models\Utility\VipPackage;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
@@ -13,8 +15,10 @@ new #[Layout('layouts.app')] class extends Component {
     public function mount(): void
     {
         $this->user = auth()->user();
-        
-        if ($this->user->member->AccountLevel !== AccountLevel::Regular) {
+
+        if ($this->user->member->AccountLevel !== AccountLevel::Regular &&
+            now()->lessThan($this->user->member->AccountExpireDate)
+        ) {
             Redirect::route('vip');
         }
     }
@@ -23,6 +27,16 @@ new #[Layout('layouts.app')] class extends Component {
     public function packages()
     {
         return VipPackage::orderBy('sort_order', 'asc')->get();
+    }
+
+    public function purchase($packageId, UpgradeAccountLevel $action): void
+    {
+        $package = VipPackage::findOrFail($packageId);
+
+        if ($action->handle($this->user, $package)) {
+            Flux::modal('upgrade-to-'.strtolower($package->level->getLabel()))->close();
+            $this->redirect(route('vip'), navigate: true);
+        }
     }
 }; ?>
 
@@ -39,9 +53,10 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div class="grid sm:grid-cols-2 gap-4">
         @foreach ($this->packages as $index => $package)
-            <x-vip.package-card
+            <livewire:vip.package-card
                 :$package
                 :is-featured="$loop->first"
+                :wire:key="'package-' . $package->id"
             />
         @endforeach
     </div>
