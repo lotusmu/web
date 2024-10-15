@@ -16,6 +16,7 @@
         "league/csv": "^9.16",
         "livewire/flux-pro": "^1.0",
         "livewire/volt": "^1.0",
+        "livewire/livewire": "v3.5.10",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-sluggable": "^3.6"
     },

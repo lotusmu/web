@@ -48,10 +48,10 @@ new class extends Component {
             ->log("Updated their email address.");
 
         Flux::toast(
-            variant: 'success'
+            variant: 'success',
             heading: 'Changes saved',
             text: 'You can always update this in your settings.',
-        )
+        );
     }
 
     /**

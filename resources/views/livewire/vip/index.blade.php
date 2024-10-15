@@ -79,7 +79,7 @@ new #[Layout('layouts.app')] class extends Component {
     <flux:card class="space-y-8">
         <div class="flex items-center">
             <div>
-                <flux:heading>
+                <flux:heading size="lg">
                     {{__('Current Tier')}}
                 </flux:heading>
                 <flux:subheading>
@@ -95,7 +95,9 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
 
         <div>
-            <flux:heading class="mb-2">Benefits</flux:heading>
+            <flux:heading class="mb-4">
+                {{__('Benefits included')}}
+            </flux:heading>
 
             <div class="grid gap-3 sm:grid-cols-2">
                 <x-vip.benefits-list/>
