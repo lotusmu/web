@@ -18,9 +18,6 @@
     <flux:navlist.item wire:navigate icon="eye-slash" href="#">
         Hide Info
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate icon="arrows-pointing-out" href="#">
-        Unstuck Character
-    </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="sparkles" href="#">
         Donate
     </flux:navlist.item>

@@ -47,18 +47,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:rows>
             @foreach ($this->characters as $character)
-                <flux:row :key="$character->Name">
-                    <flux:cell>{{ $character->Name }}</flux:cell>
-                    <flux:cell class="flex items-center gap-3">
-                        <flux:avatar size="xs" src="{{ asset($character->Class->getImagePath()) }}"/>
-
-                        <span class="max-sm:hidden">
-                        {{  $character->Class->getLabel()  }}
-                        </span>
-                    </flux:cell>
-                    <flux:cell>{{ $character->cLevel }}</flux:cell>
-                    <flux:cell>{{ $character->ResetCount }}</flux:cell>
-                </flux:row>
+                <livewire:dashboard.character-row :$character wire:key="{{ $character->Name }}"/>
             @endforeach
         </flux:rows>
     </flux:table>

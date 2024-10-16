@@ -69,7 +69,20 @@ new class extends Component {
 
         <flux:separator variant="subtle" vertical class="mx-4"/>
 
+        {{--        notifican button --}}
+        @if(false)
+            <div class="relative">
+                <flux:button variant="ghost" size="sm" icon="bell"/>
+                <div
+                    class="absolute top-0 right-0 bg-red-600 text-white text-[11px] text-center min-w-4 min-h-4 rounded-full"
+                >
+                    1
+                </div>
+            </div>
+        @endif
+
         <flux:dropdown>
+
             <flux:button variant="ghost" size="sm" inset="right" icon-trailing="chevron-down">
                 {{ auth()->user()->name }}
             </flux:button>

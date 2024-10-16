@@ -37,19 +37,7 @@ new class extends Component {
 
     public function getRecipientUserProperty(): ?User
     {
-        $character = Character::where('Name', $this->recipient)->first();
-
-        if ( ! $character) {
-            return null;
-        }
-
-        $member = Member::where('memb___id', $character->AccountID)->first();
-
-        if ( ! $member) {
-            return null;
-        }
-
-        return User::where('name', $member->memb___id)->first();
+        return Character::findUserByCharacterName($this->recipient);
     }
 
     public function transfer(SendResources $action): void

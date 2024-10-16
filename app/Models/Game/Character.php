@@ -7,6 +7,7 @@ use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Models\Concerns\GameConnection;
 use App\Models\User\Member;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,6 +85,23 @@ class Character extends Model
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'AccountID', 'memb___id');
+    }
+
+    public static function findUserByCharacterName(string $characterName): ?User
+    {
+        $character = self::where('Name', $characterName)->first();
+
+        if (! $character) {
+            return null;
+        }
+
+        $member = Member::where('memb___id', $character->AccountID)->first();
+
+        if (! $member) {
+            return null;
+        }
+
+        return User::where('name', $member->memb___id)->first();
     }
 
     public function entries(): HasMany

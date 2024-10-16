@@ -5,9 +5,11 @@ namespace App\Models\User;
 use App\Actions\SyncMember;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
+use App\Models\Game\Status;
 use App\Models\Ticket\Ticket;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Flux\Flux;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -94,6 +96,21 @@ class User extends Authenticatable implements FilamentUser, HasMember
             ->log('Email address verified by system.');
     }
 
+    public function isOnline(): bool
+    {
+        $isOnline = $this->status->ConnectStat === true;
+
+        if ($isOnline) {
+            Flux::toast(
+                variant: 'warning',
+                heading: __('Action Required'),
+                text: __('Please logout from the game to proceed.')
+            );
+        }
+
+        return $isOnline;
+    }
+
     public function member(): HasOne
     {
         return $this->hasOne(Member::class, 'memb___id', 'name');
@@ -102,5 +119,10 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function status(): HasOne
+    {
+        return $this->hasOne(Status::class, 'memb___id', 'name');
     }
 }
