@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('taxes', function (Blueprint $table) {
             $table->id();
             $table->string('operation');
-            $table->decimal('rate', 5, 2);
+            $table->boolean('is_flat_rate')->default(false);
+            $table->decimal('rate', 20, 2);
             $table->timestamps();
 
             $table->unique('operation');

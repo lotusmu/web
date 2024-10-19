@@ -34,17 +34,14 @@ new class extends Component {
             'amount'       => 'required|integer|min:100',
         ];
     }
-
-    public function getRecipientUserProperty(): ?User
-    {
-        return Character::findUserByCharacterName($this->recipient);
-    }
-
+    
     public function transfer(SendResources $action): void
     {
         $this->validate();
 
-        if ( ! $this->recipientUser) {
+        $recipientUser = Character::findUserByCharacterName($this->recipient);
+
+        if ( ! $recipientUser) {
             $this->addError('recipient', 'Character not found or no associated user account.');
 
             return;
@@ -56,7 +53,7 @@ new class extends Component {
 
         $success = $action->handle(
             $sender,
-            $this->recipientUser,
+            $recipientUser,
             $this->resourceType,
             $this->amount,
             $taxAmount

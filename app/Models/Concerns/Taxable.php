@@ -11,6 +11,11 @@ trait Taxable
 
     public OperationType $operationType = OperationType::TRANSFER;
 
+    public function bootTaxable(): void
+    {
+        $this->initializeTaxable();
+    }
+
     public function initializeTaxable(): void
     {
         $this->taxRate = Tax::getRateFor($this->operationType);
@@ -18,6 +23,10 @@ trait Taxable
 
     public function calculateTax(float $amount): float
     {
+        if ($this->operationType === OperationType::PK_CLEAR) {
+            return round($this->taxRate * $amount);
+        }
+
         return round($amount * ($this->taxRate / 100));
     }
 
@@ -25,11 +34,10 @@ trait Taxable
     {
         $taxAmount = $this->calculateTax($amount);
 
-        return $amount + $taxAmount;
-    }
+        if ($this->operationType === OperationType::PK_CLEAR) {
+            return $taxAmount;
+        }
 
-    public function bootTaxable(): void
-    {
-        $this->initializeTaxable();
+        return $amount + $taxAmount;
     }
 }

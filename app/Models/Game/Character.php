@@ -82,11 +82,6 @@ class Character extends Model
         return (new static)->getFillable();
     }
 
-    public function member(): BelongsTo
-    {
-        return $this->belongsTo(Member::class, 'AccountID', 'memb___id');
-    }
-
     public static function findUserByCharacterName(string $characterName): ?User
     {
         $character = self::where('Name', $characterName)->first();
@@ -102,6 +97,11 @@ class Character extends Model
         }
 
         return User::where('name', $member->memb___id)->first();
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(Member::class, 'AccountID', 'memb___id');
     }
 
     public function entries(): HasMany

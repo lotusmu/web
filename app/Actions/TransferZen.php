@@ -21,6 +21,10 @@ class TransferZen
 
     public function handle(User $user, string $from, string $to, string $fromChar, string $toChar, int $amount): bool
     {
+        if ($user->isOnline()) {
+            return false;
+        }
+
         return match ([$from, $to]) {
             self::WALLET_TO_CHAR => $this->fromWalletToChar($user, $toChar, $amount),
             self::CHAR_TO_WALLET => $this->fromCharToWallet($user, $fromChar, $amount),
