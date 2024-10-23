@@ -32,7 +32,7 @@ new class extends Component {
 
             $this->sendNotification($server);
 
-            $this->redirect($referer ?? request()->header('Referer'));
+            $this->redirect($referer ?? request()->header('Referer'), navigate: true);
         } catch (Exception $e) {
             $this->sendErrorNotification($e->getMessage());
         }
