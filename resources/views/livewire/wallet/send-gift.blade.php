@@ -1,15 +1,12 @@
 <?php
 
-use App\Actions\SendResources;
+use App\Actions\Wallet\SendResources;
 use App\Enums\Utility\OperationType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Concerns\Taxable;
 use App\Models\Game\Character;
-use App\Models\User\Member;
 use App\Models\User\User;
-use App\Models\Utility\Tax;
 use Illuminate\Validation\Rules\Enum;
-use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
@@ -29,12 +26,12 @@ new class extends Component {
     public function rules(): array
     {
         return [
-            'recipient'    => 'required|string|min:4|max:10',
-            'resourceType' => ['required', new Enum(ResourceType::class)],
-            'amount'       => 'required|integer|min:100',
+                'recipient'    => 'required|string|min:4|max:10',
+                'resourceType' => ['required', new Enum(ResourceType::class)],
+                'amount'       => 'required|integer|min:100',
         ];
     }
-    
+
     public function transfer(SendResources $action): void
     {
         $this->validate();
@@ -52,11 +49,11 @@ new class extends Component {
         $taxAmount = $this->calculateTax($this->amount);
 
         $success = $action->handle(
-            $sender,
-            $recipientUser,
-            $this->resourceType,
-            $this->amount,
-            $taxAmount
+                $sender,
+                $recipientUser,
+                $this->resourceType,
+                $this->amount,
+                $taxAmount
         );
 
         if ($success) {
@@ -94,27 +91,27 @@ new class extends Component {
                 }
             }" class="grid sm:grid-cols-2 items-start gap-4">
             <flux:input
-                clearable
-                label="{{ __('Amount') }}"
-                wire:model="amount"
-                x-model.number="amount"
-                type="number"
-                min="0"
-                step="1"
+                    clearable
+                    label="{{ __('Amount') }}"
+                    wire:model="amount"
+                    x-model.number="amount"
+                    type="number"
+                    min="0"
+                    step="1"
             />
             <flux:input
-                label="{{ __('Total (including ' . $this->taxRate . '% tax)') }}"
-                x-bind:value="new Intl.NumberFormat().format(totalWithTax)"
-                type="text"
-                disabled
+                    label="{{ __('Total (including ' . $this->taxRate . '% tax)') }}"
+                    x-bind:value="new Intl.NumberFormat().format(totalWithTax)"
+                    type="text"
+                    disabled
             />
         </div>
 
         <flux:input
-            clearable
-            wire:model="recipient"
-            label="{{ __('Recipient') }}"
-            placeholder="{{ __('Enter character name') }}"
+                clearable
+                wire:model="recipient"
+                label="{{ __('Recipient') }}"
+                placeholder="{{ __('Enter character name') }}"
         />
 
         <flux:button type="submit" variant="primary">

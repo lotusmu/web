@@ -1,6 +1,6 @@
 <?php
 
-use App\Actions\ExchangeResources;
+use App\Actions\Wallet\ExchangeResources;
 use App\Enums\Utility\OperationType;
 use App\Models\Concerns\Taxable;
 use App\Models\User\User;
@@ -29,9 +29,9 @@ new class extends Component {
         $taxAmount = $this->calculateTax($this->amount);
 
         $success = $action->handle(
-            $this->user,
-            $this->amount,
-            $taxAmount
+                $this->user,
+                $this->amount,
+                $taxAmount
         );
 
         if ($success) {
@@ -63,19 +63,19 @@ new class extends Component {
                 }
             }" class="grid sm:grid-cols-2 items-start gap-4">
             <flux:input
-                clearable
-                wire:model="amount"
-                x-model.number="amount"
-                type="number"
-                label="{{ __('Amount') }}"
-                min="0"
-                step="1"
+                    clearable
+                    wire:model="amount"
+                    x-model.number="amount"
+                    type="number"
+                    label="{{ __('Amount') }}"
+                    min="0"
+                    step="1"
             />
             <flux:input
-                x-bind:value="new Intl.NumberFormat().format(totalWithTax)"
-                type="text"
-                label="{{ __('Amount after tax (' . $this->taxRate . '% tax)') }}"
-                disabled
+                    x-bind:value="new Intl.NumberFormat().format(totalWithTax)"
+                    type="text"
+                    label="{{ __('Amount after tax (' . $this->taxRate . '% tax)') }}"
+                    disabled
             />
         </div>
         <flux:button type="submit" variant="primary">

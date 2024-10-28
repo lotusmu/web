@@ -1,14 +1,11 @@
 <?php
 
-use App\Actions\ClearKills;
+use App\Actions\Character\ClearKills;
 use App\Enums\Game\Map;
-use App\Enums\Ticket\TicketStatus;
 use App\Enums\Utility\OperationType;
 use App\Models\Concerns\Taxable;
 use App\Models\Game\Character;
-use App\Models\Ticket\Ticket;
 use App\Models\User\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -47,9 +44,9 @@ new #[Layout('layouts.app')] class extends Component {
         $this->character->save();
 
         Flux::toast(
-            variant: 'success',
-            heading: 'Success',
-            text: 'Character moved successfully to Lorencia'
+                variant: 'success',
+                heading: 'Success',
+                text: 'Character moved successfully to Lorencia'
         );
     }
 

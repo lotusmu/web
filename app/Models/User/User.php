@@ -2,7 +2,7 @@
 
 namespace App\Models\User;
 
-use App\Actions\SyncMember;
+use App\Actions\Member\SyncMember;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
 use App\Models\Game\Status;

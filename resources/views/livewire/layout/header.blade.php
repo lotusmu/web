@@ -69,6 +69,9 @@ new class extends Component {
 
         <flux:separator variant="subtle" vertical class="mx-4"/>
 
+        <flux:button variant="ghost" size="sm" icon="shield-exclamation" tooltip="Admin Dashboard"
+                     href="/admin" target="_blank" class="max-lg:hidden"/>
+
         {{--        notifican button --}}
         @if(false)
             <div class="relative">
@@ -92,7 +95,8 @@ new class extends Component {
                     Toggle Dark Mode
                 </flux:navmenu.item>
 
-                <flux:navmenu.item icon="squares-2x2" href="/admin">Admin Dashboard</flux:navmenu.item>
+                <flux:navmenu.item icon="shield-exclamation" href="/admin" class="lg:hidden">Admin Dashboard
+                </flux:navmenu.item>
                 <flux:navmenu.item wire:navigate icon="cog-6-tooth" href="/profile">Settings</flux:navmenu.item>
                 <flux:navmenu.item icon="arrow-right-start-on-rectangle" wire:click="logout">
                     Logout

@@ -2,8 +2,8 @@
 
 namespace App\Models\Concerns;
 
-use App\Actions\DecrementResource;
-use App\Actions\IncrementResource;
+use App\Actions\Wallet\DecrementResource;
+use App\Actions\Wallet\IncrementResource;
 use App\Enums\Utility\ResourceType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Number;

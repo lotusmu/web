@@ -1,12 +1,11 @@
 <?php
 
-use App\Actions\UpgradeAccountLevel;
+use App\Actions\Member\UpgradeAccountLevel;
 use App\Enums\Game\AccountLevel;
 use App\Models\User\User;
 use App\Models\Utility\VipPackage;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
@@ -17,7 +16,7 @@ new #[Layout('layouts.app')] class extends Component {
         $this->user = auth()->user();
 
         if ($this->user->member->AccountLevel !== AccountLevel::Regular &&
-            now()->lessThan($this->user->member->AccountExpireDate)
+                now()->lessThan($this->user->member->AccountExpireDate)
         ) {
             Redirect::route('vip');
         }
@@ -54,9 +53,9 @@ new #[Layout('layouts.app')] class extends Component {
     <div class="grid sm:grid-cols-2 gap-4">
         @foreach ($this->packages as $index => $package)
             <livewire:vip.package-card
-                :$package
-                :is-featured="$loop->first"
-                :wire:key="'package-' . $package->id"
+                    :$package
+                    :is-featured="$loop->first"
+                    :wire:key="'package-' . $package->id"
             />
         @endforeach
     </div>

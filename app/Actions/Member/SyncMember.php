@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Member;
 
 use App\Models\User\Member;
 use App\Models\User\User;

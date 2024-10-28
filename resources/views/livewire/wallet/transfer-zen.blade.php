@@ -1,9 +1,8 @@
 <?php
 
-use App\Actions\TransferZen;
+use App\Actions\Wallet\TransferZen;
 use App\Enums\Utility\ResourceType;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
@@ -17,11 +16,11 @@ new class extends Component {
     public function rules(): array
     {
         return [
-            'source'               => 'required|in:wallet,character',
-            'destination'          => 'required|in:wallet,character',
-            'sourceCharacter'      => 'required_if:source,character',
-            'destinationCharacter' => 'required_if:destination,character',
-            'amount'               => 'required|integer|min:1',
+                'source'               => 'required|in:wallet,character',
+                'destination'          => 'required|in:wallet,character',
+                'sourceCharacter'      => 'required_if:source,character',
+                'destinationCharacter' => 'required_if:destination,character',
+                'amount'               => 'required|integer|min:1',
         ];
     }
 
@@ -30,8 +29,8 @@ new class extends Component {
     {
         return Auth::user()->member->characters->map(function ($character) {
             return [
-                'name' => $character->Name,
-                'zen'  => $character->Money,
+                    'name' => $character->Name,
+                    'zen'  => $character->Money,
             ];
         });
     }
@@ -49,12 +48,12 @@ new class extends Component {
         $user = Auth::user();
 
         $success = $action->handle(
-            $user,
-            $this->source,
-            $this->destination,
-            $this->sourceCharacter,
-            $this->destinationCharacter,
-            $this->amount
+                $user,
+                $this->source,
+                $this->destination,
+                $this->sourceCharacter,
+                $this->destinationCharacter,
+                $this->amount
         );
 
         if ($success) {
@@ -141,8 +140,8 @@ new class extends Component {
                              placeholder="{{ __('Select destination character') }}">
                     @foreach($this->characters as $character)
                         <flux:option
-                            value="{{ $character['name'] }}"
-                            x-show="source !== 'character' || sourceCharacter !== '{{ $character['name'] }}'"
+                                value="{{ $character['name'] }}"
+                                x-show="source !== 'character' || sourceCharacter !== '{{ $character['name'] }}'"
                         >
                             {{ $character['name'] }} ({{ number_format($character['zen']) }})
                         </flux:option>
@@ -154,19 +153,19 @@ new class extends Component {
 
     <div class="grid sm:grid-cols-2 items-start gap-4">
         <flux:input
-            clearable
-            wire:model="amount"
-            x-model.number="amount"
-            type="number"
-            label="{{ __('Amount') }}"
-            min="0"
-            step="1"
+                clearable
+                wire:model="amount"
+                x-model.number="amount"
+                type="number"
+                label="{{ __('Amount') }}"
+                min="0"
+                step="1"
         />
         <flux:input
-            label="{{ __('Final Destination Balance') }}"
-            x-bind:value="new Intl.NumberFormat().format(finalDestinationBalance)"
-            type="text"
-            disabled
+                label="{{ __('Final Destination Balance') }}"
+                x-bind:value="new Intl.NumberFormat().format(finalDestinationBalance)"
+                type="text"
+                disabled
         />
     </div>
 

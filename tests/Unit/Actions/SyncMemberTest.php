@@ -1,6 +1,6 @@
 <?php
 
-use App\Actions\SyncMember;
+use App\Actions\Member\SyncMember;
 use App\Models\User\Member;
 use App\Models\User\User;
 use Carbon\Carbon;

@@ -1,12 +1,12 @@
 <?php
 
-use App\Actions\ExtendVipSubscription;
+use App\Actions\Member\ExtendVipSubscription;
+use App\Enums\Game\AccountLevel;
 use App\Models\User\User;
 use App\Models\Utility\VipPackage;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
-use App\Enums\Game\AccountLevel;
 
 new #[Layout('layouts.app')] class extends Component {
     public User $user;
@@ -31,9 +31,9 @@ new #[Layout('layouts.app')] class extends Component {
         }
 
         return [
-            'label'      => $this->user->member->AccountLevel->getLabel(),
-            'color'      => $this->user->member->AccountLevel->badgeColor(),
-            'expireDate' => $this->user->member->AccountExpireDate,
+                'label'      => $this->user->member->AccountLevel->getLabel(),
+                'color'      => $this->user->member->AccountLevel->badgeColor(),
+                'expireDate' => $this->user->member->AccountExpireDate,
         ];
     }
 

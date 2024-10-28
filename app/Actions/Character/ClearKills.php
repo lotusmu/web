@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Character;
 
 use App\Enums\Game\PkLevel;
 use App\Enums\Utility\ActivityType;

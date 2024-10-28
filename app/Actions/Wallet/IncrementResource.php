@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Wallet;
 
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
