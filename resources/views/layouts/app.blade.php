@@ -5,12 +5,12 @@
 
     @stack('styles')
 </head>
-<body class="min-h-screen antialiased">
+<body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900">
 
 <livewire:layout.header/>
 
 <flux:sidebar stashable sticky
-              class="lg:hidden bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
+              class="lg:hidden border-r bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700">
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
     <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="dark:hidden"/>

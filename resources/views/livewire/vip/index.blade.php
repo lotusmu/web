@@ -31,9 +31,9 @@ new #[Layout('layouts.app')] class extends Component {
         }
 
         return [
-                'label'      => $this->user->member->AccountLevel->getLabel(),
-                'color'      => $this->user->member->AccountLevel->badgeColor(),
-                'expireDate' => $this->user->member->AccountExpireDate,
+            'label'      => $this->user->member->AccountLevel->getLabel(),
+            'color'      => $this->user->member->AccountLevel->badgeColor(),
+            'expireDate' => $this->user->member->AccountExpireDate,
         ];
     }
 
@@ -76,7 +76,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:modal.trigger>
     </header>
 
-    <flux:card class="space-y-8">
+    <flux:card class="space-y-6">
         <div class="flex items-center">
             <div>
                 <flux:heading size="lg">
@@ -93,6 +93,8 @@ new #[Layout('layouts.app')] class extends Component {
                 {{ $this->accountLevel['label'] }}
             </flux:badge>
         </div>
+
+        <flux:separator variant="subtle"/>
 
         <div>
             <flux:heading class="mb-4">
@@ -112,13 +114,14 @@ new #[Layout('layouts.app')] class extends Component {
         </div>
 
         <form wire:submit="extend" class="space-y-6">
-            <flux:select wire:model="packageId" variant="listbox" placeholder="{{__('Choose package...')}}">
+            <flux:radio.group wire:model="packageId" variant="cards" class="flex flex-col">
                 @foreach($this->packages as $package)
-                    <flux:option value="{{$package->id}}">
-                        {{$package->duration}} days ({{$package->cost}} tokens)
-                    </flux:option>
+                    <flux:radio value="{{$package->id}}"
+                                label="{{$package->duration}} days"
+                                description="{{ $package->cost }} tokens"
+                    />
                 @endforeach
-            </flux:select>
+            </flux:radio.group>
 
             <div class="flex gap-2">
                 <flux:spacer/>

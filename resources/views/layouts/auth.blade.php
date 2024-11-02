@@ -3,9 +3,9 @@
 <head>
     @include('layouts.components.head')
 </head>
-<body class="min-h-screen antialiased">
+<body class="min-h-screen antialiased bg-white dark:bg-zinc-900">
 
-<flux:main class="flex min-h-screen bg-white dark:bg-zinc-900 !p-0">
+<flux:main class="flex min-h-screen !p-0">
     <div class="flex-1 flex justify-center items-center">
         <div class="w-80 max-w-80 space-y-6">
             <div class="flex justify-center">
@@ -22,7 +22,7 @@
 
 
     <div class="flex-1 p-4 max-lg:hidden">
-        <div class="text-white relative rounded-lg h-full w-full bg-zinc-900 flex flex-col items-start justify-end p-16"
+        <div class="text-white relative rounded-lg h-full w-full flex flex-col items-start justify-end p-16"
              style="background-image: url({{asset('images/auth/auth-dark.jpg')}});
                     background-size: cover;
                     background-position: 25%;
