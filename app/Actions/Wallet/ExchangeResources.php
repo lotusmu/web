@@ -52,13 +52,18 @@ class ExchangeResources
     public function notifyUser(int $taxAmount, int $amount): void
     {
         $toastText = $taxAmount > 0
-            ? "{$this->format($amount)} tokens exchanged for credits (Tax: {$this->format($taxAmount)} tokens)"
-            : "{$this->format($amount)} tokens exchanged for credits";
+            ? __(':amount tokens exchanged for credits (Tax: :tax tokens)', [
+                'amount' => $this->format($amount),
+                'tax' => $this->format($taxAmount),
+            ])
+            : __(':amount tokens exchanged for credits', [
+                'amount' => $this->format($amount),
+            ]);
 
         Flux::toast(
-            variant: 'success',
-            heading: 'Exchange completed',
             text: $toastText,
+            heading: __('Exchange completed'),
+            variant: 'success',
         );
     }
 

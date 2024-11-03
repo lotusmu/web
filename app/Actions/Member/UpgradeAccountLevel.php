@@ -24,9 +24,12 @@ class UpgradeAccountLevel
         $this->recordActivity($user, $package);
 
         Flux::toast(
+            text: __('Your account has been upgraded to :level VIP for :duration days.', [
+                'level' => $package->level->getLabel(),
+                'duration' => $package->duration,
+            ]),
+            heading: __('Account Upgrade Successful'),
             variant: 'success',
-            heading: 'Account Upgrade Successful',
-            text: "Your account has been upgraded to {$package->level->getLabel()} VIP for {$package->duration} days.",
         );
 
         return true;

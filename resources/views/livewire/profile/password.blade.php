@@ -44,9 +44,9 @@ new class extends Component {
             ->log("Updated their password.");
 
         Flux::toast(
+            text: __('You can always update this in your settings.'),
+            heading: __('Changes saved'),
             variant: 'success',
-            heading: 'Changes saved',
-            text: 'You can always update this in your settings.',
         );
     }
 }; ?>

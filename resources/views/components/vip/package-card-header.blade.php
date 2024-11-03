@@ -20,17 +20,17 @@
             <div class="flex items-center gap-2 text-3xl md:text-4xl font-semibold text-zinc-800 dark:text-white">
                 {{ $tokens }}
             </div>
-            <div class="text-zinc-400 dark:text-zinc-300 font-medium text-base">tokens</div>
+            <div class="text-zinc-400 dark:text-zinc-300 font-medium text-base">{{ __('tokens') }}</div>
         </div>
 
-        <flux:subheading size="sm" class="!mt-1">{{ $duration }} days</flux:subheading>
+        <flux:subheading size="sm" class="!mt-1">{{ __(':duration days', ['duration' => $duration]) }}</flux:subheading>
     </div>
 
     <flux:spacer/>
 
     @if ($isBestValue)
         <flux:badge icon="fire" color="orange">
-            Best Value · 50% off
+            {{ __('Best Value · 50% off') }}
         </flux:badge>
     @endif
 </div>

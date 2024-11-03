@@ -46,8 +46,13 @@ class TransferZen
         }
 
         $char->increment('Money', $amount);
+
         $this->recordActivity($user, 'wallet', $charName, $amount);
-        $this->success('Transferred '.$this->format($amount)." Zen from wallet to {$charName}.");
+
+        $this->success(__('Transferred :amount Zen from wallet to :name', [
+            'amount' => $this->format($amount),
+            'name' => $charName,
+        ]));
 
         return true;
     }
@@ -61,9 +66,15 @@ class TransferZen
         }
 
         $char->decrement('Money', $amount);
+
         $user->resource(ResourceType::ZEN)->increment($amount);
+
         $this->recordActivity($user, $charName, 'wallet', $amount);
-        $this->success('Transferred '.$this->format($amount)." Zen from {$charName} to Zen Wallet.");
+
+        $this->success(__('Transferred :amount Zen from :name to Zen Wallet', [
+            'amount' => $this->format($amount),
+            'name' => $charName,
+        ]));
 
         return true;
     }
@@ -79,8 +90,14 @@ class TransferZen
 
         $from->decrement('Money', $amount);
         $to->increment('Money', $amount);
+
         $this->recordActivity($user, $fromChar, $toChar, $amount);
-        $this->success('Transferred '.$this->format($amount)." Zen from {$fromChar} to {$toChar}.");
+
+        $this->success(__('Transferred :amount Zen from :from to :to', [
+            'amount' => $this->format($amount),
+            'from' => $fromChar,
+            'to' => $toChar,
+        ]));
 
         return true;
     }
@@ -156,7 +173,7 @@ class TransferZen
     private function validateChar(?Character $char, string $name): bool
     {
         if (! $char) {
-            $this->error("Character {$name} not found.");
+            $this->error(__('Character :name not found.', ['name' => $name]));
 
             return false;
         }
@@ -167,7 +184,7 @@ class TransferZen
     private function validateAmount(Character $char, int $amount): bool
     {
         if ($char->Money < $amount) {
-            $this->error('Insufficient Zen on character.');
+            $this->error(__('Insufficient Zen on character.'));
 
             return false;
         }
@@ -178,7 +195,7 @@ class TransferZen
     private function validateLimit(Character $char, int $amount): bool
     {
         if ($char->Money + $amount > self::MAX_ZEN) {
-            $this->error("Transfer would exceed the maximum Zen limit for {$char->Name}.");
+            $this->error(__('Transfer would exceed the maximum Zen limit for :name.', ['name' => $char->Name]));
 
             return false;
         }
@@ -188,7 +205,7 @@ class TransferZen
 
     private function invalidTransfer(): bool
     {
-        $this->error('Invalid transfer type.');
+        $this->error(__('Invalid transfer type.'));
 
         return false;
     }

@@ -1,31 +1,31 @@
 <flux:navlist>
     <flux:navlist.item wire:navigate icon="home" href="/dashboard">
-        Dashboard
+        {{ __('Dashboard') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="wallet" href="/wallet">
-        Wallet
+        {{ __('Wallet') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="clock" href="/entries">
-        Event Entries
+        {{ __('Event Entries') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="building-library" href="#">
-        Castle Siege
+        {{ __('Castle Siege') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="fire" href="/vip"
                        :current="request()->is('vip') || request()->is('vip/*')">
-        Account Level
+        {{ __('Account Level') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="eye-slash" href="#">
-        Hide Info
+        {{ __('Hide Info') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="sparkles" href="#">
-        Donate
+        {{ __('Donate') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="hand-thumb-up" href="#">
-        Vote
+        {{ __('Vote') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="list-bullet" href="/activities">
-        Activities
+        {{ __('Activities') }}
     </flux:navlist.item>
 
     <flux:separator variant="subtle" class="my-px"/>
@@ -34,6 +34,6 @@
                        icon="chat-bubble-left-ellipsis"
                        href="/support"
                        :current="request()->is('support') || request()->is('support/*')">
-        Support
+        {{ __('Support') }}
     </flux:navlist.item>
 </flux:navlist>

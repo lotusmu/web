@@ -37,12 +37,13 @@ new #[Layout('layouts.app')] class extends Component {
 
     <flux:table>
         <flux:columns>
-            <flux:column>Character</flux:column>
-            <flux:column>Class</flux:column>
-            <flux:column>Kills</flux:column>
-            <flux:column>Level</flux:column>
+            <flux:column>{{ __('Character') }}</flux:column>
+            <flux:column>{{ __('Class') }}</flux:column>
+            <flux:column>{{ __('Kills') }}</flux:column>
+            <flux:column>{{ __('Level') }}</flux:column>
             <flux:column sortable :sorted="$sortBy === 'ResetCount'" :direction="$sortDirection"
-                         wire:click="sort('ResetCount')">Resets
+                         wire:click="sort('ResetCount')">
+                {{ __('Resets') }}
             </flux:column>
         </flux:columns>
 

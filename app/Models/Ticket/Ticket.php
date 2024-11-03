@@ -50,9 +50,9 @@ class Ticket extends Model
         $this->logStatusChange('resolved');
 
         Flux::toast(
-            variant: 'success',
+            text: __('The ticket has been marked as resolved. Thank you for your patience.'),
             heading: __('Ticket Resolved'),
-            text: __('The ticket has been marked as resolved. Thank you for your patience.')
+            variant: 'success'
         );
     }
 
@@ -63,9 +63,9 @@ class Ticket extends Model
         $this->logStatusChange('reopened');
 
         Flux::toast(
-            variant: 'success',
+            text: __('We\'re on it! We\'ll reach out about this ticket as soon as possible.'),
             heading: __('Ticket Reopened'),
-            text: __('We\'re on it! We\'ll reach out about this ticket as soon as possible.')
+            variant: 'success'
         );
     }
 

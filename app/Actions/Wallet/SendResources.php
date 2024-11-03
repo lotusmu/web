@@ -24,9 +24,14 @@ class SendResources
         $this->recordRecipientActivity($sender, $recipient, $resourceType, $amount);
 
         Flux::toast(
+            text: __('You\'ve send :amount :resource to :recipient. Tax paid: :tax :resource', [
+                'amount' => $this->format($amount),
+                'resource' => $resourceType->getLabel(),
+                'recipient' => $recipient->name,
+                'tax' => $this->format($taxAmount),
+            ]),
+            heading: __('Transfer Completed'),
             variant: 'success',
-            heading: 'Transfer Completed',
-            text: "You've send {$this->format($amount)} {$resourceType->getLabel()} to {$recipient->name}. Tax paid: {$this->format($taxAmount)} {$resourceType->getLabel()}.",
         );
 
         return true;

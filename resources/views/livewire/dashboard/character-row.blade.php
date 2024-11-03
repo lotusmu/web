@@ -44,9 +44,9 @@ new #[Layout('layouts.app')] class extends Component {
         $this->character->save();
 
         Flux::toast(
-                variant: 'success',
-                heading: 'Success',
-                text: 'Character moved successfully to Lorencia'
+            text: __('Character moved successfully to Lorencia'),
+            heading: __('Success'),
+            variant: 'success'
         );
     }
 
@@ -55,7 +55,7 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $action->handle($this->user, $this->character, $this->clearCost);
 
-        $this->modal('pk-clear-'.$this->character->Name)->close();
+        $this->modal('pk - clear - '.$this->character->Name)->close();
     }
 }
 
@@ -63,6 +63,7 @@ new #[Layout('layouts.app')] class extends Component {
 
 <flux:row>
     <flux:cell>{{ $this->character->Name }}</flux:cell>
+
     <flux:cell class="flex items-center gap-3">
         <flux:avatar size="xs" src="{{ asset($this->character->Class->getImagePath()) }}"/>
 
@@ -70,9 +71,13 @@ new #[Layout('layouts.app')] class extends Component {
             {{  $this->character->Class->getLabel()  }}
         </span>
     </flux:cell>
+
     <flux:cell>{{ $this->character->PkCount }}</flux:cell>
+
     <flux:cell>{{ $this->character->cLevel }}</flux:cell>
+
     <flux:cell>{{ $this->character->ResetCount }}</flux:cell>
+
     <flux:cell align="end">
         <flux:dropdown align="end">
             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal"/>
@@ -93,20 +98,22 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:modal name="pk-clear-{{ $this->character->Name }}" class="md:w-96 space-y-6 text-start">
             <div>
-                <flux:heading size="lg">Clear Player Kills?</flux:heading>
-                <flux:subheading>Are you sure you want to clear all player kills for
-                    <strong>{{ $this->character->Name }}</strong>?
+                <flux:heading size="lg">{{ __('Clear Player Kills?') }}</flux:heading>
+                <flux:subheading>
+                    {!! __('Are you sure you want to clear all player kills for <strong>:name</strong>?', [
+                       'name' => $this->character->Name
+                   ]) !!}
                 </flux:subheading>
             </div>
 
             <div>
                 <flux:text class="flex gap-1">
-                    Kills:
+                    {{ __('Kills:') }}
                     <flux:heading>{{ $this->character->PkCount }}</flux:heading>
                 </flux:text>
                 <flux:text class="flex gap-1">
-                    Cost:
-                    <flux:heading>{{ number_format($this->clearCost) }} Zen</flux:heading>
+                    {{ __('Cost:') }}
+                    <flux:heading>{{ number_format($this->clearCost) }} {{ __('Zen') }}</flux:heading>
                 </flux:text>
             </div>
 
@@ -114,10 +121,10 @@ new #[Layout('layouts.app')] class extends Component {
                 <flux:spacer/>
 
                 <flux:modal.close>
-                    <flux:button variant="ghost">Cancel</flux:button>
+                    <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
                 </flux:modal.close>
 
-                <flux:button wire:click="clearKills" type="submit" variant="primary">Confirm</flux:button>
+                <flux:button wire:click="clearKills" type="submit" variant="primary">{{ __('Confirm') }}</flux:button>
             </div>
         </flux:modal>
     </flux:cell>

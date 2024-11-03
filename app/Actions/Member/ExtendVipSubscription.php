@@ -24,9 +24,11 @@ class ExtendVipSubscription
         $this->recordActivity($user, $package);
 
         Flux::toast(
+            text: __('Your VIP subscription has been extended for :duration days.', [
+                'duration' => $package->duration,
+            ]),
+            heading: __('VIP Subscription Extended'),
             variant: 'success',
-            heading: 'VIP Subscription Extended',
-            text: "Your VIP subscription has been extended for {$package->duration} days.",
         );
 
         return true;

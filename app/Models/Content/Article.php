@@ -12,7 +12,10 @@ use Spatie\Translatable\HasTranslations;
 
 class Article extends Model
 {
-    use HasFactory, HasSlug, HasTranslations, HasUuids;
+    use HasFactory;
+    use HasSlug;
+    use HasTranslations;
+    use HasUuids;
 
     protected $fillable = [
         'title',

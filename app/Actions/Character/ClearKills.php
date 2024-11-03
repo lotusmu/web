@@ -23,9 +23,9 @@ class ClearKills
         $this->recordActivity($user, $character, $amount);
 
         Flux::toast(
-            variant: 'success',
-            heading: 'Success',
             text: __('Player kills for :name have been cleared successfully.', ['name' => $character->Name]),
+            heading: __('Success'),
+            variant: 'success',
         );
 
         return true;
@@ -39,9 +39,9 @@ class ClearKills
 
         if ($character->PkCount < 1) {
             Flux::toast(
-                variant: 'warning',
-                heading: __('No Kills to Clear'),
                 text: __('Your character ":name" has no player kills to clear.', ['name' => $character->Name]),
+                heading: __('No Kills to Clear'),
+                variant: 'warning',
             );
 
             return false;
@@ -49,9 +49,12 @@ class ClearKills
 
         if ($character->Money <= $amount) {
             Flux::toast(
-                variant: 'warning',
+                text: __('Insufficient zen in your character. You need :amount but only have :current', [
+                    'amount' => $this->format($amount),
+                    'current' => $this->format($character->Money),
+                ]),
                 heading: __('Insufficient Funds'),
-                text: __('Insufficient zen in your character. You need ').$this->format($amount).' '.__('but only have').' '.$this->format($character->Money),
+                variant: 'warning',
             );
 
             return false;

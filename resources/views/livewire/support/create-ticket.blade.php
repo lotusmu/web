@@ -5,6 +5,7 @@ use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketCategory;
 use Filament\Forms\Components\FileUpload;
+use LaravelIdea\Helper\App\Models\Ticket\_IH_TicketCategory_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
@@ -48,18 +49,18 @@ new #[Layout('layouts.app')] class extends Component {
 
         if ($ticket) {
             Flux::toast(
-                variant: 'success',
-                heading: 'Success!',
-                text: 'Ticket created successfully.'
+                text: __('Ticket created successfully.'),
+                heading: __('Success'),
+                variant: 'success'
             );
 
             return $this->redirect(route('support'), navigate: true);
         }
 
         Flux::toast(
-            variant: 'danger',
-            heading: 'Error! ',
-            text: 'Failed to create ticket.Please try again.'
+            text: __('Failed to create ticket. Please try again.'),
+            heading: __('Error'),
+            variant: 'danger'
         );
     }
 }; ?>

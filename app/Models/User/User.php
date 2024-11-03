@@ -102,9 +102,9 @@ class User extends Authenticatable implements FilamentUser, HasMember
 
         if ($isOnline) {
             Flux::toast(
-                variant: 'warning',
+                text: __('Please logout from the game to proceed.'),
                 heading: __('Action Required'),
-                text: __('Please logout from the game to proceed.')
+                variant: 'warning'
             );
         }
 

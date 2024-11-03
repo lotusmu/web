@@ -74,7 +74,7 @@ new #[Layout('layouts.app')] class extends Component {
     <div class="flex max-sm:flex-col items-start gap-8 w-full">
         <flux:card class="w-full space-y-6">
             <flux:heading size="lg">
-                Blood Castle
+                {{ __('Blood Castle') }}
             </flux:heading>
             <flux:table>
                 <flux:rows>
@@ -96,7 +96,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:card class="w-full space-y-6">
             <flux:heading size="lg">
-                Devil Square
+                {{ __('Devil Square') }}
             </flux:heading>
             <flux:table>
                 <flux:rows>

@@ -40,19 +40,22 @@ new class extends Component {
 
     private function sendNotification(GameServer $server): void
     {
-        $message = "Switched to {$server->name} - x{$server->experience_rate}";
+        $message = __('Switched to :server - x:rate', [
+            'server' => $server->name,
+            'rate'   => $server->experience_rate
+        ]);
 
         if ($this->filament) {
             Notification::make()
-                ->title('Success!')
+                ->title(__('Success!'))
                 ->body($message)
                 ->success()
                 ->send();
         } else {
             Flux::toast(
-                variant: 'success',
+                text: $message,
                 heading: __('Server Switched'),
-                text: __($message),
+                variant: 'success',
             );
         }
     }

@@ -4,48 +4,51 @@ use App\Livewire\UpcomingEvents;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
+// Public routes
 Route::view('/', 'welcome');
+Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
 
-Volt::route('dashboard', 'dashboard.index')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Volt::route('wallet', 'wallet.index')
-    ->middleware(['auth', 'verified'])
-    ->name('wallet');
-
-Volt::route('entries', 'entries.index')
-    ->middleware(['auth', 'verified'])
-    ->name('entries');
-
-Volt::route('activities', 'activities.index')
-    ->middleware(['auth', 'verified'])
-    ->name('activities');
-
-Volt::route('support', 'support.index')
-    ->middleware(['auth', 'verified'])
-    ->name('support');
-
-Volt::route('support/create-ticket', 'support.create-ticket')
-    ->middleware(['auth', 'verified'])
-    ->name('support.create-ticket');
-
-Volt::route('support/ticket/{ticket}', 'support.show-ticket')
-    ->middleware(['auth', 'verified'])
-    ->name('support.show-ticket');
-
-Volt::route('vip', 'vip.index')
-    ->middleware(['auth', 'verified'])
-    ->name('vip');
-
-Volt::route('vip/purchase', 'vip.purchase')
-    ->middleware(['auth', 'verified'])
-    ->name('vip.purchase');
-
+//Profile route
 Volt::route('/profile', 'profile.index')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
-
+// Authentication routes
 require __DIR__.'/auth.php';
+
+// Protected routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
+    Volt::route('dashboard', 'dashboard.index')
+        ->name('dashboard');
+
+    // Wallet
+    Volt::route('wallet', 'wallet.index')
+        ->name('wallet');
+
+    // Entries
+    Volt::route('entries', 'entries.index')
+        ->name('entries');
+
+    // Activities
+    Volt::route('activities', 'activities.index')
+        ->name('activities');
+
+    // Support routes group
+    Route::prefix('support')->group(function () {
+        Volt::route('/', 'support.index')
+            ->name('support');
+        Volt::route('/create-ticket', 'support.create-ticket')
+            ->name('support.create-ticket');
+        Volt::route('/ticket/{ticket}', 'support.show-ticket')
+            ->name('support.show-ticket');
+    });
+
+    // VIP routes group
+    Route::prefix('vip')->group(function () {
+        Volt::route('/', 'vip.index')
+            ->name('vip');
+        Volt::route('/purchase', 'vip.purchase')
+            ->name('vip.purchase');
+    });
+});

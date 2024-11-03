@@ -13,15 +13,15 @@ new #[Layout('layouts.app')] class extends Component {
 
     <flux:tab.group variant="flush">
         <flux:tabs wire:model="tab" class="max-sm:hidden">
-            <flux:tab name="send-gift" icon="gift">Send Gift</flux:tab>
-            <flux:tab name="exchange-tokens" icon="arrows-right-left">Exchange Tokens</flux:tab>
-            <flux:tab name="transfer-zen" icon="banknotes">Transfer Zen</flux:tab>
+            <flux:tab name="send-gift" icon="gift">{{ __('Send Gift') }}</flux:tab>
+            <flux:tab name="exchange-tokens" icon="arrows-right-left">{{ __('Exchange Tokens') }}</flux:tab>
+            <flux:tab name="transfer-zen" icon="banknotes">{{ __('Transfer Zen') }}</flux:tab>
         </flux:tabs>
 
         <flux:tabs wire:model="tab" variant="segmented" size="sm" class="sm:hidden mx-auto w-full">
-            <flux:tab name="send-gift">Send Gift</flux:tab>
-            <flux:tab name="exchange-tokens">Exchange Tokens</flux:tab>
-            <flux:tab name="transfer-zen">Transfer Zen</flux:tab>
+            <flux:tab name="send-gift">{{ __('Send Gift') }}</flux:tab>
+            <flux:tab name="exchange-tokens">{{ __('Exchange Tokens') }}</flux:tab>
+            <flux:tab name="transfer-zen">{{ __('Transfer Zen') }}</flux:tab>
         </flux:tabs>
 
         <flux:tab.panel name="send-gift">

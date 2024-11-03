@@ -34,15 +34,15 @@ new #[Layout('layouts.app')] class extends Component {
             $this->loadTicket($this->ticket);
 
             Flux::toast(
-                variant: 'success',
-                heading: __('Reply Sent'),
-                text: __('Your reply has been successfully added to the ticket.')
+                text: __('Your reply has been successfully added to the ticket.'),
+                heading: __('Success'),
+                variant: 'success'
             );
         } else {
             Flux::toast(
-                variant: 'danger',
+                text: __('Failed to submit reply. Please try again.'),
                 heading: __('Error'),
-                text: __('Failed to submit reply. Please try again.')
+                variant: 'danger'
             );
         }
     }

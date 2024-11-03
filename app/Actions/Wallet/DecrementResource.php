@@ -35,9 +35,13 @@ readonly class DecrementResource
         }
 
         Flux::toast(
-            variant: 'warning',
+            text: __('Insufficient :resource. You need :amount but only have :current', [
+                'resource' => $this->resourceType->getLabel(),
+                'amount' => $this->format($this->amount),
+                'current' => $this->format($currentValue),
+            ]),
             heading: __('Insufficient Funds'),
-            text: __('Insufficient').' '.$this->resourceType->getLabel().' '.__('You need').' '.$this->format($this->amount).' '.__('but only have').' '.$this->format($currentValue),
+            variant: 'warning',
         );
 
         return false;
