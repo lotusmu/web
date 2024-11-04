@@ -31,8 +31,12 @@ it('returns the correct label for each level', function () {
 it('returns the correct color for each level', function () {
     expect(AccountLevel::Regular->getColor())->toBeNull()
         ->and(AccountLevel::Bronze->getColor())->toBe(Color::Orange)
-        ->and(AccountLevel::Silver->getColor())->toBe(Color::Gray)
-        ->and(AccountLevel::Gold->getColor())->toBe(Color::Yellow);
+        ->and(AccountLevel::Silver->getColor())->toBe(Color::Zinc)
+        ->and(AccountLevel::Gold->getColor())->toBe(Color::Yellow)
+        ->and(AccountLevel::Regular->badgeColor())->toBeNull()
+        ->and(AccountLevel::Bronze->badgeColor())->toBe('orange')
+        ->and(AccountLevel::Silver->badgeColor())->toBe('zinc')
+        ->and(AccountLevel::Gold->badgeColor())->toBe('yellow');
 });
 
 it('returns the correct icon for each level', function () {

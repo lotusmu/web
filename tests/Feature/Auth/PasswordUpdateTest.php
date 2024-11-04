@@ -11,7 +11,7 @@ test('password can be updated', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.update-password-form')
+    $component = Volt::test('profile.password')
         ->set('current_password', 'password')
         ->set('password', 'password2')
         ->set('password_confirmation', 'password2')
@@ -30,7 +30,7 @@ test('correct password must be provided to update password', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.update-password-form')
+    $component = Volt::test('profile.password')
         ->set('current_password', 'wrong-pwd')
         ->set('password', 'new-pwd')
         ->set('password_confirmation', 'new-pwd')
@@ -38,5 +38,22 @@ test('correct password must be provided to update password', function () {
 
     $component
         ->assertHasErrors(['current_password'])
+        ->assertNoRedirect();
+});
+
+test('new password must be confirmed', function () {
+    $user = User::factory()->create([
+        'password' => 'password',
+    ]);
+    $this->actingAs($user);
+
+    $component = Volt::test('profile.password')
+        ->set('current_password', 'password')
+        ->set('password', 'newpass123')
+        ->set('password_confirmation', 'different')
+        ->call('updatePassword');
+
+    $component
+        ->assertHasErrors(['password' => 'confirmed'])
         ->assertNoRedirect();
 });

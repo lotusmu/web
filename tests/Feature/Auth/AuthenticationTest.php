@@ -48,7 +48,7 @@ test('users can not authenticate with invalid password', function () {
     $this->assertGuest();
 });
 
-test('navigation menu can be rendered', function () {
+test('header menu can be rendered', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -57,7 +57,7 @@ test('navigation menu can be rendered', function () {
 
     $response
         ->assertOk()
-        ->assertSeeVolt('layout.navigation');
+        ->assertSeeVolt('layout.header');
 });
 
 test('users can logout', function () {
@@ -65,7 +65,7 @@ test('users can logout', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('layout.navigation');
+    $component = Volt::test('layout.header');
 
     $component->call('logout');
 

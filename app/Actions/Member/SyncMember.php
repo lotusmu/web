@@ -2,6 +2,7 @@
 
 namespace App\Actions\Member;
 
+use App\Models\Game\Wallet;
 use App\Models\User\Member;
 use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,16 @@ class SyncMember
 
             if (! empty($updates)) {
                 $member->fill($updates)->save();
+
+                if (! $member->wasRecentlyCreated) {
+                    return;
+                }
+
+                Wallet::create([
+                    'AccountID' => $user->name,
+                    'WCoinC' => 0,
+                    'zen' => 0,
+                ]);
             }
         });
     }

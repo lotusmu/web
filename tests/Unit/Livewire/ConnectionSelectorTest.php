@@ -1,10 +1,9 @@
 <?php
 
-use App\Livewire\DatabaseSelector;
 use App\Models\Utility\GameServer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Session;
-use Livewire\Livewire;
+use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class)->in(__DIR__);
 
@@ -34,13 +33,13 @@ beforeEach(function () {
     ]);
 });
 
-it('renders the DatabaseSelector component', function () {
-    Livewire::test(DatabaseSelector::class)
-        ->assertViewIs('livewire.database-selector');
+it('renders the connection selector component', function () {
+    Volt::test('connection-selector')
+        ->assertSuccessful();
 });
 
 it('sets server options and selected server ID on mount', function () {
-    $component = Livewire::test(DatabaseSelector::class);
+    $component = Volt::test('connection-selector');
 
     expect($component->get('serverOptions'))->toHaveCount(2)
         ->and($component->get('selectedServerId'))->toBe(1);
@@ -49,13 +48,13 @@ it('sets server options and selected server ID on mount', function () {
 it('uses session value for selected server ID if available on mount', function () {
     Session::put('selected_server_id', 2);
 
-    $component = Livewire::test(DatabaseSelector::class);
+    $component = Volt::test('connection-selector');
 
     expect($component->get('selectedServerId'))->toBe(2);
 });
 
 it('updates the selected server ID and session on updateServer call', function () {
-    $component = Livewire::test(DatabaseSelector::class)
+    $component = Volt::test('connection-selector')
         ->call('updateServer', 2);
 
     expect($component->get('selectedServerId'))->toBe(2)
@@ -63,8 +62,8 @@ it('updates the selected server ID and session on updateServer call', function (
         ->and(Session::get('game_db_connection'))->toBe('server_2');
 });
 
-it('sends a notification on updateServer call', function () {
-    Livewire::test(DatabaseSelector::class)
+it('sends a Filament notification on updateServer call when in Filament', function () {
+    Volt::test('connection-selector', ['filament' => true])
         ->call('updateServer', 2)
         ->assertNotified();
 });
@@ -72,7 +71,7 @@ it('sends a notification on updateServer call', function () {
 it('redirects to the referrer URL and updates session on updateServer call', function () {
     $referer = 'http://example.com/previous-page';
 
-    Livewire::test(DatabaseSelector::class)
+    Volt::test('connection-selector')
         ->call('updateServer', 2, $referer)
         ->assertRedirect($referer);
 
@@ -81,7 +80,7 @@ it('redirects to the referrer URL and updates session on updateServer call', fun
 });
 
 it('returns only active servers in getServerOptions', function () {
-    $component = Livewire::test(DatabaseSelector::class);
+    $component = Volt::test('connection-selector');
 
     $serverOptions = $component->get('serverOptions');
 
@@ -92,7 +91,7 @@ it('returns only active servers in getServerOptions', function () {
 });
 
 it('formats server information correctly in getServerOptions', function () {
-    $component = Livewire::test(DatabaseSelector::class);
+    $component = Volt::test('connection-selector');
 
     $serverOptions = $component->get('serverOptions');
 
@@ -100,4 +99,16 @@ it('formats server information correctly in getServerOptions', function () {
         'name' => 'Server 1',
         'experience_rate' => 1.0,
     ]);
+});
+
+it('renders Filament interface when filament flag is true', function () {
+    Volt::test('connection-selector', ['filament' => true])
+        ->assertSet('filament', true)
+        ->assertSee('Current Server:');
+});
+
+it('renders regular interface when filament flag is false', function () {
+    Volt::test('connection-selector')
+        ->assertSet('filament', false)
+        ->assertDontSee('Current Server:');
 });

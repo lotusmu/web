@@ -2,6 +2,7 @@
 
 use App\Models\Game\Wallet;
 use App\Models\User\Member;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 beforeEach(function () {
@@ -9,8 +10,11 @@ beforeEach(function () {
     refreshTable('CashShopData', 'gamedb_main');
 });
 
-it('can create a credit instance', function () {
-    $wallet = Wallet::factory()->create();
+it('can create a wallet instance', function () {
+    $user = User::factory()->create();
+    $wallet = Wallet::factory()
+        ->withExistingUser($user)
+        ->make();
 
     expect($wallet)->toBeInstanceOf(Wallet::class);
 });
@@ -44,10 +48,15 @@ it('has the correct fillable attributes', function () {
 });
 
 it('casts WCoinC and zen to integer', function () {
-    $wallet = Wallet::factory()->create([
+    $user = User::factory()->create();
+    $wallet = Wallet::where('AccountID', $user->name)->first();
+
+    $wallet->update([
         'WCoinC' => '100',
         'zen' => '100',
     ]);
+
+    $wallet = $wallet->fresh();
 
     expect($wallet->WCoinC)->toBeInt()
         ->and($wallet->zen)->toBeInt();

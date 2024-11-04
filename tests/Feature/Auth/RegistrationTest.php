@@ -7,6 +7,8 @@ use Livewire\Volt\Volt;
 
 beforeEach(function () {
     Auth::logout();
+
+    refreshTable('MEMB_INFO', 'gamedb_main');
 });
 
 test('registration screen can be rendered', function () {
@@ -20,16 +22,35 @@ test('registration screen can be rendered', function () {
 test('new users can register', function () {
     $username = fakeUsername();
     $email = fakeEmail();
+    $password = 'pwd1234!';
 
     $component = Volt::test('pages.auth.register')
         ->set('name', $username)
         ->set('email', $email)
-        ->set('password', 'password')
-        ->set('password_confirmation', 'password');
+        ->set('password', $password)
+        ->set('password_confirmation', $password)
+        ->set('terms', true);
 
     $component->call('register');
 
     $component->assertRedirect(route('dashboard', absolute: false));
 
     $this->assertAuthenticated();
+});
+
+test('users cannot register without accepting terms', function () {
+    $username = fakeUsername();
+    $email = fakeEmail();
+
+    $component = Volt::test('pages.auth.register')
+        ->set('name', $username)
+        ->set('email', $email)
+        ->set('password', 'password')
+        ->set('password_confirmation', 'password')
+        ->set('terms', false);
+
+    $component->call('register');
+
+    $component->assertHasErrors(['terms']);
+    $this->assertGuest();
 });

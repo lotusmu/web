@@ -25,13 +25,22 @@ it('returns the correct label for each status', function () {
         ->and(TicketStatus::CLOSED->getLabel())->toBe('Closed');
 });
 
-it('returns the correct color for each status', function () {
+it('returns the correct getColor for each status', function () {
     expect(TicketStatus::NEW->getColor())->toBe(Color::Emerald)
         ->and(TicketStatus::IN_PROGRESS->getColor())->toBe(Color::Blue)
         ->and(TicketStatus::ON_HOLD->getColor())->toBe(Color::Amber)
         ->and(TicketStatus::PENDING->getColor())->toBe(Color::Orange)
         ->and(TicketStatus::RESOLVED->getColor())->toBe(Color::Teal)
-        ->and(TicketStatus::CLOSED->getColor())->toBe(Color::Gray);
+        ->and(TicketStatus::CLOSED->getColor())->toBe(Color::Zinc);
+});
+
+it('returns the correct color for each status', function () {
+    expect(TicketStatus::NEW->color())->toBe('emerald')
+        ->and(TicketStatus::IN_PROGRESS->color())->toBe('blue')
+        ->and(TicketStatus::ON_HOLD->color())->toBe('amber')
+        ->and(TicketStatus::PENDING->color())->toBe('orange')
+        ->and(TicketStatus::RESOLVED->color())->toBe('teal')
+        ->and(TicketStatus::CLOSED->color())->toBe('zinc');
 });
 
 it('returns the correct icon for each status', function () {

@@ -12,8 +12,8 @@ test('profile page is displayed', function () {
 
     $response
         ->assertOk()
-        ->assertSeeVolt('profile.update-profile-information-form')
-        ->assertSeeVolt('profile.update-password-form');
+        ->assertSeeVolt('profile.index')
+        ->assertSeeVolt('profile.email');
 });
 
 test('profile information can be updated', function () {
@@ -23,7 +23,7 @@ test('profile information can be updated', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.update-profile-information-form')
+    $component = Volt::test('profile.email')
         ->set('email', $newEmail)
         ->call('updateProfileInformation');
 
@@ -42,7 +42,7 @@ test('email verification status is unchanged when the email address is unchanged
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.update-profile-information-form')
+    $component = Volt::test('profile.email')
         ->set('email', $user->email)
         ->call('updateProfileInformation');
 
@@ -51,20 +51,4 @@ test('email verification status is unchanged when the email address is unchanged
         ->assertNoRedirect();
 
     $this->assertNotNull($user->refresh()->email_verified_at);
-});
-
-test('correct password must be provided to delete account', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user);
-
-    $component = Volt::test('profile.delete-user-form')
-        ->set('password', 'wrong-pas')
-        ->call('deleteUser');
-
-    $component
-        ->assertHasErrors('password')
-        ->assertNoRedirect();
-
-    $this->assertNotNull($user->fresh());
 });
