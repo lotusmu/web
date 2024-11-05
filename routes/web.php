@@ -30,6 +30,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Volt::route('entries', 'pages.entries.index')
         ->name('entries');
 
+    // VIP routes group
+    Route::prefix('vip')->group(function () {
+        Volt::route('/', 'pages.vip.index')
+            ->name('vip');
+        Volt::route('/purchase', 'pages.vip.purchase')
+            ->name('vip.purchase');
+    });
+
+    //Stealth Mode
+    Volt::route('stealth', 'pages.stealth.index')
+        ->name('stealth');
+
     // Activities
     Volt::route('activities', 'pages.activities.index')
         ->name('activities');
@@ -42,13 +54,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('support.create-ticket');
         Volt::route('/ticket/{ticket}', 'pages.support.show-ticket')
             ->name('support.show-ticket');
-    });
-
-    // VIP routes group
-    Route::prefix('vip')->group(function () {
-        Volt::route('/', 'pages.vip.index')
-            ->name('vip');
-        Volt::route('/purchase', 'pages.vip.purchase')
-            ->name('vip.purchase');
     });
 });

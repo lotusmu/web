@@ -15,8 +15,8 @@
                        :current="request()->is('vip') || request()->is('vip/*')">
         {{ __('Account Level') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate icon="eye-slash" href="#">
-        {{ __('Hide Info') }}
+    <flux:navlist.item wire:navigate icon="eye-slash" href="/stealth">
+        {{ __('Stealth Mode') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate icon="sparkles" href="#">
         {{ __('Donate') }}
