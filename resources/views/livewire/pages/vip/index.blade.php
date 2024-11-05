@@ -130,7 +130,7 @@ new #[Layout('layouts.app')] class extends Component {
                     <flux:button variant="ghost">Cancel</flux:button>
                 </flux:modal.close>
 
-                <flux:button type="submit" variant="primary">Confirm</flux:button>
+                <flux:button type="submit" variant="primary">Extend</flux:button>
             </div>
         </form>
     </flux:modal>

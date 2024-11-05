@@ -41,28 +41,28 @@ new class extends Component {
                     icon-trailing="chevron-right"
                     class="w-full"
                 >
-                    Upgrade to {{ $this->label }}
+                    {{__('Upgrade to')}} {{ $this->label }}
                 </flux:button>
             </flux:modal.trigger>
 
             <flux:modal name="upgrade-to-{{ strtolower($this->label) }}"
                         class="min-w-[26rem] space-y-6">
                 <div>
-                    <flux:heading size="lg">Upgrade to {{ $this->label }}?</flux:heading>
+                    <flux:heading size="lg">{{__('Upgrade to')}} {{ $this->label }}</flux:heading>
 
                     <flux:subheading>
-                        You're about to upgrade your account to {{ $this->label }}.
+                        {{__('You\'re about to upgrade your account to')}} {{ $this->label }}.
                     </flux:subheading>
                 </div>
 
                 <div>
                     <flux:text class="flex gap-1">
-                        Cost:
-                        <flux:heading>{{ $this->package->cost }} tokens</flux:heading>
+                        {{__('Price')}}:
+                        <flux:heading>{{ $this->package->cost }} {{__('tokens')}}</flux:heading>
                     </flux:text>
                     <flux:text class="flex gap-1">
-                        Duration:
-                        <flux:heading>{{ $this->package->duration }} days</flux:heading>
+                        {{__('Period')}}:
+                        <flux:heading>{{ $this->package->duration }} {{__('days')}}</flux:heading>
                     </flux:text>
                 </div>
 
@@ -70,12 +70,14 @@ new class extends Component {
                     <flux:spacer/>
 
                     <flux:modal.close>
-                        <flux:button variant="ghost">Cancel</flux:button>
+                        <flux:button variant="ghost">
+                            {{__('Cancel')}}
+                        </flux:button>
                     </flux:modal.close>
 
                     <flux:button type="button" variant="primary"
                                  wire:click="$parent.purchase({{ $this->package->id }})">
-                        Confirm
+                        {{__('Upgrade')}}
                     </flux:button>
                 </div>
             </flux:modal>
