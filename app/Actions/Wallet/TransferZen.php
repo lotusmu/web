@@ -217,7 +217,7 @@ class TransferZen
 
     private function notify(string $heading, string $message, string $variant): void
     {
-        Flux::toast(heading: $heading, text: $message, variant: $variant);
+        Flux::toast(text: $message, heading: $heading, variant: $variant);
     }
 
     private function success(string $message): void
@@ -227,6 +227,6 @@ class TransferZen
 
     private function error(string $message): void
     {
-        $this->notify(__('Error'), $message, 'error');
+        $this->notify(__('Error'), $message, 'danger');
     }
 }
