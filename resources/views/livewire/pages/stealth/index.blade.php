@@ -1,21 +1,31 @@
 <?php
 
+use App\Actions\Member\ManageStealthMode;
+use App\Models\User\User;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
-    public function extend(): void
-    {
-        $this->modal('extend')->close();
+    public User $user;
 
-        Flux::toast('extended!');
+    public function mount(): void
+    {
+        $this->user = Auth::user();
     }
 
-    public function enable(): void
-    {
-        $this->modal('enable')->close();
 
-        Flux::toast('enabled!');
+    public function extend(ManageStealthMode $action): void
+    {
+        $action->handle($this->user, 'extend');
+
+        $this->modal('extend')->close();
+    }
+
+    public function enable(ManageStealthMode $action): void
+    {
+        $action->handle($this->user);
+
+        $this->modal('enable')->close();
     }
 }; ?>
 
@@ -94,76 +104,74 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:card>
     </div>
 
-    {{-- ACTIVATE --}}
-    {{--    <flux:card class="space-y-6">--}}
-    {{--        <div class="flex max-sm:flex-col max-sm:space-y-2 items-start w-full">--}}
-    {{--            <div class="space-y-4">--}}
-    {{--                <flux:heading class="flex items-center gap-2">--}}
-    {{--                    <flux:icon.eye-slash/>--}}
-    {{--                    <span>{{__('Stealth Mode')}}</span>--}}
-    {{--                </flux:heading>--}}
+    {{--    @if(!$user->hasActiveStealthMode())--}}
+    <flux:card class="space-y-6">
+        <div class="flex max-sm:flex-col max-sm:space-y-2 items-start w-full">
+            <div class="space-y-4">
+                <flux:heading class="flex items-center gap-2">
+                    <flux:icon.eye-slash/>
+                    <span>{{__('Stealth Mode')}}</span>
+                </flux:heading>
 
-    {{--                <div class="flex gap-2 items-baseline">--}}
-    {{--                    <div--}}
-    {{--                        class="flex items-center gap-2 text-3xl md:text-4xl font-semibold text-zinc-800 dark:text-white">--}}
-    {{--                        60--}}
-    {{--                    </div>--}}
-    {{--                    <div class="text-zinc-400 dark:text-zinc-300 font-medium text-base">{{ __('tokens') }}</div>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
+                <div class="flex gap-2 items-baseline">
+                    <div
+                        class="flex items-center gap-2 text-3xl md:text-4xl font-semibold text-zinc-800 dark:text-white">
+                        60
+                    </div>
+                    <div class="text-zinc-400 dark:text-zinc-300 font-medium text-base">{{ __('tokens') }}</div>
+                </div>
+            </div>
 
-    {{--            <flux:spacer/>--}}
+            <flux:spacer/>
 
-    {{--            <flux:badge variant="pill" icon="calendar-days" color="orange">--}}
-    {{--                {{ __('7 days') }}--}}
-    {{--            </flux:badge>--}}
-    {{--        </div>--}}
+            <flux:badge variant="pill" icon="calendar-days" color="orange">
+                {{ __('7 days') }}
+            </flux:badge>
+        </div>
 
-    {{--        <div>--}}
-    {{--            <flux:modal.trigger name="enable">--}}
-    {{--                <flux:button variant="primary" icon-trailing="chevron-right" class="w-full">--}}
-    {{--                    {{__('Enable')}}--}}
-    {{--                </flux:button>--}}
-    {{--            </flux:modal.trigger>--}}
-    {{--        </div>--}}
+        <div>
+            <flux:modal.trigger name="enable">
+                <flux:button variant="primary" icon-trailing="chevron-right" class="w-full">
+                    {{__('Enable')}}
+                </flux:button>
+            </flux:modal.trigger>
+        </div>
 
-    {{--        <flux:modal name="enable"--}}
-    {{--                    class="min-w-[26rem] space-y-6">--}}
-    {{--            <div>--}}
-    {{--                <flux:heading size="lg">Enable Stealth Mode?</flux:heading>--}}
+        <flux:modal name="enable"
+                    class="min-w-[26rem] space-y-6">
+            <div>
+                <flux:heading size="lg">Enable Stealth Mode?</flux:heading>
 
-    {{--                <flux:subheading>--}}
-    {{--                    Your account information will be hidden for 7 days.--}}
-    {{--                </flux:subheading>--}}
-    {{--            </div>--}}
+                <flux:subheading>
+                    Your account information will be hidden for 7 days.
+                </flux:subheading>
+            </div>
 
-    {{--            <div>--}}
-    {{--                <flux:text class="flex gap-1">--}}
-    {{--                    Price:--}}
-    {{--                    <flux:heading>60 tokens</flux:heading>--}}
-    {{--                </flux:text>--}}
-    {{--                <flux:text class="flex gap-1">--}}
-    {{--                    Period:--}}
-    {{--                    <flux:heading>7 days</flux:heading>--}}
-    {{--                </flux:text>--}}
-    {{--            </div>--}}
+            <div>
+                <flux:text class="flex gap-1">
+                    Price:
+                    <flux:heading>60 tokens</flux:heading>
+                </flux:text>
+                <flux:text class="flex gap-1">
+                    Period:
+                    <flux:heading>7 days</flux:heading>
+                </flux:text>
+            </div>
 
-    {{--            <div class="flex gap-2">--}}
-    {{--                <flux:spacer/>--}}
+            <div class="flex gap-2">
+                <flux:spacer/>
 
-    {{--                <flux:modal.close>--}}
-    {{--                    <flux:button variant="ghost">Cancel</flux:button>--}}
-    {{--                </flux:modal.close>--}}
+                <flux:modal.close>
+                    <flux:button variant="ghost">Cancel</flux:button>
+                </flux:modal.close>
 
-    {{--                <flux:button type="button" variant="primary" wire:click="enable">--}}
-    {{--                    Enable--}}
-    {{--                </flux:button>--}}
-    {{--            </div>--}}
-    {{--        </flux:modal>--}}
-    {{--    </flux:card>--}}
-
-
-    {{--    EXTEND --}}
+                <flux:button type="button" variant="primary" wire:click="enable">
+                    Enable
+                </flux:button>
+            </div>
+        </flux:modal>
+    </flux:card>
+    {{--    @else--}}
     <flux:card class="space-y-6">
         <div class="flex max-sm:flex-col max-sm:space-y-2 items-start w-full">
             <div class="space-y-4">
@@ -230,4 +238,5 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </flux:modal>
     </flux:card>
+    {{--    @endif--}}
 </div>

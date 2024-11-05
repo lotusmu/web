@@ -99,6 +99,36 @@ class Character extends Model
         return User::where('name', $member->memb___id)->first();
     }
 
+    //    public function shouldHideInformation(): bool
+    //    {
+    //        return $this->member->user->hasActiveStealthMode();
+    //    }
+    //
+    //    public function getAttributeValue($key)
+    //    {
+    //        if ($this->shouldHideInformation() && in_array($key, [
+    //            'cLevel',
+    //            'Strength',
+    //            'Dexterity',
+    //            'Vitality',
+    //            'Energy',
+    //            'Leadership',
+    //            'MapNumber',
+    //            'MapPosX',
+    //            'MapPosY',
+    //            'PkCount',
+    //            'PkLevel',
+    //            'ResetCount',
+    //            'MasterResetCount',
+    //            'Kills',
+    //            'Deads',
+    //        ])) {
+    //            return __('Hidden');
+    //        }
+    //
+    //        return parent::getAttributeValue($key);
+    //    }
+
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'AccountID', 'memb___id');

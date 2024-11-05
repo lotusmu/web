@@ -6,6 +6,7 @@ use App\Actions\Member\SyncMember;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
 use App\Models\Game\Status;
+use App\Models\Stealth;
 use App\Models\Ticket\Ticket;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -111,6 +112,11 @@ class User extends Authenticatable implements FilamentUser, HasMember
         return $isOnline;
     }
 
+    public function hasActiveStealthMode(): bool
+    {
+        return $this->stealth?->isActive() ?? false;
+    }
+
     public function member(): HasOne
     {
         return $this->hasOne(Member::class, 'memb___id', 'name');
@@ -124,5 +130,10 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function status(): HasOne
     {
         return $this->hasOne(Status::class, 'memb___id', 'name');
+    }
+
+    public function stealth(): HasOne
+    {
+        return $this->hasOne(Stealth::class);
     }
 }
