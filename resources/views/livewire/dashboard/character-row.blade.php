@@ -55,7 +55,7 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $action->handle($this->user, $this->character, $this->clearCost);
 
-        $this->modal('pk - clear - '.$this->character->Name)->close();
+        $this->modal('pk_clear_'.$this->character->Name)->close();
     }
 }
 
@@ -83,7 +83,7 @@ new #[Layout('layouts.app')] class extends Component {
             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal"/>
 
             <flux:menu variant="solid">
-                <flux:modal.trigger name="pk-clear-{{ $this->character->Name }}">
+                <flux:modal.trigger name="pk_clear_{{ $this->character->Name }}">
                     <flux:menu.item icon="arrow-path">
                         {{ __('PK Clear') }}
                     </flux:menu.item>
@@ -96,7 +96,7 @@ new #[Layout('layouts.app')] class extends Component {
             </flux:menu>
         </flux:dropdown>
 
-        <flux:modal name="pk-clear-{{ $this->character->Name }}" class="md:w-96 space-y-6 text-start">
+        <flux:modal name="pk_clear_{{ $this->character->Name }}" class="md:w-96 space-y-6 text-start">
             <div>
                 <flux:heading size="lg">{{ __('Clear Player Kills?') }}</flux:heading>
                 <flux:subheading>

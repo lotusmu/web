@@ -16,7 +16,7 @@ new #[Layout('layouts.app')] class extends Component {
         $this->user = auth()->user();
 
         if ($this->user->member->AccountLevel !== AccountLevel::Regular &&
-                now()->lessThan($this->user->member->AccountExpireDate)
+            now()->lessThan($this->user->member->AccountExpireDate)
         ) {
             Redirect::route('vip');
         }
@@ -31,11 +31,13 @@ new #[Layout('layouts.app')] class extends Component {
     public function purchase($packageId, UpgradeAccountLevel $action): void
     {
         $package = VipPackage::findOrFail($packageId);
+        
+        Flux::modal('upgrade-to-'.strtolower($package->level->getLabel()))->close();
 
         if ($action->handle($this->user, $package)) {
-            Flux::modal('upgrade-to-'.strtolower($package->level->getLabel()))->close();
             $this->redirect(route('vip'), navigate: true);
         }
+
     }
 }; ?>
 
@@ -53,9 +55,9 @@ new #[Layout('layouts.app')] class extends Component {
     <div class="grid sm:grid-cols-2 gap-4">
         @foreach ($this->packages as $index => $package)
             <livewire:vip.package-card
-                    :$package
-                    :is-featured="$loop->first"
-                    :wire:key="'package-' . $package->id"
+                :$package
+                :is-featured="$loop->first"
+                :wire:key="'package-' . $package->id"
             />
         @endforeach
     </div>
