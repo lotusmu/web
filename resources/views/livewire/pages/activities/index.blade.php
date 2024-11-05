@@ -45,7 +45,7 @@ new #[Layout('layouts.app')] class extends Component {
         </x-flux::subheading>
     </header>
 
-    <flux:table :paginate="$this->activities">
+    <flux:table :paginate="$this->activities" class="!overflow-x-scroll">
         <flux:columns>
             <flux:column>{{ __('Description') }}</flux:column>
             <flux:column>{{ __('Amount') }}</flux:column>

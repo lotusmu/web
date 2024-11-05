@@ -49,7 +49,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:columns>
         <flux:rows>
             @forelse ($this->tickets() as $ticket)
-                <livewire:support.ticket-row :$ticket :key="$ticket->id"/>
+                <livewire:pages.support.ticket-row :$ticket :key="$ticket->id"/>
             @empty
                 <flux:row>
                     <flux:cell colspan="4">
@@ -60,6 +60,6 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:rows>
     </flux:table>
 
-    <livewire:support.faq/>
+    <livewire:pages.support.faq/>
 </div>
 

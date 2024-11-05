@@ -28,10 +28,10 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:tabs>
 
         <flux:tab.panel name="email">
-            <livewire:profile.email/>
+            <livewire:pages.profile.email/>
         </flux:tab.panel>
         <flux:tab.panel name="password">
-            <livewire:profile.password/>
+            <livewire:pages.profile.password/>
         </flux:tab.panel>
     </flux:tab-group>
 </div>

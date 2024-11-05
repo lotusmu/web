@@ -31,7 +31,7 @@ new #[Layout('layouts.app')] class extends Component {
     public function purchase($packageId, UpgradeAccountLevel $action): void
     {
         $package = VipPackage::findOrFail($packageId);
-        
+
         Flux::modal('upgrade-to-'.strtolower($package->level->getLabel()))->close();
 
         if ($action->handle($this->user, $package)) {
@@ -54,7 +54,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div class="grid sm:grid-cols-2 gap-4">
         @foreach ($this->packages as $index => $package)
-            <livewire:vip.package-card
+            <livewire:pages.vip.package-card
                 :$package
                 :is-featured="$loop->first"
                 :wire:key="'package-' . $package->id"

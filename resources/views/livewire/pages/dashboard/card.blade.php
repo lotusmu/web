@@ -41,8 +41,8 @@ new #[Layout('layouts.app')] class extends Component {
     }
 } ?>
 
-<flux:card class="flex max-sm:flex-col justify-evenly gap-2 text-center">
-    <div>
+<flux:card class="flex max-sm:flex-col justify-evenly max-sm:gap-4 gap-2 text-center">
+    <div class="flex-1 min-w-0">
         <flux:subheading>
             {{__('Tokens')}}
         </flux:subheading>
@@ -51,10 +51,10 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:heading>
     </div>
 
-    <flux:separator vertical variant="subtle" class="sm:block hidden"/>
+    <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
     <flux:separator variant="subtle" class="max-sm:block hidden"/>
 
-    <div>
+    <div class="flex-1 min-w-0">
         <flux:subheading>
             {{__('Credits')}}
         </flux:subheading>
@@ -63,10 +63,10 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:heading>
     </div>
 
-    <flux:separator vertical variant="subtle" class="sm:block hidden"/>
+    <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
     <flux:separator variant="subtle" class="max-sm:block hidden"/>
 
-    <div>
+    <div class="flex-1 min-w-0">
         <flux:subheading>
             {{__('Zen')}}
         </flux:subheading>
@@ -75,10 +75,10 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:heading>
     </div>
 
-    <flux:separator vertical variant="subtle" class="sm:block hidden"/>
+    <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
     <flux:separator variant="subtle" class="max-sm:block hidden"/>
 
-    <div>
+    <div class="flex-1 min-w-0">
         <flux:subheading>
             {{__('Account Level')}}
         </flux:subheading>

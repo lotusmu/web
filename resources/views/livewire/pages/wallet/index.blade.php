@@ -9,7 +9,7 @@ new #[Layout('layouts.app')] class extends Component {
 }; ?>
 
 <div class="space-y-8">
-    <livewire:wallet.card/>
+    <livewire:pages.wallet.card/>
 
     <flux:tab.group variant="flush">
         <flux:tabs wire:model="tab" class="max-sm:hidden">
@@ -25,13 +25,13 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:tabs>
 
         <flux:tab.panel name="send-gift">
-            <livewire:wallet.send-gift/>
+            <livewire:pages.wallet.send-gift/>
         </flux:tab.panel>
         <flux:tab.panel name="exchange-tokens">
-            <livewire:wallet.exchange-tokens/>
+            <livewire:pages.wallet.exchange-tokens/>
         </flux:tab.panel>
         <flux:tab.panel name="transfer-zen">
-            <livewire:wallet.transfer-zen/>
+            <livewire:pages.wallet.transfer-zen/>
         </flux:tab.panel>
     </flux:tab-group>
 </div>

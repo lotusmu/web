@@ -33,7 +33,7 @@ new #[Layout('layouts.app')] class extends Component {
 } ?>
 
 <div class="space-y-6">
-    <livewire:dashboard.card/>
+    <livewire:pages.dashboard.card/>
 
     <flux:table>
         <flux:columns>
@@ -49,7 +49,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:rows>
             @foreach ($this->characters as $character)
-                <livewire:dashboard.character-row :$character wire:key="{{ $character->Name }}"/>
+                <livewire:pages.dashboard.character-row :$character wire:key="{{ $character->Name }}"/>
             @endforeach
         </flux:rows>
     </flux:table>

@@ -9,7 +9,7 @@ Route::view('/', 'welcome');
 Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
 
 //Profile route
-Volt::route('/profile', 'profile.index')
+Volt::route('/profile', 'pages.profile.index')
     ->middleware(['auth'])
     ->name('profile');
 
@@ -19,36 +19,36 @@ require __DIR__.'/auth.php';
 // Protected routes
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Volt::route('dashboard', 'dashboard.index')
+    Volt::route('dashboard', 'pages.dashboard.index')
         ->name('dashboard');
 
     // Wallet
-    Volt::route('wallet', 'wallet.index')
+    Volt::route('wallet', 'pages.wallet.index')
         ->name('wallet');
 
     // Entries
-    Volt::route('entries', 'entries.index')
+    Volt::route('entries', 'pages.entries.index')
         ->name('entries');
 
     // Activities
-    Volt::route('activities', 'activities.index')
+    Volt::route('activities', 'pages.activities.index')
         ->name('activities');
 
     // Support routes group
     Route::prefix('support')->group(function () {
-        Volt::route('/', 'support.index')
+        Volt::route('/', 'pages.support.index')
             ->name('support');
-        Volt::route('/create-ticket', 'support.create-ticket')
+        Volt::route('/create-ticket', 'pages.support.create-ticket')
             ->name('support.create-ticket');
-        Volt::route('/ticket/{ticket}', 'support.show-ticket')
+        Volt::route('/ticket/{ticket}', 'pages.support.show-ticket')
             ->name('support.show-ticket');
     });
 
     // VIP routes group
     Route::prefix('vip')->group(function () {
-        Volt::route('/', 'vip.index')
+        Volt::route('/', 'pages.vip.index')
             ->name('vip');
-        Volt::route('/purchase', 'vip.purchase')
+        Volt::route('/purchase', 'pages.vip.purchase')
             ->name('vip.purchase');
     });
 });
