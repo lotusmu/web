@@ -3,10 +3,12 @@
 namespace App\Models\Concerns;
 
 use App\Enums\Utility\OperationType;
-use App\Models\Utility\Tax;
+use App\Models\Utility\Setting;
 
 trait Taxable
 {
+    protected array $operationSettings;
+
     protected float $taxRate;
 
     public OperationType $operationType = OperationType::TRANSFER;
@@ -18,26 +20,59 @@ trait Taxable
 
     public function initializeTaxable(): void
     {
-        $this->taxRate = Tax::getRateFor($this->operationType);
+        $this->operationSettings = Setting::getGroup($this->operationType->value);
+        $this->taxRate = $this->getRate();
+
     }
 
-    public function calculateTax(float $amount): float
+    public function calculateRate(float $amount): float
     {
-        if ($this->operationType === OperationType::PK_CLEAR) {
-            return round($this->taxRate * $amount);
-        }
-
-        return round($amount * ($this->taxRate / 100));
+        return match ($this->operationType) {
+            OperationType::TRANSFER, OperationType::EXCHANGE => round($amount * ($this->getRate() / 100)),
+            OperationType::PK_CLEAR => round($this->getCost() * $amount),
+            default => 0,
+        };
     }
 
-    public function calculateTotalWithTax(float $amount): float
+    protected function getRate(): float
     {
-        $taxAmount = $this->calculateTax($amount);
+        $path = match ($this->operationType) {
+            OperationType::TRANSFER => 'transfer.rate',
+            OperationType::EXCHANGE => 'exchange.rate',
+            default => null,
+        };
 
-        if ($this->operationType === OperationType::PK_CLEAR) {
-            return $taxAmount;
+        return $path ? Setting::getValue($this->operationType->value, $path, 0) : 0;
+    }
+
+    protected function getCost(): int
+    {
+        $path = match ($this->operationType) {
+            OperationType::STEALTH => 'stealth.cost',
+            OperationType::PK_CLEAR => 'pk_clear.cost',
+            default => null,
+        };
+
+        return $path ? Setting::getValue($this->operationType->value, $path, 0) : 0;
+    }
+
+    protected function getResourceType(): string
+    {
+        $path = match ($this->operationType) {
+            OperationType::STEALTH => 'stealth.resource',
+            OperationType::PK_CLEAR => 'pk_clear.resource',
+            default => null,
+        };
+
+        return $path ? Setting::getValue($this->operationType->value, $path, 'tokens') : 'tokens';
+    }
+
+    protected function getDuration(): int
+    {
+        if ($this->operationType !== OperationType::STEALTH) {
+            return 0;
         }
 
-        return $amount + $taxAmount;
+        return Setting::getValue($this->operationType->value, 'stealth.duration', 7);
     }
 }

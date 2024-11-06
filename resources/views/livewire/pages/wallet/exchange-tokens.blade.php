@@ -5,6 +5,7 @@ use App\Enums\Utility\OperationType;
 use App\Models\Concerns\Taxable;
 use App\Models\User\User;
 use Livewire\Attributes\Validate;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
@@ -13,7 +14,7 @@ new class extends Component {
     public User $user;
 
     #[Validate('required|integer|min:1')]
-    public int $amount = 0;
+    public int $amount;
 
     public function mount(): void
     {
@@ -26,12 +27,9 @@ new class extends Component {
     {
         $this->validate();
 
-        $taxAmount = $this->calculateTax($this->amount);
-
         $success = $action->handle(
             $this->user,
-            $this->amount,
-            $taxAmount
+            $this->amount
         );
 
         if ($success) {
@@ -65,7 +63,6 @@ new class extends Component {
             <flux:input
                 clearable
                 wire:model="amount"
-                x-model.number="amount"
                 type="number"
                 label="{{ __('Amount') }}"
                 min="0"

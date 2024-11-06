@@ -6,7 +6,6 @@ use App\Actions\Member\SyncMember;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
 use App\Models\Game\Status;
-use App\Models\Stealth;
 use App\Models\Ticket\Ticket;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;

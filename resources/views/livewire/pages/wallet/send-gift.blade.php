@@ -7,6 +7,7 @@ use App\Models\Concerns\Taxable;
 use App\Models\Game\Character;
 use App\Models\User\User;
 use Illuminate\Validation\Rules\Enum;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
@@ -15,12 +16,13 @@ new class extends Component {
     public $sender;
     public string $recipient = '';
     public ?ResourceType $resourceType = null;
-    public int $amount = 0;
+    public int $amount;
 
     public function mount(): void
     {
         $this->sender        = Auth::user()->id;
         $this->operationType = OperationType::TRANSFER;
+        $this->initializeTaxable();
     }
 
     public function rules(): array
@@ -46,14 +48,11 @@ new class extends Component {
 
         $sender = User::findOrFail($this->sender);
 
-        $taxAmount = $this->calculateTax($this->amount);
-
         $success = $action->handle(
             $sender,
             $recipientUser,
             $this->resourceType,
-            $this->amount,
-            $taxAmount
+            $this->amount
         );
 
         if ($success) {
@@ -75,7 +74,7 @@ new class extends Component {
     </header>
 
     <form wire:submit="transfer" class="mt-6 space-y-6">
-        <flux:select wire:model="resourceType" variant="listbox" placeholder="{{__('Choose currency type...')}}">
+        <flux:select wire:model="resourceType" variant="listbox" placeholder="{{__('Choose resource type...')}}">
             @foreach(ResourceType::cases() as $type)
                 <flux:option value="{{ $type->value }}">{{ __($type->getLabel()) }}</flux:option>
             @endforeach

@@ -3,7 +3,9 @@
 namespace App\Actions\Wallet;
 
 use App\Enums\Utility\ActivityType;
+use App\Enums\Utility\OperationType;
 use App\Enums\Utility\ResourceType;
+use App\Models\Concerns\Taxable;
 use App\Models\User\User;
 use App\Support\ActivityLog\IdentityProperties;
 use Flux;
@@ -11,8 +13,17 @@ use Illuminate\Support\Str;
 
 class SendResources
 {
-    public function handle(User $sender, User $recipient, ResourceType $resourceType, int $amount, int $taxAmount): bool
+    use Taxable;
+
+    public function __construct()
     {
+        $this->operationType = OperationType::TRANSFER;
+        $this->initializeTaxable();
+    }
+
+    public function handle(User $sender, User $recipient, ResourceType $resourceType, int $amount): bool
+    {
+        $taxAmount = $this->calculateRate($amount);
         $totalAmount = $amount + $taxAmount;
 
         if (! $sender->resource($resourceType)->decrement($totalAmount)) {
@@ -24,7 +35,7 @@ class SendResources
         $this->recordRecipientActivity($sender, $recipient, $resourceType, $amount);
 
         Flux::toast(
-            text: __('You\'ve send :amount :resource to :recipient. Tax paid: :tax :resource', [
+            text: __('You\'ve sent :amount :resource to :recipient. Tax paid: :tax :resource', [
                 'amount' => $this->format($amount),
                 'resource' => $resourceType->getLabel(),
                 'recipient' => $recipient->name,
@@ -45,7 +56,8 @@ class SendResources
             'activity_type' => ActivityType::DECREMENT->value,
             'recipient' => $recipient->name,
             'amount' => $this->format($amount),
-            'taxAmount' => $this->format($amount),
+            'tax_amount' => $this->format($taxAmount),
+            'tax_rate' => $this->getRate().'%',
             'resource_type' => Str::title($resourceType->value),
             'balance' => $this->format($balance),
             ...IdentityProperties::capture(),
@@ -71,7 +83,7 @@ class SendResources
             'balance' => $this->format($balance),
         ];
 
-        $description = ':properties.resource_type received from :properties.sender. Amount: :properties.amount (after tax).';
+        $description = ':properties.resource_type received from :properties.sender. Amount: :properties.amount.';
 
         activity('resource_transfer')
             ->performedOn($recipient)

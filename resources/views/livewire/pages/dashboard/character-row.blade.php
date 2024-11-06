@@ -3,6 +3,7 @@
 use App\Actions\Character\ClearKills;
 use App\Enums\Game\Map;
 use App\Enums\Utility\OperationType;
+use App\Enums\Utility\ResourceType;
 use App\Models\Concerns\Taxable;
 use App\Models\Game\Character;
 use App\Models\User\User;
@@ -28,7 +29,13 @@ new #[Layout('layouts.app')] class extends Component {
     #[Computed]
     public function clearCost(): int
     {
-        return $this->calculateTax($this->character->PkCount);
+        return $this->calculateRate($this->character->PkCount);
+    }
+
+    #[Computed]
+    public function resource(): string
+    {
+        return ResourceType::from($this->getResourceType())->getLabel();
     }
 
     public function unstuck(): void
@@ -50,14 +57,13 @@ new #[Layout('layouts.app')] class extends Component {
         );
     }
 
-
     public function clearKills(ClearKills $action): void
     {
-        $action->handle($this->user, $this->character, $this->clearCost);
+        $action->handle($this->user, $this->character);
 
         $this->modal('pk_clear_'.$this->character->Name)->close();
     }
-}
+};
 
 ?>
 
@@ -89,7 +95,6 @@ new #[Layout('layouts.app')] class extends Component {
                     </flux:menu.item>
                 </flux:modal.trigger>
 
-
                 <flux:menu.item icon="arrows-pointing-out" wire:click="unstuck">
                     {{ __('Unstuck Character') }}
                 </flux:menu.item>
@@ -113,7 +118,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </flux:text>
                 <flux:text class="flex gap-1">
                     {{ __('Cost:') }}
-                    <flux:heading>{{ number_format($this->clearCost) }} {{ __('Zen') }}</flux:heading>
+                    <flux:heading>{{ number_format($this->clearCost) }} {{ __($this->resource) }}</flux:heading>
                 </flux:text>
             </div>
 

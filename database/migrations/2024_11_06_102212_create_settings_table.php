@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('taxes', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('operation');
-            $table->boolean('is_flat_rate')->default(false);
-            $table->decimal('rate', 20, 2);
+            $table->string('group')->unique();
+            $table->json('settings');
             $table->timestamps();
-
-            $table->unique('operation');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('taxes');
+        Schema::dropIfExists('settings');
     }
 };
