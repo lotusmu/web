@@ -3,6 +3,7 @@
 namespace App\Actions\Member;
 
 use App\Enums\Utility\ActivityType;
+use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
 use App\Support\ActivityLog\IdentityProperties;
 use Carbon\Carbon;
@@ -16,7 +17,11 @@ class ManageStealthMode
 
     public function handle(User $user, string $action = 'enable'): bool
     {
-        if (! $this->validate($user)) {
+        if (! $this->validate($user, $action)) {
+            return false;
+        }
+
+        if (! $user->resource(ResourceType::TOKENS)->decrement(self::STEALTH_MODE_COST)) {
             return false;
         }
 
@@ -29,37 +34,21 @@ class ManageStealthMode
 
     private function validate(User $user, string $action = 'enable'): bool
     {
-        if ($user->isOnline()) {
-            return false;
-        }
-
-        if ($action === 'enable' && $user->hasActiveStealthMode()) {
+        if ($action === 'enable' && $user->hasActiveStealth()) {
             Flux::toast(
-                text: __('Stealth Mode is already active.'),
-                heading: __('Already Active'),
-                variant: 'warning'
+                text: __('Stealth Mode is already enabled on your account.'),
+                heading: __('Error'),
+                variant: 'danger'
             );
 
             return false;
         }
 
-        if ($action === 'extend' && ! $user->hasActiveStealthMode()) {
+        if ($action === 'extend' && ! $user->hasActiveStealth()) {
             Flux::toast(
-                text: __('Stealth Mode is not active.'),
-                heading: __('Not Active'),
-                variant: 'warning'
-            );
-
-            return false;
-        }
-
-        if ($user->member->tokens < self::STEALTH_MODE_COST) {
-            Flux::toast(
-                text: __('Insufficient tokens. You need :amount tokens.', [
-                    'amount' => self::STEALTH_MODE_COST,
-                ]),
-                heading: __('Insufficient Tokens'),
-                variant: 'warning'
+                text: __('Stealth Mode is not enabled on your account.'),
+                heading: __('Error'),
+                variant: 'danger'
             );
 
             return false;
@@ -74,7 +63,8 @@ class ManageStealthMode
             'expires_at' => Carbon::now()->addDays(self::STEALTH_MODE_DURATION_DAYS),
         ]);
 
-        $this->deductTokens($user);
+        $user->refresh();
+
         $this->recordActivity($user, 'enabled');
 
         Flux::toast(
@@ -93,7 +83,8 @@ class ManageStealthMode
                 ->addDays(self::STEALTH_MODE_DURATION_DAYS),
         ]);
 
-        $this->deductTokens($user);
+        $user->refresh();
+
         $this->recordActivity($user, 'extended');
 
         Flux::toast(
@@ -105,12 +96,6 @@ class ManageStealthMode
         return true;
     }
 
-    private function deductTokens(User $user): void
-    {
-        $user->member->tokens -= self::STEALTH_MODE_COST;
-        $user->member->save();
-    }
-
     private function recordActivity(User $user, string $action): void
     {
         activity('stealth_mode')
@@ -120,9 +105,9 @@ class ManageStealthMode
                 'action' => $action,
                 'amount' => self::STEALTH_MODE_COST,
                 'duration' => self::STEALTH_MODE_DURATION_DAYS,
-                'expires_at' => $user->stealth->expires_at,
+                'expires_at' => $user->stealth->expires_at->format('d M Y, H:i'),
                 ...IdentityProperties::capture(),
             ])
-            ->log('Stealth Mode :properties.action for :subject.name');
+            ->log('Stealth Mode :properties.action until :properties.expires_at');
     }
 }

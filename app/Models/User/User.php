@@ -112,7 +112,7 @@ class User extends Authenticatable implements FilamentUser, HasMember
         return $isOnline;
     }
 
-    public function hasActiveStealthMode(): bool
+    public function hasActiveStealth(): bool
     {
         return $this->stealth?->isActive() ?? false;
     }

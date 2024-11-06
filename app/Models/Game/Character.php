@@ -101,7 +101,7 @@ class Character extends Model
 
     //    public function shouldHideInformation(): bool
     //    {
-    //        return $this->member->user->hasActiveStealthMode();
+    //        return $this->member->user->hasActiveStealth();
     //    }
     //
     //    public function getAttributeValue($key)

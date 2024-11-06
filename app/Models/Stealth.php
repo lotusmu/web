@@ -30,20 +30,4 @@ class Stealth extends Model
     {
         return $this->expires_at->isFuture();
     }
-
-    public static function getDefaultDuration(): int
-    {
-        return self::firstOrCreate([], [
-            'duration' => 7,
-            'cost' => 60,
-        ])->duration;
-    }
-
-    public static function getDefaultCost(): int
-    {
-        return self::firstOrCreate([], [
-            'duration' => 7,
-            'cost' => 60,
-        ])->cost;
-    }
 }
