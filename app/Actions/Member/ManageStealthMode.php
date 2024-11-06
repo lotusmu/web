@@ -25,11 +25,11 @@ class ManageStealthMode
             return false;
         }
 
-        if ($action === 'enable') {
-            return $this->enable($user);
+        if ($user->stealth()->exists()) {
+            return $this->updateExisting($user, $action);
         }
 
-        return $this->extend($user);
+        return $this->enable($user);
     }
 
     private function validate(User $user, string $action = 'enable'): bool
@@ -76,19 +76,23 @@ class ManageStealthMode
         return true;
     }
 
-    private function extend(User $user): bool
+    private function updateExisting(User $user, string $action): bool
     {
-        $user->stealth->update([
-            'expires_at' => Carbon::parse($user->stealth->expires_at)
-                ->addDays(self::STEALTH_MODE_DURATION_DAYS),
+        $newExpiryDate = $action === 'extend'
+            ? Carbon::parse($user->stealth->expires_at)->addDays(self::STEALTH_MODE_DURATION_DAYS)
+            : Carbon::now()->addDays(self::STEALTH_MODE_DURATION_DAYS);
+
+        $user->stealth()->update([
+            'expires_at' => $newExpiryDate,
         ]);
 
         $user->refresh();
 
-        $this->recordActivity($user, 'extended');
+        $actionType = $action === 'extend' ? 'extended' : 'enabled';
+        $this->recordActivity($user, $actionType);
 
         Flux::toast(
-            text: __('Stealth Mode has been extended successfully.'),
+            text: __('Stealth Mode has been '.$actionType.' successfully.'),
             heading: __('Success'),
             variant: 'success'
         );
@@ -105,7 +109,7 @@ class ManageStealthMode
                 'action' => $action,
                 'amount' => self::STEALTH_MODE_COST,
                 'duration' => self::STEALTH_MODE_DURATION_DAYS,
-                'expires_at' => $user->stealth->expires_at->format('d M Y, H:i'),
+                'expires_at' => $user->stealth->expires_at->format('M d Y, H:i'),
                 ...IdentityProperties::capture(),
             ])
             ->log('Stealth Mode :properties.action until :properties.expires_at');

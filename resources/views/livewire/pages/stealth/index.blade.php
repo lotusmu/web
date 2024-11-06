@@ -42,66 +42,8 @@ new #[Layout('layouts.app')] class extends Component {
 
 
     <div class="flex max-md:flex-col gap-6 w-full">
-        <flux:card class="flex-1 space-y-6">
-            <flux:heading class="flex items-center gap-2">
-                <flux:icon.eye/>
-                <span>{{__('Normal Mode')}}</span>
-            </flux:heading>
-
-            <div class="space-y-2">
-                <div class="flex gap-2 items-center">
-                    <flux:icon.x-mark variant="mini" class="text-red-500 dark:text-red-400"/>
-                    <flux:subheading>
-                        {{ __('Character stats are visible to everyone') }}
-                    </flux:subheading>
-                </div>
-
-                <div class="flex gap-2 items-center">
-                    <flux:icon.x-mark variant="mini" class="text-red-500 dark:text-red-400"/>
-                    <flux:subheading>
-                        {{ __('Players can track your location') }}
-                    </flux:subheading>
-                </div>
-
-                <div class="flex gap-2 items-center">
-                    <flux:icon.x-mark variant="mini" class="text-red-500 dark:text-red-400"/>
-                    <flux:subheading>
-                        {{ __('Account information is public') }}
-                    </flux:subheading>
-                </div>
-            </div>
-        </flux:card>
-
-        <flux:card class="flex-1 space-y-6 bg-zinc-800 dark:!bg-white !border-zinc-950 dark:!border-white">
-            <flux:heading class="flex items-center gap-2 !text-white dark:!text-zinc-800">
-                <flux:icon.eye-slash/>
-                <span>{{__('Stealth Mode')}}</span>
-            </flux:heading>
-
-
-            <div class="space-y-2">
-                <div class="flex gap-2 items-center">
-                    <flux:icon.check variant="mini" class="dark:text-emerald-500 text-emerald-400"/>
-                    <flux:subheading class="dark:!text-zinc-500 !text-white/70">
-                        {{ __('Keep your character stats private') }}
-                    </flux:subheading>
-                </div>
-
-                <div class="flex gap-2 items-center">
-                    <flux:icon.check variant="mini" class="dark:text-emerald-500 text-emerald-400"/>
-                    <flux:subheading class="dark:!text-zinc-500 !text-white/70">
-                        {{ __('Hide your location from other players') }}
-                    </flux:subheading>
-                </div>
-
-                <div class="flex gap-2 items-center">
-                    <flux:icon.check variant="mini" class="dark:text-emerald-500 text-emerald-400"/>
-                    <flux:subheading class="dark:!text-zinc-500 !text-white/70">
-                        {{ __('Full account information privacy') }}
-                    </flux:subheading>
-                </div>
-            </div>
-        </flux:card>
+        <livewire:pages.stealth.normal-mode-card/>
+        <livewire:pages.stealth.stealth-mode-card/>
     </div>
 
     <flux:card class="space-y-6">
@@ -129,7 +71,7 @@ new #[Layout('layouts.app')] class extends Component {
                 :color="$user->hasActiveStealth() ? 'green' : 'orange'"
             >
                 @if($user->hasActiveStealth())
-                    {{ __('Active until :date', ['date' => $user->stealth->expires_at->format('d M Y, H:i')]) }}
+                    {{ __('Active until :date', ['date' => $user->stealth->expires_at->format('M d Y, H:i')]) }}
                 @else
                     {{ __('7 days') }}
                 @endif
