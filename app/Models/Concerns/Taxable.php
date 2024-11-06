@@ -3,7 +3,9 @@
 namespace App\Models\Concerns;
 
 use App\Enums\Utility\OperationType;
+use App\Exceptions\Settings\MissingSettingsException;
 use App\Models\Utility\Setting;
+use Flux\Flux;
 
 trait Taxable
 {
@@ -20,9 +22,12 @@ trait Taxable
 
     public function initializeTaxable(): void
     {
-        $this->operationSettings = Setting::getGroup($this->operationType->value);
-        $this->taxRate = $this->getRate();
-
+        try {
+            $this->operationSettings = Setting::getGroup($this->operationType->value);
+            $this->taxRate = $this->getRate();
+        } catch (MissingSettingsException $e) {
+            $this->handleMissingSettings();
+        }
     }
 
     public function calculateRate(float $amount): float
@@ -74,5 +79,42 @@ trait Taxable
         }
 
         return Setting::getValue($this->operationType->value, 'stealth.duration', 7);
+    }
+
+    protected function handleMissingSettings(): void
+    {
+        Flux::toast(
+            text: __('This feature is not properly configured. Please contact an administrator.'),
+            heading: __('Configuration Error'),
+            variant: 'danger'
+        );
+
+        // Provide safe default values
+        $this->operationSettings = $this->getDefaultSettings();
+    }
+
+    protected function getDefaultSettings(): array
+    {
+        return match ($this->operationType) {
+            OperationType::STEALTH => [
+                'stealth' => [
+                    'cost' => 0,
+                    'duration' => 1,
+                    'currency' => 'tokens',
+                ],
+            ],
+            OperationType::TRANSFER => [
+                'transfer' => ['rate' => 0],
+            ],
+            OperationType::EXCHANGE => [
+                'exchange' => ['rate' => 0],
+            ],
+            OperationType::PK_CLEAR => [
+                'pk_clear' => [
+                    'cost' => 0,
+                    'currency' => 'zen',
+                ],
+            ],
+        };
     }
 }
