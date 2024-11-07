@@ -2,8 +2,6 @@
 
 namespace App\Models\Utility;
 
-use App\Exceptions\Settings\MissingSettingsException;
-use App\Support\Settings\SettingsValidator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,10 +18,6 @@ class Setting extends Model
 
     protected static function booted(): void
     {
-        static::saving(function ($setting) {
-            app(SettingsValidator::class)->validate($setting->group, $setting->settings);
-        });
-
         static::saved(function ($setting) {
             Cache::forget("settings.{$setting->group}");
         });
@@ -38,22 +32,14 @@ class Setting extends Model
         return Cache::rememberForever("settings.{$group}", function () use ($group) {
             $settings = static::where('group', $group)->first();
 
-            if (! $settings) {
-                throw new MissingSettingsException("Settings not found for group: {$group}");
-            }
-
-            return $settings->settings;
+            return $settings?->settings ?? [];
         });
     }
 
     public static function getValue(string $group, string $key, mixed $default = null): mixed
     {
-        try {
-            $settings = static::getGroup($group);
+        $settings = static::getGroup($group);
 
-            return data_get($settings, $key, $default);
-        } catch (MissingSettingsException $e) {
-            return $default;
-        }
+        return data_get($settings, $key, $default);
     }
 }
