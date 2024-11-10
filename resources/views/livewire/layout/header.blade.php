@@ -16,7 +16,12 @@ new class extends Component {
 }; ?>
 
 <flux:header sticky container
-             class="bg-white/95 dark:bg-transparent border-b border-zinc-200 dark:border-zinc-700 backdrop-blur">
+             x-data="{ isScrolled: false }"
+             x-init="window.addEventListener('scroll', () => isScrolled = window.scrollY > 0)"
+             x-bind:class="{
+                'backdrop-blur-2xl': isScrolled
+             }"
+             class="bg-white/95 dark:bg-transparent border-b border-zinc-200 dark:border-zinc-700 transition-[backdrop-filter] duration-500">
 
     <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 

@@ -118,5 +118,194 @@ new #[Layout('layouts.app')] class extends Component {
                 <flux:subheading size="sm">500 tokens</flux:subheading>
             </div>
         </flux:radio>
+        <flux:radio value="standard" checked>
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Bronze Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 20</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm" class="flex items-center">
+                    <span>Silver Package</span>
+                    <flux:spacer/>
+                    <flux:badge size="sm" color="green" inset="top bottom">
+                        Most popular
+                    </flux:badge>
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 40</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Gold Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 80</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Platinum Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 160</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Diamond Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 320</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+        <flux:radio value="standard" checked>
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Bronze Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 20</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm" class="flex items-center">
+                    <span>Silver Package</span>
+                    <flux:spacer/>
+                    <flux:badge size="sm" color="green" inset="top bottom">
+                        Most popular
+                    </flux:badge>
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 40</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Gold Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 80</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Platinum Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 160</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Diamond Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 320</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+        <flux:radio value="standard" checked>
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Bronze Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 20</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm" class="flex items-center">
+                    <span>Silver Package</span>
+                    <flux:spacer/>
+                    <flux:badge size="sm" color="green" inset="top bottom">
+                        Most popular
+                    </flux:badge>
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 40</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Gold Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 80</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Platinum Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 160</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
+
+        <flux:radio value="standard">
+            <flux:radio.indicator/>
+
+            <div class="flex-1">
+                <flux:subheading size="sm">
+                    Diamond Package
+                </flux:subheading>
+                <flux:heading class="leading-4">€ 320</flux:heading>
+                <flux:subheading size="sm">500 tokens</flux:subheading>
+            </div>
+        </flux:radio>
     </flux:radio.group>
 </div>

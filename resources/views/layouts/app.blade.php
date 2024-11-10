@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+      class="transition-colors duration-500 bg-zinc-50 dark:bg-zinc-900">
 <head>
     @include('layouts.components.head')
 </head>
-<body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900">
+<body class="min-h-screen antialiased transition-colors duration-500">
 
-<div class="flex fixed -z-50 top-0 inset-x-0 justify-center overflow-hidden pointer-events-none">
+<div class="flex absolute -z-50 top-0 inset-x-0 justify-center overflow-hidden pointer-events-none">
     <div class="w-[108rem] flex-none flex justify-end">
         <picture>
             <source srcset="{{ asset('images/background/dark.avif') }}" type="image/avif">
@@ -103,7 +104,13 @@
 
             window.localStorage.setItem('darkMode', JSON.stringify(state))
 
-            state ? document.body.classList.add('dark') : document.body.classList.remove('dark')
+            if (state) {
+                document.body.classList.add('dark')
+                document.documentElement.classList.add('dark')
+            } else {
+                document.body.classList.remove('dark')
+                document.documentElement.classList.remove('dark')
+            }
         },
 
         applyToIframes() {
