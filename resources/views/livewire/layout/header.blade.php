@@ -15,7 +15,9 @@ new class extends Component {
     }
 }; ?>
 
-<flux:header sticky container class="bg-white dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700">
+<flux:header sticky container
+             class="bg-white/95 dark:bg-transparent border-b border-zinc-200 dark:border-zinc-700 backdrop-blur">
+
     <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 
     <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="max-lg:hidden dark:hidden"/>

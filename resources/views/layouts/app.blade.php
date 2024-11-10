@@ -2,10 +2,23 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('layouts.components.head')
-
-    @stack('styles')
 </head>
 <body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900">
+
+<div class="flex fixed -z-50 top-0 inset-x-0 justify-center overflow-hidden pointer-events-none">
+    <div class="w-[108rem] flex-none flex justify-end">
+        <picture>
+            <source srcset="{{ asset('images/background/dark.avif') }}" type="image/avif">
+            <img src="{{ asset('images/background/dark.png') }}" alt=""
+                 class="w-[90rem] flex-none max-w-none hidden dark:block" decoding="async"></picture>
+
+        <picture>
+            <source srcset="{{ asset('images/background/light.avif') }}" type="image/avif">
+            <img src="{{ asset('images/background/light.png') }}" alt=""
+                 class="w-[71.75rem] flex-none max-w-none dark:hidden" decoding="async">
+        </picture>
+    </div>
+</div>
 
 <livewire:layout.header/>
 
@@ -38,7 +51,6 @@
 
 @livewireScripts
 @fluxScripts
-@stack('scripts')
 
 <script data-navigate-once="">
     document.addEventListener('livewire:navigated', () => {
