@@ -12,8 +12,8 @@ test('profile page is displayed', function () {
 
     $response
         ->assertOk()
-        ->assertSeeVolt('profile.index')
-        ->assertSeeVolt('profile.email');
+        ->assertSeeVolt('pages.profile.index')
+        ->assertSeeVolt('pages.profile.email');
 });
 
 test('profile information can be updated', function () {
@@ -23,7 +23,7 @@ test('profile information can be updated', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.email')
+    $component = Volt::test('pages.profile.email')
         ->set('email', $newEmail)
         ->call('updateProfileInformation');
 
@@ -42,7 +42,7 @@ test('email verification status is unchanged when the email address is unchanged
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.email')
+    $component = Volt::test('pages.profile.email')
         ->set('email', $user->email)
         ->call('updateProfileInformation');
 

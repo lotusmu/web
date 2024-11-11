@@ -11,7 +11,7 @@ test('password can be updated', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.password')
+    $component = Volt::test('pages.profile.password')
         ->set('current_password', 'password')
         ->set('password', 'password2')
         ->set('password_confirmation', 'password2')
@@ -30,7 +30,7 @@ test('correct password must be provided to update password', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.password')
+    $component = Volt::test('pages.profile.password')
         ->set('current_password', 'wrong-pwd')
         ->set('password', 'new-pwd')
         ->set('password_confirmation', 'new-pwd')
@@ -47,7 +47,7 @@ test('new password must be confirmed', function () {
     ]);
     $this->actingAs($user);
 
-    $component = Volt::test('profile.password')
+    $component = Volt::test('pages.profile.password')
         ->set('current_password', 'password')
         ->set('password', 'newpass123')
         ->set('password_confirmation', 'different')

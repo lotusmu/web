@@ -3,6 +3,7 @@
 use App\Enums\Utility\ResourceType;
 use App\Models\Game\Character;
 use App\Models\User\User;
+use App\Models\Utility\Setting;
 use Livewire\Volt\Volt;
 
 use function Pest\Laravel\actingAs;
@@ -92,7 +93,9 @@ it('validates minimum amount', function () {
     $component->assertHasErrors(['amount']);
 });
 
-it('validates insufficient balance', function () {
+it('prevents transfer when balance insufficient', function () {
+    actingAs($this->sender);
+
     $component = Volt::test('pages.wallet.send-gift')
         ->set('resourceType', ResourceType::TOKENS)
         ->set('amount', 2000)
@@ -100,7 +103,11 @@ it('validates insufficient balance', function () {
 
     $component->call('transfer');
 
-    $component->assertHasErrors(['amount']);
+    $this->sender->refresh();
+    $this->recipient->refresh();
+
+    expect($this->sender->member->tokens)->toBe(1000)
+        ->and($this->recipient->member->tokens)->toBe(0);
 });
 
 it('validates recipient exists', function () {
@@ -115,9 +122,16 @@ it('validates recipient exists', function () {
 });
 
 it('applies tax to sent amount', function () {
+    Setting::create([
+        'group' => 'transfer',
+        'settings' => ['transfer' => ['rate' => 10]],
+    ]);
+
+    actingAs($this->sender);
+
     $amount = 100;
     $taxRate = 10;
-    $taxAmount = round($amount * ($taxRate / 100));
+    $taxAmount = (int) round($amount * ($taxRate / 100));
     $totalAmount = $amount + $taxAmount;
 
     $component = Volt::test('pages.wallet.send-gift')
@@ -134,4 +148,84 @@ it('applies tax to sent amount', function () {
 
     expect($this->sender->member->tokens)->toBe(1000 - $totalAmount)
         ->and($this->recipient->member->tokens)->toBe($amount);
+});
+
+it('dispatches resourcesUpdated event on successful transfer', function () {
+    $component = Volt::test('pages.wallet.send-gift')
+        ->set('resourceType', ResourceType::TOKENS)
+        ->set('amount', 100)
+        ->set('recipient', $this->recipientCharacter->Name);
+
+    $component->call('transfer');
+
+    $component->assertDispatched('resourcesUpdated');
+});
+
+it('resets form after successful transfer', function () {
+    $component = Volt::test('pages.wallet.send-gift')
+        ->set('resourceType', ResourceType::TOKENS)
+        ->set('amount', 100)
+        ->set('recipient', $this->recipientCharacter->Name);
+
+    $component->call('transfer');
+
+    expect($component->get('recipient'))->toBe('')
+        ->and($component->get('resourceType'))->toBeNull()
+        ->and($component->get('amount'))->toBeNull();
+});
+
+it('validates recipient minimum length', function () {
+    $component = Volt::test('pages.wallet.send-gift')
+        ->set('resourceType', ResourceType::TOKENS)
+        ->set('amount', 100)
+        ->set('recipient', 'abc');
+
+    $component->call('transfer');
+
+    $component->assertHasErrors(['recipient']);
+});
+
+it('validates recipient maximum length', function () {
+    $component = Volt::test('pages.wallet.send-gift')
+        ->set('resourceType', ResourceType::TOKENS)
+        ->set('amount', 100)
+        ->set('recipient', 'abcdefghijk');
+
+    $component->call('transfer');
+
+    $component->assertHasErrors(['recipient']);
+});
+
+it('validates empty recipient', function () {
+    $component = Volt::test('pages.wallet.send-gift')
+        ->set('resourceType', ResourceType::TOKENS)
+        ->set('amount', 100)
+        ->set('recipient', '');
+
+    $component->call('transfer');
+
+    $component->assertHasErrors(['recipient']);
+});
+
+it('prevents sending resources to self', function () {
+    $senderCharacter = Character::factory()->forUser($this->sender)->create();
+
+    $component = Volt::test('pages.wallet.send-gift')
+        ->set('resourceType', ResourceType::TOKENS)
+        ->set('amount', 100)
+        ->set('recipient', $senderCharacter->Name);
+
+    $component->call('transfer');
+
+    expect($this->sender->member->tokens)->toBe(1000);
+});
+
+it('requires resource type selection', function () {
+    $component = Volt::test('pages.wallet.send-gift')
+        ->set('amount', 100)
+        ->set('recipient', $this->recipientCharacter->Name);
+
+    $component->call('transfer');
+
+    $component->assertHasErrors(['resourceType']);
 });

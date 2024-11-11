@@ -37,6 +37,12 @@ class TransferZen
     {
         $char = $this->getChar($user, $charName);
 
+        if (! $char) {
+            $this->error(__('Character :name not found.', ['name' => $charName]));
+
+            return false;
+        }
+
         if (! $this->validate($user, null, $char, $amount, 'wallet_to_char')) {
             return false;
         }
@@ -61,6 +67,12 @@ class TransferZen
     {
         $char = $this->getChar($user, $charName);
 
+        if (! $char) {
+            $this->error(__('Character :name not found.', ['name' => $charName]));
+
+            return false;
+        }
+
         if (! $this->validate($user, $char, null, $amount, 'char_to_wallet')) {
             return false;
         }
@@ -83,6 +95,18 @@ class TransferZen
     {
         $from = $this->getChar($user, $fromChar);
         $to = $this->getChar($user, $toChar);
+
+        if (! $from) {
+            $this->error(__('Character :name not found.', ['name' => $fromChar]));
+
+            return false;
+        }
+
+        if (! $to) {
+            $this->error(__('Character :name not found.', ['name' => $toChar]));
+
+            return false;
+        }
 
         if (! $this->validate($user, $from, $to, $amount, 'char_to_char')) {
             return false;
@@ -112,13 +136,13 @@ class TransferZen
             return false;
         }
 
-        if ($type === 'char_to_wallet' || $type === 'char_to_char') {
+        if (($type === 'char_to_wallet' || $type === 'char_to_char') && $from) {
             if (! $this->validateAmount($from, $amount)) {
                 return false;
             }
         }
 
-        if ($type === 'wallet_to_char' || $type === 'char_to_char') {
+        if (($type === 'wallet_to_char' || $type === 'char_to_char') && $to) {
             if (! $this->validateLimit($to, $amount)) {
                 return false;
             }

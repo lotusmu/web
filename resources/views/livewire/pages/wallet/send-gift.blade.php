@@ -13,10 +13,16 @@ use Livewire\Volt\Component;
 new class extends Component {
     use Taxable;
 
+    private const MIN_CHARS_TO_SEARCH = 3;
+    private const MAX_SEARCH_RESULTS = 10;
+    private const SEARCH_RATE_LIMIT = 20;
+    private const RATE_LIMIT_DURATION = 60; // seconds
+
     public $sender;
     public string $recipient = '';
     public ?ResourceType $resourceType = null;
     public int $amount;
+    public array $suggestions = [];
 
     public function mount(): void
     {
@@ -60,7 +66,37 @@ new class extends Component {
             $this->dispatch('resourcesUpdated');
         }
     }
-}; ?>
+
+    public function updatedRecipient(): void
+    {
+        if (strlen($this->recipient) < self::MIN_CHARS_TO_SEARCH) {
+            $this->suggestions = [];
+
+            return;
+        }
+
+        $rateLimitKey = 'character_search_'.auth()->id();
+        if (cache()->get($rateLimitKey, 0) > self::SEARCH_RATE_LIMIT) {
+            return;
+        }
+        cache()->add($rateLimitKey, 0, now()->addSeconds(self::RATE_LIMIT_DURATION));
+        cache()->increment($rateLimitKey);
+
+        $searchTerm = substr(trim($this->recipient), 0, 10);
+
+        $this->suggestions = cache()->remember(
+            'characters:search:'.$searchTerm,
+            300,
+            fn() => Character::query()
+                ->select('name')
+                ->where('name', 'like', $searchTerm.'%')
+                ->orderBy('name')
+                ->limit(self::MAX_SEARCH_RESULTS)
+                ->pluck('name')
+                ->toArray()
+        );
+    }
+} ?>
 
 <div>
     <header>
@@ -106,12 +142,16 @@ new class extends Component {
             />
         </div>
 
-        <flux:input
-            clearable
-            wire:model="recipient"
+        <flux:autocomplete
+            wire:model.live.debounce.300ms="recipient"
             label="{{ __('Recipient') }}"
             placeholder="{{ __('Enter character name') }}"
-        />
+            :filter="false"
+        >
+            @foreach($suggestions as $name)
+                <flux:autocomplete.item wire:key="{{ $name }}">{{ $name }}</flux:autocomplete.item>
+            @endforeach
+        </flux:autocomplete>
 
         <flux:button type="submit" variant="primary">
             {{ __('Send') }}

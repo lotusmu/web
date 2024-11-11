@@ -54,7 +54,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:rows>
     </flux:table>
 
-    <flux:radio.group label="Choose Your Package" variant="cards" class="flex-col">
+    <flux:radio.group label="Choose Your Package" variant="cards" class="grid grid-cols-2">
         <flux:radio value="standard" checked>
             <flux:radio.indicator/>
 
