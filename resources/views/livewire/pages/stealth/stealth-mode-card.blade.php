@@ -16,9 +16,9 @@
         @foreach($advantages as $advantage)
             <div class="flex gap-2 items-center">
                 <flux:icon.check variant="mini" class="dark:text-emerald-500 text-emerald-400"/>
-                <flux:subheading class="dark:!text-zinc-500 !text-white/70">
+                <flux:text class="dark:!text-zinc-500 !text-white/70">
                     {{ __($advantage) }}
-                </flux:subheading>
+                </flux:text>
             </div>
         @endforeach
     </div>
