@@ -19,7 +19,15 @@ class CharacterFactory extends Factory
 
         return [
             'AccountID' => $user->name,
-            'Name' => substr($this->faker->unique()->userName(), 0, 10),
+            'Name' => function () {
+                do {
+                    $name = ucfirst(fake()->unique()->lexify(str_repeat('?', fake()->numberBetween(2, 8)))).
+                        fake()->numberBetween(0, 9).
+                        fake()->lexify('?');
+                } while (strlen($name) > 10);
+
+                return $name;
+            },
             'cLevel' => $this->faker->numberBetween(1, 400),
             'LevelUpPoint' => $this->faker->numberBetween(0, 1000),
             'Class' => $this->faker->randomElement(CharacterClass::cases()),

@@ -4,7 +4,7 @@
 <head>
     @include('layouts.components.head')
 </head>
-<body class="min-h-screen antialiased transition-colors duration-500">
+<body class="min-h-screen antialiased">
 
 <div class="flex absolute -z-50 top-0 inset-x-0 justify-center overflow-hidden pointer-events-none">
     <div class="w-[108rem] flex-none flex justify-end">

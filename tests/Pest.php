@@ -63,7 +63,13 @@ function refreshTable(string $tableName, ?string $connection = null): void
 
 function fakeUsername(): string
 {
-    return substr(fake()->userName, 0, 10);
+    do {
+        $name = ucfirst(fake()->unique()->lexify(str_repeat('?', fake()->numberBetween(2, 8)))).
+            fake()->numberBetween(0, 9).
+            fake()->lexify('?');
+    } while (strlen($name) > 10);
+
+    return $name;
 }
 
 function fakeEmail(): string

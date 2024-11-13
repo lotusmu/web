@@ -21,7 +21,7 @@ new class extends Component {
              x-bind:class="{
                 'backdrop-blur-2xl': isScrolled
              }"
-             class="bg-white/95 dark:bg-transparent border-b border-zinc-200 dark:border-zinc-700 transition-[backdrop-filter] duration-500">
+             class="bg-white/95 dark:bg-transparent border-b border-zinc-200 dark:border-white/10 transition-[backdrop-filter] duration-500">
 
     <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 

@@ -24,7 +24,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->lexify(Str::random(10)),
+            'name' => function () {
+                do {
+                    $name = ucfirst(fake()->unique()->lexify(str_repeat('?', fake()->numberBetween(2, 8)))).
+                        fake()->numberBetween(0, 9).
+                        fake()->lexify('?');
+                } while (strlen($name) > 10);
+
+                return $name;
+            },
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => fake()->password(4, 10),
