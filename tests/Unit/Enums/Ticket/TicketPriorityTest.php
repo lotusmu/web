@@ -18,10 +18,16 @@ it('returns the correct label for each priority', function () {
         ->and(TicketPriority::HIGH->getLabel())->toBe('High');
 });
 
-it('returns the correct color for each priority', function () {
+it('returns the correct color for each priority with getColor method', function () {
     expect(TicketPriority::LOW->getColor())->toBe(Color::Green)
         ->and(TicketPriority::MEDIUM->getColor())->toBe(Color::Yellow)
         ->and(TicketPriority::HIGH->getColor())->toBe(Color::Red);
+});
+
+it('returns the correct color for each priority with color method', function () {
+    expect(TicketPriority::LOW->color())->toBe('green')
+        ->and(TicketPriority::MEDIUM->color())->toBe('yellow')
+        ->and(TicketPriority::HIGH->color())->toBe('red');
 });
 
 it('implements HasLabel interface', function () {

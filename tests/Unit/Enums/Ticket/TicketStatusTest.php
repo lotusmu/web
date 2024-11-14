@@ -43,13 +43,22 @@ it('returns the correct color for each status', function () {
         ->and(TicketStatus::CLOSED->color())->toBe('zinc');
 });
 
-it('returns the correct icon for each status', function () {
+it('returns the correct icon for each status with getIcon method', function () {
     expect(TicketStatus::NEW->getIcon())->toBe('heroicon-o-plus-circle')
         ->and(TicketStatus::IN_PROGRESS->getIcon())->toBe('heroicon-o-play')
         ->and(TicketStatus::ON_HOLD->getIcon())->toBe('heroicon-o-pause')
         ->and(TicketStatus::PENDING->getIcon())->toBe('heroicon-o-clock')
         ->and(TicketStatus::RESOLVED->getIcon())->toBe('heroicon-o-check-circle')
         ->and(TicketStatus::CLOSED->getIcon())->toBe('heroicon-o-x-circle');
+});
+
+it('returns the correct icon for each status with icon method', function () {
+    expect(TicketStatus::NEW->icon())->toBe('plus-circle')
+        ->and(TicketStatus::IN_PROGRESS->icon())->toBe('play')
+        ->and(TicketStatus::ON_HOLD->icon())->toBe('pause')
+        ->and(TicketStatus::PENDING->icon())->toBe('clock')
+        ->and(TicketStatus::RESOLVED->icon())->toBe('check-circle')
+        ->and(TicketStatus::CLOSED->icon())->toBe('x-circle');
 });
 
 it('implements HasLabel interface', function () {
