@@ -5,6 +5,7 @@ use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Models\Game\Character;
 use App\Models\User\Member;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 beforeEach(function () {
@@ -77,4 +78,42 @@ it('belongs to a member', function () {
         ->and($relation->getRelated())->toBeInstanceOf(Member::class)
         ->and($relation->getForeignKeyName())->toBe('AccountID')
         ->and($relation->getOwnerKeyName())->toBe('memb___id');
+});
+
+it('can find user by character name', function () {
+    $user = User::factory()->create();
+    $character = Character::factory()
+        ->forUser($user)
+        ->create();
+
+    $foundUser = Character::findUserByCharacterName($character->Name);
+
+    expect($foundUser)
+        ->not->toBeNull()
+        ->and($foundUser->id)->toBe($user->id)
+        ->and($foundUser->name)->toBe($character->AccountID);
+});
+
+it('returns null for non-existent character', function () {
+    $result = Character::findUserByCharacterName('NonExistentCharacter');
+
+    expect($result)->toBeNull();
+});
+
+it('returns null for character with non-existent member', function () {
+    $character = Character::factory()->create();
+    Member::where('memb___id', $character->AccountID)->delete();
+
+    $result = Character::findUserByCharacterName($character->Name);
+
+    expect($result)->toBeNull();
+});
+
+it('returns null for character with non-existent user', function () {
+    $character = Character::factory()->create();
+    User::where('name', $character->AccountID)->delete();
+
+    $result = Character::findUserByCharacterName($character->Name);
+
+    expect($result)->toBeNull();
 });

@@ -7,6 +7,7 @@ use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketReply;
 use App\Models\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Activitylog\Models\Activity;
 
 uses(RefreshDatabase::class);
 
@@ -80,4 +81,88 @@ it('can set and get attributes', function () {
         ->and($ticket->description)->toBe('This is a test ticket')
         ->and($ticket->status)->toBe(TicketStatus::NEW)
         ->and($ticket->priority)->toBe(TicketPriority::MEDIUM);
+});
+
+it('uses uuid as primary key', function () {
+    $ticket = Ticket::factory()->create();
+
+    expect($ticket->getKeyType())->toBe('string')
+        ->and($ticket->getIncrementing())->toBeFalse()
+        ->and(Str::isUuid($ticket->id))->toBeTrue();
+});
+
+it('can truncate title', function () {
+    $ticket = Ticket::factory()->create([
+        'title' => str_repeat('a', 100),
+    ]);
+
+    expect($ticket->truncatedTitle())
+        ->toHaveLength(48) // 45 + 3 for '...'
+        ->and($ticket->truncatedTitle())->toEndWith('...')
+        ->and($ticket->truncatedTitle(10))->toHaveLength(13); // 10 + 3 for '...'
+});
+
+it('can mark ticket as resolved', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    Flux::shouldReceive('toast')->once();
+
+    $ticket = Ticket::factory()->create(['status' => TicketStatus::IN_PROGRESS]);
+    $ticket->markAsResolved();
+
+    $ticket->refresh();
+
+    expect($ticket->status)->toBe(TicketStatus::RESOLVED);
+});
+
+it('can reopen ticket', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    Flux::shouldReceive('toast')->once();
+
+    $ticket = Ticket::factory()->create(['status' => TicketStatus::RESOLVED]);
+    $ticket->reopenTicket();
+
+    $ticket->refresh();
+
+    expect($ticket->status)->toBe(TicketStatus::IN_PROGRESS);
+});
+
+test('status changes are logged with identity properties', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    Flux::shouldReceive('toast')->once();
+
+    $ticket = Ticket::factory()->create(['status' => TicketStatus::IN_PROGRESS]);
+    $ticket->markAsResolved();
+
+    $activity = Activity::query()->latest()->first();
+    $properties = $activity->properties->toArray();
+
+    expect($properties)
+        ->toHaveKey('ticket_id')
+        ->toHaveKey('ticket_title')
+        ->toHaveKey('new_status')
+        ->toHaveKey('action')
+        ->toHaveKey('ip_address')
+        ->toHaveKey('user_agent');
+});
+
+it('includes identity properties in activity log', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    Flux::shouldReceive('toast')->once();
+
+    $ticket = Ticket::factory()->create(['status' => TicketStatus::IN_PROGRESS]);
+    $ticket->markAsResolved();
+
+    $latestActivity = Activity::query()->latest()->first();
+
+    expect($latestActivity->properties->toArray())
+        ->toHaveKey('ip_address')
+        ->toHaveKey('user_agent');
 });
