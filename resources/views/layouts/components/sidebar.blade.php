@@ -18,7 +18,7 @@
     <flux:navlist.item wire:navigate.hover icon="eye-slash" href="/stealth">
         {{ __('Stealth Mode') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="hand-coins" href="#">
+    <flux:navlist.item wire:navigate.hover icon="hand-coins" href="/donate">
         {{ __('Donate') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="vote" href="#">

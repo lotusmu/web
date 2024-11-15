@@ -42,6 +42,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Volt::route('stealth', 'pages.stealth.index')
         ->name('stealth');
 
+    //Donate
+    Volt::route('donate', 'pages.donate.index')
+        ->name('donate');
+
     // Activities
     Volt::route('activities', 'pages.activities.index')
         ->name('activities');
