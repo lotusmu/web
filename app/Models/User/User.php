@@ -98,7 +98,7 @@ class User extends Authenticatable implements FilamentUser, HasMember
 
     public function isOnline(): bool
     {
-        $isOnline = $this->status->ConnectStat === true;
+        $isOnline = $this->status?->ConnectStat ?? false;
 
         if ($isOnline) {
             Flux::toast(
