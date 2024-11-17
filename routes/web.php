@@ -13,9 +13,6 @@ Volt::route('/profile', 'pages.profile.index')
     ->middleware(['auth'])
     ->name('profile');
 
-// Authentication routes
-require __DIR__.'/auth.php';
-
 // Protected routes
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
@@ -60,3 +57,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('support.show-ticket');
     });
 });
+
+// Authentication routes
+require __DIR__.'/auth.php';
+
+// Payment routes
+require __DIR__.'/payment.php';

@@ -18,9 +18,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements FilamentUser, HasMember
 {
+    use Billable;
     use HasFactory;
     use ManagesResources;
     use Notifiable;
