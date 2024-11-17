@@ -13,7 +13,6 @@ class OrderStatsWidget extends BaseWidget
         $totalRevenue = Order::sum('amount');
         $totalOrders = Order::count();
         $totalCustomers = Order::distinct('user_id')->count('user_id');
-
         $averageOrderValue = $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
 
         return [

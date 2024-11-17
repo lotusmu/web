@@ -7,8 +7,8 @@ use App\Enums\PaymentProvider;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
 use App\Filament\Resources\OrderResource\Widgets\PaymentProviderDistributionChart;
+use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
-use App\Filament\Resources\OrderResource\Widgets\RevenueOverTimeChart;
 use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -116,8 +116,8 @@ class OrderResource extends Resource
     {
         return [
             OrderStatsWidget::class,
-            RevenueOverTimeChart::class,
             RevenueByProviderChart::class,
+            RevenueByCountryChart::class,
             PaymentProviderDistributionChart::class,
         ];
     }

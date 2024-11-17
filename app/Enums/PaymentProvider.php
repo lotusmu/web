@@ -9,11 +9,13 @@ use Filament\Support\Contracts\HasLabel;
 enum PaymentProvider: string implements HasColor, HasLabel
 {
     case STRIPE = 'stripe';
+    case PAYPAL = 'paypal';
 
     public function getLabel(): string
     {
         return match ($this) {
             self::STRIPE => 'Stripe',
+            self::PAYPAL => 'PayPal',
         };
     }
 
@@ -21,6 +23,7 @@ enum PaymentProvider: string implements HasColor, HasLabel
     {
         return match ($this) {
             self::STRIPE => Color::Purple,
+            self::PAYPAL => Color::Blue,
         };
     }
 }
