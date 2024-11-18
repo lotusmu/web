@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->login(Login::class)
             ->brandLogo(asset('images/logo/logo-hor-light.svg'))
             ->darkModeBrandLogo(asset('images/logo/logo-hor-dark.svg'))
-            ->favicon(asset('images/icon.svg'))
+            ->favicon(asset('favicon.ico'))
             ->font('Figtree')
             ->colors([
                 'primary' => Color::Sky,
