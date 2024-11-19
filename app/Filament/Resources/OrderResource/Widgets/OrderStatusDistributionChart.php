@@ -2,43 +2,46 @@
 
 namespace App\Filament\Resources\OrderResource\Widgets;
 
-use App\Enums\PaymentProvider;
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use Filament\Widgets\ChartWidget;
 
-class PaymentProviderDistributionChart extends ChartWidget
+class OrderStatusDistributionChart extends ChartWidget
 {
     protected static ?string $pollingInterval = null;
 
     protected static ?string $maxHeight = '200px';
 
-    protected static ?string $heading = 'Order Distribution by Payment Provider';
+    protected static ?string $heading = 'Order Distribution by Status';
 
     protected function getData(): array
     {
-        $providers = Order::query()
-            ->selectRaw('payment_provider, COUNT(*) as total')
-            ->groupBy('payment_provider')
-            ->pluck('total', 'payment_provider');
+        $statuses = Order::query()
+            ->selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
 
         $colorMapping = [
-            PaymentProvider::STRIPE->value => '#635BFF',
-            PaymentProvider::PAYPAL->value => '#0070E0',
+            OrderStatus::PENDING->value => '#3b82f6',   // Blue-500
+            OrderStatus::COMPLETED->value => '#10b981', // Emerald-500
+            OrderStatus::FAILED->value => '#ef4444',    // Red-500
+            OrderStatus::EXPIRED->value => '#f59e0b',   // Amber-500
+            OrderStatus::REFUNDED->value => '#71717a',  // Zinc-500
         ];
 
-        $backgroundColors = $providers->keys()->map(function ($provider) use ($colorMapping) {
-            return $colorMapping[$provider] ?? '#000000';
+        $backgroundColors = $statuses->keys()->map(function ($status) use ($colorMapping) {
+            return $colorMapping[$status] ?? '#000000';
         });
 
         return [
             'datasets' => [
                 [
                     'label' => 'Orders',
-                    'data' => $providers->values(),
+                    'data' => $statuses->values(),
                     'backgroundColor' => $backgroundColors->toArray(),
                 ],
             ],
-            'labels' => $providers->keys()->map(fn ($provider) => PaymentProvider::from($provider)->getLabel())->toArray(),
+            'labels' => $statuses->keys()->map(fn ($status) => OrderStatus::from($status)->getLabel())->toArray(),
         ];
     }
 
@@ -69,7 +72,7 @@ class PaymentProviderDistributionChart extends ChartWidget
 
     public function getDescription(): ?string
     {
-        return 'Distribution of orders across different payment providers.';
+        return 'Distribution of orders by their current status.';
     }
 
     protected function getType(): string

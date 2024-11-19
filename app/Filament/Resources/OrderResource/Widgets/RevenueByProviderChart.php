@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OrderResource\Widgets;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
 use App\Models\Order;
 use Filament\Widgets\ChartWidget;
@@ -17,13 +18,14 @@ class RevenueByProviderChart extends ChartWidget
     protected function getData(): array
     {
         $revenueByProvider = Order::query()
+            ->where('status', OrderStatus::COMPLETED)
             ->selectRaw('payment_provider, SUM(amount) as total_revenue')
             ->groupBy('payment_provider')
             ->pluck('total_revenue', 'payment_provider');
 
         $colorMapping = [
-            PaymentProvider::STRIPE->value => '#6366F1',
-            PaymentProvider::PAYPAL->value => '#0070E0',
+            PaymentProvider::STRIPE->value => '#a855f7',
+            PaymentProvider::PAYPAL->value => '#3b82f6',
         ];
 
         $backgroundColors = $revenueByProvider->keys()->map(function ($provider) use ($colorMapping) {
@@ -69,7 +71,7 @@ class RevenueByProviderChart extends ChartWidget
 
     public function getDescription(): ?string
     {
-        return 'Total revenue breakdown by payment method (e.g., Stripe, PayPal).';
+        return 'Total revenue breakdown by payment method.';
     }
 
     protected function getType(): string

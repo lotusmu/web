@@ -20,7 +20,8 @@
         "livewire/volt": "^1.0",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-sluggable": "^3.6",
-        "symfony/intl": "^7.1"
+        "symfony/intl": "^7.1",
+        "ext-http": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -21,9 +21,12 @@ return new class extends Migration
             $table->string('currency');
             $table->string('status');
             $table->json('payment_data')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
 
             $table->index(['payment_provider', 'payment_id']);
+
+            $table->unique(['user_id', 'token_package_id', 'payment_id'], 'prevent_duplicate_orders');
         });
     }
 
@@ -33,5 +36,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('orders');
+
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropUnique('prevent_duplicate_orders');
+            $table->unique(['user_id', 'token_package_id', 'payment_id'], 'prevent_duplicate_orders');
+        });
     }
 };

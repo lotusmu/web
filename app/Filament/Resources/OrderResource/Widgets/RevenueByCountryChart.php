@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OrderResource\Widgets;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use Filament\Widgets\ChartWidget;
 use Symfony\Component\Intl\Countries;
@@ -17,9 +18,18 @@ class RevenueByCountryChart extends ChartWidget
     protected function getData(): array
     {
         $revenueByCountry = Order::query()
-            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(payment_data, '$.customer_details.address.country')) as country")
+            ->where('status', OrderStatus::COMPLETED)
+            ->selectRaw("
+                COALESCE(
+                    JSON_UNQUOTE(JSON_EXTRACT(payment_data, '$.customer_details.address.country')),
+                    JSON_UNQUOTE(JSON_EXTRACT(payment_data, '$.payer.address.country_code'))
+                ) as country
+            ")
             ->selectRaw('SUM(amount) as total_revenue')
-            ->whereRaw("JSON_EXTRACT(payment_data, '$.customer_details.address.country') IS NOT NULL")
+            ->whereRaw("
+                JSON_EXTRACT(payment_data, '$.customer_details.address.country') IS NOT NULL
+                OR JSON_EXTRACT(payment_data, '$.payer.address.country_code') IS NOT NULL
+            ")
             ->groupBy('country')
             ->pluck('total_revenue', 'country');
 
@@ -74,7 +84,7 @@ class RevenueByCountryChart extends ChartWidget
 
     public function getDescription(): ?string
     {
-        return 'Geographic distribution of revenue based on customer countries.';
+        return 'Geographic distribution of revenue.';
     }
 
     protected function getType(): string

@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -18,21 +19,23 @@ class Order extends Model
         'currency',
         'status',
         'payment_data',
+        'expires_at',
     ];
 
     protected $casts = [
         'payment_data' => 'array',
+        'expires_at' => 'datetime',
         'status' => OrderStatus::class,
         'payment_provider' => PaymentProvider::class,
     ];
 
     // Relations
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function package()
+    public function package(): BelongsTo
     {
         return $this->belongsTo(TokenPackage::class, 'token_package_id');
     }

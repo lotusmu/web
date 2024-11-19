@@ -6,7 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
-use App\Filament\Resources\OrderResource\Widgets\PaymentProviderDistributionChart;
+use App\Filament\Resources\OrderResource\Widgets\OrderStatusDistributionChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
 use App\Models\Order;
@@ -118,7 +118,7 @@ class OrderResource extends Resource
             OrderStatsWidget::class,
             RevenueByProviderChart::class,
             RevenueByCountryChart::class,
-            PaymentProviderDistributionChart::class,
+            OrderStatusDistributionChart::class,
         ];
     }
 

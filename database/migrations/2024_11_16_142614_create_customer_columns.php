@@ -32,7 +32,6 @@ return new class extends Migration
                 'stripe_id',
                 'pm_type',
                 'pm_last_four',
-                'trial_ends_at',
             ]);
         });
     }

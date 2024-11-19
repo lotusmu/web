@@ -13,6 +13,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
     case COMPLETED = 'completed';
     case FAILED = 'failed';
     case REFUNDED = 'refunded';
+    case EXPIRED = 'expired';
 
     public function getLabel(): string
     {
@@ -21,6 +22,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::COMPLETED => 'Completed',
             self::FAILED => 'Failed',
             self::REFUNDED => 'Refunded',
+            self::EXPIRED => 'Expired',
         };
     }
 
@@ -31,16 +33,18 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::COMPLETED => Color::Emerald,
             self::FAILED => Color::Red,
             self::REFUNDED => Color::Zinc,
+            self::EXPIRED => Color::Amber,
         };
     }
 
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::PENDING => 'heroicon-o-clock',
+            self::PENDING => 'heroicon-o-pause',
             self::COMPLETED => 'heroicon-o-check',
             self::FAILED => 'heroicon-o-x-mark',
             self::REFUNDED => 'heroicon-o-arrow-uturn-left',
+            self::EXPIRED => 'heroicon-o-clock',
         };
     }
 }

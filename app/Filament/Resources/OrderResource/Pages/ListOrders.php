@@ -5,7 +5,7 @@ namespace App\Filament\Resources\OrderResource\Pages;
 use App\Enums\OrderStatus;
 use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
-use App\Filament\Resources\OrderResource\Widgets\PaymentProviderDistributionChart;
+use App\Filament\Resources\OrderResource\Widgets\OrderStatusDistributionChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
 use Filament\Resources\Components\Tab;
@@ -20,8 +20,8 @@ class ListOrders extends ListRecords
         return [
             OrderStatsWidget::class,
             RevenueByProviderChart::class,
-            PaymentProviderDistributionChart::class,
             RevenueByCountryChart::class,
+            OrderStatusDistributionChart::class,
         ];
     }
 
