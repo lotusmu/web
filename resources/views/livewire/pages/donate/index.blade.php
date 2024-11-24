@@ -46,7 +46,7 @@ new #[Layout('layouts.app')] class extends Component {
         };
     }
 
-    private function initPaypalCheckout(TokenPackage $package): RedirectResponse
+    private function initPaypalCheckout(TokenPackage $package)
     {
         $order = Order::firstOrCreate(
             [
@@ -118,8 +118,8 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:radio value="paypal" checked>
             <div class="flex flex-col items-center gap-2 text-center w-full">
-                <img class="w-6 h-6" src="{{ asset('images/payments/paypal-icon.svg') }}" alt="Pay Pal Brand Logo">
-                <flux:heading class="leading-4">Pay Pal</flux:heading>
+                <img class="w-6 h-6" src="{{ asset('images/payments/paypal-icon.svg') }}" alt="PayPal Brand Logo">
+                <flux:heading class="leading-4">PayPal</flux:heading>
             </div>
         </flux:radio>
 
