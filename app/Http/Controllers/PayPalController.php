@@ -3,103 +3,107 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
-use App\Enums\Utility\ResourceType;
+use App\Enums\PaymentProvider;
+use App\Interfaces\PaymentGateway;
 use App\Models\Order;
+use App\Services\Payment\PaymentGatewayFactory;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PayPalController extends Controller
 {
-    // PayPalController.php
-    public function checkout(Order $order)
+    private PaymentGateway $gateway;
+
+    public function __construct(PaymentGatewayFactory $gatewayFactory)
     {
-        if ($order->status !== OrderStatus::PENDING) {
-            return redirect()->route('donate');
-        }
+        $this->gateway = $gatewayFactory->create(PaymentProvider::PAYPAL);
+    }
 
-        // Check if order expired
-        if ($order->expires_at->isPast()) {
-            $order->update(['status' => OrderStatus::EXPIRED]);
-
-            return redirect()->route('donate')->with('error', 'Order expired');
-        }
-
+    public function process(Order $order): RedirectResponse
+    {
         try {
-            $response = $this->getPayPalHttpClient()->post('/v2/checkout/orders', [
-                'intent' => 'CAPTURE',
-                'purchase_units' => [[
-                    'reference_id' => $order->id,
-                    'amount' => [
-                        'currency_code' => $order->currency,
-                        'value' => number_format($order->amount, 2, '.', ''),
-                    ],
-                ]],
-                'application_context' => [
-                    'return_url' => route('paypal.success', ['token' => '%id%']),
-                    'cancel_url' => route('paypal.cancel', $order->id),
-                ],
-            ]);
-
-            if ($response->failed()) {
-                return back()->with('error', 'Payment initialization failed');
+            if ($order->status !== OrderStatus::PENDING) {
+                return redirect()->route('donate');
             }
 
-            $order->update(['payment_id' => $response->json()['id']]);
+            if ($order->expires_at?->isPast()) {
+                $order->update(['status' => OrderStatus::EXPIRED]);
 
-            return redirect($response->json()['links'][1]['href']);
-        } catch (Exception) {
-            return back()->with('error', 'Payment system error');
+                return $this->errorResponse('Order expired');
+            }
+
+            return $this->gateway->processOrder($order)
+                ? $this->successResponse()
+                : $this->errorResponse('Payment failed');
+
+        } catch (Exception $e) {
+            $this->logError('process', $e, ['order_id' => $order->id]);
+
+            return $this->errorResponse('Payment system error');
         }
     }
 
-    public function success(Request $request)
+    public function success(Request $request): RedirectResponse
     {
         try {
-            $paypalOrderId = $request->token;
-            $order = Order::where('payment_id', $paypalOrderId)
+            $order = Order::where('payment_id', $request->token)
                 ->where('status', OrderStatus::PENDING)
                 ->firstOrFail();
 
-            $response = $this->getPayPalHttpClient()->post(
-                "/v2/checkout/orders/{$paypalOrderId}/capture",
-                ['json' => []]
-            );
+            return $this->gateway->processOrder($order)
+                ? $this->successResponse()
+                : $this->errorResponse('Payment failed');
 
-            if ($response->successful()) {
-                $order->update([
-                    'status' => OrderStatus::COMPLETED,
-                    'payment_data' => $response->json(),
-                ]);
+        } catch (Exception $e) {
+            $this->logError('success', $e);
 
-                $order->user->resource(ResourceType::TOKENS)->increment($order->package->tokens_amount);
-
-                return redirect()->route('dashboard')->with('success', 'Payment completed');
-            }
-
-            return redirect()->route('dashboard')->with('error', 'Payment failed');
-        } catch (Exception) {
-            return redirect()->route('dashboard')->with('error', 'Payment error');
+            return $this->errorResponse('Payment error');
         }
     }
 
-    public function cancel(Order $order)
+    public function cancel(Order $order): RedirectResponse
     {
-        $order->update(['status' => OrderStatus::FAILED]);
-
-        return redirect()->route('donate');
+        return $this->gateway->cancelOrder($order)
+            ? redirect()->route('donate')->with('info', 'Payment cancelled')
+            : $this->errorResponse('Error cancelling payment');
     }
 
-    private function getPayPalHttpClient()
+    public function webhook(Request $request): JsonResponse
     {
-        $baseUrl = config('services.paypal.mode') === 'sandbox'
-            ? 'https://api-m.sandbox.paypal.com'
-            : 'https://api-m.paypal.com';
+        try {
+            if (! $this->gateway->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
+                return response()->json(['error' => 'Invalid signature'], 400);
+            }
 
-        return Http::withHeaders([
-            'Authorization' => 'Basic '.base64_encode(
-                config('services.paypal.client_id').':'.config('services.paypal.secret')
-            ),
-        ])->baseUrl($baseUrl);
+            $this->gateway->handleWebhook(json_decode($request->getContent(), true));
+
+            return response()->json(['status' => 'ok']);
+
+        } catch (Exception $e) {
+            $this->logError('webhook', $e);
+
+            return response()->json(['error' => 'Webhook processing failed'], 500);
+        }
+    }
+
+    private function successResponse(): RedirectResponse
+    {
+        return redirect()->route('dashboard')->with('success', 'Payment completed');
+    }
+
+    private function errorResponse(string $message): RedirectResponse
+    {
+        return redirect()->route('donate')->with('error', $message);
+    }
+
+    private function logError(string $method, Exception $e, array $context = []): void
+    {
+        Log::error("PayPal {$method} error", [
+            'error' => $e->getMessage(),
+            ...$context,
+        ]);
     }
 }

@@ -26,7 +26,8 @@ class OrderStatusDistributionChart extends ChartWidget
             OrderStatus::COMPLETED->value => '#10b981', // Emerald-500
             OrderStatus::FAILED->value => '#ef4444',    // Red-500
             OrderStatus::EXPIRED->value => '#f59e0b',   // Amber-500
-            OrderStatus::REFUNDED->value => '#71717a',  // Zinc-500
+            OrderStatus::REFUNDED->value => '#d946ef',  // Fuchsia-500
+            OrderStatus::CANCELLED->value => '#71717a',  // Zinc-500
         ];
 
         $backgroundColors = $statuses->keys()->map(function ($status) use ($colorMapping) {

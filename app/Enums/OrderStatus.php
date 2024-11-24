@@ -14,6 +14,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
     case FAILED = 'failed';
     case REFUNDED = 'refunded';
     case EXPIRED = 'expired';
+    case CANCELLED = 'cancelled';
 
     public function getLabel(): string
     {
@@ -23,6 +24,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::FAILED => 'Failed',
             self::REFUNDED => 'Refunded',
             self::EXPIRED => 'Expired',
+            self::CANCELLED => 'Cancelled',
         };
     }
 
@@ -32,8 +34,9 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::PENDING => Color::Blue,
             self::COMPLETED => Color::Emerald,
             self::FAILED => Color::Red,
-            self::REFUNDED => Color::Zinc,
+            self::REFUNDED => Color::Fuchsia,
             self::EXPIRED => Color::Amber,
+            self::CANCELLED => Color::Zinc,
         };
     }
 
@@ -45,6 +48,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::FAILED => 'heroicon-o-x-mark',
             self::REFUNDED => 'heroicon-o-arrow-uturn-left',
             self::EXPIRED => 'heroicon-o-clock',
+            self::CANCELLED => 'heroicon-o-x-mark',
         };
     }
 }

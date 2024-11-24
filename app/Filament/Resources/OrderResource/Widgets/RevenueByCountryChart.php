@@ -33,27 +33,20 @@ class RevenueByCountryChart extends ChartWidget
             ->groupBy('country')
             ->pluck('total_revenue', 'country');
 
-        $colors = [
-            '#F59E0B', // Amber
-            '#10B981', // Emerald
-            '#EF4444', // Red
-            '#3B82F6', // Blue
-            '#EC4899', // Pink
-        ];
+        $countries = $revenueByCountry->keys();
+        $labels = $countries->map(fn ($code) => Countries::getName($code))->toArray();
 
-        $backgroundColors = collect($revenueByCountry)->keys()->map(function ($key, $index) use ($colors) {
-            return $colors[$index % count($colors)];
-        });
+        $colors = $countries->map(fn ($code) => $this->generateColorFromCode($code))->toArray();
 
         return [
             'datasets' => [
                 [
                     'label' => 'Revenue',
                     'data' => $revenueByCountry->values(),
-                    'backgroundColor' => $backgroundColors->toArray(),
+                    'backgroundColor' => $colors,
                 ],
             ],
-            'labels' => $revenueByCountry->keys()->map(fn ($code) => Countries::getName($code))->toArray(),
+            'labels' => $labels,
         ];
     }
 
@@ -90,5 +83,19 @@ class RevenueByCountryChart extends ChartWidget
     protected function getType(): string
     {
         return 'doughnut';
+    }
+
+    private function generateColorFromCode(string $code): string
+    {
+        // Hash the code to get a consistent number
+        $hash = crc32($code);
+
+        // Use the hash to generate an RGB color
+        $r = ($hash & 0xFF0000) >> 16; // Extract red
+        $g = ($hash & 0x00FF00) >> 8;  // Extract green
+        $b = $hash & 0x0000FF;         // Extract blue
+
+        // Convert to a hex color code
+        return sprintf('#%02X%02X%02X', $r, $g, $b);
     }
 }

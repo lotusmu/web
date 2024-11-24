@@ -1,35 +1,34 @@
 <?php
 
 use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\PayPalWebhookController;
-use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\StripeController;
+use Illuminate\Http\Request;
 
-// Stripe Webhook
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])
-    ->name('cashier.webhook');
+Route::name('checkout.')->group(function () {
+    // Stripe webhook route
+    Route::post('stripe/webhook', [StripeController::class, 'handleWebhook'])
+        ->name('webhook.stripe');
 
-// PayPal
-Route::get('/paypal/checkout/{order}', [PayPalController::class, 'checkout'])
-    ->name('paypal.checkout');
+    // PayPal webhook route
+    Route::post('webhook/paypal', [PayPalController::class, 'webhook'])
+        ->name('paypal.webhook');
 
-Route::post('/paypal/webhook', [PayPalWebhookController::class, 'handleWebhook'])
-    ->name('paypal.webhook');
+    // Success/Cancel routes
+    Route::middleware(['auth', 'verified'])->group(function () {
+        // Generic checkout routes
+        Route::get('success', function (Request $request) {
+            return redirect()->route('dashboard');
+        })->name('success');
 
-Route::post('/paypal/webhook/capture', [PayPalWebhookController::class, 'handleCapture'])
-    ->name('paypal.webhook.capture');
+        Route::get('cancel', function () {
+            return redirect()->route('donate');
+        })->name('cancel');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/checkout/success', function (Request $request) {
-        return redirect()->route('dashboard');
-    })->name('checkout.success');
-
-    Route::get('/checkout/cancel', function () {
-        return redirect()->route('donate');
-    })->name('checkout.cancel');
-
-    Route::get('/paypal/checkout/{order}', [PayPalController::class, 'checkout'])
-        ->name('paypal.checkout');
-
-    Route::get('/paypal/success', [PayPalController::class, 'success'])->name('paypal.success');
-    Route::get('/paypal/cancel/{order}', [PayPalController::class, 'cancel'])->name('paypal.cancel');
+        // PayPal specific routes
+        Route::prefix('paypal')->name('paypal.')->group(function () {
+            Route::get('process/{order}', [PayPalController::class, 'process'])->name('process');
+            Route::get('success', [PayPalController::class, 'success'])->name('success');
+            Route::get('cancel/{order}', [PayPalController::class, 'cancel'])->name('cancel');
+        });
+    });
 });

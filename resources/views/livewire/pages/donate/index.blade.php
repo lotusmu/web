@@ -4,6 +4,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
 use App\Models\Order;
 use App\Models\TokenPackage;
+use App\Services\Payment\PaymentGatewayFactory;
 use Illuminate\Http\RedirectResponse;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
@@ -21,49 +22,33 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function checkout()
     {
-        if ( ! $this->selectedPackage) {
+        if ( ! $this->selectedPackage || ! $this->paymentMethod) {
             return;
         }
 
         $package = TokenPackage::find($this->selectedPackage);
 
-        return match ($this->paymentMethod) {
-            'stripe' => auth()->user()->checkout($package->stripe_price_id, [
-                'success_url'         => route('checkout.success').'?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url'          => route('checkout.cancel'),
-                'mode'                => 'payment',
-                'metadata'            => [
-                    'package_id' => $package->id
-                ],
-                'payment_intent_data' => [
-                    'setup_future_usage' => 'off_session',
-                    'metadata'           => [
-                        'package_id' => $package->id
-                    ]
-                ],
-            ]),
-            'paypal' => $this->initPaypalCheckout($package),
-        };
-    }
+        try {
+            $gateway          = PaymentGatewayFactory::create($this->paymentMethod);
+            $checkoutResponse = $gateway->initiateCheckout(auth()->user(), $package);
 
-    private function initPaypalCheckout(TokenPackage $package)
-    {
-        $order = Order::firstOrCreate(
-            [
-                'user_id'          => auth()->id(),
-                'token_package_id' => $package->id,
-                'status'           => OrderStatus::PENDING,
-            ],
-            [
-                'payment_provider' => PaymentProvider::PAYPAL,
-                'payment_id'       => 'pp_'.Str::random(20),
-                'amount'           => $package->price,
-                'currency'         => 'EUR',
-                'expires_at'       => now()->addMinutes(30),
-            ]
-        );
+            // Stripe returns an object with url property
+            if ($this->paymentMethod === PaymentProvider::STRIPE->value) {
+                return $this->redirect($checkoutResponse->url);
+            }
 
-        return redirect()->route('paypal.checkout', $order->id);
+            // PayPal returns direct URL
+            $this->redirect($checkoutResponse);
+        } catch (Exception $e) {
+            Log::error('Checkout Error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            Flux::toast('Payment initialization failed');
+
+            return redirect()->back();
+        }
     }
 }; ?>
 
@@ -120,13 +105,6 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="flex flex-col items-center gap-2 text-center w-full">
                 <img class="w-6 h-6" src="{{ asset('images/payments/paypal-icon.svg') }}" alt="PayPal Brand Logo">
                 <flux:heading class="leading-4">PayPal</flux:heading>
-            </div>
-        </flux:radio>
-
-        <flux:radio value="coinbase" checked>
-            <div class="flex flex-col items-center gap-2 text-center w-full">
-                <img class="h-6" src="{{ asset('images/payments/coingate-icon.svg') }}" alt="CoinGate Brand Logo">
-                <flux:heading class="leading-4">CoinGate</flux:heading>
             </div>
         </flux:radio>
     </flux:radio.group>
