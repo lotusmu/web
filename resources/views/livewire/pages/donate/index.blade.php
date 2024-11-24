@@ -23,6 +23,12 @@ new #[Layout('layouts.app')] class extends Component {
     public function checkout()
     {
         if ( ! $this->selectedPackage || ! $this->paymentMethod) {
+            Flux::toast(
+                text: __('Please select a package and payment method to continue.'),
+                heading: __('Selection Required'),
+                variant: 'warning'
+            );
+
             return;
         }
 
@@ -45,8 +51,12 @@ new #[Layout('layouts.app')] class extends Component {
                 'trace' => $e->getTraceAsString()
             ]);
 
-            Flux::toast('Payment initialization failed');
-
+            Flux::toast(
+                text: __('Unable to start payment process. Please try again.'),
+                heading: __('Payment Error'),
+                variant: 'danger'
+            );
+            
             return redirect()->back();
         }
     }
