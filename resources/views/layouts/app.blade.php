@@ -48,9 +48,6 @@
 
 @persist('toast')
 <flux:toast/>
-@endpersist
-
-@persist('session-toast')
 <livewire:session-toast/>
 @endpersist
 

@@ -17,18 +17,35 @@ Route::name('checkout.')->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
         // Generic checkout routes
         Route::get('success', function (Request $request) {
-            return redirect()->route('dashboard');
+            return redirect()
+                ->route('dashboard')
+                ->with('toast', [
+                    'text' => __('Your tokens have been successfully added to your account.'),
+                    'heading' => __('Purchase Successful'),
+                    'variant' => 'success',
+                ]);
         })->name('success');
 
         Route::get('cancel', function () {
-            return redirect()->route('donate');
+            return redirect()
+                ->route('donate')
+                ->with('toast', [
+                    'text' => __('Payment was cancelled. Your account has not been charged.'),
+                    'heading' => __('Payment Cancelled'),
+                    'variant' => 'warning',
+                ]);
         })->name('cancel');
 
         // PayPal specific routes
         Route::prefix('paypal')->name('paypal.')->group(function () {
-            Route::get('process/{order}', [PayPalController::class, 'process'])->name('process');
-            Route::get('success', [PayPalController::class, 'success'])->name('success');
-            Route::get('cancel/{order}', [PayPalController::class, 'cancel'])->name('cancel');
+            Route::get('process/{order}', [PayPalController::class, 'process'])
+                ->name('process');
+
+            Route::get('success', [PayPalController::class, 'success'])
+                ->name('success');
+
+            Route::get('cancel/{order}', [PayPalController::class, 'cancel'])
+                ->name('cancel');
         });
     });
 });

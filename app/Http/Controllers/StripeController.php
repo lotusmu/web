@@ -12,12 +12,14 @@ use Log;
 
 class StripeController extends CashierWebhookController
 {
-    public function handleWebhook(Request $request)
+    public function handleWebhook(Request $request): Response
     {
         $gateway = PaymentGatewayFactory::create(PaymentProvider::STRIPE);
 
         try {
             if (! $gateway->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
+                Log::error('Stripe webhook signature verification failed');
+
                 return response()->json(['error' => 'Invalid signature'], 400);
             }
 
