@@ -1,17 +1,21 @@
 <?php
 
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\PrimeController;
 use App\Http\Controllers\StripeController;
 use Illuminate\Http\Request;
 
 Route::name('checkout.')->group(function () {
-    // Stripe webhook route
+    // Webhook routes with CSRF exception in bootstrap/app.php
     Route::post('stripe/webhook', [StripeController::class, 'handleWebhook'])
         ->name('webhook.stripe');
 
-    // PayPal webhook route
     Route::post('webhook/paypal', [PayPalController::class, 'webhook'])
         ->name('paypal.webhook');
+
+    Route::post('webhook/prime', [PrimeController::class, 'webhook'])
+        ->name('prime.webhook')
+        ->middleware('valid-prime-webhook-ip');
 
     // Success/Cancel routes
     Route::middleware(['auth', 'verified'])->group(function () {
@@ -45,6 +49,15 @@ Route::name('checkout.')->group(function () {
                 ->name('success');
 
             Route::get('cancel/{order}', [PayPalController::class, 'cancel'])
+                ->name('cancel');
+        });
+
+        // Prime specific routes
+        Route::prefix('prime')->name('prime.')->group(function () {
+            Route::get('success/{order}', [PrimeController::class, 'success'])
+                ->name('success');
+
+            Route::get('cancel/{order}', [PrimeController::class, 'cancel'])
                 ->name('cancel');
         });
     });

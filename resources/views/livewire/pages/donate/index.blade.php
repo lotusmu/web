@@ -39,7 +39,7 @@ new #[Layout('layouts.app')] class extends Component {
                 return $this->redirect($checkoutResponse->url);
             }
 
-            // PayPal returns direct URL
+            // PayPal and Prime return direct URLs
             $this->redirect($checkoutResponse);
         } catch (Exception $e) {
             Log::error('Checkout Error', [

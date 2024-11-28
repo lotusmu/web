@@ -26,6 +26,7 @@ class RevenueByProviderChart extends ChartWidget
         $colorMapping = [
             PaymentProvider::STRIPE->value => '#a855f7',
             PaymentProvider::PAYPAL->value => '#3b82f6',
+            PaymentProvider::PRIME->value => '#f59e0b',
         ];
 
         $backgroundColors = $revenueByProvider->keys()->map(function ($provider) use ($colorMapping) {

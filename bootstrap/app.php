@@ -12,8 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            'stripe/*',
-            'paypal/*',
+            'stripe/webhook',
+            'webhook/paypal',
+            'webhook/prime',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

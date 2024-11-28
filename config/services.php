@@ -42,4 +42,10 @@ return [
         'currency' => env('PAYPAL_CURRENCY', 'EUR'),
         'webhook_id' => env('PAYPAL_WEBHOOK_ID'),
     ],
+
+    'prime' => [
+        'project_id' => env('PRIME_PROJECT_ID'),
+        'secret1' => env('PRIME_SECRET1'),
+        'secret2' => env('PRIME_SECRET2'),
+    ],
 ];

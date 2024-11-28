@@ -102,6 +102,7 @@ class PayPalGateway implements PaymentGateway
 
                     $order->user->resource(ResourceType::TOKENS)
                         ->increment($order->package->tokens_amount);
+                    $this->logPurchaseActivity($order);
                 });
 
                 return true;

@@ -11,6 +11,7 @@ class PaymentGatewayFactory
     private static array $gateways = [
         PaymentProvider::STRIPE->value => StripeGateway::class,
         PaymentProvider::PAYPAL->value => PayPalGateway::class,
+        PaymentProvider::PRIME->value => PrimeGateway::class,
     ];
 
     public static function create(PaymentProvider|string $provider): PaymentGateway
