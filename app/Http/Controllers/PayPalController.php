@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
 use App\Interfaces\PaymentGateway;
-use App\Models\Order;
+use App\Models\Payment\Order;
 use App\Services\Payment\PaymentGatewayFactory;
 use Exception;
 use Illuminate\Http\JsonResponse;

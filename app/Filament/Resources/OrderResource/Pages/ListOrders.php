@@ -38,13 +38,21 @@ class ListOrders extends ListRecords
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::COMPLETED);
                 }),
+            'pending' => Tab::make('Pending')
+                ->modifyQueryUsing(function ($query) {
+                    return $query->where('status', OrderStatus::PENDING);
+                }),
             'failed' => Tab::make('Failed')
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::FAILED);
                 }),
-            'pending' => Tab::make('Pending')
+            'cancelled' => Tab::make('Cancelled')
                 ->modifyQueryUsing(function ($query) {
-                    return $query->where('status', OrderStatus::PENDING);
+                    return $query->where('status', OrderStatus::CANCELLED);
+                }),
+            'expired' => Tab::make('Expired')
+                ->modifyQueryUsing(function ($query) {
+                    return $query->where('status', OrderStatus::EXPIRED);
                 }),
             'refunded' => Tab::make('Refunded')
                 ->modifyQueryUsing(function ($query) {

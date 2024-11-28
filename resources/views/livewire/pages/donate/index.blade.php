@@ -1,13 +1,9 @@
 <?php
 
-use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
-use App\Models\Order;
-use App\Models\TokenPackage;
+use App\Models\Payment\TokenPackage;
 use App\Services\Payment\PaymentGatewayFactory;
-use Illuminate\Http\RedirectResponse;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
@@ -56,7 +52,7 @@ new #[Layout('layouts.app')] class extends Component {
                 heading: __('Payment Error'),
                 variant: 'danger'
             );
-            
+
             return redirect()->back();
         }
     }
@@ -84,7 +80,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <flux:radio.indicator/>
 
                 <div class="flex-1">
-                    <flux:subheading size="sm" class="flex items-center">
+                    <flux:subheading size="sm" class="flex">
                         <span>
                             {{ $package->name }}
                         </span>
@@ -103,19 +99,54 @@ new #[Layout('layouts.app')] class extends Component {
     </flux:radio.group>
 
     <flux:radio.group label="Payment method" variant="cards" :indicator="false"
-                      class="flex max-sm:flex-col" wire:model="paymentMethod">
-        <flux:radio value="stripe" checked>
-            <div class="flex flex-col items-center gap-2 text-center w-full">
-                <img class="w-6 h-6" src="{{ asset('images/payments/stripe-icon.svg') }}" alt="Stripe Brand Logo">
-                <flux:heading class="leading-4">Stripe</flux:heading>
+                      class="grid grid-cols-1 sm:grid-cols-2" wire:model="paymentMethod">
+        <flux:radio value="stripe" class="flex">
+            <div class="flex flex-1 items-center gap-4 w-full">
+                <img class="w-8 h-8" src="{{ asset('images/payments/stripe-icon.svg') }}" alt="Stripe Brand Logo">
+                <div>
+                    <flux:heading class="leading-4">
+                        Stripe
+                    </flux:heading>
+                    <flux:subheading>
+                        Fast and secure card processing
+
+                    </flux:subheading>
+                </div>
             </div>
+
+            <flux:radio.indicator/>
         </flux:radio>
 
-        <flux:radio value="paypal" checked>
-            <div class="flex flex-col items-center gap-2 text-center w-full">
-                <img class="w-6 h-6" src="{{ asset('images/payments/paypal-icon.svg') }}" alt="PayPal Brand Logo">
-                <flux:heading class="leading-4">PayPal</flux:heading>
+        <flux:radio value="paypal" class="flex">
+            <div class="flex flex-1 items-center gap-4 w-full">
+                <img class="w-8 h-8" src="{{ asset('images/payments/paypal-icon.svg') }}" alt="PayPal Brand Logo">
+                <div>
+                    <flux:heading class="leading-4">
+                        PayPal
+                    </flux:heading>
+                    <flux:subheading>
+                        Safe digital payments worldwide
+                    </flux:subheading>
+                </div>
             </div>
+
+            <flux:radio.indicator/>
+        </flux:radio>
+
+        <flux:radio value="prime" class="flex sm:col-span-2">
+            <div class="flex flex-1 items-center gap-4 w-full">
+                <img class="w-8 h-8" src="{{ asset('images/payments/prime-icon.svg') }}" alt="PrimePayments Brand Logo">
+                <div>
+                    <flux:heading class="leading-4">
+                        PrimePayments
+                    </flux:heading>
+                    <flux:subheading>
+                        Full support for Russia, Belarus, sanctioned regions + all major cryptocurrencies
+                    </flux:subheading>
+                </div>
+            </div>
+
+            <flux:radio.indicator/>
         </flux:radio>
     </flux:radio.group>
 

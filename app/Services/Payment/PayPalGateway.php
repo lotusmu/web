@@ -7,8 +7,8 @@ use App\Enums\PaymentProvider;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Interfaces\PaymentGateway;
-use App\Models\Order;
-use App\Models\TokenPackage;
+use App\Models\Payment\Order;
+use App\Models\Payment\TokenPackage;
 use App\Models\User\User;
 use App\Support\ActivityLog\IdentityProperties;
 use Exception;
@@ -240,8 +240,12 @@ class PayPalGateway implements PaymentGateway
 
     private function findCompletedOrder(array $resource): ?Order
     {
-        return Order::where('payment_id', $resource['id'])
-            ->where('status', OrderStatus::COMPLETED)
+        return Order::where('status', OrderStatus::COMPLETED)
+            ->where(function ($query) use ($resource) {
+                $query->where('payment_id', $resource['parent_payment'])
+                    ->orWhere('payment_id', $resource['id'])
+                    ->orWhereJsonContains('payment_data->paypal_capture_id', $resource['id']);
+            })
             ->first();
     }
 

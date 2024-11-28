@@ -4,7 +4,7 @@ namespace App\Filament\Resources\OrderResource\Widgets;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
-use App\Models\Order;
+use App\Models\Payment\Order;
 use Filament\Widgets\ChartWidget;
 
 class RevenueByProviderChart extends ChartWidget

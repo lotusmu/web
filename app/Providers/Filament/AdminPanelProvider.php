@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->favicon(asset('favicon.ico'))
             ->font('Figtree')
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Fuchsia,
             ])
             ->navigationGroups([
                 NavigationGroup::make('Account & Characters')

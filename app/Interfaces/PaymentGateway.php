@@ -2,8 +2,8 @@
 
 namespace App\Interfaces;
 
-use App\Models\Order;
-use App\Models\TokenPackage;
+use App\Models\Payment\Order;
+use App\Models\Payment\TokenPackage;
 use App\Models\User\User;
 
 interface PaymentGateway

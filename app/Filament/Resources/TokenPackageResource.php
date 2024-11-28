@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TokenPackageResource\Pages;
-use App\Models\TokenPackage;
+use App\Models\Payment\TokenPackage;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;

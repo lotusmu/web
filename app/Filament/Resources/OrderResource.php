@@ -9,7 +9,7 @@ use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatusDistributionChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
-use App\Models\Order;
+use App\Models\Payment\Order;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;

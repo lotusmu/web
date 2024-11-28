@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\OrderResource\Widgets;
 
 use App\Enums\OrderStatus;
-use App\Models\Order;
+use App\Models\Payment\Order;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
