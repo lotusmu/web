@@ -4,11 +4,13 @@ namespace App\Services\Payment;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
+use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Interfaces\PaymentGateway;
 use App\Models\Payment\Order;
 use App\Models\Payment\TokenPackage;
 use App\Models\User\User;
+use App\Support\ActivityLog\IdentityProperties;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -122,8 +124,25 @@ class PrimeGateway implements PaymentGateway
             }
 
             $status = $data['result']['pay_status'] ?? null;
+            $newStatus = match ($status) {
+                '1' => OrderStatus::COMPLETED,
+                '-1' => OrderStatus::FAILED,
+                '-2' => OrderStatus::EXPIRED,
+                '3' => OrderStatus::REFUNDED,
+                default => null
+            };
 
-            return $this->updateOrderStatus($order, $status, $data['result']);
+            if (! $newStatus) {
+                return false;
+            }
+
+            return $this->updateOrderStatus($order, $newStatus, [
+                'payed_from' => $data['result']['payed_from'] ?? null,
+                'webmaster_profit' => $data['result']['webmaster_profit'] ?? null,
+                'date_add' => $data['result']['date_add'],
+                'payway' => $data['result']['payWay'],
+            ]);
+
         } catch (Exception $e) {
             Log::error('Prime process order error', [
                 'error' => $e->getMessage(),
@@ -195,7 +214,7 @@ class PrimeGateway implements PaymentGateway
 
     private function handlePaymentSuccess(array $payload): mixed
     {
-        $order = Order::where('payment_id', $payload['orderID'])
+        $order = Order::where('id', $payload['innerID'])
             ->where('status', OrderStatus::PENDING)
             ->first();
 
@@ -203,27 +222,19 @@ class PrimeGateway implements PaymentGateway
             return null;
         }
 
-        DB::transaction(function () use ($order, $payload) {
-            $order->update([
-                'status' => OrderStatus::COMPLETED,
-                'payment_data' => [
-                    'payed_from' => $payload['payed_from'] ?? null,
-                    'webmaster_profit' => $payload['webmaster_profit'],
-                    'date_pay' => $payload['date_pay'],
-                    'payway' => $payload['payWay'],
-                ],
-            ]);
-
-            $order->user->resource(ResourceType::TOKENS)
-                ->increment($order->package->tokens_amount);
-        });
-
-        return null;
+        return $this->updateOrderStatus($order, OrderStatus::COMPLETED, [
+            'payed_from' => $payload['payed_from'] ?? null,
+            'webmaster_profit' => $payload['webmaster_profit'],
+            'date_pay' => $payload['date_pay'],
+            'payway' => $payload['payWay'],
+            'currency' => $payload['currency'],
+            'sum' => $payload['sum'],
+        ]);
     }
 
     private function handlePaymentCancel(array $payload): mixed
     {
-        $order = Order::where('payment_id', $payload['orderID'])
+        $order = Order::where('id', $payload['innerID'])
             ->where('status', OrderStatus::PENDING)
             ->first();
 
@@ -231,16 +242,13 @@ class PrimeGateway implements PaymentGateway
             return null;
         }
 
-        $order->update([
-            'status' => OrderStatus::FAILED,
-            'payment_data' => [
-                'payed_from' => $payload['payed_from'] ?? null,
-                'date_pay' => $payload['date_pay'],
-                'failure_reason' => 'Payment cancelled',
-            ],
+        return $this->updateOrderStatus($order, OrderStatus::FAILED, [
+            'payed_from' => $payload['payed_from'] ?? null,
+            'date_pay' => $payload['date_pay'],
+            'currency' => $payload['currency'],
+            'sum' => $payload['sum'],
+            'failure_reason' => 'Payment cancelled',
         ]);
-
-        return null;
     }
 
     private function calculateOrderInfoSign(string $orderId): string
@@ -253,37 +261,84 @@ class PrimeGateway implements PaymentGateway
         );
     }
 
-    private function updateOrderStatus(Order $order, ?string $status, array $data): bool
+    private function updateOrderStatus(Order $order, OrderStatus $newStatus, array $paymentData): bool
     {
-        $newStatus = match ($status) {
-            '1' => OrderStatus::COMPLETED,
-            '-1' => OrderStatus::FAILED,
-            '-2' => OrderStatus::EXPIRED,
-            '3' => OrderStatus::REFUNDED,
-            default => null
-        };
-
-        if (! $newStatus || $order->status === $newStatus) {
+        if ($order->status === $newStatus) {
             return false;
         }
 
-        DB::transaction(function () use ($order, $newStatus, $data) {
+        DB::transaction(function () use ($order, $newStatus, $paymentData) {
             $order->update([
                 'status' => $newStatus,
-                'payment_data' => [
-                    'payed_from' => $data['payed_from'] ?? null,
-                    'webmaster_profit' => $data['webmaster_profit'] ?? null,
-                    'date_add' => $data['date_add'],
-                    'payway' => $data['payWay'],
-                ],
+                'payment_data' => $paymentData,
             ]);
 
-            if ($newStatus === OrderStatus::COMPLETED) {
-                $order->user->resource(ResourceType::TOKENS)
-                    ->increment($order->package->tokens_amount);
-            }
+            match ($newStatus) {
+                OrderStatus::COMPLETED => $this->handleCompletedOrder($order),
+                OrderStatus::FAILED => $this->logFailedPurchase($order),
+                OrderStatus::REFUNDED => $this->handleRefundedOrder($order),
+                default => null
+            };
         });
 
         return true;
+    }
+
+    private function handleCompletedOrder(Order $order): void
+    {
+        $order->user->resource(ResourceType::TOKENS)
+            ->increment($order->package->tokens_amount);
+        $this->logPurchaseActivity($order);
+    }
+
+    private function handleRefundedOrder(Order $order): void
+    {
+        $order->user->resource(ResourceType::TOKENS)
+            ->decrement($order->package->tokens_amount);
+        $this->logRefundActivity($order);
+    }
+
+    private function logPurchaseActivity(Order $order): void
+    {
+        activity('token_purchase')
+            ->performedOn($order->user)
+            ->withProperties([
+                'activity_type' => ActivityType::INCREMENT->value,
+                'package_name' => $order->package->name,
+                'amount' => $order->package->tokens_amount,
+                'price' => "{$order->amount} {$order->currency}",
+                'resource_type' => Str::title(ResourceType::TOKENS->value),
+                ...IdentityProperties::capture(),
+            ])
+            ->log('Purchased :properties.package_name.');
+    }
+
+    private function logFailedPurchase(Order $order): void
+    {
+        activity('token_purchase')
+            ->performedOn($order->user)
+            ->withProperties([
+                'activity_type' => ActivityType::DEFAULT->value,
+                'package_name' => $order->package->name,
+                'price' => "{$order->amount} {$order->currency}",
+                'resource_type' => Str::title(ResourceType::TOKENS->value),
+                ...IdentityProperties::capture(),
+            ])
+            ->log(':properties.resource_type purchase failed.');
+    }
+
+    private function logRefundActivity(Order $order): void
+    {
+        activity('token_purchase')
+            ->performedOn($order->user)
+            ->withProperties([
+                'activity_type' => ActivityType::DECREMENT->value,
+                'package_name' => $order->package->name,
+                'amount' => $order->package->tokens_amount,
+                'price' => "{$order->amount} {$order->currency}",
+                'resource_type' => Str::title(ResourceType::TOKENS->value),
+                ...IdentityProperties::capture(),
+            ])
+            ->log(':properties.resource_type purchase refunded. Package: :properties.package_name.');
     }
 }

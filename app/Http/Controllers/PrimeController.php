@@ -8,7 +8,6 @@ use App\Interfaces\PaymentGateway;
 use App\Models\Payment\Order;
 use App\Services\Payment\PaymentGatewayFactory;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +21,7 @@ class PrimeController extends Controller
         $this->gateway = $gatewayFactory->create(PaymentProvider::PRIME);
     }
 
-    public function webhook(Request $request): JsonResponse
+    public function webhook(Request $request)
     {
         try {
             if (! $this->gateway->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
@@ -31,14 +30,14 @@ class PrimeController extends Controller
 
             $this->gateway->handleWebhook(json_decode($request->getContent(), true));
 
-            return response()->json(['status' => 'OK']); // Prime requires "OK" or "YES" response
+            return response('OK');  // Plain text OK as required
         } catch (Exception $e) {
             Log::error('Prime webhook error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return response()->json(['error' => 'Webhook processing failed'], 500);
+            return response('ERROR', 500);
         }
     }
 
