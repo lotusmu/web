@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\PrimeController;
-use App\Http\Controllers\StripeController;
+use App\Http\Controllers\Payment\PayPalController;
+use App\Http\Controllers\Payment\PrimeController;
+use App\Http\Controllers\Payment\StripeController;
 use Illuminate\Http\Request;
 
 Route::name('checkout.')->group(function () {

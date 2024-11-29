@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Payment;
 
 use App\Enums\PaymentProvider;
 use App\Services\Payment\PaymentGatewayFactory;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierWebhookController;
@@ -12,7 +13,7 @@ use Log;
 
 class StripeController extends CashierWebhookController
 {
-    public function handleWebhook(Request $request): Response
+    public function handleWebhook(Request $request): Response|JsonResponse
     {
         $gateway = PaymentGatewayFactory::create(PaymentProvider::STRIPE);
 

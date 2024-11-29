@@ -192,7 +192,9 @@ class StripeGateway implements PaymentGateway
 
     private function updateOrderToFailed(string $paymentIntentId, array $failureData): ?Order
     {
-        $order = Order::where('payment_id', $paymentIntentId)->first();
+        $order = Order::where('payment_id', $paymentIntentId)
+            ->where('status', '!=', OrderStatus::FAILED)
+            ->first();
 
         if ($order) {
             $order->update([
