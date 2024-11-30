@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Payment;
+namespace App\Services\Payment\Stripe;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;

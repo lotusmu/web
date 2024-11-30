@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Actions\Payment\HandlePaymentCancel;
+use App\Actions\Payment\HandlePaymentError;
+use App\Actions\Payment\HandlePaymentSuccess;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
 use App\Models\Payment\Order;
@@ -13,9 +16,13 @@ use Illuminate\Http\Request;
 
 class PayPalController extends BasePaymentController
 {
-    public function __construct(PaymentGatewayFactory $gatewayFactory)
-    {
-        $this->gateway = $gatewayFactory->create(PaymentProvider::PAYPAL);
+    public function __construct(
+        private readonly PaymentGatewayFactory $gatewayFactory,
+        private readonly HandlePaymentSuccess $handleSuccess,
+        protected readonly HandlePaymentError $handleError,
+        private readonly HandlePaymentCancel $handleCancel
+    ) {
+        $this->setGateway($gatewayFactory->create(PaymentProvider::PAYPAL));
     }
 
     public function process(Order $order): RedirectResponse
@@ -25,14 +32,16 @@ class PayPalController extends BasePaymentController
                 return $response;
             }
 
-            return $this->gateway->processOrder($order)
-                ? $this->successResponse()
-                : $this->errorResponse(__('We couldn\'t complete your payment. Please try again or use a different payment method.'));
+            return $this->getGateway()->processOrder($order)
+                ? $this->handleSuccess->handle()
+                : $this->handleError->handle(__('Payment failed'));
 
         } catch (Exception $e) {
             $this->logError('process', $e, ['order_id' => $order->id]);
 
-            return $this->errorResponse(__('We encountered a technical issue. Please try again or contact support if the problem persists.'));
+            return $this->handleError->handle(
+                __('We encountered a technical issue. Please try again or contact support if the problem persists.')
+            );
         }
     }
 
@@ -43,32 +52,47 @@ class PayPalController extends BasePaymentController
                 ->where('status', OrderStatus::PENDING)
                 ->firstOrFail();
 
-            return $this->gateway->processOrder($order)
-                ? $this->successResponse()
-                : $this->errorResponse(__('We couldn\'t complete your payment. The transaction was declined or cancelled.'));
+            return $this->getGateway()->processOrder($order)
+                ? $this->handleSuccess->handle()
+                : $this->handleError->handle(
+                    __('We couldn\'t complete your payment. The transaction was declined or cancelled.')
+                );
 
         } catch (Exception $e) {
             $this->logError('success', $e);
 
-            return $this->errorResponse(__('We couldn\'t verify your payment status. If your account was charged, please contact support.'));
+            return $this->handleError->handle(
+                __('We couldn\'t verify your payment status. If your account was charged, please contact support.')
+            );
         }
     }
 
     public function cancel(Order $order): RedirectResponse
     {
-        return $this->gateway->cancelOrder($order)
-            ? redirect()
-                ->route('donate')
-                ->with('toast', [
-                    'text' => __('Payment process was cancelled. Your account has not been charged.'),
-                    'heading' => __('Payment Cancelled'),
-                    'variant' => 'warning',
-                ])
-            : $this->errorResponse(__('Unable to cancel payment. Please contact support if you see any charges.'));
+        return $this->getGateway()->cancelOrder($order)
+            ? $this->handleCancel->handle()
+            : $this->handleError->handle(
+                __('Unable to cancel payment. Please contact support if you see any charges.')
+            );
     }
 
     public function webhook(Request $request): JsonResponse
     {
-        return $this->handleWebhook($request, 'PayPal webhook');
+        try {
+            if (! $this->getGateway()->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
+                return response()->json(['error' => 'Invalid signature'], 400);
+            }
+
+            $this->getGateway()->handleWebhook(json_decode($request->getContent(), true));
+
+            return response()->json(['message' => 'Webhook processed successfully']);
+
+        } catch (Exception $e) {
+            $this->logError('webhook', $e, [
+                'payload' => $request->all(),
+            ]);
+
+            return response()->json(['error' => 'Webhook processing failed'], 500);
+        }
     }
 }

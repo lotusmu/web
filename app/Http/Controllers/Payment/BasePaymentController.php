@@ -2,56 +2,58 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Actions\Payment\CreateOrder;
+use App\Actions\Payment\HandlePaymentError;
+use App\Actions\Payment\UpdateOrderStatus;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Interfaces\PaymentGateway;
 use App\Models\Payment\Order;
+use App\Services\Payment\PaymentLogger;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
 
 abstract class BasePaymentController extends Controller
 {
-    protected PaymentGateway $gateway;
+    public function __construct(
+        protected readonly CreateOrder $createOrder,
+        protected readonly PaymentLogger $logger,
+        protected readonly UpdateOrderStatus $updateOrderStatus
+    ) {}
 
-    protected function successResponse(): RedirectResponse
+    private PaymentGateway $gateway;
+
+    protected function getGateway(): PaymentGateway
     {
-        return redirect()
-            ->route('dashboard')
-            ->with('toast', [
-                'text' => __('Your tokens have been successfully added to your account.'),
-                'heading' => __('Purchase Successful'),
-                'variant' => 'success',
-            ]);
+        return $this->gateway;
     }
 
-    protected function errorResponse(string $message): RedirectResponse
+    protected function setGateway(PaymentGateway $gateway): void
     {
-        return redirect()
-            ->route('donate')
-            ->with('toast', [
-                'text' => $message,
-                'heading' => __('Payment Issue'),
-                'variant' => 'danger',
-            ]);
+        $this->gateway = $gateway;
+    }
+
+    protected readonly HandlePaymentError $handleError;
+
+    public function getLogger(): PaymentLogger
+    {
+        return $this->logger;
     }
 
     protected function validateOrder(Order $order): ?RedirectResponse
     {
         if ($order->status !== OrderStatus::PENDING) {
-            return redirect()
-                ->route('donate')
-                ->with('toast', [
-                    'text' => __('This payment session is no longer valid. Please start a new purchase.'),
-                    'heading' => __('Invalid Session'),
-                    'variant' => 'warning',
-                ]);
+            return $this->handleError->handle(
+                __('This payment session is no longer valid. Please start a new purchase.')
+            );
         }
 
         if ($order->expires_at?->isPast()) {
             $order->update(['status' => OrderStatus::EXPIRED]);
 
-            return $this->errorResponse(__('Payment session expired'));
+            return $this->handleError->handle(
+                __('Payment session expired. Please start a new purchase.')
+            );
         }
 
         return null;
@@ -59,10 +61,11 @@ abstract class BasePaymentController extends Controller
 
     protected function logError(string $context, Exception $e, array $extra = []): void
     {
-        Log::error("{$context} error", [
-            'error' => $e->getMessage(),
-            'trace' => $e->getTraceAsString(),
-            ...$extra,
-        ]);
+        $this->getGateway()->getLogger()->logError(
+            provider: $this->getGateway()->getProviderName(),
+            method: $context,
+            e: $e,
+            context: $extra
+        );
     }
 }

@@ -3,8 +3,8 @@
 use App\Enums\PaymentProvider;
 use App\Interfaces\PaymentGateway;
 use App\Services\Payment\PaymentGatewayFactory;
-use App\Services\Payment\PayPalGateway;
-use App\Services\Payment\StripeGateway;
+use App\Services\Payment\PayPal\PayPalGateway;
+use App\Services\Payment\Stripe\StripeGateway;
 
 test('payment gateway factory creates correct gateway instance', function () {
     $stripeGateway = PaymentGatewayFactory::create(PaymentProvider::STRIPE);

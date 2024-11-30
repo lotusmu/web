@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Payment;
+namespace App\Services\Payment\Prime;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;

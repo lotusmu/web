@@ -3,8 +3,8 @@
 use App\Enums\PaymentProvider;
 use App\Models\Payment\TokenPackage;
 use App\Services\Payment\PaymentGatewayFactory;
-use App\Services\Payment\PayPalGateway;
-use App\Services\Payment\StripeGateway;
+use App\Services\Payment\PayPal\PayPalGateway;
+use App\Services\Payment\Stripe\StripeGateway;
 
 test('checkout component initiates stripe payment flow', function () {
     $package = TokenPackage::factory()->create();
