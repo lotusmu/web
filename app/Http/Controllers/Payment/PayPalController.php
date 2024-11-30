@@ -18,9 +18,9 @@ class PayPalController extends BasePaymentController
 {
     public function __construct(
         private readonly PaymentGatewayFactory $gatewayFactory,
-        private readonly HandlePaymentSuccess $handleSuccess,
-        protected readonly HandlePaymentError $handleError,
-        private readonly HandlePaymentCancel $handleCancel
+        private readonly HandlePaymentSuccess $paymentSuccess,
+        protected readonly HandlePaymentError $paymentError,
+        private readonly HandlePaymentCancel $paymentCancel
     ) {
         $this->setGateway($gatewayFactory->create(PaymentProvider::PAYPAL));
     }
@@ -33,13 +33,13 @@ class PayPalController extends BasePaymentController
             }
 
             return $this->getGateway()->processOrder($order)
-                ? $this->handleSuccess->handle()
-                : $this->handleError->handle(__('Payment failed'));
+                ? $this->paymentSuccess->handle()
+                : $this->paymentError->handle(__('Payment failed'));
 
         } catch (Exception $e) {
             $this->logError('process', $e, ['order_id' => $order->id]);
 
-            return $this->handleError->handle(
+            return $this->paymentError->handle(
                 __('We encountered a technical issue. Please try again or contact support if the problem persists.')
             );
         }
@@ -53,15 +53,15 @@ class PayPalController extends BasePaymentController
                 ->firstOrFail();
 
             return $this->getGateway()->processOrder($order)
-                ? $this->handleSuccess->handle()
-                : $this->handleError->handle(
+                ? $this->paymentSuccess->handle()
+                : $this->paymentError->handle(
                     __('We couldn\'t complete your payment. The transaction was declined or cancelled.')
                 );
 
         } catch (Exception $e) {
             $this->logError('success', $e);
 
-            return $this->handleError->handle(
+            return $this->paymentError->handle(
                 __('We couldn\'t verify your payment status. If your account was charged, please contact support.')
             );
         }
@@ -70,8 +70,8 @@ class PayPalController extends BasePaymentController
     public function cancel(Order $order): RedirectResponse
     {
         return $this->getGateway()->cancelOrder($order)
-            ? $this->handleCancel->handle()
-            : $this->handleError->handle(
+            ? $this->paymentCancel->handle()
+            : $this->paymentError->handle(
                 __('Unable to cancel payment. Please contact support if you see any charges.')
             );
     }
