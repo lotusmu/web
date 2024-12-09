@@ -4,20 +4,31 @@ namespace App\Filament\Resources\OrderResource\Widgets;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
-use App\Models\Payment\Order;
+use App\Filament\Resources\OrderResource\Pages\ListOrders;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageTable;
 
 class RevenueByProviderChart extends ChartWidget
 {
+    use InteractsWithPageTable;
+
     protected static ?string $pollingInterval = null;
 
     protected static ?string $maxHeight = '200px';
 
     protected static ?string $heading = 'Revenue by Payment Provider';
 
+    protected function getTablePage(): string
+    {
+        return ListOrders::class;
+    }
+
     protected function getData(): array
     {
-        $revenueByProvider = Order::query()
+        $query = $this->getPageTableQuery();
+
+        $revenueByProvider = $query
+            ->reorder()
             ->where('status', OrderStatus::COMPLETED)
             ->selectRaw('payment_provider, SUM(amount) as total_revenue')
             ->groupBy('payment_provider')

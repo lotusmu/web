@@ -3,20 +3,31 @@
 namespace App\Filament\Resources\OrderResource\Widgets;
 
 use App\Enums\OrderStatus;
-use App\Models\Payment\Order;
+use App\Filament\Resources\OrderResource\Pages\ListOrders;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageTable;
 
 class OrderStatusDistributionChart extends ChartWidget
 {
+    use InteractsWithPageTable;
+
     protected static ?string $pollingInterval = null;
 
     protected static ?string $maxHeight = '200px';
 
     protected static ?string $heading = 'Order Distribution by Status';
 
+    protected function getTablePage(): string
+    {
+        return ListOrders::class;
+    }
+
     protected function getData(): array
     {
-        $statuses = Order::query()
+        $query = $this->getPageTableQuery();
+
+        $statuses = $query
+            ->reorder()
             ->selectRaw('status, COUNT(*) as total')
             ->groupBy('status')
             ->pluck('total', 'status');

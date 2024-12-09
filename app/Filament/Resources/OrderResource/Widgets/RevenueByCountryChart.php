@@ -3,33 +3,44 @@
 namespace App\Filament\Resources\OrderResource\Widgets;
 
 use App\Enums\OrderStatus;
-use App\Models\Payment\Order;
+use App\Filament\Resources\OrderResource\Pages\ListOrders;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageTable;
 use Symfony\Component\Intl\Countries;
 
 class RevenueByCountryChart extends ChartWidget
 {
+    use InteractsWithPageTable;
+
     protected static ?string $pollingInterval = null;
 
     protected static ?string $maxHeight = '200px';
 
     protected static ?string $heading = 'Revenue by Country';
 
+    protected function getTablePage(): string
+    {
+        return ListOrders::class;
+    }
+
     protected function getData(): array
     {
-        $revenueByCountry = Order::query()
+        $query = $this->getPageTableQuery();
+
+        $revenueByCountry = $query
+            ->reorder()
             ->where('status', OrderStatus::COMPLETED)
             ->selectRaw("
                 COALESCE(
                     JSON_UNQUOTE(JSON_EXTRACT(payment_data, '$.customer_details.address.country')),
                     JSON_UNQUOTE(JSON_EXTRACT(payment_data, '$.payer.address.country_code'))
-                ) as country
+                ) as country,
+                SUM(amount) as total_revenue
             ")
-            ->selectRaw('SUM(amount) as total_revenue')
-            ->whereRaw("
+            ->whereRaw("(
                 JSON_EXTRACT(payment_data, '$.customer_details.address.country') IS NOT NULL
                 OR JSON_EXTRACT(payment_data, '$.payer.address.country_code') IS NOT NULL
-            ")
+            )")
             ->groupBy('country')
             ->pluck('total_revenue', 'country');
 

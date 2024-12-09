@@ -8,11 +8,14 @@ use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatusDistributionChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
+use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 
 class ListOrders extends ListRecords
 {
+    use ExposesTableToWidgets;
+
     protected static string $resource = OrderResource::class;
 
     protected function getHeaderWidgets(): array

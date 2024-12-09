@@ -11,13 +11,14 @@ use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
 use App\Models\Payment\Order;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\Intl\Countries;
 
 class OrderResource extends Resource
 {
@@ -56,11 +57,64 @@ class OrderResource extends Resource
             })
             ->filters([
                 Tables\Filters\SelectFilter::make('payment_provider')
+                    ->multiple()
                     ->options(PaymentProvider::class),
-                Filter::make('created_at')
+                Tables\Filters\Filter::make('date_preset')
                     ->form([
-                        DatePicker::make('created_from'),
-                        DatePicker::make('created_until'),
+                        Select::make('preset')
+                            ->label('Period')
+                            ->selectablePlaceholder(false)
+                            ->options([
+                                'all' => 'All time',
+                                '24h' => 'Last 24 hours',
+                                '72h' => 'Last 3 days',
+                                'week' => 'Last 7 days',
+                                '2weeks' => 'Last 2 weeks',
+                                'month' => 'Last 30 days',
+                                'quarter' => 'Last 3 months',
+                                'halfyear' => 'Last 6 months',
+                                'year' => 'Last year',
+                            ]),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when($data['preset'], function ($query, $preset) {
+                            if ($preset === 'all') {
+                                return $query;
+                            }
+
+                            $query->where('created_at', '>=', match ($preset) {
+                                '24h' => now()->subDay(),
+                                '72h' => now()->subDays(3),
+                                'week' => now()->subWeek(),
+                                '2weeks' => now()->subWeeks(2),
+                                'month' => now()->subMonth(),
+                                'quarter' => now()->subMonths(3),
+                                'halfyear' => now()->subMonths(6),
+                                'year' => now()->subYear()
+                            });
+                        });
+                    }),
+                Tables\Filters\Filter::make('customer_country')
+                    ->form([
+                        Select::make('country')
+                            ->label('Customer country')
+                            ->options(Countries::getNames('en'))
+                            ->searchable(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when($data['country'], function ($query, $country) {
+                            $query->where(function ($q) use ($country) {
+                                $q->whereJsonContains('payment_data->customer_details->address->country', $country)
+                                    ->orWhereJsonContains('payment_data->payer->address->country_code', $country);
+                            });
+                        });
+                    }),
+                Tables\Filters\Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->label('From date'),
+                        DatePicker::make('created_until')
+                            ->label('To date'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -72,7 +126,21 @@ class OrderResource extends Resource
                                 $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+
+                        if ($data['created_from']) {
+                            $indicators[] = Tables\Filters\Indicator::make('From '.$data['created_from']);
+                        }
+
+                        if ($data['created_until']) {
+                            $indicators[] = Tables\Filters\Indicator::make('Until '.$data['created_until']);
+                        }
+
+                        return $indicators;
                     }),
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

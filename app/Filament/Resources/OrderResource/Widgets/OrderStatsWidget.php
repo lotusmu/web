@@ -3,15 +3,25 @@
 namespace App\Filament\Resources\OrderResource\Widgets;
 
 use App\Enums\OrderStatus;
-use App\Models\Payment\Order;
+use App\Filament\Resources\OrderResource\Pages\ListOrders;
+use Filament\Widgets\Concerns\InteractsWithPageTable;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class OrderStatsWidget extends BaseWidget
 {
+    use InteractsWithPageTable;
+
+    protected function getTablePage(): string
+    {
+        return ListOrders::class;
+    }
+
     protected function getStats(): array
     {
-        $completedOrders = Order::where('status', OrderStatus::COMPLETED);
+        $query = $this->getPageTableQuery();
+
+        $completedOrders = (clone $query)->where('status', OrderStatus::COMPLETED);
 
         $totalRevenue = $completedOrders->sum('amount');
         $totalOrders = $completedOrders->count();
