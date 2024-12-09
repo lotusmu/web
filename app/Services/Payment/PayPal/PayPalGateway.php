@@ -10,7 +10,6 @@ use App\Models\Payment\Order;
 use App\Models\Payment\TokenPackage;
 use App\Models\User\User;
 use App\Services\Payment\BasePaymentGateway;
-use App\Services\Payment\PaymentLogger;
 use Exception;
 
 class PayPalGateway extends BasePaymentGateway
@@ -23,11 +22,10 @@ class PayPalGateway extends BasePaymentGateway
 
     public function __construct(
         CreateOrder $createOrder,
-        PaymentLogger $logger,
         UpdateOrderStatus $updateOrderStatus,
         private readonly PayPalClient $client
     ) {
-        parent::__construct($createOrder, $logger, $updateOrderStatus);
+        parent::__construct($createOrder, $updateOrderStatus);
     }
 
     public function getProviderName(): string
@@ -67,7 +65,7 @@ class PayPalGateway extends BasePaymentGateway
 
             throw new Exception('PayPal payment initialization failed');
         } catch (Exception $e) {
-            $this->handleError($e, 'initiateCheckout');
+            $this->logError($e, 'initiateCheckout');
             throw $e;
         }
     }
@@ -75,7 +73,7 @@ class PayPalGateway extends BasePaymentGateway
     public function processOrder(Order $order): bool
     {
         try {
-            if ($order->status !== OrderStatus::PENDING) {
+            if (! $order->isValidForProcessing()) {
                 return false;
             }
 
@@ -97,7 +95,7 @@ class PayPalGateway extends BasePaymentGateway
 
             return false;
         } catch (Exception $e) {
-            $this->handleError($e, 'processOrder');
+            $this->logError($e, 'processOrder');
 
             return false;
         }
@@ -106,14 +104,18 @@ class PayPalGateway extends BasePaymentGateway
     public function handleWebhook(array $payload): mixed
     {
         try {
-            return match ($payload['event_type']) {
-                self::EVENT_PAYMENT_COMPLETED => $this->handlePaymentCompleted($payload['resource']),
-                self::EVENT_PAYMENT_DENIED => $this->handlePaymentDenied($payload['resource']),
-                self::EVENT_PAYMENT_REFUNDED => $this->handleRefund($payload['resource']),
-                default => null,
-            };
+            $webhookId = $payload['id'] ?? '';
+
+            return $this->processWebhookWithLock($webhookId, function () use ($payload) {
+                return match ($payload['event_type']) {
+                    self::EVENT_PAYMENT_COMPLETED => $this->handlePaymentCompleted($payload['resource']),
+                    self::EVENT_PAYMENT_DENIED => $this->handlePaymentDenied($payload['resource']),
+                    self::EVENT_PAYMENT_REFUNDED => $this->handleRefund($payload['resource']),
+                    default => null,
+                };
+            });
         } catch (Exception $e) {
-            $this->handleError($e, 'handleWebhook');
+            $this->logError($e, 'handleWebhook');
             throw $e;
         }
     }
@@ -133,7 +135,7 @@ class PayPalGateway extends BasePaymentGateway
 
             return $response->json()['verification_status'] === 'SUCCESS';
         } catch (Exception $e) {
-            $this->handleError($e, 'verifyWebhookSignature');
+            $this->logError($e, 'verifyWebhookSignature');
 
             return false;
         }

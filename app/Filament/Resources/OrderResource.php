@@ -2,17 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\OrderStatus;
 use App\Enums\PaymentProvider;
 use App\Filament\Resources\OrderResource\Pages;
+use App\Filament\Resources\OrderResource\RelationManagers\StatusHistoryRelationManager;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatusDistributionChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
 use App\Models\Payment\Order;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
@@ -26,32 +24,6 @@ class OrderResource extends Resource
     protected static ?string $model = Order::class;
 
     protected static ?string $navigationGroup = 'Payments';
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Section::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('amount')
-                            ->required()
-                            ->disabled()
-                            ->numeric(),
-                        Forms\Components\TextInput::make('currency')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\Select::make('status')
-                            ->options(OrderStatus::class)
-                            ->required(),
-                        Forms\Components\TextInput::make('payment_id')
-                            ->label('Payment ID')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\KeyValue::make('payment_data')
-                            ->disabled(),
-                    ]),
-            ]);
-    }
 
     public static function table(Table $table): Table
     {
@@ -109,7 +81,9 @@ class OrderResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            StatusHistoryRelationManager::class,
+        ];
     }
 
     public static function getWidgets(): array

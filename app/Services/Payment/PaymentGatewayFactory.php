@@ -20,9 +20,30 @@ class PaymentGatewayFactory
         PaymentProvider::PRIME->value => PrimeGateway::class,
     ];
 
+    private static array $requiredConfig = [
+        PaymentProvider::STRIPE->value => [
+            'cashier.key',
+            'cashier.secret',
+            'cashier.webhook.secret',
+        ],
+        PaymentProvider::PAYPAL->value => [
+            'services.paypal.client_id',
+            'services.paypal.secret',
+            'services.paypal.webhook_id',
+            'services.paypal.mode',
+        ],
+        PaymentProvider::PRIME->value => [
+            'services.prime.project_id',
+            'services.prime.secret1',
+            'services.prime.secret2',
+        ],
+    ];
+
     public static function create(PaymentProvider|string $provider): PaymentGateway
     {
         $provider = $provider instanceof PaymentProvider ? $provider->value : $provider;
+
+        self::validateProviderConfig($provider);
 
         if (! isset(self::$gateways[$provider])) {
             throw new InvalidArgumentException("Unsupported payment provider: {$provider}");
@@ -33,7 +54,6 @@ class PaymentGatewayFactory
         // Base dependencies that all gateways need
         $baseServices = [
             'createOrder' => app(CreateOrder::class),
-            'logger' => app(PaymentLogger::class),
             'updateOrderStatus' => app(UpdateOrderStatus::class),
         ];
 
@@ -56,5 +76,14 @@ class PaymentGatewayFactory
         }
 
         self::$gateways[$provider] = $gatewayClass;
+    }
+
+    private static function validateProviderConfig(string $provider): void
+    {
+        foreach (self::$requiredConfig[$provider] ?? [] as $config) {
+            if (empty(config($config))) {
+                throw new InvalidArgumentException("Missing required configuration: {$config}");
+            }
+        }
     }
 }

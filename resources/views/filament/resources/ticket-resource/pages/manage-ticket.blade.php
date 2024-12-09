@@ -15,7 +15,7 @@
                         compact
                         icon="heroicon-m-user"
                         :heading="$reply->user->name">
-                        <div>
+                        <div class="prose dark:prose-invert break-words">
                             {!! $reply->content !!}
                         </div>
 

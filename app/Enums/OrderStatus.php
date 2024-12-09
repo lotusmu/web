@@ -15,6 +15,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
     case REFUNDED = 'refunded';
     case EXPIRED = 'expired';
     case CANCELLED = 'cancelled';
+    case DELETED = 'deleted';
 
     public function getLabel(): string
     {
@@ -25,6 +26,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::REFUNDED => 'Refunded',
             self::EXPIRED => 'Expired',
             self::CANCELLED => 'Cancelled',
+            self::DELETED => 'Deleted',
         };
     }
 
@@ -37,6 +39,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::REFUNDED => Color::Fuchsia,
             self::EXPIRED => Color::Amber,
             self::CANCELLED => Color::Zinc,
+            self::DELETED => Color::Red,
         };
     }
 
@@ -45,10 +48,17 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::PENDING => 'heroicon-o-pause',
             self::COMPLETED => 'heroicon-o-check',
-            self::FAILED => 'heroicon-o-x-mark',
+            self::FAILED, self::CANCELLED => 'heroicon-o-x-mark',
             self::REFUNDED => 'heroicon-o-arrow-uturn-left',
             self::EXPIRED => 'heroicon-o-clock',
-            self::CANCELLED => 'heroicon-o-x-mark',
+            self::DELETED => 'heroicon-o-trash',
         };
+    }
+
+    public static function toArray(): array
+    {
+        return collect(self::cases())
+            ->mapWithKeys(fn ($status) => [$status->value => $status->getLabel()])
+            ->toArray();
     }
 }

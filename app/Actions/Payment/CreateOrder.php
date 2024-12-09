@@ -23,13 +23,16 @@ class CreateOrder
         User $user,
         TokenPackage $package,
         PaymentProvider $provider,
-        ?string $paymentId = null
+        ?string $paymentId = null,
+        ?OrderStatus $status = null,
+        ?array $paymentData = null
     ): Order {
         return Order::firstOrCreate(
             [
                 'user_id' => $user->id,
                 'token_package_id' => $package->id,
-                'status' => OrderStatus::PENDING,
+                'status' => $status ?? OrderStatus::PENDING,
+                'payment_provider' => $provider,
             ],
             [
                 'payment_provider' => $provider,
@@ -37,6 +40,7 @@ class CreateOrder
                 'amount' => $package->price,
                 'currency' => config('app.currency', 'EUR'),
                 'expires_at' => now()->addMinutes(self::EXPIRATION_MINUTES),
+                'payment_data' => $paymentData,
             ]
         );
     }

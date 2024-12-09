@@ -8,26 +8,31 @@ use App\Enums\OrderStatus;
 use App\Interfaces\PaymentGateway;
 use App\Models\Payment\Order;
 use Exception;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 abstract class BasePaymentGateway implements PaymentGateway
 {
     public function __construct(
         protected readonly CreateOrder $createOrder,
-        protected readonly PaymentLogger $logger,
         protected readonly UpdateOrderStatus $updateOrderStatus
     ) {}
 
-    public function getLogger(): PaymentLogger
-    {
-        return $this->logger;
-    }
-
     abstract public function getProviderName(): string;
+
+    protected function processWebhookWithLock(string $webhookId, callable $processor)
+    {
+        $lockKey = "webhook_processing_{$webhookId}";
+
+        return Cache::lock($lockKey, 30)->get(function () use ($processor) {
+            return $processor();
+        });
+    }
 
     public function cancelOrder(Order $order): bool
     {
         try {
-            if ($order->status !== OrderStatus::PENDING) {
+            if (! $order->isValidForProcessing()) {
                 return false;
             }
 
@@ -37,33 +42,18 @@ abstract class BasePaymentGateway implements PaymentGateway
                 paymentData: ['cancelled_at' => now()]
             );
         } catch (Exception $e) {
-            $this->handleError($e, 'cancelOrder');
+            $this->logError($e, 'cancelOrder');
 
             return false;
         }
     }
 
-    protected function handleError(Exception $e, string $method, array $context = []): void
+    protected function logError(Exception $e, string $method, array $context = []): void
     {
-        $this->logger->logError($this->getProviderName(), $method, $e, $context);
-    }
-
-    protected function findOrderById(string $orderId): ?Order
-    {
-        return Order::findOrFail($orderId);
-    }
-
-    protected function findPendingOrderByPaymentId(string $paymentId): ?Order
-    {
-        return Order::where('payment_id', $paymentId)
-            ->where('status', OrderStatus::PENDING)
-            ->first();
-    }
-
-    protected function findCompletedOrderByPaymentId(string $paymentId): ?Order
-    {
-        return Order::where('payment_id', $paymentId)
-            ->where('status', OrderStatus::COMPLETED)
-            ->first();
+        Log::error("{$this->getProviderName()} {$method} error", [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+            ...$context,
+        ]);
     }
 }

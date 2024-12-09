@@ -20,11 +20,18 @@ class UpdateOrderStatus
         OrderStatus $newStatus,
         array $paymentData = []
     ): bool {
-        if ($order->status === $newStatus) {
+
+        if (! $order->canTransitionTo($newStatus)) {
             return false;
         }
 
         DB::transaction(function () use ($order, $newStatus, $paymentData) {
+            $order->statusHistory()->create([
+                'from_status' => $order->status,
+                'to_status' => $newStatus->value,
+                'reason' => $this->getStatusChangeReason($order->status, $newStatus),
+            ]);
+
             $order->update([
                 'status' => $newStatus,
                 'payment_data' => [...$order->payment_data ?? [], ...$paymentData],
@@ -53,5 +60,18 @@ class UpdateOrderStatus
         $order->user->resource(ResourceType::TOKENS)
             ->decrement($order->package->tokens_amount);
         $this->logRefund->handle($order);
+    }
+
+    private function getStatusChangeReason(OrderStatus $fromStatus, OrderStatus $toStatus): ?string
+    {
+        return match ([$fromStatus, $toStatus]) {
+            [OrderStatus::PENDING, OrderStatus::COMPLETED] => 'Payment successful',
+            [OrderStatus::PENDING, OrderStatus::FAILED] => 'Payment failed',
+            [OrderStatus::PENDING, OrderStatus::CANCELLED] => 'Order cancelled by user',
+            [OrderStatus::PENDING, OrderStatus::EXPIRED] => 'Order expired',
+            [OrderStatus::COMPLETED, OrderStatus::REFUNDED] => 'Payment refunded',
+            [OrderStatus::FAILED, OrderStatus::COMPLETED] => 'Payment successful after failure',
+            default => null
+        };
     }
 }

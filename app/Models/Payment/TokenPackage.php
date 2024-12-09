@@ -17,4 +17,20 @@ class TokenPackage extends Model
         'price',
         'is_popular',
     ];
+
+    public function getCachedPrice(): float
+    {
+        return cache()->remember(
+            "package_price_{$this->id}",
+            now()->addHour(),
+            fn () => $this->price
+        );
+    }
+
+    protected static function booted(): void
+    {
+        static::updated(function ($package) {
+            cache()->forget("package_price_{$package->id}");
+        });
+    }
 }

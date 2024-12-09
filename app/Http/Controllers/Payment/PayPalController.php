@@ -80,6 +80,10 @@ class PayPalController extends BasePaymentController
     {
         try {
             if (! $this->getGateway()->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
+                $this->logError('webhook', new Exception('Signature verification failed'), [
+                    'headers' => $request->headers->all(),
+                ]);
+
                 return response()->json(['error' => 'Invalid signature'], 400);
             }
 

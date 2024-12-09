@@ -1,25 +1,30 @@
 <?php
 
+use App\Enums\PaymentProvider;
 use App\Http\Controllers\Payment\PayPalController;
 use App\Http\Controllers\Payment\PrimeController;
 use App\Http\Controllers\Payment\StripeController;
+use App\Models\Payment\Order;
+use App\Services\Payment\PaymentGatewayFactory;
 use Illuminate\Http\Request;
 
 Route::name('checkout.')->group(function () {
     // Webhook routes with CSRF exception in bootstrap/app.php
-    Route::post('stripe/webhook', [StripeController::class, 'handleWebhook'])
-        ->name('webhook.stripe');
+    Route::middleware(['throttle:60,1'])->group(function () {
+        Route::post('stripe/webhook', [StripeController::class, 'handleWebhook'])
+            ->name('webhook.stripe');
 
-    Route::post('webhook/paypal', [PayPalController::class, 'webhook'])
-        ->name('paypal.webhook');
+        Route::post('webhook/paypal', [PayPalController::class, 'webhook'])
+            ->name('paypal.webhook');
 
-    Route::post('webhook/prime', [PrimeController::class, 'webhook'])
-        ->name('prime.webhook')
-        ->middleware('valid-prime-webhook-ip');
+        Route::post('webhook/prime', [PrimeController::class, 'webhook'])
+            ->name('prime.webhook')
+            ->middleware('valid-prime-webhook-ip');
+    });
 
     // Success/Cancel routes
-    Route::middleware(['auth', 'verified'])->group(function () {
-        // Generic checkout routes
+    Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
+        // Stripe checkout routes
         Route::get('success', function (Request $request) {
             return redirect()
                 ->route('dashboard')
@@ -30,7 +35,10 @@ Route::name('checkout.')->group(function () {
                 ]);
         })->name('success');
 
-        Route::get('cancel', function () {
+        Route::get('cancel/{order}', function (Order $order, PaymentGatewayFactory $factory) {
+            $gateway = $factory->create(PaymentProvider::STRIPE);
+            $gateway->cancelOrder($order);
+
             return redirect()
                 ->route('donate')
                 ->with('toast', [
