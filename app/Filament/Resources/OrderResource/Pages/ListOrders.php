@@ -49,37 +49,31 @@ class ListOrders extends ListRecords
                 ->badge(array_sum($counts)),
             'completed' => Tab::make('Completed')
                 ->badge($counts[OrderStatus::COMPLETED->value] ?? 0)
-                ->icon(OrderStatus::COMPLETED->getIcon())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::COMPLETED);
                 }),
             'pending' => Tab::make('Pending')
                 ->badge($counts[OrderStatus::PENDING->value] ?? 0)
-                ->icon(OrderStatus::PENDING->getIcon())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::PENDING);
                 }),
             'failed' => Tab::make('Failed')
                 ->badge($counts[OrderStatus::FAILED->value] ?? 0)
-                ->icon(OrderStatus::FAILED->getIcon())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::FAILED);
                 }),
             'cancelled' => Tab::make('Cancelled')
                 ->badge($counts[OrderStatus::CANCELLED->value] ?? 0)
-                ->icon(OrderStatus::CANCELLED->getIcon())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::CANCELLED);
                 }),
             'expired' => Tab::make('Expired')
                 ->badge($counts[OrderStatus::EXPIRED->value] ?? 0)
-                ->icon(OrderStatus::EXPIRED->getIcon())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::EXPIRED);
                 }),
             'refunded' => Tab::make('Refunded')
                 ->badge($counts[OrderStatus::REFUNDED->value] ?? 0)
-                ->icon(OrderStatus::REFUNDED->getIcon())
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('status', OrderStatus::REFUNDED);
                 }),
