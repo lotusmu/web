@@ -159,8 +159,3 @@ new #[Layout('layouts.app')] class extends Component {
     </flux:button>
 
 </div>
-
-@push('scripts')
-    <script
-        src="https://www.paypal.com/sdk/js?client-id={{ config('services.paypal.client_id') }}&currency=EUR"></script>
-@endpush
