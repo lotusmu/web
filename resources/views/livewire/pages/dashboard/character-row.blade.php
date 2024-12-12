@@ -27,6 +27,12 @@ new #[Layout('layouts.app')] class extends Component {
     }
 
     #[Computed]
+    public function guildName()
+    {
+        return $this->character->guildMember->G_Name ?? 'No Guild';
+    }
+
+    #[Computed]
     public function clearCost(): int
     {
         return $this->calculateRate($this->character->PkCount);
@@ -78,6 +84,8 @@ new #[Layout('layouts.app')] class extends Component {
         </span>
     </flux:cell>
 
+    <flux:cell>{{ $this->guildName() }}</flux:cell>
+
     <flux:cell>{{ $this->character->PkCount }}</flux:cell>
 
     <flux:cell>{{ $this->character->cLevel }}</flux:cell>
@@ -103,9 +111,9 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:modal name="pk_clear_{{ $this->character->Name }}" class="md:w-96 space-y-6 text-start">
             <div>
-                <flux:heading size="lg">{{ __('Clear Player Kills?') }}</flux:heading>
+                <flux:heading size="lg">{{ __('Clear Player Kills ? ') }}</flux:heading>
                 <flux:subheading>
-                    {!! __('Are you sure you want to clear all player kills for <strong>:name</strong>?', [
+                    {!! __('Are you sure you want to clear all player kills for <strong >:name </strong >?', [
                        'name' => $this->character->Name
                    ]) !!}
                 </flux:subheading>

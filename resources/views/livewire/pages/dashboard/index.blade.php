@@ -25,6 +25,7 @@ new #[Layout('layouts.app')] class extends Component {
     public function characters()
     {
         return Character::query()
+            ->with('guildMember')
             ->select('Name', 'cLevel', 'ResetCount', 'Class', 'PkCount')
             ->where('AccountID', auth()->user()->name)
             ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
@@ -39,6 +40,7 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:columns>
             <flux:column>{{ __('Character') }}</flux:column>
             <flux:column>{{ __('Class') }}</flux:column>
+            <flux:column>{{ __('Guild') }}</flux:column>
             <flux:column>{{ __('Kills') }}</flux:column>
             <flux:column>{{ __('Level') }}</flux:column>
             <flux:column sortable :sorted="$sortBy === 'ResetCount'" :direction="$sortDirection"
