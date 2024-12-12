@@ -92,7 +92,9 @@ new #[Layout('layouts.app')] class extends Component {
                         @endif
                     </flux:subheading>
                     <flux:heading class="leading-4">€ {{ $package->price }}</flux:heading>
-                    <flux:subheading size="sm">{{ $package->tokens_amount }} {{__('tokens')}}</flux:subheading>
+                    <flux:subheading size="sm">
+                        {{ number_format($package->tokens_amount) }} {{__('tokens')}}
+                    </flux:subheading>
                 </div>
             </flux:radio>
         @endforeach

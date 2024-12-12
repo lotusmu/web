@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Character extends Model
 {
@@ -137,5 +138,10 @@ class Character extends Model
     public function entries(): HasMany
     {
         return $this->hasMany(Entry::class, 'Name', 'Name');
+    }
+
+    public function guildMember(): HasOne
+    {
+        return $this->hasOne(GuildMember::class, 'Name', 'Name');
     }
 }
