@@ -3,16 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Game\CharacterClass;
+use App\Enums\Game\GuildMemberStatus;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Filament\Infolists\Components\Entry\CharacterClassEntry;
 use App\Filament\Resources\CharacterResource\Pages;
 use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Game\Character;
+use App\Models\Game\Guild;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -165,6 +168,29 @@ class CharacterResource extends Resource
                                             ->required()
                                             ->default(0),
                                     ]),
+                                Tabs\Tab::make('Guild')
+                                    ->columns(2)
+                                    ->schema([
+                                        Select::make('guild_name')
+                                            ->options(Guild::query()->pluck('G_Name', 'G_Name')->toArray())
+                                            ->label('Guild')
+                                            ->searchable()
+                                            ->preload()
+                                            ->nullable()
+                                            ->live()
+                                            ->disabled(fn ($record) => $record->guildMember?->G_Status === GuildMemberStatus::GuildMaster)
+                                            ->afterStateHydrated(function (Set $set, $state, $record) {
+                                                $set('guild_name', $record->guildMember?->G_Name);
+                                            }),
+
+                                        Select::make('guild_status')
+                                            ->options(GuildMemberStatus::class)
+                                            ->label('Guild Position')
+                                            ->disabled()
+                                            ->afterStateHydrated(function (Set $set, $state, $record) {
+                                                $set('guild_status', $record->guildMember?->G_Status);
+                                            }),
+                                    ]),
                             ]),
                     ]),
             ]);
@@ -186,6 +212,17 @@ class CharacterResource extends Resource
                 CharacterClassColumn::make('Class')
                     ->label('Class')
                     ->imageSize(32),
+                Tables\Columns\TextColumn::make('guildMember.G_Name')
+                    ->label('Guild')
+                    ->placeholder('No Guild')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('guildMember.G_Status')
+                    ->label('Guild Position')
+                    ->placeholder('Not a member')
+                    ->badge()
+                    ->sortable()
+                    ->color(fn ($state) => $state?->getColor()),
                 Tables\Columns\TextColumn::make('cLevel')
                     ->label('Level')
                     ->numeric()
@@ -264,6 +301,17 @@ class CharacterResource extends Resource
                                     ->label('Kills Count'),
                                 TextEntry::make('PkTime')
                                     ->label('PK Time'),
+                            ]),
+                        Fieldset::make('Guild Information')
+                            ->columns(2)
+                            ->schema([
+                                TextEntry::make('guildMember.G_Name')
+                                    ->label('Guild Name')
+                                    ->placeholder('No Guild'),
+                                TextEntry::make('guildMember.G_Status')
+                                    ->label('Guild Position')
+                                    ->placeholder('Not a member')
+                                    ->badge(),
                             ]),
                     ]),
             ]);

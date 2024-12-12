@@ -12,6 +12,7 @@ enum GuildMemberStatus: int implements HasColor, HasLabel
     case AssistantGuildMaster = 64;
     case BattleMaster = 32;
     case GuildMember = 0;
+    case None = -1;  // Using -1 since null isn't allowed for int enum
 
     public function getLabel(): string
     {
@@ -19,7 +20,8 @@ enum GuildMemberStatus: int implements HasColor, HasLabel
             self::GuildMaster => 'Guild Master',
             self::AssistantGuildMaster => 'Assistant Guild Master',
             self::BattleMaster => 'Battle Master',
-            self::GuildMember => 'Guild Member'
+            self::GuildMember => 'Guild Member',
+            self::None => 'Not a member',
         };
     }
 
@@ -29,7 +31,9 @@ enum GuildMemberStatus: int implements HasColor, HasLabel
             self::GuildMaster => Color::Red,
             self::AssistantGuildMaster => Color::Orange,
             self::BattleMaster => Color::Sky,
-            self::GuildMember => null,
+            self::GuildMember => Color::Gray,
+            self::None => null,
+
         };
     }
 }
