@@ -197,7 +197,7 @@ new #[Layout('layouts.app')] class extends Component {
         @if(!in_array($ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
             <div>
                 <form wire:submit="submitReply" class="space-y-4">
-                    <flux:textarea wire:model="content" label="Reply"/>
+                    <flux:textarea wire:model="content" label="Reply" rows="8"/>
 
                     <div class="flex">
                         <flux:spacer/>
