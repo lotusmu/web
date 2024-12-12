@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-      class="transition-colors duration-500 bg-zinc-50 dark:bg-zinc-900">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('layouts.components.head')
 </head>
-<body class="min-h-screen antialiased">
+<body class="min-h-screen antialiased transition-colors duration-500 bg-zinc-50 dark:bg-zinc-900">
 
 <div class="flex absolute -z-50 top-0 inset-x-0 justify-center overflow-hidden pointer-events-none">
     <div class="w-[108rem] flex-none flex justify-end">
@@ -54,75 +53,5 @@
 @livewireScripts
 @fluxScripts
 
-<script data-navigate-once="">
-    document.addEventListener('livewire:navigated', () => {
-        // wire:navigate will wipe out the dark class on the body element, se we need to reapply it...
-        Alpine.store('darkMode').applyToBody()
-    })
-
-    Alpine.store('darkMode', {
-        on: false,
-
-        toggle() {
-            this.on = !this.on
-        },
-
-        init() {
-            this.on = this.wantsDarkMode()
-
-            Alpine.effect(() => {
-                document.dispatchEvent(new CustomEvent('dark-mode-toggled', {detail: {isDark: this.on}, bubbles: true}))
-
-                this.applyToBody()
-            })
-
-            // Putting this in a set timeout to wait for the iframes to be loaded...
-            setTimeout(() => {
-                Alpine.effect(() => {
-                    this.applyToIframes()
-                })
-            }, 5000)
-
-            let media = window.matchMedia('(prefers-color-scheme: dark)')
-
-            media.addEventListener('change', e => {
-                this.on = media.matches
-            })
-        },
-
-        wantsDarkMode() {
-            let media = window.matchMedia('(prefers-color-scheme: dark)')
-
-            if (window.localStorage.getItem('darkMode') === '') {
-                return media.matches
-            } else {
-                return JSON.parse(window.localStorage.getItem('darkMode'))
-            }
-        },
-
-        applyToBody() {
-            let state = this.on
-
-            window.localStorage.setItem('darkMode', JSON.stringify(state))
-
-            if (state) {
-                document.body.classList.add('dark')
-                document.documentElement.classList.add('dark')
-            } else {
-                document.body.classList.remove('dark')
-                document.documentElement.classList.remove('dark')
-            }
-        },
-
-        applyToIframes() {
-            let state = this.on
-
-            // Update dark mode inside iframes...
-            state
-                ? document.querySelectorAll('iframe').forEach(iframe => iframe.contentDocument?.querySelector('body')?.classList?.add('dark'))
-                : document.querySelectorAll('iframe').forEach(iframe => iframe.contentDocument?.querySelector('body')?.classList?.remove('dark'))
-        }
-    })
-</script>
 </body>
 </html>

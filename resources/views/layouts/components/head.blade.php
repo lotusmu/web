@@ -19,10 +19,4 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxStyles
 
-<style>
-    :root:has(body.dark) {
-        color-scheme: dark;
-    }
-</style>
-
 @yield('head')

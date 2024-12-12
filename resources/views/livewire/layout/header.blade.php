@@ -49,14 +49,19 @@ new class extends Component {
 
     <flux:spacer/>
 
-    <flux:navbar class="mr-4">
+    <flux:navbar>
         <livewire:connection-selector/>
 
-        <flux:button variant="ghost" size="sm" icon="moon" :tooltip="__('Toggle dark mode')"
-                     x-on:click="$store.darkMode.toggle()" class="max-lg:hidden"/>
+        <flux:button x-on:click="$flux.dark = ! $flux.dark"
+                     icon="moon"
+                     variant="subtle"
+                     :tooltip="__('Toggle dark mode')"
+                     aria-label="__('Toggle dark mode')"
+                     class="max-lg:hidden"
+        />
 
         <flux:dropdown>
-            <flux:button icon="ellipsis-vertical" variant="ghost" class="lg:hidden"/>
+            <flux:button icon="ellipsis-vertical" variant="subtle" inset="right" class="lg:hidden shrink-0"/>
 
             <flux:menu>
                 <flux:menu.item href="#" wire:navigate>{{ __('News') }}</flux:menu.item>
@@ -72,9 +77,9 @@ new class extends Component {
             </flux:menu>
         </flux:dropdown>
 
-        <flux:separator variant="subtle" vertical class="mx-4"/>
+        <flux:separator variant="subtle" vertical class="mx-4 max-lg:hidden"/>
 
-        <flux:button variant="ghost" size="sm" icon="shield-exclamation" :tooltip="__('Admin Dashboard')"
+        <flux:button variant="subtle" size="sm" icon="shield-exclamation" :tooltip="__('Admin Dashboard')"
                      href="/admin" target="_blank" class="max-lg:hidden"/>
 
         @if(false)
@@ -88,26 +93,24 @@ new class extends Component {
             </div>
         @endif
 
-        <flux:dropdown>
-            <flux:button variant="ghost" size="sm" inset="right" icon-trailing="chevron-down">
+        <flux:dropdown class="max-lg:hidden">
+            <flux:navbar.item icon-trailing="chevron-down">
                 {{ auth()->user()->name }}
-            </flux:button>
+            </flux:navbar.item>
 
             <flux:navmenu>
-                <flux:navmenu.item icon="moon" x-on:click="$store.darkMode.toggle()" class="lg:hidden">
-                    {{ __('Toggle Dark Mode') }}
-                </flux:navmenu.item>
-
-                <flux:navmenu.item icon="shield-exclamation" href="/admin" class="lg:hidden">
-                    {{ __('Admin Dashboard') }}
-                </flux:navmenu.item>
-
-                <flux:navmenu.item wire:navigate icon="cog-6-tooth"
-                                   href="/profile">
+                <flux:navmenu.item
+                    wire:navigate
+                    icon="cog-6-tooth"
+                    href="/profile"
+                >
                     {{ __('Settings') }}
                 </flux:navmenu.item>
 
-                <flux:navmenu.item icon="arrow-right-start-on-rectangle" wire:click="logout">
+                <flux:navmenu.item
+                    wire:click="logout"
+                    icon="arrow-right-start-on-rectangle"
+                >
                     {{ __('Logout') }}
                 </flux:navmenu.item>
             </flux:navmenu>

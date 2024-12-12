@@ -37,3 +37,40 @@
         {{ __('Support') }}
     </flux:navlist.item>
 </flux:navlist>
+
+<flux:spacer/>
+
+<flux:navlist>
+    <flux:dropdown class="lg:hidden" align="end">
+        <flux:navlist.item icon-trailing="chevron-down"
+                           class="w-full justify-between">
+            {{ auth()->user()->name }}
+        </flux:navlist.item>
+
+        <flux:navmenu>
+            <flux:navmenu.item
+                x-on:click="$flux.dark = ! $flux.dark"
+                icon="moon"
+                aria-label="__('Toggle dark mode')"
+                class="lg:hidden"
+            >
+                {{ __('Toggle Dark Mode') }}
+            </flux:navmenu.item>
+
+            <flux:menu.separator/>
+
+            <flux:navmenu.item icon="shield-exclamation" href="/admin" target="_blank" class="lg:hidden">
+                {{ __('Admin Dashboard') }}
+            </flux:navmenu.item>
+
+            <flux:navmenu.item wire:navigate icon="cog-6-tooth"
+                               href="/profile">
+                {{ __('Settings') }}
+            </flux:navmenu.item>
+
+            <flux:navmenu.item icon="arrow-right-start-on-rectangle" wire:click="logout">
+                {{ __('Logout') }}
+            </flux:navmenu.item>
+        </flux:navmenu>
+    </flux:dropdown>
+</flux:navlist>
