@@ -27,12 +27,6 @@ new #[Layout('layouts.app')] class extends Component {
     }
 
     #[Computed]
-    public function guildName()
-    {
-        return $this->character->guildMember->G_Name ?? 'No Guild';
-    }
-
-    #[Computed]
     public function clearCost(): int
     {
         return $this->calculateRate($this->character->PkCount);
@@ -76,15 +70,19 @@ new #[Layout('layouts.app')] class extends Component {
 <flux:row>
     <flux:cell>{{ $this->character->Name }}</flux:cell>
 
-    <flux:cell class="flex items-center gap-3">
-        <flux:avatar size="xs" src="{{ asset($this->character->Class->getImagePath()) }}"/>
+    <flux:cell>
+        <div class="flex items-center gap-3">
+            <flux:avatar size="xs" src="{{ asset($this->character->Class->getImagePath()) }}"/>
 
-        <span class="max-sm:hidden">
+            <span class="max-sm:hidden">
             {{  $this->character->Class->getLabel()  }}
         </span>
+        </div>
     </flux:cell>
 
-    <flux:cell>{{ $this->guildName() }}</flux:cell>
+    <flux:cell>
+        <x-guild-identity :guildMember="$this->character->guildMember"/>
+    </flux:cell>
 
     <flux:cell>{{ $this->character->PkCount }}</flux:cell>
 
