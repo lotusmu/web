@@ -33,7 +33,9 @@ new #[Layout('layouts.app')] class extends Component {
         <div class="flex flex-col items-start"
         ">
         <flux:heading size="xl" class="flex items-center gap-2">
-            {{ __('LotusMu') }}
+            <flux:link variant="ghost" href="#">
+                {{ __('LotusMu') }}
+            </flux:link>
 
             <flux:badge variant="pill" size="sm" inset="top bottom" color="amber">
                 {{__('Castle Owner')}}
@@ -50,27 +52,33 @@ new #[Layout('layouts.app')] class extends Component {
     <flux:card class="space-y-6">
         <div class="flex max-sm:flex-col justify-evenly max-sm:gap-4 gap-2 text-center">
             <div class="flex-1 min-w-0">
-                <flux:heading size="xl">
+                <flux:heading size="xl" class="flex items-baseline justify-center gap-1">
                     70,000
+                    <span>
+                        <flux:text size="sm">credits</flux:text>
+                    </span>
                 </flux:heading>
                 <flux:subheading>
                     {{__('Total Prize Pool')}}
                 </flux:subheading>
             </div>
 
-            <flux:separator vertical variant="subtle" class="sm:block hidden"/>
+            <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
             <flux:separator variant="subtle" class="max-sm:block hidden"/>
 
             <div class="flex-1 min-w-0">
-                <flux:heading size="xl">
+                <flux:heading size="xl" class="flex items-baseline justify-center gap-1">
                     10,000
+                    <span>
+                        <flux:text size="sm">credits</flux:text>
+                    </span>
                 </flux:heading>
                 <flux:subheading>
                     {{__('Next Distribution')}}
                 </flux:subheading>
             </div>
 
-            <flux:separator vertical variant="subtle" class="sm:block hidden"/>
+            <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
             <flux:separator variant="subtle" class="max-sm:block hidden"/>
 
             <div class="flex-1 min-w-0">
