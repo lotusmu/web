@@ -24,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('wallet');
 
     // Entries
-    Volt::route('entries', 'pages.entries.index')
+    Volt::route('event-entries', 'pages.entries.index')
         ->name('entries');
 
     // VIP routes group

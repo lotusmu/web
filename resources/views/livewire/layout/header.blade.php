@@ -102,9 +102,9 @@ new class extends Component {
                 <flux:navmenu.item
                     wire:navigate
                     icon="cog-6-tooth"
-                    href="/profile"
+                    :href="route('profile')"
                 >
-                    {{ __('Settings') }}
+                    {{ __('Profile Settings') }}
                 </flux:navmenu.item>
 
                 <flux:navmenu.item

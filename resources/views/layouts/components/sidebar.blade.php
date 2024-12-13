@@ -1,30 +1,30 @@
 <flux:navlist>
-    <flux:navlist.item wire:navigate.hover icon="home" href="/dashboard">
+    <flux:navlist.item wire:navigate.hover icon="home" :href="route('dashboard')">
         {{ __('Dashboard') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="wallet" href="/wallet">
+    <flux:navlist.item wire:navigate.hover icon="wallet" :href="route('wallet')">
         {{ __('Wallet') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="timer" href="/entries">
+    <flux:navlist.item wire:navigate.hover icon="timer" :href="route('entries')">
         {{ __('Event Entries') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="castle" href="#">
         {{ __('Castle Siege') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="fire" href="/vip"
+    <flux:navlist.item wire:navigate.hover icon="fire" :href="route('vip')"
                        :current="request()->is('vip') || request()->is('vip/*')">
         {{ __('Account Level') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="eye-slash" href="/stealth">
+    <flux:navlist.item wire:navigate.hover icon="eye-slash" :href="route('stealth')">
         {{ __('Stealth Mode') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="hand-coins" href="/donate">
+    <flux:navlist.item wire:navigate.hover icon="hand-coins" :href="route('donate')">
         {{ __('Donate') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="vote" href="#">
         {{ __('Vote') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="scroll-text" href="/activities">
+    <flux:navlist.item wire:navigate.hover icon="scroll-text" :href="route('activities')">
         {{ __('Activities') }}
     </flux:navlist.item>
 
@@ -32,7 +32,7 @@
 
     <flux:navlist.item wire:navigate.hover
                        icon="envelope-open"
-                       href="/support"
+                       :href="route('support')"
                        :current="request()->is('support') || request()->is('support/*')">
         {{ __('Support') }}
     </flux:navlist.item>
@@ -64,8 +64,8 @@
             </flux:navmenu.item>
 
             <flux:navmenu.item wire:navigate icon="cog-6-tooth"
-                               href="/profile">
-                {{ __('Settings') }}
+                               :href="route('profile')">
+                {{ __('Profile Settings') }}
             </flux:navmenu.item>
 
             <flux:navmenu.item icon="arrow-right-start-on-rectangle" wire:click="logout">
