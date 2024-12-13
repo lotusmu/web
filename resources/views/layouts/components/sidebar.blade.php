@@ -8,7 +8,7 @@
     <flux:navlist.item wire:navigate.hover icon="timer" :href="route('entries')">
         {{ __('Event Entries') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="castle" href="#">
+    <flux:navlist.item wire:navigate.hover icon="castle" :href="route('castle')">
         {{ __('Castle Siege') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="fire" :href="route('vip')"

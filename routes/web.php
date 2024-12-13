@@ -27,6 +27,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Volt::route('event-entries', 'pages.entries.index')
         ->name('entries');
 
+    // Castle Siege group
+    Route::prefix('castle-siege')->group(function () {
+        Volt::route('/', 'pages.castle.index')
+            ->name('castle');
+    });
+
     // VIP routes group
     Route::prefix('vip')->group(function () {
         Volt::route('/', 'pages.vip.index')
