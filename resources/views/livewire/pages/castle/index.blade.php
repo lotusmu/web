@@ -63,7 +63,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </flux:subheading>
             </div>
 
-            <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
+            <flux:separator vertical variant="subtle" class="sm:block hidden"/>
             <flux:separator variant="subtle" class="max-sm:block hidden"/>
 
             <div class="flex-1 min-w-0">
@@ -78,7 +78,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </flux:subheading>
             </div>
 
-            <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
+            <flux:separator vertical variant="subtle" class="sm:block hidden"/>
             <flux:separator variant="subtle" class="max-sm:block hidden"/>
 
             <div class="flex-1 min-w-0">
