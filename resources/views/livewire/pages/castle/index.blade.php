@@ -1,52 +1,73 @@
 <?php
 
 use App\Enums\PaymentProvider;
+use App\Models\Game\CastleData;
+use App\Models\Game\Guild;
 use App\Models\Payment\TokenPackage;
 use App\Services\Payment\PaymentGatewayFactory;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
-    public $guildInstance;
-    public int $maxAmount = 477027211;
-    public int $amount = 0;
-    public $selected = null;
+    public ?Guild $guild = null;
+    public ?CastleData $castle = null;
 
     public function mount()
     {
-        $this->guildInstance = App\Models\Game\Guild::where('G_Name', 'LotusMu')->first();
+        $this->castle = CastleData::first();
+        $this->guild  = Guild::where('G_Name', $this->castle->OWNER_GUILD)->first();
     }
 
-    public function withdraw()
+    #[Computed]
+    public function treasury(): int
     {
-        Flux::toast($this->amount);
+        return $this->castle->MONEY;
+    }
+
+    #[Computed]
+    public function storeTax(): int
+    {
+        return $this->castle->store_tax;
+    }
+
+    #[Computed]
+    public function goblinTax(): int
+    {
+        return $this->castle->goblinTax;
+    }
+
+    #[Computed]
+    public function huntZoneTax(): int
+    {
+        return $this->castle->huntZoneTax;
     }
 }; ?>
 
 <div class="space-y-6">
     <header class="flex items-center gap-4">
-        <img src="{{ $this->guildInstance->getMarkUrl(72) }}"
+        <img src="{{ $this->guild->getMarkUrl(72) }}"
              alt="Guild Mark"
              class="shrink-0 rounded-xl"
         />
 
-        <div class="flex flex-col items-start"
-        ">
-        <flux:heading size="xl" class="flex items-center gap-2">
-            <flux:link variant="ghost" href="#">
-                {{ __('LotusMu') }}
-            </flux:link>
+        <div class="flex flex-col items-start">
+            <flux:heading size="xl" class="flex items-center gap-2">
+                <flux:link variant="ghost" href="#">
+                    {{ __('LotusMu') }}
+                </flux:link>
 
-            <flux:badge variant="pill" size="sm" inset="top bottom" color="amber">
-                {{__('Castle Owner')}}
-            </flux:badge>
-        </flux:heading>
+                <flux:badge variant="pill" size="sm" inset="top bottom" color="amber">
+                    {{__('Castle Owner')}}
+                </flux:badge>
+            </flux:heading>
 
-        <flux:subheading class="flex items-center gap-2">
-            <flux:icon.crown variant="micro" color="orange"/>
-            {{ __('Castle Lord:') }}
-            <flux:link variant="ghost" href="#">void</flux:link>
-        </flux:subheading>
+            <flux:subheading class="flex items-center gap-2">
+                <flux:icon.crown variant="micro" color="orange"/>
+                {{ __('Castle Lord:') }}
+                <flux:link variant="ghost" href="#">void</flux:link>
+            </flux:subheading>
+        </div>
     </header>
 
     <flux:card class="space-y-6">
@@ -84,7 +105,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="flex-1 min-w-0">
                 <flux:heading size="xl" class="flex gap-2 items-center justify-center">
                     <flux:icon.clock/>
-                    {{__('6d 4h')}}
+                    {{ $this->castle->remaining_time }}
                 </flux:heading>
                 <flux:subheading>
                     {{__('Time Remaining')}}
@@ -103,7 +124,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <div>
             <div class="text-white dark:text-zinc-800 text-3xl font-black mb-2">
-                477,027,211
+                {{ number_format($this->treasury) }}
             </div>
 
             <flux:subheading class="dark:!text-zinc-500 !text-white/70">
@@ -117,7 +138,7 @@ new #[Layout('layouts.app')] class extends Component {
         x-data="{
             selected: '',
             amount: null,
-            maxAmount: {{ $this->maxAmount }},
+            maxAmount: {{ $this->treasury }},
             calculateAmount() {
                 if (this.selected !== 'custom') {
                     return Math.floor(this.maxAmount * (parseInt(this.selected) / 100));
@@ -158,7 +179,6 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:button
             variant="primary"
             icon-trailing="chevron-right"
-            wire:click="withdraw"
             class="w-full"
         >
             {{__('Withdraw')}}
@@ -167,12 +187,12 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div class="flex max-sm:flex-col w-full gap-6">
         <flux:card class="flex-1 flex flex-col items-start opacity-75">
-            <flux:subheading class="flex items-center gap-1">
+            <flux:subheading class="flex items-center gap-2">
                 <flux:icon.building-storefront/>
                 <span>Stores</span>
             </flux:subheading>
             <flux:heading size="xl">
-                3%
+                {{ $this->storeTax }}%
             </flux:heading>
             <flux:text size="sm">
                 Tax Rate
@@ -180,12 +200,12 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:card>
 
         <flux:card class="flex-1 flex flex-col items-start">
-            <flux:subheading class="flex items-center gap-1">
+            <flux:subheading class="flex items-center gap-2">
                 <flux:icon.sparkles/>
                 <span>Chaos Goblin</span>
             </flux:subheading>
             <flux:heading size="xl">
-                3%
+                {{ $this->goblinTax }}%
             </flux:heading>
             <flux:text size="sm">
                 Tax Rate
@@ -193,12 +213,12 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:card>
 
         <flux:card class="flex-1 flex flex-col items-start">
-            <flux:subheading class="flex items-center gap-1">
+            <flux:subheading class="flex items-center gap-2">
                 <flux:icon.sword/>
                 <span>Hunt Zone</span>
             </flux:subheading>
             <flux:heading size="xl">
-                300k
+                {{ number_format($this->huntZoneTax) }}
             </flux:heading>
             <flux:text size="sm">
                 Entry Tax

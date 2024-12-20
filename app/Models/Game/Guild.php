@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
 
 class Guild extends Model
@@ -168,5 +169,10 @@ class Guild extends Model
     public function master(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'G_Master', 'Name');
+    }
+
+    public function castle(): HasOne
+    {
+        return $this->hasOne(CastleData::class, 'OWNER_GUILD', 'G_Name');
     }
 }
