@@ -35,9 +35,9 @@ new class extends Component {
         ))->handle();
 
         if ($result) {
-            $this->reset(['amount', 'withdrawType']);
-
             $this->dispatch('treasury-updated', treasury: $this->castle->fresh()->MONEY);
+            $this->treasury = $this->castle->fresh()->MONEY;
+            $this->reset(['amount', 'withdrawType']);
         }
     }
 }; ?>
@@ -56,6 +56,18 @@ new class extends Component {
                 return this.amount;
             }
         }"
+        x-init="
+            $wire.on('treasury-updated', ({ treasury }) => {
+                maxAmount = treasury;
+                amount = null;  // Reset Alpine amount
+                withdrawType = 'custom';  // Reset Alpine withdrawType
+            });
+        "
+        @change="
+            if (withdrawType === 'custom') {
+                amount = null;
+            }
+        "
     >
         <flux:heading size="lg">
             {{__('Quick Withdraw')}}
