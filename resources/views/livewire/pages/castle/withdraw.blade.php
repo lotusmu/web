@@ -6,7 +6,7 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public int $treasury = 0;
-    public ?string $selected = 'custom';
+    public ?string $withdrawType = 'custom';
     public ?int $amount = null;
     public CastleData $castle;
 
@@ -16,20 +16,26 @@ new class extends Component {
         $this->castle   = $castle;
     }
 
+
     public function withdraw(): void
     {
-        $amount = $this->selected === 'custom'
-            ? $this->amount
-            : floor($this->treasury * (intval($this->selected) / 100));
+        if ($this->withdrawType !== 'custom') {
+            $this->amount = floor($this->treasury * (intval($this->withdrawType) / 100));
+        }
+
+        $this->validate([
+            'withdrawType' => ['required', 'in:25,50,75,100,custom'],
+            'amount'       => ['required', 'numeric', 'min:1', "max:{$this->treasury}"],
+        ]);
 
         $result = (new WithdrawFromCastle(
             auth()->user(),
             $this->castle,
-            $amount
+            $this->amount
         ))->handle();
 
         if ($result) {
-            $this->reset(['amount', 'selected']);
+            $this->reset(['amount', 'withdrawType']);
 
             $this->dispatch('treasury-updated', treasury: $this->castle->fresh()->MONEY);
         }
@@ -40,12 +46,12 @@ new class extends Component {
     <flux:card
         class="space-y-6"
         x-data="{
-            selected: 'custom',
+            withdrawType: 'custom',
             amount: null,
             maxAmount: {{ $this->treasury }},
             calculateAmount() {
-                if (this.selected !== 'custom') {
-                    return Math.floor(this.maxAmount * (parseInt(this.selected) / 100));
+                if (this.withdrawType !== 'custom') {
+                    return Math.floor(this.maxAmount * (parseInt(this.withdrawType) / 100));
                 }
                 return this.amount;
             }
@@ -59,8 +65,8 @@ new class extends Component {
             variant="cards"
             :indicator="false"
             class="max-sm:flex-col text-center"
-            x-model="selected"
-            wire:model="selected"
+            x-model="withdrawType"
+            wire:model="withdrawType"
         >
             <flux:radio value="25" label="25%"/>
             <flux:radio value="50" label="50%"/>
@@ -72,11 +78,12 @@ new class extends Component {
         <flux:input
             x-model="amount"
             wire:model="amount"
+            label="Amount"
             type="number"
-            x-bind:disabled="selected !== 'custom'"
+            x-bind:disabled="withdrawType !== 'custom'"
             :min="1"
             placeholder="Enter amount to withdraw"
-            x-bind:value="selected !== 'custom' ? calculateAmount() : amount"
+            x-bind:value="withdrawType !== 'custom' ? calculateAmount() : amount"
         />
 
         <flux:button
