@@ -5,7 +5,7 @@
 ])
 
 @php
-    $guildInstance = $guild ?? $guildMember?->guild;
+    $guildInstance = $guild ?? ($guildMember?->guild()->first());
 
     $sizes = [
         'xs' => [

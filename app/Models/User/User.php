@@ -3,8 +3,10 @@
 namespace App\Models\User;
 
 use App\Actions\Member\SyncMember;
+use App\Enums\Game\GuildMemberStatus;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
+use App\Models\Game\CastleData;
 use App\Models\Game\Status;
 use App\Models\Ticket\Ticket;
 use Filament\Models\Contracts\FilamentUser;
@@ -111,6 +113,20 @@ class User extends Authenticatable implements FilamentUser, HasMember
         }
 
         return $isOnline;
+    }
+
+    public function isCastleLord(?CastleData $castle): bool
+    {
+        if (! $castle) {
+            return false;
+        }
+
+        return $this->member->characters()
+            ->whereHas('guildMember', function ($query) use ($castle) {
+                $query->where('G_Name', $castle->OWNER_GUILD)
+                    ->where('G_Status', GuildMemberStatus::GuildMaster);
+            })
+            ->exists();
     }
 
     public function hasActiveStealth(): bool
