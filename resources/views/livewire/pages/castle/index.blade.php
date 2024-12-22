@@ -15,13 +15,9 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount()
     {
-        $this->castle = cache()->remember('castle_data', now()->addHour(), function () {
-            return CastleData::first();
-        });
+        $this->castle = CastleData::first();
 
-        $this->guild = cache()->remember('castle_guild', now()->addHour(), function () {
-            return Guild::where('G_Name', $this->castle->OWNER_GUILD)->first();
-        });
+        $this->guild = Guild::where('G_Name', $this->castle->OWNER_GUILD)->first();
     }
 
     #[Computed]

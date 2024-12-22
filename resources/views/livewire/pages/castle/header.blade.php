@@ -15,13 +15,13 @@ new class extends Component {
 <header class="flex items-center gap-4">
     <img src="{{ $this->guild->getMarkUrl(72) }}"
          alt="Guild Mark"
-         class="shrink-0 rounded-xl"
+         class="shrink-0 rounded-xl border border-zinc-200 dark:border-white/10"
     />
 
     <div class="flex flex-col items-start">
         <flux:heading size="xl" class="flex items-center gap-2">
             <flux:link variant="ghost" href="#">
-                {{ __('LotusMu') }}
+                {{ $this->guild->G_Name }}
             </flux:link>
 
             <flux:badge variant="pill" size="sm" inset="top bottom" color="amber">

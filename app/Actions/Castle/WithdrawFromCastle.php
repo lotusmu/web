@@ -75,7 +75,7 @@ readonly class WithdrawFromCastle
 
         $description = 'Withdrew :properties.amount Zen from :properties.source.';
 
-        activity('castle_withdrawal')
+        activity('castle_siege')
             ->performedOn($this->user)
             ->withProperties($properties)
             ->log($description);
