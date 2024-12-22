@@ -67,8 +67,10 @@ class ActivityResource extends Resource
                     ->searchable(),
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from'),
-                        DatePicker::make('created_until'),
+                        DatePicker::make('created_from')
+                            ->native(false),
+                        DatePicker::make('created_until')
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

@@ -112,8 +112,10 @@ class OrderResource extends Resource
                 Tables\Filters\Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from')
+                            ->native(false)
                             ->label('From date'),
                         DatePicker::make('created_until')
+                            ->native(false)
                             ->label('To date'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
