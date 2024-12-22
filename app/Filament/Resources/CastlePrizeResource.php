@@ -20,9 +20,7 @@ class CastlePrizeResource extends Resource
 {
     protected static ?string $model = CastlePrize::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-trophy';
-
-    protected static ?string $navigationGroup = 'Castle Siege';
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {

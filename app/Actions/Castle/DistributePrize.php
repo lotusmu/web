@@ -30,36 +30,34 @@ readonly class DistributePrize
             return false;
         }
 
-        $members = $winningGuild->members()
-            ->whereHas('character.member')
-            ->with('character.member')
+        $guildMembers = $winningGuild->members()
+            ->with('character')
             ->get();
 
-        if ($members->isEmpty()) {
-            return false;
-        }
-
-        $accountIds = $members->map(fn ($member) => $member->character->member->name)->unique();
+        $accountIds = $guildMembers->map(function ($member) {
+            return $member->character->AccountID ?? null;
+        })->filter()->unique();
 
         $users = User::with(['member.wallet'])
             ->whereIn('name', $accountIds)
             ->get()
             ->keyBy('name');
 
-        $amountPerMember = (int) floor($this->amount / $members->count());
+        if ($users->isEmpty()) {
+            return false;
+        }
+
+        $amountPerMember = (int) floor($this->amount / $users->count());
         $distributed = false;
 
-        foreach ($members as $member) {
-            $accountId = $member->character->member->name;
-            if (isset($users[$accountId])) {
-                $users[$accountId]->resource(ResourceType::CREDITS)->increment($amountPerMember);
-                $this->recordActivity($users[$accountId], $amountPerMember, $winningGuild->G_Name);
-                $distributed = true;
-            }
+        foreach ($users as $user) {
+            $user->resource(ResourceType::CREDITS)->increment($amountPerMember);
+            $this->recordActivity($user, $amountPerMember, $winningGuild->G_Name);
+            $distributed = true;
         }
 
         if ($distributed) {
-            $this->recordDistribution($winningGuild->G_Name, $members->count(), $amountPerMember);
+            $this->recordDistribution($winningGuild->G_Name, $users->count(), $amountPerMember);
         }
 
         return $distributed;
