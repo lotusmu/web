@@ -10,27 +10,45 @@ use App\Models\User\User;
 use App\Models\Utility\CastlePrize;
 use App\Models\Utility\CastlePrizeDistribution;
 use App\Support\ActivityLog\IdentityProperties;
+use Illuminate\Support\Collection;
 
 readonly class DistributePrize
 {
+    private string $connection;
+
     public function __construct(
         private CastleData $castle,
         private CastlePrize $prizeSetting,
         private int $amount
-    ) {}
+    ) {
+        $this->connection = $prizeSetting->gameServer->connection_name;
+    }
 
     public function handle(): bool
     {
-        $connection = $this->prizeSetting->gameServer->connection_name;
-        session(['game_db_connection' => $connection]);
+        session(['game_db_connection' => $this->connection]);
 
-        $winningGuild = Guild::where('G_Name', $this->castle->OWNER_GUILD)->first();
-
+        $winningGuild = $this->getWinningGuild();
         if (! $winningGuild) {
             return false;
         }
 
-        $guildMembers = $winningGuild->members()
+        $users = $this->getEligibleUsers($winningGuild);
+        if ($users->isEmpty()) {
+            return false;
+        }
+
+        return $this->distributeRewards($users, $winningGuild);
+    }
+
+    private function getWinningGuild(): ?Guild
+    {
+        return Guild::where('G_Name', $this->castle->OWNER_GUILD)->first();
+    }
+
+    private function getEligibleUsers(Guild $guild): Collection
+    {
+        $guildMembers = $guild->members()
             ->with('character')
             ->get();
 
@@ -38,26 +56,25 @@ readonly class DistributePrize
             return $member->character->AccountID ?? null;
         })->filter()->unique();
 
-        $users = User::with(['member.wallet'])
+        return User::with(['member.wallet'])
             ->whereIn('name', $accountIds)
             ->get()
             ->keyBy('name');
+    }
 
-        if ($users->isEmpty()) {
-            return false;
-        }
-
+    private function distributeRewards(Collection $users, Guild $guild): bool
+    {
         $amountPerMember = (int) floor($this->amount / $users->count());
         $distributed = false;
 
         foreach ($users as $user) {
             $user->resource(ResourceType::CREDITS)->increment($amountPerMember);
-            $this->recordActivity($user, $amountPerMember, $winningGuild->G_Name);
+            $this->recordActivity($user, $amountPerMember, $guild->G_Name);
             $distributed = true;
         }
 
         if ($distributed) {
-            $this->recordDistribution($winningGuild->G_Name, $users->count(), $amountPerMember);
+            $this->recordDistribution($guild->G_Name, $users->count(), $amountPerMember);
         }
 
         return $distributed;
