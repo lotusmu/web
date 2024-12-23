@@ -9,6 +9,7 @@ use App\Enums\Utility\ResourceType;
 use App\Models\Concerns\Taxable;
 use App\Models\Game\Character;
 use App\Models\User\User;
+use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
 use Flux;
 
@@ -90,6 +91,10 @@ class ClearKills
 
     private function recordActivity(User $user, Character $character, int $amount): void
     {
+        $serverName = GameServer::where('connection_name', session('game_db_connection', 'gamedb_main'))
+            ->first()
+            ->getServerName();
+
         activity('clear_kills')
             ->performedOn($user)
             ->withProperties([
@@ -98,9 +103,10 @@ class ClearKills
                 'amount' => $this->format($amount),
                 'resource' => $this->getResourceType(),
                 'kills' => $character->PkCount,
+                'connection' => $serverName,
                 ...IdentityProperties::capture(),
             ])
-            ->log('Cleared :properties.kills player kills on :properties.character for :properties.resource.');
+            ->log('Cleared :properties.kills kills on :properties.character for :properties.resource (:properties.connection).');
     }
 
     private function decrementCharacterZen(int $amount, Character $character): void

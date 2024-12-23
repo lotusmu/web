@@ -16,4 +16,9 @@ class GameServer extends Model
         'drop_rate',
         'is_active',
     ];
+
+    public function getServerName(): string
+    {
+        return "{$this->name} - x{$this->experience_rate}";
+    }
 }

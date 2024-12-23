@@ -9,6 +9,7 @@ use App\Models\Game\Guild;
 use App\Models\User\User;
 use App\Models\Utility\CastlePrize;
 use App\Models\Utility\CastlePrizeDistribution;
+use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Support\Collection;
 
@@ -84,18 +85,23 @@ readonly class DistributePrize
     {
         $balance = $user->getResourceValue(ResourceType::CREDITS);
 
+        $serverName = GameServer::where('connection_name', session('game_db_connection', 'gamedb_main'))
+            ->first()
+            ->getServerName();
+
         $properties = [
             'activity_type' => ActivityType::INCREMENT->value,
             'guild_name' => $guildName,
             'amount' => number_format($amount),
             'balance' => number_format($balance),
+            'connection' => $serverName,
             ...IdentityProperties::capture(),
         ];
 
         activity('castle_siege')
             ->performedOn($user)
             ->withProperties($properties)
-            ->log('Castle Siege credits reward received.');
+            ->log('Castle Siege credits reward received (:properties.connection).');
     }
 
     private function recordDistribution(string $guildName, int $totalMembers, int $amountPerMember): void

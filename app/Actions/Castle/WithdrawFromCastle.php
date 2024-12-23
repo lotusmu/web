@@ -6,6 +6,7 @@ use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Game\CastleData;
 use App\Models\User\User;
+use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
 use Flux;
 
@@ -63,6 +64,10 @@ readonly class WithdrawFromCastle
 
     private function recordActivity(): void
     {
+        $serverName = GameServer::where('connection_name', session('game_db_connection', 'gamedb_main'))
+            ->first()
+            ->getServerName();
+
         $properties = [
             'activity_type' => ActivityType::INCREMENT->value,
             'source' => 'Castle Treasury',
@@ -70,10 +75,11 @@ readonly class WithdrawFromCastle
             'amount' => $this->format($this->amount),
             'treasury_balance' => $this->format($this->castle->MONEY),
             'wallet_balance' => $this->format($this->user->getResourceValue(ResourceType::ZEN)),
+            'connection' => $serverName,
             ...IdentityProperties::capture(),
         ];
 
-        $description = 'Withdrew :properties.amount Zen from :properties.source.';
+        $description = 'Withdrew :properties.amount Zen from :properties.source (:properties.connection).';
 
         activity('castle_siege')
             ->performedOn($this->user)

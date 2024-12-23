@@ -6,6 +6,7 @@ use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Game\Character;
 use App\Models\User\User;
+use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
 use Flux;
 
@@ -155,7 +156,7 @@ class TransferZen
     {
         $properties = $this->activityProps($user, $from, $to, $amount);
 
-        $description = 'Transferred :properties.amount Zen from :properties.from to :properties.to.';
+        $description = 'Transferred :properties.amount Zen from :properties.from to :properties.to (:properties.connection).';
 
         activity('zen_transfer')
             ->performedOn($user)
@@ -165,12 +166,17 @@ class TransferZen
 
     private function activityProps(User $user, string $from, string $to, int $amount): array
     {
+        $serverName = GameServer::where('connection_name', session('game_db_connection', 'gamedb_main'))
+            ->first()
+            ->getServerName();
+
         $properties = [
             'activity_type' => ActivityType::INTERNAL->value,
             'from' => $from,
             'to' => $to,
             'amount' => $this->format($amount),
             'wallet_balance' => $this->format($user->getResourceValue(ResourceType::ZEN)),
+            'connection' => $serverName,
             ...IdentityProperties::capture(),
         ];
 

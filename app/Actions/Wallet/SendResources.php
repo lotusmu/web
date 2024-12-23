@@ -7,6 +7,7 @@ use App\Enums\Utility\OperationType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Concerns\Taxable;
 use App\Models\User\User;
+use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
 use Flux;
 use Illuminate\Support\Str;
@@ -26,13 +27,17 @@ class SendResources
         $taxAmount = $this->calculateRate($amount);
         $totalAmount = $amount + $taxAmount;
 
+        $serverName = GameServer::where('connection_name', session('game_db_connection', 'gamedb_main'))
+            ->first()
+            ->getServerName();
+
         if (! $sender->resource($resourceType)->decrement($totalAmount)) {
             return false;
         }
-        $this->recordSenderActivity($sender, $recipient, $resourceType, $totalAmount, $taxAmount);
+        $this->recordSenderActivity($sender, $recipient, $resourceType, $totalAmount, $taxAmount, $serverName);
 
         $recipient->resource($resourceType)->increment($amount);
-        $this->recordRecipientActivity($sender, $recipient, $resourceType, $amount);
+        $this->recordRecipientActivity($sender, $recipient, $resourceType, $amount, $serverName);
 
         Flux::toast(
             text: __('You\'ve sent :amount :resource to :recipient. Tax paid: :tax :resource', [
@@ -48,7 +53,7 @@ class SendResources
         return true;
     }
 
-    public function recordSenderActivity(User $sender, User $recipient, ResourceType $resourceType, int $amount, int $taxAmount): void
+    public function recordSenderActivity(User $sender, User $recipient, ResourceType $resourceType, int $amount, int $taxAmount, string $serverName): void
     {
         $balance = $sender->getResourceValue($resourceType);
 
@@ -63,7 +68,17 @@ class SendResources
             ...IdentityProperties::capture(),
         ];
 
-        $description = ':properties.resource_type sent to :properties.recipient. Amount: :properties.amount (incl. tax).';
+        if ($resourceType !== ResourceType::TOKENS) {
+            $properties['connection'] = session('game_db_connection', 'gamedb_main');
+        }
+
+        if ($resourceType !== ResourceType::TOKENS) {
+            $properties['connection'] = $serverName;
+
+            $description = ':properties.resource_type sent to :properties.recipient. Amount: :properties.amount (incl. tax) in :properties.connection.';
+        } else {
+            $description = ':properties.resource_type sent to :properties.recipient. Amount: :properties.amount (incl. tax).';
+        }
 
         activity('resource_transfer')
             ->performedOn($sender)
@@ -71,7 +86,7 @@ class SendResources
             ->log($description);
     }
 
-    public function recordRecipientActivity(User $sender, User $recipient, ResourceType $resourceType, int $amount): void
+    public function recordRecipientActivity(User $sender, User $recipient, ResourceType $resourceType, int $amount, string $serverName): void
     {
         $balance = $recipient->getResourceValue($resourceType);
 
@@ -83,7 +98,13 @@ class SendResources
             'balance' => $this->format($balance),
         ];
 
-        $description = ':properties.resource_type received from :properties.sender. Amount: :properties.amount.';
+        if ($resourceType !== ResourceType::TOKENS) {
+            $properties['connection'] = $serverName;
+
+            $description = ':properties.resource_type received from :properties.sender. Amount: :properties.amount (:properties.connection).';
+        } else {
+            $description = ':properties.resource_type received from :properties.sender. Amount: :properties.amount.';
+        }
 
         activity('resource_transfer')
             ->performedOn($recipient)
