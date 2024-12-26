@@ -1,6 +1,6 @@
 <flux:navlist>
     <flux:navlist.item wire:navigate.hover icon="home" :href="route('dashboard')">
-        {{ __('Dashboard') }}
+        {{ __('Home') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="wallet" :href="route('wallet')">
         {{ __('Wallet') }}

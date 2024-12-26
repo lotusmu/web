@@ -3,11 +3,11 @@
 <head>
     @include('layouts.components.head')
 </head>
-<body class="min-h-screen antialiased">
+<body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900">
 
-<flux:main>
-    {{ $slot }}
-</flux:main>
+<livewire:layout.guest.header/>
+
+{{ $slot }}
 
 @persist('toast')
 <flux:toast/>

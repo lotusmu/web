@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Public routes
-Route::view('/', 'welcome');
+Volt::route('/', 'pages.guest.home.index')->name('guest.home');
 Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
 
 //Profile route

@@ -18,5 +18,3 @@
 <!-- Scripts -->
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxStyles
-
-@yield('head')

@@ -25,6 +25,7 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:tabs wire:model="tab">
             <flux:tab name="email" icon="envelope">Email</flux:tab>
             <flux:tab name="password" icon="lock-closed">Password</flux:tab>
+            <flux:tab name="appearance" icon="swatch">Appearance</flux:tab>
         </flux:tabs>
 
         <flux:tab.panel name="email">
@@ -32,6 +33,9 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:tab.panel>
         <flux:tab.panel name="password">
             <livewire:pages.profile.password/>
+        </flux:tab.panel>
+        <flux:tab.panel name="appearance">
+            <livewire:pages.profile.appearance/>
         </flux:tab.panel>
     </flux:tab-group>
 </div>
