@@ -8,7 +8,7 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <div>
-    <main>
+    <main class="space-y-40">
         <!-- Hero section -->
         <div class="relative isolate overflow-hidden">
             <svg
@@ -32,7 +32,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <div class="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
                      style="clip-path: polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)"></div>
             </div>
-            <div class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
+            <div class="mx-auto max-w-7xl px-6 pt-10 lg:flex lg:px-8 lg:pt-40">
                 <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
                     <div class="mt-24 sm:mt-32 lg:mt-16">
                         <a href="#" class="inline-flex space-x-6">
@@ -74,6 +74,204 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </div>
 
+        <!-- News Grid Container -->
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- News Header -->
+            <div class="flex justify-between items-center mb-8">
+                <flux:heading size="xl" level="2">
+                    {{ __('Latest News') }}
+                </flux:heading>
+                <flux:link variant="subtle" href="#" class="flex items-center gap-2">
+                    {{ __('View All') }}
+                    <flux:icon.arrow-right variant="mini"/>
+                </flux:link>
+            </div>
+
+            <!-- News Cards Grid -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <article class="relative group">
+                    <a href="#" class="absolute inset-0 z-10">
+                        <span class="sr-only">Read full article about {{__('New Character Skin Release')}}</span>
+                    </a>
+                    <flux:card class="overflow-hidden !p-0">
+                        <div class="relative overflow-hidden">
+                            <img src="https://placehold.co/600x400" alt="News thumbnail"
+                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div
+                                class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="space-y-4 p-6">
+                            <flux:subheading>26/11/2024</flux:subheading>
+                            <flux:heading size="lg" level="2" accent>
+                                {{__('New Character Skin Release')}}
+                            </flux:heading>
+                            <flux:text>
+                                Experience a new dimension of gameplay with our latest
+                                character skin update. Unleash your potential with enhanced visuals and effects.
+                            </flux:text>
+                        </div>
+                    </flux:card>
+                </article>
+                <article class="relative group">
+                    <a href="#" class="absolute inset-0 z-10">
+                        <span class="sr-only">Read full article about {{__('New Character Skin Release')}}</span>
+                    </a>
+                    <flux:card class="overflow-hidden !p-0">
+                        <div class="relative overflow-hidden">
+                            <img src="https://placehold.co/600x400" alt="News thumbnail"
+                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div
+                                class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="space-y-4 p-6">
+                            <flux:subheading>26/11/2024</flux:subheading>
+                            <flux:heading size="lg" level="2" accent>
+                                {{__('New Character Skin Release')}}
+                            </flux:heading>
+                            <flux:text>
+                                Experience a new dimension of gameplay with our latest
+                                character skin update. Unleash your potential with enhanced visuals and effects.
+                            </flux:text>
+                        </div>
+                    </flux:card>
+                </article>
+                <article class="relative group">
+                    <a href="#" class="absolute inset-0 z-10">
+                        <span class="sr-only">Read full article about {{__('New Character Skin Release')}}</span>
+                    </a>
+                    <flux:card class="overflow-hidden !p-0">
+                        <div class="relative overflow-hidden">
+                            <img src="https://placehold.co/600x400" alt="News thumbnail"
+                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div
+                                class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="space-y-4 p-6">
+                            <flux:subheading>26/11/2024</flux:subheading>
+                            <flux:heading size="lg" level="2" accent>
+                                {{__('New Character Skin Release')}}
+                            </flux:heading>
+                            <flux:text>
+                                Experience a new dimension of gameplay with our latest
+                                character skin update. Unleash your potential with enhanced visuals and effects.
+                            </flux:text>
+                        </div>
+                    </flux:card>
+                </article>
+            </section>
+        </div>
+
+        <!-- Features -->
+        <div class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
+            <svg
+                class="absolute inset-0 -z-10 h-full w-full stroke-black/10 dark:stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+                aria-hidden="true">
+                <defs>
+                    <pattern id="1d4240dd-898f-445f-932d-e2872fd12de3" width="200" height="200" x="50%" y="0"
+                             patternUnits="userSpaceOnUse">
+                        <path d="M.5 200V.5H200" fill="none"/>
+                    </pattern>
+                </defs>
+                <svg x="50%" y="0" class="overflow-visible fill-zinc-800/20">
+                    <path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
+                          stroke-width="0"/>
+                </svg>
+                <rect width="100%" height="100%" stroke-width="0" fill="url(#1d4240dd-898f-445f-932d-e2872fd12de3)"/>
+            </svg>
+            <div class="absolute inset-x-0 top-10 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
+                 aria-hidden="true">
+                <div
+                    class="aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
+                    style="clip-path: polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)">
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="mx-auto max-w-3xl">
+                <!-- Header Section -->
+                <div class="text-center mb-16">
+                    <div class="flex justify-center mb-6">
+                        <div class="rounded-full bg-blue-600/10 p-3">
+                            <flux:icon.squares-plus class="h-6 w-6 text-blue-400"/>
+                        </div>
+                    </div>
+                    <p class="text-blue-400 mb-3">Features</p>
+                    <flux:heading size="xl" level="2" class="text-white mb-6">
+                        Ancient powers reimagined for modern gameplay.
+                    </flux:heading>
+                    <flux:text class="max-w-2xl mx-auto text-zinc-400">
+                        Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
+                        Every feature is carefully crafted to enhance gameplay without compromising the core experience
+                        that made the game legendary.
+                    </flux:text>
+                    <flux:link href="#" variant="ghost" class="text-blue-400 mt-6 inline-flex items-center gap-2">
+                        Learn more
+                        <flux:icon.arrow-right class="w-4 h-4"/>
+                    </flux:link>
+                </div>
+
+                <flux:tab.group>
+                    <flux:tabs class="!border-0 justify-center">
+                        <flux:tab name="tab1" icon="swords">Evolving Items</flux:tab>
+                        <flux:tab name="tab2" icon="scroll">Progressive Quests</flux:tab>
+                        <flux:tab name="tab3" icon="sparkles">Crafting System</flux:tab>
+                    </flux:tabs>
+
+                    <flux:tab.panel name="tab1">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Visual Demo -->
+                            <div class="bg-white/5 rounded-lg p-6 space-y-4">
+                                <div class="w-80 h-8 bg-white/10 rounded"></div>
+                                <div class="w-72 h-8 bg-white/10 rounded"></div>
+                                <div class="w-64 h-8 bg-white/10 rounded"></div>
+                                <div class="w-56 h-8 bg-white/10 rounded"></div>
+                                <div class="w-48 h-8 bg-white/10 rounded"></div>
+                            </div>
+
+                            <!-- Code Preview -->
+                            <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
+                                Tab 1
+                            </flux:card>
+                        </div>
+                    </flux:tab.panel>
+                    <flux:tab.panel name="tab2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Visual Demo -->
+                            <div class="bg-white/5 rounded-lg p-6 space-y-4">
+                                <div class="w-80 h-8 bg-white/10 rounded"></div>
+                                <div class="w-72 h-8 bg-white/10 rounded"></div>
+                                <div class="w-64 h-8 bg-white/10 rounded"></div>
+                                <div class="w-56 h-8 bg-white/10 rounded"></div>
+                                <div class="w-48 h-8 bg-white/10 rounded"></div>
+                            </div>
+
+                            <!-- Code Preview -->
+                            <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
+                                Tab 2
+                            </flux:card>
+                        </div>
+                    </flux:tab.panel>
+                    <flux:tab.panel name="tab3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Visual Demo -->
+                            <div class="bg-white/5 rounded-lg p-6 space-y-4">
+                                <div class="w-80 h-8 bg-white/10 rounded"></div>
+                                <div class="w-72 h-8 bg-white/10 rounded"></div>
+                                <div class="w-64 h-8 bg-white/10 rounded"></div>
+                                <div class="w-56 h-8 bg-white/10 rounded"></div>
+                                <div class="w-48 h-8 bg-white/10 rounded"></div>
+                            </div>
+
+                            <!-- Code Preview -->
+                            <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
+                                Tab 3
+                            </flux:card>
+                        </div>
+                    </flux:tab.panel>
+                </flux:tab.group>
+            </div>
+        </div>
+
         <!-- Logo cloud -->
         <div class="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
             <h2 class="text-center text-lg font-semibold leading-8 text-white">The world’s most innovative companies use
@@ -112,11 +310,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <div class="flex flex-col">
                         <dt class="text-base font-semibold leading-7 text-white">
                             <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                     stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
-                                </svg>
+
                             </div>
                             Server monitoring
                         </dt>
@@ -132,11 +326,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <div class="flex flex-col">
                         <dt class="text-base font-semibold leading-7 text-white">
                             <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                     stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
-                                </svg>
+
                             </div>
                             Collaborate
                         </dt>
@@ -152,11 +342,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <div class="flex flex-col">
                         <dt class="text-base font-semibold leading-7 text-white">
                             <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                     stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"/>
-                                </svg>
+
                             </div>
                             Task scheduling
                         </dt>
