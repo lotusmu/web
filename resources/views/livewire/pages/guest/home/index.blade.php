@@ -10,7 +10,7 @@ new #[Layout('layouts.guest')] class extends Component {
 <div>
     <main class="space-y-40">
         <!-- Hero section -->
-        <div class="relative isolate overflow-hidden">
+        <section class="relative isolate overflow-hidden">
             <svg
                 class="absolute inset-0 -z-10 h-full w-full stroke-black/10 dark:stroke-white/10 [mask-image:radial-gradient(75%_100%_at_top_left,white,transparent)]"
                 aria-hidden="true">
@@ -72,10 +72,10 @@ new #[Layout('layouts.guest')] class extends Component {
                          class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem]">
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- News Grid Container -->
-        <div class="max-w-7xl mx-auto px-4">
+        <section class="max-w-7xl mx-auto px-4">
             <!-- News Header -->
             <div class="flex justify-between items-center mb-8">
                 <flux:heading size="xl" level="2">
@@ -88,14 +88,14 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
 
             <!-- News Cards Grid -->
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <article class="relative group">
                     <a href="#" class="absolute inset-0 z-10">
                         <span class="sr-only">Read full article about {{__('New Character Skin Release')}}</span>
                     </a>
                     <flux:card class="overflow-hidden !p-0">
                         <div class="relative overflow-hidden">
-                            <img src="https://placehold.co/600x400" alt="News thumbnail"
+                            <img src="https://placehold.co/400x200" alt="News thumbnail"
                                  class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
                             <div
                                 class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
@@ -118,7 +118,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     </a>
                     <flux:card class="overflow-hidden !p-0">
                         <div class="relative overflow-hidden">
-                            <img src="https://placehold.co/600x400" alt="News thumbnail"
+                            <img src="https://placehold.co/400x200" alt="News thumbnail"
                                  class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
                             <div
                                 class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
@@ -141,7 +141,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     </a>
                     <flux:card class="overflow-hidden !p-0">
                         <div class="relative overflow-hidden">
-                            <img src="https://placehold.co/600x400" alt="News thumbnail"
+                            <img src="https://placehold.co/400x200" alt="News thumbnail"
                                  class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
                             <div
                                 class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
@@ -158,11 +158,11 @@ new #[Layout('layouts.guest')] class extends Component {
                         </div>
                     </flux:card>
                 </article>
-            </section>
-        </div>
+            </div>
+        </section>
 
         <!-- Features -->
-        <div class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
+        <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
             <svg
                 class="absolute inset-0 -z-10 h-full w-full stroke-black/10 dark:stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
                 aria-hidden="true">
@@ -211,7 +211,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 </div>
 
                 <flux:tab.group>
-                    <flux:tabs class="!border-0 justify-center">
+                    <flux:tabs variant="pills" class="justify-center">
                         <flux:tab name="tab1" icon="swords">Evolving Items</flux:tab>
                         <flux:tab name="tab2" icon="scroll">Progressive Quests</flux:tab>
                         <flux:tab name="tab3" icon="sparkles">Crafting System</flux:tab>
@@ -270,7 +270,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     </flux:tab.panel>
                 </flux:tab.group>
             </div>
-        </div>
+        </section>
 
         <!-- Logo cloud -->
         <div class="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
