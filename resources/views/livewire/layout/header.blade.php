@@ -25,8 +25,12 @@ new class extends Component {
 
     <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 
-    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="max-lg:hidden dark:hidden"/>
-    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}" class="max-lg:!hidden hidden dark:flex"/>
+    <x-brand
+        :logo_light="asset('images/logo/logo-hor-light.svg')"
+        :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+        size="sm"
+        class="max-lg:hidden"
+    />
 
     <flux:navbar class="-mb-px max-lg:hidden">
         <flux:navbar.item href="#" wire:navigate>{{ __('News') }}</flux:navbar.item>

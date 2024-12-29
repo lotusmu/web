@@ -25,8 +25,12 @@ new class extends Component {
 
     <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 
-    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="max-lg:hidden dark:hidden"/>
-    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}" class="max-lg:!hidden hidden dark:flex"/>
+    <x-brand
+        :logo_light="asset('images/logo/logo-hor-light.svg')"
+        :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+        size="sm"
+        class="max-lg:hidden"
+    />
 
     <flux:navbar class="-mb-px max-lg:hidden">
         <flux:navbar.item href="#" wire:navigate>{{ __('News') }}</flux:navbar.item>
@@ -79,8 +83,11 @@ new class extends Component {
                   class="lg:hidden border-r bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
-        <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="dark:hidden"/>
-        <x-brand size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}" class="hidden dark:flex"/>
+        <x-brand
+            :logo_light="asset('images/logo/logo-hor-light.svg')"
+            :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+            size="sm"
+        />
 
         @include('layouts.components.guest.sidebar')
     </flux:sidebar>

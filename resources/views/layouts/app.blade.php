@@ -26,8 +26,11 @@
               class="lg:hidden border-r bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700">
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
-    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-light.svg')}}" class="dark:hidden"/>
-    <x-brand size="sm" logo="{{asset('images/logo/logo-hor-dark.svg')}}" class="hidden dark:flex"/>
+    <x-brand
+        :logo_light="asset('images/logo/logo-hor-light.svg')"
+        :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+        size="sm"
+    />
 
     @include('layouts.components.sidebar')
 </flux:sidebar>

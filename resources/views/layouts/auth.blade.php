@@ -9,10 +9,10 @@
     <div class="flex-1 flex justify-center items-center">
         <div class="w-80 max-w-80 space-y-6">
             <div class="flex justify-center">
-                <x-brand wire:navigate logo="{{asset('images/logo/logo-hor-light.svg')}}" class="dark:hidden"/>
-
-                <x-brand wire:navigate logo="{{asset('images/logo/logo-hor-dark.svg')}}"
-                         class="hidden dark:block"/>
+                <x-brand
+                    :logo_light="asset('images/logo/logo-hor-light.svg')"
+                    :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+                />
             </div>
 
             {{ $slot }}

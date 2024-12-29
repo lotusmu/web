@@ -21,9 +21,6 @@
     <flux:navlist.item wire:navigate.hover icon="hand-coins" :href="route('donate')">
         {{ __('Donate') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="vote" href="#">
-        {{ __('Vote') }}
-    </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="scroll-text" :href="route('activities')">
         {{ __('Activities') }}
     </flux:navlist.item>

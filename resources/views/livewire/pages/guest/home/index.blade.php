@@ -54,9 +54,9 @@ new #[Layout('layouts.guest')] class extends Component {
                         <flux:button variant="primary" icon="arrow-down-tray">
                             {{ __('Play for Free') }}
                         </flux:button>
-                        <flux:button variant="ghost" icon-trailing="chevron-right"
+                        <flux:button variant="ghost" icon-trailing="arrow-long-right"
                                      href="https://wiki.lotusmu.org" target="_blank">
-                            {{ __('Learn More') }}
+                            {{ __('Learn more') }}
                         </flux:button>
                     </div>
                 </div>
@@ -172,7 +172,7 @@ new #[Layout('layouts.guest')] class extends Component {
                         <path d="M.5 200V.5H200" fill="none"/>
                     </pattern>
                 </defs>
-                <svg x="50%" y="0" class="overflow-visible fill-zinc-800/20">
+                <svg x="50%" y="0" class="overflow-visible fill-zinc-800/5 dark:fill-zinc-800/20">
                     <path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
                           stroke-width="0"/>
                 </svg>
@@ -515,17 +515,23 @@ new #[Layout('layouts.guest')] class extends Component {
                     class="aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
                     style="clip-path: polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)"></div>
             </div>
-            <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Boost your productivity.<br>Start
-                    using our app today.</h2>
-                <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-zinc-300">Incididunt sint fugiat pariatur
-                    cupidatat consectetur sit cillum anim id veniam aliqua proident excepteur commodo do ea.</p>
-                <div class="mt-10 flex items-center justify-center gap-x-6">
-                    <a href="#"
-                       class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get
-                        started</a>
-                    <a href="#" class="text-sm font-semibold leading-6 text-white">Learn more <span
-                            aria-hidden="true">→</span></a>
+            <div class="mx-auto max-w-2xl text-center space-y-24">
+                <flux:heading class="!font-bold tracking-tight !text-3xl sm:!text-4xl">
+                    Build your dream character.
+                </flux:heading>
+                <flux:subheading size="xl" class="mx-auto !mt-6 max-w-2xl leading-8">
+                    Join the Lotus Mu Community as Mu Online enters a new era of gameplay. Experience our signature
+                    progressive item system, rich quest system, and an innovative crafting system that rewards
+                    creativity.
+                </flux:subheading>
+
+                <div class="flex items-center justify-center gap-x-6">
+                    <flux:button variant="primary" :href="route('register')">
+                        {{ __('Register Now') }}
+                    </flux:button>
+                    <flux:button variant="ghost" icon-trailing="arrow-long-right" href="#">
+                        {{ __('Join Discord') }}
+                    </flux:button>
                 </div>
             </div>
         </div>
@@ -534,51 +540,189 @@ new #[Layout('layouts.guest')] class extends Component {
     <!-- Footer -->
     <footer aria-labelledby="footer-heading" class="relative">
         <h2 id="footer-heading" class="sr-only">Footer</h2>
+
         <div class="mx-auto max-w-7xl px-6 pb-8 pt-4 lg:px-8">
-            <div class="border-t border-white/10 pt-8 md:flex md:items-center md:justify-between">
-                <div class="flex space-x-6 md:order-2">
-                    <a href="#" class="text-zinc-500 hover:text-zinc-400">
-                        <span class="sr-only">Facebook</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-zinc-500 hover:text-zinc-400">
-                        <span class="sr-only">Instagram</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-zinc-500 hover:text-zinc-400">
-                        <span class="sr-only">Twitter</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                                d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-zinc-500 hover:text-zinc-400">
-                        <span class="sr-only">GitHub</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-zinc-500 hover:text-zinc-400">
-                        <span class="sr-only">YouTube</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </a>
+            <flux:separator class="mb-8"/>
+            <div class="flex flex-col gap-16">
+
+                <div class="grid grid-cols-2 gap-y-10 lg:grid-cols-6 lg:gap-8">
+                    <x-brand
+                        :logo_light="asset('images/logo/logo-hor-light.svg')"
+                        :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+                        class="col-span-2"
+                    />
+
+                    <div
+                        class="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid">
+                        <div class="space-y-8">
+                            <flux:subheading>
+                                {{__('Information —')}}
+                            </flux:subheading>
+
+                            <ul class="space-y-3">
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Server info') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Rankings') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Invasion times') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/events"
+                                               external>
+                                        {{ __('Events') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/items" external>
+                                        {{ __('Items') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/crafting"
+                                               external>
+                                        {{ __('Crafting') }}
+                                    </flux:link>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-8">
+                            <flux:subheading>
+                                {{ __('How to start —') }}
+                            </flux:subheading>
+
+                            <ul class="space-y-3">
+                                <li>
+                                    <flux:link variant="subtle" :href="route('register')">
+                                        {{ __('Registration') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Download') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="https://wiki.lotusmu.org" external>
+                                        {{ __('Wiki') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle"
+                                               href="https://wiki.lotusmu.org/category/game-client-features/" external>
+                                        {{ __('Client features') }}
+                                    </flux:link>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-8">
+                            <flux:subheading>
+                                {{ __('Community —') }}
+                            </flux:subheading>
+
+                            <ul class="space-y-3">
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('News') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Facebook') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Discord') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('YouTube') }}
+                                    </flux:link>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-8">
+                            <flux:subheading>
+                                {{ __('Support —') }}
+                            </flux:subheading>
+
+                            <ul class="space-y-3">
+                                <li>
+                                    <flux:link variant="subtle"
+                                               :href="route('support')">
+                                        {{__('Help Center')}}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Rules') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Terms of service') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Privacy policy') }}
+                                    </flux:link>
+                                </li>
+                                <li>
+                                    <flux:link variant="subtle" href="#">
+                                        {{ __('Refund policy') }}
+                                    </flux:link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <p class="mt-8 text-xs leading-5 text-zinc-400 md:order-1 md:mt-0">&copy; 2020 Your Company, Inc. All
-                    rights reserved.</p>
+
+                <div class="flex items-center justify-between">
+                    <flux:text size="sm" class="leading-5 mt-0">
+                        &copy; {{ date("Y") }} {{__('Lotus Mu Inc.')}}
+                    </flux:text>
+
+                    <div class="flex space-x-6 ">
+                        <a href="#" class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
+                            <span class="sr-only">Discord</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
+                            <span class="sr-only">YouTube</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>

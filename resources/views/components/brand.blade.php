@@ -1,5 +1,6 @@
 @props([
-    'logo' => null,
+    'logo_light' => null,
+    'logo_dark' => null,
     'size' => 'base',
     'href' => '/',
 ])
@@ -15,5 +16,6 @@
 @endphp
 
 <a href="{{ $href }}" {{ $attributes->class([ $classes ]) }} data-flux-brand>
-    <img src="{{ $logo }}" alt="Brand logo image" class="{{$imageSize}}"/>
+    <img src="{{ $logo_light }}" alt="Brand logo image" class="{{$imageSize}} block dark:hidden"/>
+    <img src="{{ $logo_dark }}" alt="Brand logo image" class="{{$imageSize}} hidden dark:block"/>
 </a>
