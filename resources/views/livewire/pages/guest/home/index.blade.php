@@ -75,7 +75,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </section>
 
         <!-- News Grid Container -->
-        <section class="max-w-7xl mx-auto px-4">
+        <section class="max-w-7xl mx-auto px-6 lg:px-8">
             <!-- News Header -->
             <div class="flex justify-between items-center mb-8">
                 <flux:heading size="xl" level="2">
@@ -211,7 +211,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 </div>
 
                 <flux:tab.group>
-                    <flux:tabs variant="pills" class="justify-center">
+                    <flux:tabs variant="pills" class="max-sm:flex-col justify-center">
                         <flux:tab name="tab1" icon="swords">Evolving Items</flux:tab>
                         <flux:tab name="tab2" icon="scroll">Progressive Quests</flux:tab>
                         <flux:tab name="tab3" icon="sparkles">Crafting System</flux:tab>
@@ -582,7 +582,8 @@ new #[Layout('layouts.guest')] class extends Component {
                                     </flux:link>
                                 </li>
                                 <li>
-                                    <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/items" external>
+                                    <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/items"
+                                               external>
                                         {{ __('Items') }}
                                     </flux:link>
                                 </li>
@@ -618,7 +619,8 @@ new #[Layout('layouts.guest')] class extends Component {
                                 </li>
                                 <li>
                                     <flux:link variant="subtle"
-                                               href="https://wiki.lotusmu.org/category/game-client-features/" external>
+                                               href="https://wiki.lotusmu.org/category/game-client-features/"
+                                               external>
                                         {{ __('Client features') }}
                                     </flux:link>
                                 </li>

@@ -34,7 +34,6 @@ new class extends Component {
 
     <flux:navbar class="-mb-px max-lg:hidden">
         <flux:navbar.item href="#" wire:navigate>{{ __('News') }}</flux:navbar.item>
-        <flux:navbar.item href="#" wire:navigate>{{ __('Registration') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
         <flux:navbar.item href="/upcoming-events">{{ __('Event Times') }}</flux:navbar.item>
@@ -77,6 +76,9 @@ new class extends Component {
             <flux:navbar.item icon-trailing="chevron-right" :href="route('login')">
                 {{ __('Sign In') }}
             </flux:navbar.item>
+            <flux:button size="sm" inset="top bottom" :href="route('register')">
+                {{ __('Register') }}
+            </flux:button>
         @endguest
     </flux:navbar>
 

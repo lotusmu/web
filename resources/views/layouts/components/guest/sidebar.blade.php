@@ -11,7 +11,7 @@
     <flux:navlist.item wire:navigate.hover icon="calendar-days" href="/upcoming-events">
         {{ __('Event Times') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="fire" href="#">
+    <flux:navlist.item wire:navigate.hover icon="information-circle" href="#">
         {{ __('Basic Information') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="scroll-text" href="#">
