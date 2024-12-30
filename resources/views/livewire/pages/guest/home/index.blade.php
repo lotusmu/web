@@ -56,12 +56,12 @@ new #[Layout('layouts.guest')] class extends Component {
 
                 {{--                Dark theme hero image--}}
                 <div class="hidden dark:flex w-full justify-end ml-56 sm:ml-0 mt-0 lg:-mt-24 -z-10">
-                    <img src="{{ asset('images/hero/wizard_transparent.png') }}"
+                    <img src="{{ asset('images/hero/wizard_v3.png') }}"
                          class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem]">
                 </div>
                 {{--                Light theme hero image--}}
                 <div class="flex dark:hidden w-full justify-end ml-24 sm:ml-0 mt-0 lg:-mt-24 -z-10">
-                    <img src="{{ asset('images/hero/elf_transparent.png') }}"
+                    <img src="{{ asset('images/hero/elf_v3.png') }}"
                          class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem]">
                 </div>
             </div>

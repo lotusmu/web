@@ -8,25 +8,34 @@ new class extends Component {
 }; ?>
 
 <article class="relative group h-full">
-    <a href="{{ route('news.show', $article) }}" class="absolute inset-0 z-10">
-        <span class="sr-only">Read full article about {{$article->title}}</span>
-    </a>
-    <flux:card class="overflow-hidden !p-0 h-full flex flex-col">
-        <div class="relative overflow-hidden">
-            <img src="{{ $article->image ? Storage::url($article->image) : 'https://placehold.co/400x200' }}"
-                 alt="News thumbnail"
-                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+    <a href="{{ route('news.show', $article) }}" class="block relative flex-1 group">
+        <div
+            class="min-h-[250px] relative w-full h-full overflow-hidden flex flex-col text-left bg-cover bg-top bg-no-repeat dark:border-b-2 border-zinc-200 dark:border-zinc-700 shadow-lg dark:shadow-none px-4 py-3 transition-all duration-200 ease-in-out cursor-pointer dark:hover:shadow-none hover:shadow-2xl dark:hover:border-b-2 dark:hover:border-zinc-50 hover:scale-[0.98]"
+            style="background-image: url('{{ Storage::url($article->image) }}')">
+
+            <!-- Gradient overlay -->
             <div
-                class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/70 via-black/40 dark:from-black dark:via-black/70 to-transparent opacity-90"></div>
+
+            <!-- Overlay on hover -->
+            <div
+                class="absolute inset-0 bg-black opacity-0 transition-opacity duration-200 group-hover:opacity-60 dark:group-hover:opacity-75"></div>
+
+            <!-- Content -->
+            <div class="mt-auto z-0">
+                <flux:subheading size="lg" class="!text-white/70">
+                    {{ $article->created_at->format('F j, Y') }}
+                </flux:subheading>
+
+                <flux:heading level="3" class="!font-black !text-xl !text-white">
+                    {{$article->title}}
+                </flux:heading>
+
+                <flux:text
+                    class="h-0 opacity-0 translate-y-5 transition-all duration-500 ease-in-out group-hover:h-16 group-hover:opacity-100 group-hover:translate-y-0 !text-white/70">
+                    {{$article->excerpt}}
+                </flux:text>
+            </div>
         </div>
-        <div class="p-6 flex-1">
-            <flux:subheading>{{ $article->created_at->format('M d, Y') }}</flux:subheading>
-            <flux:heading size="lg" level="2" accent>
-                {{$article->title}}
-            </flux:heading>
-            <flux:text>
-                {{$article->excerpt}}
-            </flux:text>
-        </div>
-    </flux:card>
+    </a>
 </article>
