@@ -5,8 +5,17 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Public routes
-Volt::route('/', 'pages.guest.home.index')->name('guest.home');
 Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
+
+Volt::route('/', 'pages.guest.home.index')->name('guest.home');
+
+Route::prefix('news')->group(function () {
+    Volt::route('/', 'pages.guest.news.index')
+        ->name('news');
+
+    Volt::route('/{article:slug}', 'pages.guest.news.show')
+        ->name('news.show');
+});
 
 //Profile route
 Volt::route('/profile', 'pages.profile.index')

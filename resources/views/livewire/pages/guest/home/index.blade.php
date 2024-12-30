@@ -34,15 +34,8 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
             <div class="mx-auto max-w-7xl px-6 pt-10 lg:flex lg:px-8 lg:pt-40">
                 <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-                    <div class="mt-24 sm:mt-32 lg:mt-16">
-                        <a href="#" class="inline-flex space-x-6">
-                            <flux:badge variant="pill" color="indigo">Latest updates</flux:badge>
-                            <flux:text class="flex items-center">
-                                Just shipped v1.24
-                                <flux:icon.chevron-right variant="mini"/>
-                            </flux:text>
-                        </a>
-                    </div>
+                    <livewire:pages.guest.home.updates-banner/>
+
                     <flux:heading level="1"
                                   class="mt-10 !font-black !text-4xl sm:!text-5xl lg:!text-6xl tracking-tight">
                         Embark on a divine conquest
@@ -75,91 +68,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </section>
 
         <!-- News Grid Container -->
-        <section class="max-w-7xl mx-auto px-6 lg:px-8">
-            <!-- News Header -->
-            <div class="flex justify-between items-center mb-8">
-                <flux:heading size="xl" level="2">
-                    {{ __('Latest News') }}
-                </flux:heading>
-                <flux:link variant="subtle" href="#" class="flex items-center gap-2">
-                    {{ __('View All') }}
-                    <flux:icon.arrow-right variant="mini"/>
-                </flux:link>
-            </div>
-
-            <!-- News Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <article class="relative group">
-                    <a href="#" class="absolute inset-0 z-10">
-                        <span class="sr-only">Read full article about {{__('New Character Skin Release')}}</span>
-                    </a>
-                    <flux:card class="overflow-hidden !p-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://placehold.co/400x200" alt="News thumbnail"
-                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
-                            <div
-                                class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                        </div>
-                        <div class="space-y-4 p-6">
-                            <flux:subheading>26/11/2024</flux:subheading>
-                            <flux:heading size="lg" level="2" accent>
-                                {{__('New Character Skin Release')}}
-                            </flux:heading>
-                            <flux:text>
-                                Experience a new dimension of gameplay with our latest
-                                character skin update. Unleash your potential with enhanced visuals and effects.
-                            </flux:text>
-                        </div>
-                    </flux:card>
-                </article>
-                <article class="relative group">
-                    <a href="#" class="absolute inset-0 z-10">
-                        <span class="sr-only">Read full article about {{__('New Character Skin Release')}}</span>
-                    </a>
-                    <flux:card class="overflow-hidden !p-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://placehold.co/400x200" alt="News thumbnail"
-                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
-                            <div
-                                class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                        </div>
-                        <div class="space-y-4 p-6">
-                            <flux:subheading>26/11/2024</flux:subheading>
-                            <flux:heading size="lg" level="2" accent>
-                                {{__('New Character Skin Release')}}
-                            </flux:heading>
-                            <flux:text>
-                                Experience a new dimension of gameplay with our latest
-                                character skin update. Unleash your potential with enhanced visuals and effects.
-                            </flux:text>
-                        </div>
-                    </flux:card>
-                </article>
-                <article class="relative group">
-                    <a href="#" class="absolute inset-0 z-10">
-                        <span class="sr-only">Read full article about {{__('New Character Skin Release')}}</span>
-                    </a>
-                    <flux:card class="overflow-hidden !p-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://placehold.co/400x200" alt="News thumbnail"
-                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
-                            <div
-                                class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                        </div>
-                        <div class="space-y-4 p-6">
-                            <flux:subheading>26/11/2024</flux:subheading>
-                            <flux:heading size="lg" level="2" accent>
-                                {{__('New Character Skin Release')}}
-                            </flux:heading>
-                            <flux:text>
-                                Experience a new dimension of gameplay with our latest
-                                character skin update. Unleash your potential with enhanced visuals and effects.
-                            </flux:text>
-                        </div>
-                    </flux:card>
-                </article>
-            </div>
-        </section>
+        <livewire:pages.guest.home.news-section/>
 
         <!-- Features -->
         <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
