@@ -19,7 +19,7 @@ new class extends Component {
             <div
                 class="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
         </div>
-        <div class="space-y-4 p-6 flex-1">
+        <div class="p-6 flex-1">
             <flux:subheading>{{ $article->created_at->format('M d, Y') }}</flux:subheading>
             <flux:heading size="lg" level="2" accent>
                 {{$article->title}}

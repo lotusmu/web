@@ -42,7 +42,7 @@ class ArticleResource extends Resource
                                 TextInput::make('title')
                                     ->required(),
                                 Textarea::make('excerpt')
-                                    ->maxLength(100)
+                                    ->maxLength(124)
                                     ->required()
                                     ->helperText('A short summary of the article for preview'),
                                 RichEditor::make('content')

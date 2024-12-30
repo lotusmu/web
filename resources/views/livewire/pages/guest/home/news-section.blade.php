@@ -9,21 +9,20 @@ new class extends Component {
     public function articles()
     {
         return Article::where('is_published', true)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->take(3)
             ->get();
     }
 }; ?>
 
-<section class="max-w-7xl mx-auto px-6 lg:px-8">
-    <!-- News Header -->
+<section class="max-w-7xl mx-auto px-6 lg:px-8 !mt-0">
     <div class="flex justify-between items-center mb-8">
         <flux:heading size="xl" level="2">
             {{ __('Latest News') }}
         </flux:heading>
-        <flux:link variant="subtle" :href="route('news')" class="flex items-center gap-2">
+        <flux:link variant="subtle" :href="route('news')" class="flex items-center gap-2 text-sm">
             {{ __('View All') }}
-            <flux:icon.arrow-right variant="mini"/>
+            <flux:icon.arrow-right variant="micro"/>
         </flux:link>
     </div>
 
