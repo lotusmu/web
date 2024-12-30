@@ -272,7 +272,7 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </section>
 
-        <!-- Logo cloud -->
+        <!-- ??Logo cloud -->
         <div class="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
             <h2 class="text-center text-lg font-semibold leading-8 text-white">The world’s most innovative companies use
                 our app</h2>
@@ -296,7 +296,7 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </div>
 
-        <!-- Feature section -->
+        <!-- ??Feature section -->
         <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
                 <h2 class="text-base font-semibold leading-7 text-indigo-400">Deploy faster</h2>
@@ -359,7 +359,7 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </div>
 
-        <!-- Feature section -->
+        <!-- ??Feature section -->
         <div class="mt-32 sm:mt-56">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl sm:text-center">
@@ -463,7 +463,7 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </div>
 
-        <!-- Stats -->
+        <!-- ??Stats -->
         <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
             <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
                 <h2 class="text-base font-semibold leading-8 text-indigo-400">Our track record</h2>
@@ -543,8 +543,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <div class="mx-auto max-w-7xl px-6 pb-8 pt-4 lg:px-8">
             <flux:separator class="mb-8"/>
-            <div class="flex flex-col gap-16">
 
+            <div class="flex flex-col gap-16">
+                <!-- Sitemap -->
                 <div class="grid grid-cols-2 gap-y-10 lg:grid-cols-6 lg:gap-8">
                     <x-brand
                         :logo_light="asset('images/logo/logo-hor-light.svg')"
@@ -554,6 +555,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
                     <div
                         class="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid">
+
+                        <!-- Information-->
                         <div class="space-y-8">
                             <flux:subheading>
                                 {{__('Information')}}
@@ -562,29 +565,23 @@ new #[Layout('layouts.guest')] class extends Component {
                             <ul class="space-y-3">
                                 <li>
                                     <flux:link variant="subtle" href="#">
-                                        {{ __('Server info') }}
+                                        {{ __('Server Info') }}
                                     </flux:link>
                                 </li>
                                 <li>
                                     <flux:link variant="subtle" href="#">
-                                        {{ __('Rankings') }}
+                                        {{ __('Patch Notes') }}
                                     </flux:link>
                                 </li>
                                 <li>
                                     <flux:link variant="subtle" href="#">
-                                        {{ __('Invasion times') }}
+                                        {{ __('Invasion Times') }}
                                     </flux:link>
                                 </li>
                                 <li>
                                     <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/events"
                                                external>
                                         {{ __('Events') }}
-                                    </flux:link>
-                                </li>
-                                <li>
-                                    <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/items"
-                                               external>
-                                        {{ __('Items') }}
                                     </flux:link>
                                 </li>
                                 <li>
@@ -596,9 +593,10 @@ new #[Layout('layouts.guest')] class extends Component {
                             </ul>
                         </div>
 
+                        <!-- How to start-->
                         <div class="space-y-8">
                             <flux:subheading>
-                                {{ __('How to start') }}
+                                {{ __('How to Start') }}
                             </flux:subheading>
 
                             <ul class="space-y-3">
@@ -621,12 +619,13 @@ new #[Layout('layouts.guest')] class extends Component {
                                     <flux:link variant="subtle"
                                                href="https://wiki.lotusmu.org/category/game-client-features/"
                                                external>
-                                        {{ __('Client features') }}
+                                        {{ __('Client Features') }}
                                     </flux:link>
                                 </li>
                             </ul>
                         </div>
 
+                        <!-- Community-->
                         <div class="space-y-8">
                             <flux:subheading>
                                 {{ __('Community') }}
@@ -656,6 +655,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             </ul>
                         </div>
 
+                        <!-- Support-->
                         <div class="space-y-8">
                             <flux:subheading>
                                 {{ __('Support') }}
@@ -675,17 +675,7 @@ new #[Layout('layouts.guest')] class extends Component {
                                 </li>
                                 <li>
                                     <flux:link variant="subtle" href="#">
-                                        {{ __('Terms of service') }}
-                                    </flux:link>
-                                </li>
-                                <li>
-                                    <flux:link variant="subtle" href="#">
-                                        {{ __('Privacy policy') }}
-                                    </flux:link>
-                                </li>
-                                <li>
-                                    <flux:link variant="subtle" href="#">
-                                        {{ __('Refund policy') }}
+                                        {{ __('Refund Policy') }}
                                     </flux:link>
                                 </li>
                             </ul>
@@ -693,9 +683,14 @@ new #[Layout('layouts.guest')] class extends Component {
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between">
+                <!-- Copyright & Socials -->
+                <div class="flex max-sm:flex-col max-sm:items-start max-sm:space-y-2 items-center justify-between">
                     <flux:text size="sm" class="leading-5 mt-0">
-                        &copy; {{ date("Y") }} {{__('Lotus Mu Inc.')}}
+                        &copy; {{ date("Y") }} {{__('Lotus Mu')}}
+                        ·
+                        <flux:link variant="subtle" href="#">Terms of Service</flux:link>
+                        ·
+                        <flux:link variant="subtle" href="#">Privacy Policy</flux:link>
                     </flux:text>
 
                     <div class="flex space-x-6 ">
