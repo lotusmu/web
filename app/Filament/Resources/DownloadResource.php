@@ -19,6 +19,8 @@ class DownloadResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cloud-arrow-down';
 
+    protected static ?string $modelLabel = 'Download';
+
     public static function form(Form $form): Form
     {
         return $form

@@ -24,7 +24,7 @@ class ScheduledEventResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+    protected static ?string $modelLabel = 'Event';
 
     public static function form(Form $form): Form
     {

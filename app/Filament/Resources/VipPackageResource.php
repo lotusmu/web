@@ -22,7 +22,7 @@ class VipPackageResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-fire';
+    protected static ?string $modelLabel = 'Package';
 
     public static function form(Form $form): Form
     {

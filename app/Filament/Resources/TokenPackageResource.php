@@ -18,6 +18,8 @@ class TokenPackageResource extends Resource
 
     protected static ?string $navigationGroup = 'Payments';
 
+    protected static ?string $modelLabel = 'Package';
+
     public static function form(Form $form): Form
     {
         return $form

@@ -28,6 +28,8 @@ class ArticleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
+    protected static ?string $modelLabel = 'Article';
+
     public static function form(Form $form): Form
     {
         return $form

@@ -25,8 +25,6 @@ class UpdateBannerResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationLabel = 'Update Banner';
-
     protected static ?string $modelLabel = 'Update Banner';
 
     public static function form(Form $form): Form

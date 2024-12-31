@@ -19,7 +19,7 @@ class SettingResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $modelLabel = 'Taxes';
+    protected static ?string $modelLabel = 'Tax';
 
     public static function form(Form $form): Form
     {

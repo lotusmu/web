@@ -20,6 +20,8 @@ class TicketCategoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Categories';
 
+    protected static ?string $modelLabel = 'Category';
+
     public static function form(Form $form): Form
     {
         return $form
