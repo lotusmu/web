@@ -10,12 +10,7 @@ new #[Layout('layouts.guest')] class extends Component {
 <main class="space-y-40">
     <!-- Hero section -->
     <section class="relative isolate overflow-hidden">
-        <x-grid-pattern
-            position="top_left"
-            ellipseWidth="75"
-            ellipseHeight="100"
-            :border-top="false"
-        />
+        <x-grid-pattern position="top_left" :border-top="false"/>
 
         {{-- Dark theme beams --}}
         <picture class="absolute inset-0 h-full w-full -z-20">
@@ -112,11 +107,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <!-- Features -->
     <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
-        <x-grid-pattern
-            position="top_right"
-            ellipseWidth="100"
-            ellipseHeight="100"
-        />
+        <x-grid-pattern position="top_right"/>
 
         {{-- Dark theme beams --}}
         <div
@@ -234,11 +225,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <!-- CTA section -->
     <div class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
-        <x-grid-pattern
-            position="top_right"
-            ellipseWidth="100"
-            ellipseHeight="100"
-        />
+        <x-grid-pattern position="top_left"/>
 
         <picture class="absolute inset-0 h-full w-full -z-20">
             <source

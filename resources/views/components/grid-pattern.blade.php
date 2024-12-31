@@ -1,30 +1,22 @@
 @props([
     'position' => 'top_left',
-    'ellipseWidth' => '75',
-    'ellipseHeight' => '100',
     'borderTop' => true,
 ])
 
 @php
-    $positionMap = [
-        'top_left' => 'top_left',
-        'top_right' => 'top_right',
-        'bottom_left' => 'bottom_left',
-        'bottom_right' => 'bottom_right',
-    ];
-
-    $borderTopValue = [
-        true => 0,
-        false => -1,
-    ];
-
-    $border = $borderTopValue[$borderTop] ?? '0';
-    $maskPosition = $positionMap[$position] ?? 'top_left';
+    $border = $borderTop ? 0 : -1;
+    $fullClass = "absolute inset-0 -z-10 h-full w-full stroke-black/10 dark:stroke-white/10 " .
+        match($position) {
+            'top_right' => '[mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]',
+            'bottom_left' => '[mask-image:radial-gradient(100%_100%_at_bottom_left,white,transparent)]',
+            'bottom_right' => '[mask-image:radial-gradient(100%_100%_at_bottom_right,white,transparent)]',
+            default => '[mask-image:radial-gradient(100%_100%_at_top_left,white,transparent)]'
+        };
     $patternId = 'pattern-'.uniqid();
 @endphp
 
-<svg {{ $attributes->merge([
-    'class' => 'absolute inset-0 -z-10 h-full w-full stroke-black/10 dark:stroke-white/10 [mask-image:radial-gradient('.$ellipseWidth.'%_'.$ellipseHeight.'%_at_'.$maskPosition.',white,transparent)] ']) }}
+
+<svg {{ $attributes->merge(['class' => $fullClass]) }}
      aria-hidden="true">
     <defs>
         <pattern id="{{ $patternId }}" width="200" height="200" x="50%" y="{{ $border }}"

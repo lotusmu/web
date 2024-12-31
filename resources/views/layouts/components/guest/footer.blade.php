@@ -8,8 +8,8 @@
             <!-- Sitemap -->
             <div class="grid grid-cols-2 gap-y-10 lg:grid-cols-6 lg:gap-8">
                 <x-brand
-                    :logo_light="asset('images/logo/logo-hor-light.svg')"
-                    :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+                    :logo_light="asset('images/brand/lotusmu-logotype.svg')"
+                    :logo_dark="asset('images/brand/lotusmu-logotype-white.svg')"
                     class="col-span-2"
                 />
 

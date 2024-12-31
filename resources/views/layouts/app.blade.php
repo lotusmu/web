@@ -27,8 +27,8 @@
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
     <x-brand
-        :logo_light="asset('images/logo/logo-hor-light.svg')"
-        :logo_dark="asset('images/logo/logo-hor-dark.svg')"
+        :logo_light="asset('images/brand/lotusmu-logotype.svg')"
+        :logo_dark="asset('images/brand/lotusmu-logotype-white.svg')"
         size="sm"
     />
 
