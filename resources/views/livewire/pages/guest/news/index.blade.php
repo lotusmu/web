@@ -32,7 +32,7 @@ new #[Layout('layouts.guest')] class extends Component {
             @endforeach
         </div>
 
-        <div class="mt-8">
+        <div class="mt-8 ">
             <flux:pagination :paginator="$this->articles"/>
         </div>
     </div>
