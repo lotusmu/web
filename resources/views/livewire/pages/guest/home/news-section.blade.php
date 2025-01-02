@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Content\ArticleType;
 use Livewire\Volt\Component;
 use App\Models\Content\Article;
 use Livewire\Attributes\Computed;
@@ -9,7 +10,8 @@ new class extends Component {
     public function articles()
     {
         return Article::where('is_published', true)
-            ->orderBy('created_at', 'asc')
+            ->where('type', ArticleType::NEWS)
+            ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();
     }

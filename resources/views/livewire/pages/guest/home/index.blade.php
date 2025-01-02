@@ -243,7 +243,8 @@ new #[Layout('layouts.guest')] class extends Component {
                     alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10" width="2432"
                     height="1442">
                 <div class="relative" aria-hidden="true">
-                    <div class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-zinc-900 pt-[7%]"></div>
+                    <div
+                        class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-zinc-50 dark:from-zinc-900 pt-[7%]"></div>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Content\ArticleType;
 use Illuminate\Pagination\LengthAwarePaginator;
 use LaravelIdea\Helper\App\Models\Content\_IH_Article_C;
 use Livewire\Attributes\Layout;
@@ -15,6 +16,7 @@ new #[Layout('layouts.guest')] class extends Component {
     public function articles(): LengthAwarePaginator|_IH_Article_C|array
     {
         return Article::where('is_published', true)
+            ->where('type', ArticleType::NEWS)
             ->orderBy('created_at', 'desc')
             ->paginate(6);
     }
