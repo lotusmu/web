@@ -93,7 +93,7 @@
 
                         <ul class="space-y-3">
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" :href="route('news')">
                                     {{ __('News') }}
                                 </flux:link>
                             </li>

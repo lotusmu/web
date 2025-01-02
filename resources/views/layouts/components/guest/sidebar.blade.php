@@ -1,5 +1,5 @@
 <flux:navlist>
-    <flux:navlist.item wire:navigate.hover icon="newspaper" href="#">
+    <flux:navlist.item wire:navigate.hover icon="newspaper" :href="route('news')">
         {{ __('News') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="arrow-down-tray" href="#">

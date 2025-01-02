@@ -18,7 +18,7 @@ new #[Layout('layouts.guest')] class extends Component {
         return Article::where('is_published', true)
             ->where('type', ArticleType::NEWS)
             ->orderBy('created_at', 'desc')
-            ->paginate(6);
+            ->paginate(15);
     }
 }; ?>
 
@@ -34,8 +34,9 @@ new #[Layout('layouts.guest')] class extends Component {
             @endforeach
         </div>
 
-        <div class="mt-8 ">
-            <flux:pagination :paginator="$this->articles"/>
+        {{--        Pagination--}}
+        <div class="mt-8">
+            <flux:pagination :paginator="$this->articles" class="!border-0"/>
         </div>
     </div>
 </div>

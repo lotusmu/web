@@ -33,7 +33,7 @@ new class extends Component {
     />
 
     <flux:navbar class="-mb-px max-lg:hidden">
-        <flux:navbar.item href="#" wire:navigate>{{ __('News') }}</flux:navbar.item>
+        <flux:navbar.item :href="route('news')" wire:navigate>{{ __('News') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
         <flux:navbar.item href="/upcoming-events">{{ __('Event Times') }}</flux:navbar.item>
