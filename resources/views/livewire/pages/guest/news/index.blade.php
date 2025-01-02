@@ -22,6 +22,8 @@ new #[Layout('layouts.guest')] class extends Component {
     }
 }; ?>
 
+{{-- TODO: EXTRACT COMPONENT FOR BIGGER HEADINGS!--}}
+
 <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
     <flux:heading level="1"
                   class="mb-3 text-center text-base font-medium text-[#10B0A9] dark:text-[#82E6FF]">
