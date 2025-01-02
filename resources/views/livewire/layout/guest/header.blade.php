@@ -56,16 +56,15 @@ new class extends Component {
     <flux:navbar class="-mb-px">
         {{--        <livewire:connection-selector/>--}}
 
-        {{--        <flux:button x-on:click="$flux.dark = ! $flux.dark"--}}
-        {{--                     icon="moon"--}}
-        {{--                     variant="subtle"--}}
-        {{--                     :tooltip="__('Toggle dark mode')"--}}
-        {{--                     aria-label="__('Toggle dark mode')"--}}
-        {{--                     inset="top bottom"--}}
-        {{--                     class="max-lg:hidden"--}}
-        {{--        />--}}
+        <flux:button x-on:click="$flux.dark = ! $flux.dark"
+                     icon="moon"
+                     variant="subtle"
+                     :tooltip="__('Toggle dark mode')"
+                     aria-label="__('Toggle dark mode')"
+                     class="max-lg:hidden"
+        />
 
-        {{--        <flux:separator variant="subtle" vertical class="mx-4 max-lg:hidden"/>--}}
+        <flux:separator variant="subtle" vertical class="mx-4 max-lg:hidden"/>
 
         @auth
             <flux:navbar.item icon-trailing="chevron-right" :href="route('dashboard')">

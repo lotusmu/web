@@ -40,13 +40,12 @@ new #[Layout('layouts.guest')] class extends Component {
         </header>
 
         <!-- Featured Image -->
-        @if($article->image)
-            <div class="aspect-video overflow-hidden rounded-xl">
-                <img src="{{ Storage::url($article->image) }}"
-                     alt="{{ $article->title }}"
-                     class="w-full h-full object-cover">
-            </div>
-        @endif
+        <div class="aspect-video overflow-hidden rounded-xl">
+            <img
+                src="{{ $article->image ? Storage::url($article->image) : 'https://placehold.co/600x400/EEE/31343C?font=montserrat&text=Lotus Mu' }}"
+                alt="{{ $article->title }}"
+                class="w-full h-full object-cover">
+        </div>
 
         <!-- Content -->
         <x-prose :content="$article->content"/>
