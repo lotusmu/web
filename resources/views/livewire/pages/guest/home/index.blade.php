@@ -12,43 +12,6 @@ new #[Layout('layouts.guest')] class extends Component {
     <section class="relative isolate overflow-hidden">
         <x-grid-pattern position="top_left" :border-top="false"/>
 
-        {{-- Dark theme beams --}}
-        <picture class="absolute inset-0 h-full w-full -z-20">
-            <source
-                srcset="{{ asset('/images/beams/hero-dark.avif') }}"
-                type="image/avif"
-                class="hidden dark:block">
-            <source
-                srcset="{{ asset('/images/beams/hero-dark.webp') }}"
-                type="image/webp"
-                class="hidden dark:block">
-            <img
-                src="{{ asset('/images/beams/hero-dark.png') }}"
-                alt="Dark background beams"
-                class="hidden dark:block h-full w-full bg-bottom bg-no-repeat [mask-image:linear-gradient(to_top,transparent_0%,white_0%)]"
-                loading="eager"
-                fetchpriority="low"
-                decoding="async">
-        </picture>
-
-        {{-- Light theme beams --}}
-        <picture class="absolute inset-0 h-full w-full -z-20">
-            <source
-                srcset="{{ asset('/images/beams/hero-light.avif') }}"
-                type="image/avif"
-                class="dark:hidden">
-            <source
-                srcset="{{ asset('/images/beams/hero-light.webp') }}"
-                type="image/webp"
-                class="dark:hidden">
-            <img
-                src="{{ asset('/images/beams/hero-light.jpg') }}"
-                alt="Light background beams"
-                class="dark:hidden h-full w-full bg-bottom bg-no-repeat [mask-image:linear-gradient(to_top,transparent_0%,white_20%)]"
-                loading="eager"
-                fetchpriority="low"
-                decoding="async">
-        </picture>
 
         <div class="mx-auto max-w-7xl px-6 pt-10 lg:flex lg:px-8 lg:pt-40">
             <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">

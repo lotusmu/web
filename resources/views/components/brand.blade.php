@@ -2,7 +2,7 @@
     'logo_light' => null,
     'logo_dark' => null,
     'size' => 'base',
-    'href' => '/',
+    'href' => route('guest.home'),
 ])
 
 @php
@@ -15,7 +15,7 @@
     }
 @endphp
 
-<a href="{{ $href }}" {{ $attributes->class([ $classes ]) }} data-flux-brand>
+<a wire:navigate href="{{ $href }}" {{ $attributes->class([ $classes ]) }} data-flux-brand>
     <img src="{{ $logo_light }}" alt="Brand logo image" class="{{$imageSize}} block dark:hidden"/>
     <img src="{{ $logo_dark }}" alt="Brand logo image" class="{{$imageSize}} hidden dark:block"/>
 </a>
