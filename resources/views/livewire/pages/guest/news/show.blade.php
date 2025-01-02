@@ -48,6 +48,6 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <!-- Content -->
-        <x-prose :content="$article->content"/>
+        <x-prose :content="$article->content" class="!mt-16"/>
     </article>
 </main>

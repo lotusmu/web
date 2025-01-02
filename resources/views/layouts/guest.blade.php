@@ -45,7 +45,6 @@
 
 <livewire:layout.guest.header/>
 
-
 {{ $slot }}
 
 @include('layouts.components.guest.footer')
