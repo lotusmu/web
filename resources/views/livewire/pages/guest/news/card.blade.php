@@ -15,11 +15,11 @@ new class extends Component {
 
             <!-- Gradient overlay -->
             <div
-                class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/70 via-black/40 dark:from-black dark:via-black/70 to-transparent opacity-90"></div>
+                class="absolute inset-0 pointer-events-none bg-gradient-to-t from-zinc-950/70 via-zinc-950/40 dark:from-zinc-950 dark:via-zinc-950/70 to-transparent opacity-90"></div>
 
             <!-- Overlay on hover -->
             <div
-                class="absolute inset-0 bg-black opacity-0 transition-opacity duration-200 group-hover:opacity-60 dark:group-hover:opacity-75"></div>
+                class="absolute inset-0 bg-zinc-950 opacity-0 transition-opacity duration-200 group-hover:opacity-60 dark:group-hover:opacity-75"></div>
 
             <!-- Content -->
             <div class="mt-auto z-0">

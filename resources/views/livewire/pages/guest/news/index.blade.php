@@ -23,6 +23,7 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 {{-- TODO: EXTRACT COMPONENT FOR BIGGER HEADINGS!--}}
+{{-- TODO: CREATE VARIABLE FOR COLORS (see accent in flux) !--}}
 
 <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
     <flux:heading level="1"
