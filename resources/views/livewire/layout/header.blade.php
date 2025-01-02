@@ -53,7 +53,7 @@ new class extends Component {
 
     <flux:spacer/>
 
-    <flux:navbar>
+    <flux:navbar class="-mx-px">
         <livewire:connection-selector/>
 
         <flux:button x-on:click="$flux.dark = ! $flux.dark"
