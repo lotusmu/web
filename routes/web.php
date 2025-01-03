@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckArticlePublishedMiddleware;
 use App\Livewire\UpcomingEvents;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -14,10 +15,11 @@ Route::prefix('news')->group(function () {
         ->name('news');
 
     Volt::route('/{article:slug}', 'pages.guest.news.show')
+        ->middleware(CheckArticlePublishedMiddleware::class)
         ->name('news.show');
 });
 
-//Profile route
+// Profile route
 Volt::route('/profile', 'pages.profile.index')
     ->middleware(['auth'])
     ->name('profile');
@@ -50,11 +52,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('vip.purchase');
     });
 
-    //Stealth Mode
+    // Stealth Mode
     Volt::route('stealth', 'pages.stealth.index')
         ->name('stealth');
 
-    //Donate
+    // Donate
     Volt::route('donate', 'pages.donate.index')
         ->name('donate');
 
