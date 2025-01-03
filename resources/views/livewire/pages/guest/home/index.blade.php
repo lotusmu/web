@@ -17,17 +17,19 @@ new #[Layout('layouts.guest')] class extends Component {
             <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
                 <livewire:pages.guest.home.updates-banner/>
 
-                <flux:heading level="1"
-                              class="mt-10 !font-black !text-4xl sm:!text-5xl lg:!text-6xl tracking-tight">
-                    Embark on a divine conquest
+                <flux:heading level="1" size="3xl" class="mt-10">
+                    {{ __('Embark on a divine conquest') }}
                 </flux:heading>
+
                 <flux:subheading size="xl" class="mt-6">
-                    Through mystical lands where legendary warriors rise and immortal battles echo across time.
+                    {{ __('Through mystical lands where legendary warriors rise and immortal battles echo across time.') }}
                 </flux:subheading>
+
                 <div class="mt-10 flex items-center gap-x-6">
                     <flux:button variant="primary" icon="arrow-down-tray">
                         {{ __('Play for Free') }}
                     </flux:button>
+
                     <flux:button variant="ghost" icon-trailing="arrow-long-right"
                                  href="https://wiki.lotusmu.org" target="_blank">
                         {{ __('Learn more') }}
@@ -101,14 +103,14 @@ new #[Layout('layouts.guest')] class extends Component {
             <!-- Header Section -->
             <div class="text-center mb-12 space-y-6">
                 <div class="flex justify-center">
-                    <div class="rounded-full bg-blue-600/10 p-3">
-                        <flux:icon.squares-plus class="h-6 w-6 text-blue-400"/>
+                    <div class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
+                        <flux:icon.squares-plus class="h-6 w-6 text-[var(--color-compliment-content)]"/>
                     </div>
                 </div>
 
-                <p class="text-blue-400 !mt-3">Features</p>
+                <p class="text-[var(--color-compliment-content)] !mt-3">Features</p>
 
-                <flux:heading level="2" class="!font-bold tracking-tight !text-3xl sm:!text-4xl">
+                <flux:heading size="2xl" level="2">
                     Ancient powers reimagined for modern gameplay.
                 </flux:heading>
 
@@ -118,7 +120,8 @@ new #[Layout('layouts.guest')] class extends Component {
                     that made the game legendary.
                 </flux:text>
 
-                <flux:link href="#" variant="ghost" class="text-blue-400 mt-6 inline-flex items-center gap-2">
+                <flux:link href="#" variant="ghost" :accent="false"
+                           class="!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2">
                     Learn more
                     <flux:icon.arrow-right class="w-4 h-4"/>
                 </flux:link>
@@ -186,6 +189,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
     </section>
 
+    {{--    Placeholder SECTIOn--}}
     <div class="mt-32 sm:mt-56">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl sm:text-center">
@@ -336,14 +340,14 @@ new #[Layout('layouts.guest')] class extends Component {
         </picture>
 
         <div class="mx-auto max-w-2xl text-center space-y-6">
-            <flux:heading level="2" class="!font-bold tracking-tight !text-3xl sm:!text-4xl">
-                Build your dream character.
+            <flux:heading level="2" size="2xl">
+                {{ __('Build your dream character.') }}
             </flux:heading>
 
             <flux:text size="lg" class="mx-auto max-w-2xl leading-8">
-                Join the Lotus Mu Community as Mu Online enters a new era of gameplay. Experience our signature
+                {{ __('Join the Lotus Mu Community as Mu Online enters a new era of gameplay. Experience our signature
                 progressive item system, rich quest system, and an innovative crafting system that rewards
-                creativity.
+                creativity.') }}
             </flux:text>
 
             <div class="flex items-center justify-center gap-x-6 !mt-12">

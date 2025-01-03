@@ -22,22 +22,20 @@ new #[Layout('layouts.guest')] class extends Component {
     }
 }; ?>
 
-{{-- TODO: EXTRACT COMPONENT FOR BIGGER HEADINGS!--}}
-{{-- TODO: CREATE VARIABLE FOR COLORS (see accent in flux) !--}}
+<div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 space-y-12">
+    <header class="flex flex-col items-center text-center">
+        <flux:heading level="1" size="lg" class="!text-[var(--color-compliment-content)] mb-3">
+            {{ __('News') }}
+        </flux:heading>
 
-<div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-    <flux:heading level="1"
-                  class="mb-3 text-center text-base font-medium text-[#10B0A9] dark:text-[#82E6FF]">
-        {{ __('News') }}
-    </flux:heading>
+        <flux:heading size="2xl">
+            {{ __('What\'s new around here?') }}
+        </flux:heading>
 
-    <flux:heading class="text-center !text-3xl md:!text-4xl !font-semibold">
-        {{ __('What\'s new around here?') }}
-    </flux:heading>
-
-    <flux:subheading size="xl" class="max-lg:!text-base text-center mb-12">
-        {{ __('Succinct and informative updates about Lotus Mu.') }}
-    </flux:subheading>
+        <flux:subheading size="lg">
+            {{ __('Succinct and informative updates about Lotus Mu.') }}
+        </flux:subheading>
+    </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($this->articles as $article)
@@ -46,7 +44,7 @@ new #[Layout('layouts.guest')] class extends Component {
     </div>
 
     {{--        Pagination--}}
-    <div class="mt-8">
+    <div>
         <flux:pagination :paginator="$this->articles" class="!border-0"/>
     </div>
 </div>

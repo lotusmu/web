@@ -14,6 +14,14 @@ export default {
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
             },
+            colors: {
+                // Compliment variables are defined in resources/css/app.css...
+                compliment: {
+                    DEFAULT: 'var(--color-compliment)',
+                    content: 'var(--color-compliment-content)',
+                    foreground: 'var(--color-compliment-foreground)',
+                },
+            },
         },
     },
 };
