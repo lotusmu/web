@@ -14,10 +14,10 @@ new #[Layout('layouts.guest')] class extends Component {
     public string $tab = 'news';
 }; ?>
 
-<div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 space-y-12">
+<div class="max-w-7xl max-lg:max-w-[40rem] mx-auto px-6 lg:px-8 py-12 space-y-12">
     <x-news-header/>
 
-    <flux:tab.group>
+    <flux:tab.group class="">
         <flux:tabs wire:model="tab">
             <flux:tab name="news">News</flux:tab>
             <flux:tab name="updates">Updates</flux:tab>

@@ -14,11 +14,11 @@ new class extends Component {
 <div class="space-y-6">
     <header>
         <flux:heading size="lg">
-            {{ __('Appearance Seetings') }}
+            {{ __('Appearance Settings') }}
         </flux:heading>
 
         <x-flux::subheading>
-            {{ __('Update your account\'s appearance settings.') }}
+            {{ __('Update your appearance settings.') }}
         </x-flux::subheading>
     </header>
 

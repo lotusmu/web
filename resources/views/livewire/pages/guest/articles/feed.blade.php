@@ -33,7 +33,6 @@ new class extends Component {
         <livewire:pages.guest.articles.preview :$article :wire:key="$article->id"/>
     @endforeach
 
-    {{--        Pagination--}}
     <div>
         <flux:pagination :paginator="$this->articles" class="!border-0"/>
     </div>
