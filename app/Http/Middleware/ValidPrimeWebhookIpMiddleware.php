@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class ValidPrimeWebhookIp
+class ValidPrimeWebhookIpMiddleware
 {
     private const ALLOWED_IP = '186.2.162.11';
 
