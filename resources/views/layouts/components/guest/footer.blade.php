@@ -30,7 +30,7 @@
                             </li>
                             <li>
                                 <flux:link variant="subtle" href="#">
-                                    {{ __('Patch Notes') }}
+                                    {{ __('Gameplay Updates') }}
                                 </flux:link>
                             </li>
                             <li>
@@ -93,7 +93,7 @@
 
                         <ul class="space-y-3">
                             <li>
-                                <flux:link variant="subtle" :href="route('news')">
+                                <flux:link variant="subtle" :href="route('articles.index')">
                                     {{ __('News') }}
                                 </flux:link>
                             </li>

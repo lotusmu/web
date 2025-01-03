@@ -33,7 +33,7 @@ new class extends Component {
     />
 
     <flux:navbar class="-mb-px max-lg:hidden">
-        <flux:navbar.item :href="route('news')" wire:navigate>{{ __('News') }}</flux:navbar.item>
+        <flux:navbar.item :href="route('articles.index')" wire:navigate>{{ __('News') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
         <flux:navbar.item href="/upcoming-events">{{ __('Event Times') }}</flux:navbar.item>
@@ -44,8 +44,8 @@ new class extends Component {
             <flux:navbar.item icon-trailing="chevron-down">{{ __('Information') }}</flux:navbar.item>
 
             <flux:navmenu>
+                <flux:navmenu.item href="#">{{ __('Gameplay Updates') }}</flux:navmenu.item>
                 <flux:navmenu.item href="#">{{ __('Basic Information') }}</flux:navmenu.item>
-                <flux:navmenu.item href="#">{{ __('Patch Notes') }}</flux:navmenu.item>
                 <flux:navmenu.item href="#" wire:navigate>{{ __('Wiki') }}</flux:navmenu.item>
             </flux:navmenu>
         </flux:dropdown>
@@ -68,14 +68,14 @@ new class extends Component {
             <flux:button icon="ellipsis-vertical" variant="subtle" inset="right" class="lg:hidden shrink-0"/>
 
             <flux:menu>
-                <flux:menu.item :href="route('news')" wire:navigate>{{ __('News') }}</flux:menu.item>
+                <flux:menu.item :href="route('articles.index')" wire:navigate>{{ __('News') }}</flux:menu.item>
                 <flux:menu.item href="#" wire:navigate>{{ __('Files') }}</flux:menu.item>
                 <flux:menu.item href="#" wire:navigate>{{ __('Rankings') }}</flux:menu.item>
                 <flux:menu.item href="/upcoming-events">{{ __('Event Times') }}</flux:menu.item>
 
                 <flux:menu.submenu :heading="__('Information')">
                     <flux:menu.item href="#">{{ __('Basic Information') }}</flux:menu.item>
-                    <flux:menu.item href="#">{{ __('Patch Notes') }}</flux:menu.item>
+                    <flux:menu.item href="#">{{ __('Gameplay Updates') }}</flux:menu.item>
                     <flux:menu.item href="https://wiki.lotusmu.org" target="_blank">{{ __('Wiki') }}</flux:menu.item>
                 </flux:menu.submenu>
             </flux:menu>

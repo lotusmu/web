@@ -22,7 +22,7 @@ new class extends Component {
         <flux:heading size="xl" level="2" class="z-0">
             {{ __('Latest News') }}
         </flux:heading>
-        <flux:link variant="subtle" :href="route('news')" wire:navigate class="flex items-center gap-2 z-0">
+        <flux:link variant="subtle" :href="route('articles.index')" wire:navigate class="flex items-center gap-2 z-0">
             {{ __('View All') }}
             <flux:icon.arrow-right variant="micro"/>
         </flux:link>
@@ -31,7 +31,7 @@ new class extends Component {
     <!-- News Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         @foreach($this->articles as $article)
-            <livewire:pages.guest.news.card :$article :wire:key="$article->id"/>
+            <livewire:pages.guest.articles.card :$article :wire:key="$article->id"/>
         @endforeach
     </div>
 </section>

@@ -10,13 +10,13 @@ Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
 
 Volt::route('/', 'pages.guest.home.index')->name('guest.home');
 
-Route::prefix('news')->group(function () {
-    Volt::route('/', 'pages.guest.news.index')
-        ->name('news');
+Route::prefix('articles')->group(function () {
+    Volt::route('/', 'pages.guest.articles.index')
+        ->name('articles.index');
 
-    Volt::route('/{article:slug}', 'pages.guest.news.show')
+    Volt::route('/{article:slug}', 'pages.guest.articles.show')
         ->middleware(CheckArticlePublishedMiddleware::class)
-        ->name('news.show');
+        ->name('articles.show');
 });
 
 // Profile route

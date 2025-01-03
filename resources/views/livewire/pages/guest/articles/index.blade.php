@@ -10,16 +10,8 @@ use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 new #[Layout('layouts.guest')] class extends Component {
-    use WithPagination;
-
-    #[Computed]
-    public function articles(): LengthAwarePaginator|_IH_Article_C|array
-    {
-        return Article::where('is_published', true)
-            ->where('type', ArticleType::NEWS)
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
-    }
+    #[\Livewire\Attributes\Url]
+    public string $tab = 'news';
 }; ?>
 
 <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 space-y-12">
@@ -37,14 +29,18 @@ new #[Layout('layouts.guest')] class extends Component {
         </flux:subheading>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach($this->articles as $article)
-            <livewire:pages.guest.news.card :$article :wire:key="$article->id"/>
-        @endforeach
-    </div>
+    <flux:tab.group>
+        <flux:tabs wire:model="tab">
+            <flux:tab name="news">News</flux:tab>
+            <flux:tab name="updates">Updates</flux:tab>
+        </flux:tabs>
 
-    {{--        Pagination--}}
-    <div>
-        <flux:pagination :paginator="$this->articles" class="!border-0"/>
-    </div>
+        <flux:tab.panel name="news">
+            <livewire:pages.guest.articles.news/>
+        </flux:tab.panel>
+
+        <flux:tab.panel name="updates">
+            <livewire:pages.guest.articles.updates/>
+        </flux:tab.panel>
+    </flux:tab.group>
 </div>

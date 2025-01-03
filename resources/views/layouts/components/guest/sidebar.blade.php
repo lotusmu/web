@@ -1,5 +1,7 @@
 <flux:navlist>
-    <flux:navlist.item wire:navigate.hover icon="newspaper" :href="route('news')">
+    <flux:navlist.item wire:navigate.hover icon="newspaper"
+                       :href="route('articles.index')"
+                       :current="request()->is('articles') || request()->is('articles/*')">
         {{ __('News') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="arrow-down-tray" href="#">
@@ -11,11 +13,11 @@
     <flux:navlist.item wire:navigate.hover icon="calendar-days" href="/upcoming-events">
         {{ __('Event Times') }}
     </flux:navlist.item>
+    <flux:navlist.item wire:navigate.hover icon="scroll-text" href="#">
+        {{ __('Gameplay Updates') }}
+    </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="information-circle" href="#">
         {{ __('Basic Information') }}
-    </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="scroll-text" href="#">
-        {{ __('Patch Notes') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="book-open" href="#">
         {{ __('Wiki') }}
