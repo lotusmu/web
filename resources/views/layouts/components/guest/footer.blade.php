@@ -29,7 +29,7 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ route('articles.index', ['tab' => 'updates']) }}">
                                     {{ __('Gameplay Updates') }}
                                 </flux:link>
                             </li>

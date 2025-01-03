@@ -12,13 +12,15 @@ use Livewire\WithPagination;
 new class extends Component {
     use WithPagination;
 
+    public ArticleType $type;
+
     #[Computed]
     public function articles(): LengthAwarePaginator|_IH_Article_C|array
     {
         return Article::where('is_published', true)
-            ->where('type', ArticleType::PATCH_NOTE)
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
+                ->where('type', $this->type)
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
     }
 }; ?>
 

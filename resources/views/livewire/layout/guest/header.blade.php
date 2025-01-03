@@ -37,7 +37,7 @@ new class extends Component {
                           :current="request()->is('articles') || request()->is('articles/*')">
             {{ __('News') }}
         </flux:navbar.item>
-        
+
         <flux:navbar.item href="#" wire:navigate>{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
         <flux:navbar.item href="/upcoming-events">{{ __('Event Times') }}</flux:navbar.item>
@@ -48,7 +48,10 @@ new class extends Component {
             <flux:navbar.item icon-trailing="chevron-down">{{ __('Information') }}</flux:navbar.item>
 
             <flux:navmenu>
-                <flux:navmenu.item href="#">{{ __('Gameplay Updates') }}</flux:navmenu.item>
+                <flux:navmenu.item
+                    href="{{ route('articles.index', ['tab' => 'updates']) }}">
+                    {{ __('Gameplay Updates') }}
+                </flux:navmenu.item>
                 <flux:navmenu.item href="#">{{ __('Basic Information') }}</flux:navmenu.item>
                 <flux:navmenu.item href="#" wire:navigate>{{ __('Wiki') }}</flux:navmenu.item>
             </flux:navmenu>

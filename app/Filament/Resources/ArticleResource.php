@@ -45,7 +45,7 @@ class ArticleResource extends Resource
                                     ->required(),
                                 Textarea::make('excerpt')
                                     ->maxLength(124)
-                                    ->required()
+                                    ->required(fn ($get) => $get('type') !== ArticleType::PATCH_NOTE->value)
                                     ->helperText('A short summary of the article for preview'),
                                 RichEditor::make('content')
                                     ->required(),
@@ -58,6 +58,7 @@ class ArticleResource extends Resource
                                         Select::make('type')
                                             ->options(ArticleType::class)
                                             ->enum(ArticleType::class)
+                                            ->live()
                                             ->required(),
                                         Toggle::make('is_published')
                                             ->label('Publish')
@@ -74,7 +75,8 @@ class ArticleResource extends Resource
                                             ->image()
                                             ->imageEditor()
                                             ->directory('article-images')
-                                            ->visibility('public'),
+                                            ->visibility('public')
+                                            ->required(fn ($get) => $get('type') !== ArticleType::PATCH_NOTE->value),
                                     ]),
                             ]),
                     ]),
