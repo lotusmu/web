@@ -1,4 +1,4 @@
-<footer aria-labelledby="footer-heading" class="relative">
+<footer aria-labelledby="footer-heading">
     <h2 id="footer-heading" class="sr-only">Footer</h2>
 
     <div class="mx-auto max-w-7xl px-6 pb-8 lg:px-8">

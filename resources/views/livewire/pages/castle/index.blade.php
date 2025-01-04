@@ -58,9 +58,7 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:icon.light-bulb/>
         <flux:text>
             {{ __('Learn about event schedule and siege mechanics in our ') }}
-            <flux:link href="https://wiki.lotusmu.org/events/castle-siege"
-                       target="_blank">{{ ('wiki guide') }}</flux:link>
-            .
+            <flux:link href="https://wiki.lotusmu.org/events/castle-siege" external>{{ ('wiki guide.') }}</flux:link>
         </flux:text>
     </flux:card>
 

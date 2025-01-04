@@ -3,7 +3,7 @@
 <head>
     @include('layouts.components.head')
 </head>
-<body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300">
+<body class="flex flex-col min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300">
 
 {{-- Dark theme beams --}}
 <picture class="absolute inset-0 h-full w-full -z-20">
@@ -45,7 +45,7 @@
 
 <livewire:layout.guest.header/>
 
-<main>
+<main class="flex-1">
     {{ $slot }}
 </main>
 

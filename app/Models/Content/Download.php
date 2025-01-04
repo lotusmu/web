@@ -2,6 +2,7 @@
 
 namespace App\Models\Content;
 
+use App\Enums\Content\DownloadProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -45,5 +46,14 @@ class Download extends Model
         }
 
         return $this->external_url ?? '';
+    }
+
+    public function getProviderAttribute(): DownloadProvider
+    {
+        if ($this->storage_type === 'local') {
+            return DownloadProvider::DEFAULT;
+        }
+
+        return DownloadProvider::fromUrl($this->external_url);
     }
 }

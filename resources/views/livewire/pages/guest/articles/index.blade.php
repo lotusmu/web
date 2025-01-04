@@ -15,7 +15,11 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <flux:main container>
-    <x-news-header/>
+    <x-page-hero
+        title="What's new around here?"
+        kicker="News"
+        description="Succinct and informative updates about Lotus Mu."
+    />
 
     <flux:tab.group>
         <flux:tabs wire:model="tab" class="max-lg:mx-auto max-lg:max-w-[40rem]">
