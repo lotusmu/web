@@ -40,7 +40,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <div class="grid grid-cols-3 max-md:grid-cols-1 gap-6">
             @foreach($this->downloads() as $download)
-                <a href="{{ $download['url'] }}" target="_blank" class="flex items-center gap-4 w-full">
+                <a href="{{ $download['url'] }}" target="_blank">
                     <flux:card
                         class="flex flex-1 items-center gap-4 w-full hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors group">
                         <x-dynamic-component
@@ -48,7 +48,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             class="w-8 h-8"
                         />
                         <div>
-                            <flux:heading class="leading-4">
+                            <flux:heading>
                                 {{ $download['name'] }}
                             </flux:heading>
                             <flux:subheading
