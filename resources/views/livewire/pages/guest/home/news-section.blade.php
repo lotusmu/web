@@ -22,7 +22,7 @@ new class extends Component {
         <flux:heading size="xl" level="2" class="z-0">
             {{ __('Latest News') }}
         </flux:heading>
-        <flux:link variant="subtle" :href="route('articles.index')" wire:navigate class="flex items-center gap-2 z-0">
+        <flux:link variant="subtle" :href="route('articles')" wire:navigate class="flex items-center gap-2 z-0">
             {{ __('View All') }}
             <flux:icon.arrow-right variant="micro"/>
         </flux:link>

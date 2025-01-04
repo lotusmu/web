@@ -9,10 +9,11 @@ use Livewire\Volt\Volt;
 Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
 
 Volt::route('/', 'pages.guest.home.index')->name('guest.home');
+Volt::route('/files', 'pages.guest.files.index')->name('files');
 
 Route::prefix('articles')->group(function () {
     Volt::route('/', 'pages.guest.articles.index')
-        ->name('articles.index');
+        ->name('articles');
 
     Volt::route('/{article:slug}', 'pages.guest.articles.show')
         ->middleware(CheckArticlePublishedMiddleware::class)

@@ -33,12 +33,12 @@ new class extends Component {
     />
 
     <flux:navbar class="-mb-px max-lg:hidden">
-        <flux:navbar.item :href="route('articles.index')" wire:navigate
+        <flux:navbar.item :href="route('articles')" wire:navigate
                           :current="request()->is('articles') || request()->is('articles/*')">
             {{ __('News') }}
         </flux:navbar.item>
 
-        <flux:navbar.item href="#" wire:navigate>{{ __('Files') }}</flux:navbar.item>
+        <flux:navbar.item href="{{ route('files') }}" wire:navigate>{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
         <flux:navbar.item href="/upcoming-events">{{ __('Event Times') }}</flux:navbar.item>
 
@@ -49,11 +49,18 @@ new class extends Component {
 
             <flux:navmenu>
                 <flux:navmenu.item
-                    href="{{ route('articles.index', ['tab' => 'updates']) }}">
+                    wire:navigate
+                    href="{{ route('articles', ['tab' => 'updates']) }}">
                     {{ __('Gameplay Updates') }}
                 </flux:navmenu.item>
-                <flux:navmenu.item href="#">{{ __('Basic Information') }}</flux:navmenu.item>
-                <flux:navmenu.item href="#" wire:navigate>{{ __('Wiki') }}</flux:navmenu.item>
+
+                <flux:navmenu.item href="#">
+                    {{ __('Basic Information') }}
+                </flux:navmenu.item>
+
+                <flux:navmenu.item href="#" wire:navigate>
+                    {{ __('Wiki') }}
+                </flux:navmenu.item>
             </flux:navmenu>
         </flux:dropdown>
     </flux:navbar>
@@ -63,7 +70,8 @@ new class extends Component {
     <flux:navbar class="-mb-px">
         {{--        <livewire:connection-selector/>--}}
 
-        <flux:button x-on:click="$flux.dark = ! $flux.dark"
+        <flux:button size="sm"
+                     x-on:click="$flux.dark = ! $flux.dark"
                      icon="moon"
                      variant="subtle"
                      :tooltip="__('Toggle dark mode')"

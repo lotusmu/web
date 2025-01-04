@@ -20,7 +20,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <flux:link variant="subtle" icon="arrow-left"
                wire:navigate
-               href="{{ route('articles.index', ['tab' => $this->article->type === ArticleType::PATCH_NOTE ? 'updates' : 'news']) }}"
+               href="{{ route('articles', ['tab' => $this->article->type === ArticleType::PATCH_NOTE ? 'updates' : 'news']) }}"
                class="flex items-center gap-2 text-sm">
         <flux:icon.arrow-left variant="micro"/>
         {{ __('Back to all ' . ($this->article->type === ArticleType::PATCH_NOTE ? 'updates' : 'news')) }}

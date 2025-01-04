@@ -1,10 +1,10 @@
 <flux:navlist>
     <flux:navlist.item wire:navigate.hover icon="newspaper"
-                       :href="route('articles.index')"
+                       :href="route('articles')"
                        :current="request()->is('articles') || request()->is('articles/*')">
         {{ __('News') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="arrow-down-tray" href="#">
+    <flux:navlist.item wire:navigate.hover icon="cloud-arrow-down" href="{{ route('files') }}">
         {{ __('Files') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="trophy" href="#">
@@ -14,7 +14,7 @@
         {{ __('Event Times') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="scroll-text"
-                       href="{{ route('articles.index', ['tab' => 'updates']) }}">
+                       href="{{ route('articles', ['tab' => 'updates']) }}">
         {{ __('Gameplay Updates') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="information-circle" href="#">
