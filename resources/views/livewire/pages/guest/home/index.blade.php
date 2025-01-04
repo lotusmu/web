@@ -7,7 +7,7 @@ new #[Layout('layouts.guest')] class extends Component {
 //
 }; ?>
 
-<main class="space-y-40">
+<div class="space-y-40">
     <!-- Hero section -->
     <section class="relative isolate overflow-hidden">
         <x-grid-pattern position="top_left" :border-top="false"/>
@@ -360,4 +360,4 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </div>
     </section>
-</main>
+</div>

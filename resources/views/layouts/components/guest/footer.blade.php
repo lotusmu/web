@@ -1,7 +1,7 @@
 <footer aria-labelledby="footer-heading" class="relative">
     <h2 id="footer-heading" class="sr-only">Footer</h2>
 
-    <div class="mx-auto max-w-7xl px-6 pb-8 pt-4 lg:px-8">
+    <div class="mx-auto max-w-7xl px-6 pb-8 lg:px-8">
         <flux:separator class="mb-8"/>
 
         <div class="flex flex-col gap-16">
