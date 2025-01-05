@@ -6,7 +6,7 @@
 <body class="flex flex-col min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300">
 
 {{-- Dark theme beams --}}
-<picture class="absolute inset-0">
+<picture class="absolute inset-0 -z-20">
     <source
         srcset="{{ asset('/images/beams/hero-dark.avif') }}"
         type="image/avif"
@@ -18,14 +18,15 @@
     <img
         src="{{ asset('/images/beams/hero-dark.png') }}"
         alt="Dark background beams"
-        class="hidden dark:block h-full w-full bg-bottom bg-no-repeat [mask-image:linear-gradient(to_top,transparent_0%,white_0%)]"
+        class="hidden dark:block h-full w-full bg-bottom bg-no-repeat max-xl:object-cover [mask-image:linear-gradient(to_top,transparent_0%,white_20%)]"
         loading="eager"
         fetchpriority="high"
         decoding="async">
 </picture>
 
+
 {{-- Light theme beams --}}
-<picture class="absolute inset-0">
+<picture class="absolute inset-0 -z-20">
     <source
         srcset="{{ asset('/images/beams/hero-light.avif') }}"
         type="image/avif"
@@ -37,7 +38,7 @@
     <img
         src="{{ asset('/images/beams/hero-light.jpg') }}"
         alt="Light background beams"
-        class="dark:hidden h-full w-full bg-bottom bg-no-repeat [mask-image:linear-gradient(to_top,transparent_0%,white_20%)]"
+        class="dark:hidden h-full w-full bg-bottom bg-no-repeat max-lg:object-cover [mask-image:linear-gradient(to_top,transparent_0%,white_20%)]"
         loading="eager"
         fetchpriority="high"
         decoding="async">

@@ -38,9 +38,17 @@ new class extends Component {
             {{ __('News') }}
         </flux:navbar.item>
 
-        <flux:navbar.item href="{{ route('files') }}" wire:navigate>{{ __('Files') }}</flux:navbar.item>
-        <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
-        <flux:navbar.item href="{{ route('schedule') }}">{{ __('Event Schedule') }}</flux:navbar.item>
+        <flux:navbar.item href="{{ route('files') }}" wire:navigate>
+            {{ __('Files') }}
+        </flux:navbar.item>
+
+        <flux:navbar.item href="#" wire:navigate>
+            {{ __('Rankings') }}
+        </flux:navbar.item>
+
+        <flux:navbar.item href="{{ route('schedule') }}" wire:navigate>
+            {{ __('Event Schedule') }}
+        </flux:navbar.item>
 
         <flux:separator vertical variant="subtle" class="my-2"/>
 
@@ -48,9 +56,7 @@ new class extends Component {
             <flux:navbar.item icon-trailing="chevron-down">{{ __('Information') }}</flux:navbar.item>
 
             <flux:navmenu>
-                <flux:navmenu.item
-                    wire:navigate
-                    href="{{ route('articles', ['tab' => 'updates']) }}">
+                <flux:navmenu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate>
                     {{ __('Gameplay Updates') }}
                 </flux:navmenu.item>
 
@@ -58,7 +64,7 @@ new class extends Component {
                     {{ __('Server Overview') }}
                 </flux:navmenu.item>
 
-                <flux:navmenu.item href="#" wire:navigate>
+                <flux:navmenu.item href="https://wiki.lotusmu.org" target="_blank">
                     {{ __('Wiki') }}
                 </flux:navmenu.item>
             </flux:navmenu>
@@ -82,16 +88,17 @@ new class extends Component {
         <flux:separator variant="subtle" vertical class="mx-4 max-lg:hidden"/>
 
         @auth
-            <flux:navbar.item icon-trailing="chevron-right" :href="route('dashboard')">
+            <flux:navbar.item icon-trailing="chevron-right" :href="route('dashboard')" wire:navigate.hover>
                 {{ __('Dashboard') }}
             </flux:navbar.item>
         @endauth
 
         @guest
-            <flux:navbar.item icon-trailing="chevron-right" :href="route('login')">
+            <flux:navbar.item icon-trailing="chevron-right" :href="route('login')" wire:navigate>
                 {{ __('Sign In') }}
             </flux:navbar.item>
-            <flux:button size="sm" inset="top bottom" :href="route('register')">
+        
+            <flux:button size="sm" inset="top bottom" :href="route('register')" wire:navigate>
                 {{ __('Register') }}
             </flux:button>
         @endguest

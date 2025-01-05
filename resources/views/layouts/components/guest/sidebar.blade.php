@@ -4,23 +4,29 @@
                        :current="request()->is('articles') || request()->is('articles/*')">
         {{ __('News') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="cloud-arrow-down" href="{{ route('files') }}">
         {{ __('Files') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="trophy" href="#">
         {{ __('Rankings') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="calendar-days" href="{{ route('schedule') }}">
         {{ __('Event Schedule') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="scroll-text"
                        href="{{ route('articles', ['tab' => 'updates']) }}">
         {{ __('Gameplay Updates') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="information-circle" href="#">
         {{ __('Server Overview') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="book-open" href="#">
+
+    <flux:navlist.item icon="book-open" href="https://wiki.lotusmu.org" target="_blank">
         {{ __('Wiki') }}
     </flux:navlist.item>
 </flux:navlist>

@@ -8,6 +8,9 @@ use Livewire\Volt\Component;
 new #[Layout('layouts.guest')] class extends Component {
     public $events = [];
 
+    #[\Livewire\Attributes\Url]
+    public string $tab = 'events';
+
     public function mount(ScheduledEventService $eventService): void
     {
         $this->events = $eventService->getUpcomingEvents();

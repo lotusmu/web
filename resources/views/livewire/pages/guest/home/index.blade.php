@@ -317,7 +317,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <img
                 src="{{ asset('/images/beams/cta-dark.png') }}"
                 alt="Dark background beams"
-                class="hidden dark:block h-full w-full bg-bottom bg-no-repeat"
+                class="hidden dark:block h-full w-full bg-bottom bg-no-repeat max-xl:object-cover"
                 loading="lazy"
                 decoding="async">
         </picture>
@@ -334,7 +334,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <img
                 src="{{ asset('/images/beams/cta-light.png') }}"
                 alt="Light background beams"
-                class="dark:hidden h-full w-full bg-bottom bg-no-repeat [mask-image:linear-gradient(to_top,transparent_0%,white_20%)]"
+                class="dark:hidden h-full w-full bg-bottom bg-no-repeat [mask-image:linear-gradient(to_top,transparent_0%,white_20%)] max-lg:object-cover"
                 loading="lazy"
                 decoding="async">
         </picture>

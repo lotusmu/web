@@ -2,25 +2,32 @@
     <flux:navlist.item wire:navigate.hover icon="home" :href="route('dashboard')">
         {{ __('Home') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="wallet" :href="route('wallet')">
         {{ __('Wallet') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="timer" :href="route('entries')">
         {{ __('Event Entries') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="castle" :href="route('castle')">
         {{ __('Castle Siege') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="fire" :href="route('vip')"
                        :current="request()->is('vip') || request()->is('vip/*')">
         {{ __('Account Level') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="eye-slash" :href="route('stealth')">
         {{ __('Stealth Mode') }}
     </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="hand-coins" :href="route('donate')">
         {{ __('Donate') }}
     </flux:navlist.item>
+    
     <flux:navlist.item wire:navigate.hover icon="scroll-text" :href="route('activities')">
         {{ __('Activities') }}
     </flux:navlist.item>

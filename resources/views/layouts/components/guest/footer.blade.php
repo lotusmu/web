@@ -34,7 +34,7 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ route('schedule', ['tab' => 'invasions']) }}">
                                     {{ __('Invasion Times') }}
                                 </flux:link>
                             </li>
@@ -66,8 +66,8 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
-                                    {{ __('Download') }}
+                                <flux:link variant="subtle" href="{{ route('files') }}">
+                                    {{ __('Downloads') }}
                                 </flux:link>
                             </li>
                             <li>
