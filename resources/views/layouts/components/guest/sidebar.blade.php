@@ -22,7 +22,7 @@
         {{ __('Gameplay Updates') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="information-circle" href="#">
+    <flux:navlist.item wire:navigate.hover icon="information-circle" href="{{ route('server.overview') }}">
         {{ __('Server Overview') }}
     </flux:navlist.item>
 

@@ -60,7 +60,7 @@ new class extends Component {
                     {{ __('Gameplay Updates') }}
                 </flux:navmenu.item>
 
-                <flux:navmenu.item href="#">
+                <flux:navmenu.item href="{{ route('server.overview') }}">
                     {{ __('Server Overview') }}
                 </flux:navmenu.item>
 
@@ -97,7 +97,7 @@ new class extends Component {
             <flux:navbar.item icon-trailing="chevron-right" :href="route('login')" wire:navigate>
                 {{ __('Sign In') }}
             </flux:navbar.item>
-        
+
             <flux:button size="sm" inset="top bottom" :href="route('register')" wire:navigate>
                 {{ __('Register') }}
             </flux:button>

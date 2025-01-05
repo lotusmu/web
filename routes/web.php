@@ -8,8 +8,10 @@ use Livewire\Volt\Volt;
 
 Volt::route('/', 'pages.guest.home.index')
     ->name('guest.home');
+
 Volt::route('/files', 'pages.guest.files.index')
     ->name('files');
+
 Volt::route('/schedule', 'pages.guest.schedule.index')
     ->name('schedule');
 
@@ -20,6 +22,11 @@ Route::prefix('articles')->group(function () {
     Volt::route('/{article:slug}', 'pages.guest.articles.show')
         ->middleware(CheckArticlePublishedMiddleware::class)
         ->name('articles.show');
+});
+
+Route::prefix('server')->group(function () {
+    Volt::route('/overview', 'pages.guest.server.overview')
+        ->name('server.overview');
 });
 
 // Profile route
