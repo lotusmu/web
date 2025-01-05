@@ -34,7 +34,7 @@ new #[Layout('layouts.guest')] class extends Component {
     />
 
     <flux:tab.group class="max-w-2xl mx-auto">
-        <flux:tabs variant="pills" wire:model="tab" class="justify-center">
+        <flux:tabs variant="segmented" wire:model="tab" class="w-full">
             <flux:tab name="events">{{ __('Events') }}</flux:tab>
             <flux:tab name="invasions">{{ __('Invasions') }}</flux:tab>
         </flux:tabs>
