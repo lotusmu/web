@@ -47,7 +47,7 @@ new class extends Component {
                 <flux:navmenu.item href="{{ route('articles', ['tab' => 'updates']) }}">
                     {{ __('Gameplay Updates') }}
                 </flux:navmenu.item>
-                <flux:navmenu.item href="#">{{ __('Basic Information') }}</flux:navmenu.item>
+                <flux:navmenu.item href="#">{{ __('Server Overview') }}</flux:navmenu.item>
                 <flux:navmenu.item href="#" wire:navigate>{{ __('Wiki') }}</flux:navmenu.item>
             </flux:navmenu>
         </flux:dropdown>
@@ -89,7 +89,7 @@ new class extends Component {
 
                 <flux:menu.submenu :heading="__('Information')">
                     <flux:menu.item href="#">
-                        {{ __('Basic Information') }}
+                        {{ __('Server Overview') }}
                     </flux:menu.item>
 
                     <flux:menu.item href="{{ route('articles', ['tab' => 'updates']) }}">

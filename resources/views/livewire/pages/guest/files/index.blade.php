@@ -29,14 +29,13 @@ new #[Layout('layouts.guest')] class extends Component {
     />
 
     <div class="space-y-6">
-        <flux:card class="flex gap-2 items-center !bg-teal-50/50 dark:!bg-teal-400/20">
-            <flux:icon.light-bulb/>
+        <x-info-card color="teal" icon="light-bulb">
             <flux:text>
                 <flux:link href="https://www.microsoft.com/en-us/download/details.aspx?id=25150"
                            external>{{ __('Microsoft .NET Framework 3.5') }}</flux:link>
-                {{ __(' is required to run the game. Please install it before downloading the client.') }}
+                {{  ' ' . __('is required to run the game. Please install it before downloading the client.') }}
             </flux:text>
-        </flux:card>
+        </x-info-card>
 
         <div class="grid grid-cols-3 max-md:grid-cols-1 gap-6">
             @foreach($this->downloads() as $download)
@@ -51,8 +50,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <flux:heading>
                                 {{ $download['name'] }}
                             </flux:heading>
-                            <flux:subheading
-                                class="group-hover:text-[var(--color-compliment-content)] transition-colors">
+                            <flux:subheading>
                                 {{ __('Click to download') }}
                             </flux:subheading>
                         </div>

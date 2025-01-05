@@ -3,7 +3,7 @@
     nextOccurrence: '',
     totalSeconds: 0,
     isHighlighted: false,
-    highlightThreshold: 115,
+    highlightThreshold: 120,
     highlightStyle: {
         color: '#00AAAA',
         fontWeight: 'bold'

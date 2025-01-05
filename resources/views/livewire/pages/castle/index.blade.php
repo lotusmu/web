@@ -54,13 +54,13 @@ new #[Layout('layouts.app')] class extends Component {
 <div class="space-y-6">
     <livewire:pages.castle.header :guild="$this->guild"/>
 
-    <flux:card class="flex gap-2 items-center !bg-teal-50/50 dark:!bg-teal-400/20">
-        <flux:icon.light-bulb/>
+    <x-info-card color="teal" icon="light-bulb">
         <flux:text>
-            {{ __('Learn about event schedule and siege mechanics in our ') }}
-            <flux:link href="https://wiki.lotusmu.org/events/castle-siege" external>{{ ('wiki guide.') }}</flux:link>
+            {{ __('Learn about event schedule and siege mechanics in our') }}
+            <flux:link href="https://wiki.lotusmu.org/events/castle-siege"
+                       external>{{ ' ' . __('wiki guide.') }}</flux:link>
         </flux:text>
-    </flux:card>
+    </x-info-card>
 
     <livewire:pages.castle.prize-pool :castle="$this->castle"/>
 

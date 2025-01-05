@@ -18,7 +18,7 @@
         {{ __('Gameplay Updates') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="information-circle" href="#">
-        {{ __('Basic Information') }}
+        {{ __('Server Overview') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="book-open" href="#">
         {{ __('Wiki') }}

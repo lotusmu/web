@@ -55,7 +55,7 @@ new class extends Component {
                 </flux:navmenu.item>
 
                 <flux:navmenu.item href="#">
-                    {{ __('Basic Information') }}
+                    {{ __('Server Overview') }}
                 </flux:navmenu.item>
 
                 <flux:navmenu.item href="#" wire:navigate>

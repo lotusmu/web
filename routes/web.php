@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
-use App\Livewire\UpcomingEvents;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Public routes
-Route::get('/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
+Volt::route('/upcoming-events', 'pages.guest.events.index')->name('upcoming-events');
 
 Volt::route('/', 'pages.guest.home.index')->name('guest.home');
 Volt::route('/files', 'pages.guest.files.index')->name('files');
