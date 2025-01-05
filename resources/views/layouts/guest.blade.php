@@ -6,7 +6,7 @@
 <body class="flex flex-col min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300">
 
 {{-- Dark theme beams --}}
-<picture class="absolute inset-0 h-full w-full -z-20">
+<picture class="absolute inset-0">
     <source
         srcset="{{ asset('/images/beams/hero-dark.avif') }}"
         type="image/avif"
@@ -25,7 +25,7 @@
 </picture>
 
 {{-- Light theme beams --}}
-<picture class="absolute inset-0 h-full w-full -z-20">
+<picture class="absolute inset-0">
     <source
         srcset="{{ asset('/images/beams/hero-light.avif') }}"
         type="image/avif"
