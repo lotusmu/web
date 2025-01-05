@@ -5,10 +5,13 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Public routes
-Volt::route('/upcoming-events', 'pages.guest.events.index')->name('upcoming-events');
 
-Volt::route('/', 'pages.guest.home.index')->name('guest.home');
-Volt::route('/files', 'pages.guest.files.index')->name('files');
+Volt::route('/', 'pages.guest.home.index')
+    ->name('guest.home');
+Volt::route('/files', 'pages.guest.files.index')
+    ->name('files');
+Volt::route('/schedule', 'pages.guest.schedule.index')
+    ->name('schedule');
 
 Route::prefix('articles')->group(function () {
     Volt::route('/', 'pages.guest.articles.index')

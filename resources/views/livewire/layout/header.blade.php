@@ -36,7 +36,7 @@ new class extends Component {
         <flux:navbar.item :href="route('articles')" wire:navigate>{{ __('News') }}</flux:navbar.item>
         <flux:navbar.item href="{{ route('files') }}" wire:navigate>{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
-        <flux:navbar.item href="/upcoming-events">{{ __('Event Times') }}</flux:navbar.item>
+        <flux:navbar.item href="{{ route('schedule') }}">{{ __('Event Schedule') }}</flux:navbar.item>
 
         <flux:separator vertical variant="subtle" class="my-2"/>
 
@@ -83,8 +83,8 @@ new class extends Component {
                     {{ __('Rankings') }}
                 </flux:menu.item>
 
-                <flux:menu.item href="/upcoming-events">
-                    {{ __('Event Times') }}
+                <flux:menu.item href="{{ route('schedule') }}">
+                    {{ __('Event Schedule') }}
                 </flux:menu.item>
 
                 <flux:menu.submenu :heading="__('Information')">

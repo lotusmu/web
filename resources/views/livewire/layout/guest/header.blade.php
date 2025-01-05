@@ -40,7 +40,7 @@ new class extends Component {
 
         <flux:navbar.item href="{{ route('files') }}" wire:navigate>{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#" wire:navigate>{{ __('Rankings') }}</flux:navbar.item>
-        <flux:navbar.item href="/upcoming-events">{{ __('Event Times') }}</flux:navbar.item>
+        <flux:navbar.item href="{{ route('schedule') }}">{{ __('Event Schedule') }}</flux:navbar.item>
 
         <flux:separator vertical variant="subtle" class="my-2"/>
 

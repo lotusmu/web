@@ -10,8 +10,8 @@
     <flux:navlist.item wire:navigate.hover icon="trophy" href="#">
         {{ __('Rankings') }}
     </flux:navlist.item>
-    <flux:navlist.item wire:navigate.hover icon="calendar-days" href="/upcoming-events">
-        {{ __('Event Times') }}
+    <flux:navlist.item wire:navigate.hover icon="calendar-days" href="{{ route('schedule') }}">
+        {{ __('Event Schedule') }}
     </flux:navlist.item>
     <flux:navlist.item wire:navigate.hover icon="scroll-text"
                        href="{{ route('articles', ['tab' => 'updates']) }}">
