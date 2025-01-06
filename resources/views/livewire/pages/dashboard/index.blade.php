@@ -50,9 +50,15 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:columns>
 
         <flux:rows>
-            @foreach ($this->characters as $character)
+            @forelse ($this->characters as $character)
                 <livewire:pages.dashboard.character-row :$character wire:key="{{ $character->Name }}"/>
-            @endforeach
+            @empty
+                <flux:row>
+                    <flux:cell colspan="6">
+                        {{ __('No characters found.') }}
+                    </flux:cell>
+                </flux:row>
+            @endforelse
         </flux:rows>
     </flux:table>
 </div>
