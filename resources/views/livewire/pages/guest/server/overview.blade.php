@@ -11,9 +11,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <flux:main container>
     <x-page-hero
-            title="A peek at the server basics"
-            kicker="Server Overview"
-            description="Check out our core server settings, experience rates, and basic configuration details."
+        title="A peek at the server basics"
+        kicker="Server Overview"
+        description="Check out our core server settings, experience rates, and basic configuration details."
     />
 
     <div class="space-y-6 max-w-4xl mx-auto">
@@ -171,6 +171,127 @@ new #[Layout('layouts.guest')] class extends Component {
                     <flux:row>
                         <flux:cell>{{ __('Combo all Class') }}</flux:cell>
                         <flux:cell>{{ __('Yes') }}</flux:cell>
+                    </flux:row>
+                </flux:rows>
+            </flux:table>
+        </flux:card>
+
+        <flux:card class="space-y-6">
+            <flux:heading size="lg">
+                {{ __('Commands') }}
+            </flux:heading>
+
+            <flux:table>
+                <flux:columns>
+                    <flux:column>{{ __('Command') }}</flux:column>
+                    <flux:column>{{ __('Description') }}</flux:column>
+                </flux:columns>
+                <flux:rows>
+                    <flux:row>
+                        <flux:cell>/move &lt;map name&gt;</flux:cell>
+                        <flux:cell>{{ __('Moves your character to a certain map.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/post &lt;message&gt;</flux:cell>
+                        <flux:cell>{{ __('Post a global message to the server.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/str &lt;value&gt;</flux:cell>
+                        <flux:cell>{{ __('Add points in Strength.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/agi &lt;value&gt;</flux:cell>
+                        <flux:cell>{{ __('Add points in Agility.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/sta &lt;value&gt;</flux:cell>
+                        <flux:cell>{{ __('Add points in Stamina.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/ene &lt;value&gt;</flux:cell>
+                        <flux:cell>{{ __('Add points in Energy.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/cmd &lt;value&gt;</flux:cell>
+                        <flux:cell>{{ __('Add points in Command.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/readd</flux:cell>
+                        <flux:cell>{!! __('Re-assign your stats for <b>FREE</b> (available to <b>VIP Players</b> only).') !!}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/wh</flux:cell>
+                        <flux:cell>{!! __('Open warehouse in safe zones (available to <b>VIP Players</b> only).') !!}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/pkclear</flux:cell>
+                        <flux:cell>{!! __('Clear player kills (available to <b>VIP Players</b> only). Cost - always 10kk Zen') !!}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/re on</flux:cell>
+                        <flux:cell>{{ __('Turn on all requests.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/re off</flux:cell>
+                        <flux:cell>{{ __('Turn off all requests.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/re auto</flux:cell>
+                        <flux:cell>{{ __('Automatically accepts all requests.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/setparty &lt;password&gt;</flux:cell>
+                        <flux:cell>{{ __('Create a party that can be joined with a password.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/joinparty &lt;password&gt;</flux:cell>
+                        <flux:cell>{{ __('Join a party which has a password.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/quest</flux:cell>
+                        <flux:cell>{{ __('Shows the necessary requisites for the current quest.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/lock &lt;password&gt;</flux:cell>
+                        <flux:cell>{{ __('Locks your items for trade/sale.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/unlock &lt;password&gt;</flux:cell>
+                        <flux:cell>{{ __('Unlocks your items for trade/sale.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/pack &lt;type&gt; &lt;qty&gt;</flux:cell>
+                        <flux:cell>{{ __('Bundles your jewels (Bless, Soul, Life etc.).') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/unpack &lt;type&gt; &lt;qty&gt;</flux:cell>
+                        <flux:cell>{{ __('Unbundles your bundled jewels (Bless, Soul, Life etc.).') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/war &lt;guild name&gt;</flux:cell>
+                        <flux:cell>{{ __('Challenge another guild to a Guild War.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/soccer &lt;guild name&gt;</flux:cell>
+                        <flux:cell>{{ __('Challenge another guild to a Battle Soccer.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/king</flux:cell>
+                        <flux:cell>
+                            {{ __('Seize the throne in the') }}
+                            <flux:link href="https://wiki.lotusmu.org/events/king-of-yoskreth" external>
+                                {{ __('King of Yoskreth') }}
+                            </flux:link>
+                            {{ __('Event.') }}
+                        </flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/join</flux:cell>
+                        <flux:cell>{{ __('Join in an Event.') }}</flux:cell>
+                    </flux:row>
+                    <flux:row>
+                        <flux:cell>/go</flux:cell>
+                        <flux:cell>{{ __('Join Events.') }}</flux:cell>
                     </flux:row>
                 </flux:rows>
             </flux:table>
