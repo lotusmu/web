@@ -15,6 +15,11 @@ class GameServer extends Model
         'experience_rate',
         'drop_rate',
         'is_active',
+        'server_version',
+        'max_resets',
+        'starting_resets',
+        'reset_zen',
+        'clear_pk_zen',
     ];
 
     public function getServerName(): string

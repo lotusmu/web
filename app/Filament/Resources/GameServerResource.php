@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
@@ -27,20 +28,18 @@ class GameServerResource extends Resource
         return $form
             ->schema([
                 Section::make('Game Server')
+                    ->columns(2)
                     ->schema([
                         TextInput::make('name')
+                            ->columnSpanFull()
                             ->required()
                             ->maxLength(255),
                         Select::make('connection_name')
                             ->options(self::getDbConnectionOptions())
+                            ->columnSpanFull()
                             ->required(),
-                        TextInput::make('experience_rate')
-                            ->required()
-                            ->numeric(),
-                        TextInput::make('drop_rate')
-                            ->required()
-                            ->numeric(),
                         Toggle::make('is_active')
+                            ->columnSpanFull()
                             ->label('Server Status')
                             ->onColor('success')
                             ->offColor('danger')
@@ -50,6 +49,39 @@ class GameServerResource extends Resource
                             ->required()
                             ->inline(false)
                             ->helperText('Toggle to activate or deactivate the server.'),
+                        TextInput::make('server_version')
+                            ->columnSpanFull()
+                            ->required(),
+                        TextInput::make('experience_rate')
+                            ->required()
+                            ->numeric(),
+                        TextInput::make('drop_rate')
+                            ->required()
+                            ->numeric(),
+                        TextInput::make('max_resets')
+                            ->required()
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+                        TextInput::make('starting_resets')
+                            ->required()
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+                        TextInput::make('reset_zen')
+                            ->required()
+                            ->numeric()
+                            ->mask(RawJs::make('$money($input)'))
+                            ->stripCharacters(',')
+                            ->default(0)
+                            ->minValue(0),
+                        TextInput::make('clear_pk_zen')
+                            ->required()
+                            ->numeric()
+                            ->mask(RawJs::make('$money($input)'))
+                            ->stripCharacters(',')
+                            ->default(0)
+                            ->minValue(0),
                     ]),
             ]);
     }
