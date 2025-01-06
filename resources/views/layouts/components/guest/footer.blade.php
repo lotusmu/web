@@ -17,7 +17,7 @@
                     class="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid">
 
                     <!-- Information-->
-                    <div class="space-y-8">
+                    <div class="space-y-8 text-sm">
                         <flux:subheading>
                             {{__('Information')}}
                         </flux:subheading>
@@ -56,7 +56,7 @@
                     </div>
 
                     <!-- How to start-->
-                    <div class="space-y-8">
+                    <div class="space-y-8 text-sm">
                         <flux:subheading>
                             {{ __('How to Start') }}
                         </flux:subheading>
@@ -88,7 +88,7 @@
                     </div>
 
                     <!-- Community-->
-                    <div class="space-y-8">
+                    <div class="space-y-8 text-sm">
                         <flux:subheading>
                             {{ __('Community') }}
                         </flux:subheading>
@@ -118,7 +118,7 @@
                     </div>
 
                     <!-- Support-->
-                    <div class="space-y-8">
+                    <div class="space-y-8 text-sm">
                         <flux:subheading>
                             {{ __('Support') }}
                         </flux:subheading>
