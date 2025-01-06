@@ -120,10 +120,10 @@ new #[Layout('layouts.guest')] class extends Component {
                     that made the game legendary.
                 </flux:text>
 
-                <flux:link href="#" variant="ghost" :accent="false"
+                <flux:link href="https://wiki.lotusmu.org" variant="ghost" :accent="false" external
                            class="!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2">
-                    Learn more
-                    <flux:icon.arrow-right class="w-4 h-4"/>
+                    {{ __('Learn more') }}
+                    <flux:icon.arrow-long-right variant="micro"/>
                 </flux:link>
             </div>
 

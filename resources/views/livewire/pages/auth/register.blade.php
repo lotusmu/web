@@ -63,7 +63,13 @@ new #[Layout('layouts.auth')] class extends Component {
         <flux:input viewable wire:model="password" type="password" label="{{__('Password')}}"/>
         <flux:input viewable wire:model="password_confirmation" type="password" label="{{__('Confirm Password')}}"/>
 
-        <flux:checkbox wire:model="terms" label="{{__('I agree to the terms and conditions')}}"/>
+        <flux:field variant="inline">
+            <flux:checkbox wire:model="terms"/>
+            <flux:label>
+                {{__('I agree to the ')}}
+                <flux:link href="{{ route('terms') }}" target="_blank">{{ __('terms and conditions') }}</flux:link>
+            </flux:label>
+        </flux:field>
 
         <flux:button variant="primary" type="submit">
             {{ __('Register') }}

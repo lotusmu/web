@@ -131,17 +131,17 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
-                                    {{ __('Rules') }}
+                                <flux:link variant="subtle" href="{{ route('guidelines') }}" wire:navigate>
+                                    {{ __('Community Guidelines') }}
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ route('privacy') }}" wire:navigate>
                                     {{ __('Privacy Policy') }}
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ route('refund') }}" wire:navigate>
                                     {{ __('Refund Policy') }}
                                 </flux:link>
                             </li>
@@ -155,11 +155,12 @@
                 <flux:text size="sm" class="leading-5 mt-0">
                     &copy; {{ date("Y") }} {{__('Lotus Mu')}}
                     ·
-                    <flux:link variant="subtle" href="#">Terms of Service</flux:link>
+                    <flux:link variant="subtle" href="{{ route('terms') }}">Terms of Service</flux:link>
                 </flux:text>
 
                 <div class="flex space-x-6 ">
-                    <a href="#" class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
+                    <a href="{{ config('social.links.facebook') }}"
+                       class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
                         <span class="sr-only">Facebook</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd"
@@ -167,7 +168,8 @@
                                   clip-rule="evenodd"/>
                         </svg>
                     </a>
-                    <a href="#" class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
+                    <a href="{{ config('social.links.youtube') }}"
+                       class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
                         <span class="sr-only">YouTube</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd"
@@ -175,7 +177,8 @@
                                   clip-rule="evenodd"/>
                         </svg>
                     </a>
-                    <a href="#" class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
+                    <a href="{{ config('social.links.discord') }}"
+                       class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
                         <span class="sr-only">Discord</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd"

@@ -15,6 +15,21 @@ Volt::route('/files', 'pages.guest.files.index')
 Volt::route('/schedule', 'pages.guest.schedule.index')
     ->name('schedule');
 
+Volt::route('/terms', 'pages.guest.terms.index')
+    ->name('terms');
+
+Volt::route('/terms', 'pages.guest.legal.terms')
+    ->name('terms');
+
+Volt::route('/privacy', 'pages.guest.legal.privacy')
+    ->name('privacy');
+
+Volt::route('/refund', 'pages.guest.legal.refund')
+    ->name('refund');
+
+Volt::route('/guidelines', 'pages.guest.legal.guidelines')
+    ->name('guidelines');
+
 Route::prefix('articles')->group(function () {
     Volt::route('/', 'pages.guest.articles.index')
         ->name('articles');
