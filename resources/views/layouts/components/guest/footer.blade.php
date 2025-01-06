@@ -92,7 +92,6 @@
                         <flux:subheading>
                             {{ __('Community') }}
                         </flux:subheading>
-
                         <ul class="space-y-3">
                             <li>
                                 <flux:link variant="subtle" :href="route('articles')" wire:navigate>
@@ -100,17 +99,18 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ config('social.links.facebook') }}"
+                                           target="_blank">
                                     {{ __('Facebook') }}
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ config('social.links.youtube') }}" target="_blank">
                                     {{ __('YouTube') }}
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ config('social.links.discord') }}" target="_blank">
                                     {{ __('Discord') }}
                                 </flux:link>
                             </li>

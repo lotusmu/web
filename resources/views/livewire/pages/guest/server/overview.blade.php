@@ -75,7 +75,7 @@ new #[Layout('layouts.guest')] class extends Component {
                                 <flux:row>
                                     <flux:cell>{{ __('Experience') }}</flux:cell>
                                     <flux:cell>
-                                        x{{ $server->experience_rate }}
+                                        x{{ $server->experience_rate }},
                                         <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system">
                                             {{ __('decreases with resets') }}
                                         </flux:link>

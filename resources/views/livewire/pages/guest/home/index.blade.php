@@ -354,7 +354,8 @@ new #[Layout('layouts.guest')] class extends Component {
                 <flux:button variant="primary" :href="route('register')">
                     {{ __('Register Now') }}
                 </flux:button>
-                <flux:button variant="ghost" icon-trailing="arrow-long-right" href="#">
+                <flux:button variant="ghost" icon-trailing="arrow-long-right"
+                             href="{{ config('social.links.discord') }}" target="_blank">
                     {{ __('Join Discord') }}
                 </flux:button>
             </div>
