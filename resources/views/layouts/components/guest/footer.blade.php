@@ -24,18 +24,20 @@
 
                         <ul class="space-y-3">
                             <li>
-                                <flux:link variant="subtle" href="#">
+                                <flux:link variant="subtle" href="{{ route('server.overview') }}" wire:navigate>
                                     {{ __('Server Info') }}
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="{{ route('articles', ['tab' => 'updates']) }}">
+                                <flux:link variant="subtle" href="{{ route('articles', ['tab' => 'updates']) }}"
+                                           wire:navigate>
                                     {{ __('Gameplay Updates') }}
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="{{ route('schedule', ['tab' => 'invasions']) }}">
-                                    {{ __('Invasion Times') }}
+                                <flux:link variant="subtle" href="{{ route('schedule', ['tab' => 'invasions']) }}"
+                                           wire:navigate>
+                                    {{ __('Invasions Schedule') }}
                                 </flux:link>
                             </li>
                             <li>
@@ -61,7 +63,7 @@
 
                         <ul class="space-y-3">
                             <li>
-                                <flux:link variant="subtle" :href="route('register')">
+                                <flux:link variant="subtle" :href="route('register')" wire:navigate>
                                     {{ __('Registration') }}
                                 </flux:link>
                             </li>
@@ -93,7 +95,7 @@
 
                         <ul class="space-y-3">
                             <li>
-                                <flux:link variant="subtle" :href="route('articles')">
+                                <flux:link variant="subtle" :href="route('articles')" wire:navigate>
                                     {{ __('News') }}
                                 </flux:link>
                             </li>
@@ -124,7 +126,7 @@
                         <ul class="space-y-3">
                             <li>
                                 <flux:link variant="subtle"
-                                           :href="route('support')">
+                                           :href="route('support')" wire:navigate>
                                     {{__('Help Center')}}
                                 </flux:link>
                             </li>
