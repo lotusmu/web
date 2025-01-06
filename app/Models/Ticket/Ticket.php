@@ -27,6 +27,7 @@ class Ticket extends Model
     protected $fillable = [
         'title',
         'description',
+        'contact_discord',
         'status',
         'priority',
         'ticket_category_id',

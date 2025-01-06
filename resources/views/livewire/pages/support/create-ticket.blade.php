@@ -21,12 +21,14 @@ new #[Layout('layouts.app')] class extends Component {
 
     public ?string $description = '';
 
+    public ?string $contact_discord = null;
+
     #[Computed]
     public function categories()
     {
-//        return Cache::remember('ticket_categories', now()->addDay(), function () {
-        return TicketCategory::select('id', 'name')->orderBy('name')->get();
-//        });
+        return Cache::remember('ticket_categories', now()->addDay(), function () {
+            return TicketCategory::select('id', 'name')->orderBy('name')->get();
+        });
     }
 
     public function create()
@@ -36,6 +38,7 @@ new #[Layout('layouts.app')] class extends Component {
             'ticket_category_id' => 'required|exists:ticket_categories,id',
             'priority'           => 'required|in:'.implode(',', array_column(TicketPriority::cases(), 'value')),
             'description'        => 'required|string|max:16777215',
+            'contact_discord'    => 'nullable|string|max:255',
         ]);
 
         $ticket = Ticket::create([
@@ -44,6 +47,7 @@ new #[Layout('layouts.app')] class extends Component {
             'ticket_category_id' => $this->ticket_category_id,
             'priority'           => $this->priority,
             'description'        => $this->description,
+            'contact_discord'    => $this->contact_discord,
             'status'             => TicketStatus::NEW,
         ]);
 
@@ -110,6 +114,18 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:editor wire:model="description" label="Description"
                      toolbar="bold italic underline | bullet ordered highlight | link ~ undo redo"/>
+
+        <flux:field>
+            <flux:label badge="Optional">Discord</flux:label>
+
+            <flux:input wire:model="contact_discord"/>
+
+            <flux:description>
+                {{ __('Some issues can be resolved faster through Discord chat. Add your username if you want this option.') }}
+            </flux:description>
+
+            <flux:error name="contact_discord"/>
+        </flux:field>
 
         <div class="flex">
             <flux:spacer/>

@@ -15,6 +15,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -49,6 +50,9 @@ class TicketResource extends Resource
                         Placeholder::make('name')
                             ->label('Username')
                             ->content(fn ($record) => $record->user->name),
+                        Placeholder::make('contact_discord')
+                            ->label('Discord')
+                            ->content(fn ($record) => $record->contact_discord),
                         TextInput::make('title')
                             ->required()
                             ->maxLength(255),
@@ -97,6 +101,12 @@ class TicketResource extends Resource
                     ->badge(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('contact_discord')
+                    ->label('Discord')
+                    ->copyable()
+                    ->icon('heroicon-o-clipboard-document-list')
+                    ->iconPosition(IconPosition::After)
                     ->numeric(),
                 Tables\Columns\TextColumn::make('priority')
                     ->badge(),
