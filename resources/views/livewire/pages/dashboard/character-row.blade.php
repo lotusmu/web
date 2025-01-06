@@ -95,6 +95,12 @@ new #[Layout('layouts.app')] class extends Component {
             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal"/>
 
             <flux:menu variant="solid">
+                <flux:menu.item icon="information-circle"
+                                href="https://wiki.lotusmu.org/gameplay-systems/reset-system#how-to-reset"
+                                target="_blank">
+                    {{ __('How to Reset') }}
+                </flux:menu.item>
+
                 <flux:modal.trigger name="pk_clear_{{ $this->character->Name }}">
                     <flux:menu.item icon="arrow-path">
                         {{ __('PK Clear') }}
