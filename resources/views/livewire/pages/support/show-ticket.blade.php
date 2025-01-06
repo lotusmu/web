@@ -11,7 +11,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public Ticket $ticket;
 
-    #[Rule('required|string')]
+    #[Rule('required|string|max:16777215')]
     public string $content = '';
 
     public function mount(Ticket $ticket)
@@ -25,7 +25,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         $reply = $this->ticket->replies()->create([
             'user_id' => auth()->id(),
-            'content' => nl2br($this->content),
+            'content' => $this->content,
         ]);
 
         if ($reply) {
@@ -158,9 +158,8 @@ new #[Layout('layouts.app')] class extends Component {
             <flux:heading>
                 {{ __('Description') }}
             </flux:heading>
-            <flux:text class="mt-2">
-                {!! $ticket->description !!}
-            </flux:text>
+
+            <x-prose :content="$ticket->description" class="mt-2"/>
         </div>
     </flux:card>
 
@@ -184,9 +183,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                     <flux:separator/>
 
-                    <flux:text>
-                        {!! $reply->content !!}
-                    </flux:text>
+                    <x-prose :content="$reply->content"/>
                 </flux:card>
 
             @empty
@@ -197,7 +194,8 @@ new #[Layout('layouts.app')] class extends Component {
         @if(!in_array($ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
             <div>
                 <form wire:submit="submitReply" class="space-y-4">
-                    <flux:textarea wire:model="content" label="Reply" rows="8"/>
+                    <flux:editor wire:model="content" label="Reply"
+                                 toolbar="bold italic underline | bullet ordered highlight | link ~ undo redo"/>
 
                     <div class="flex">
                         <flux:spacer/>

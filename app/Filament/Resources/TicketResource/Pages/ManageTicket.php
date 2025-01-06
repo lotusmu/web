@@ -6,8 +6,8 @@ use App\Enums\Ticket\TicketStatus;
 use App\Filament\Resources\TicketResource;
 use App\Models\Ticket\TicketReply;
 use Filament\Actions\Action;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -74,9 +74,19 @@ class ManageTicket extends Page implements HasForms, HasInfolists
     {
         return $form
             ->schema([
-                Textarea::make('content')
+                RichEditor::make('content')
                     ->hiddenLabel('Content')
-                    ->rows(8)
+                    ->toolbarButtons([
+                        'attachFiles',
+                        'bold',
+                        'bulletList',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'underline',
+                        'undo',
+                    ])
                     ->required(),
             ])
             ->statePath('replyData');

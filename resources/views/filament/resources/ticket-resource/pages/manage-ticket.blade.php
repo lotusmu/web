@@ -15,10 +15,11 @@
                         compact
                         icon="heroicon-m-user"
                         :heading="$reply->user->name">
-                        <div>
+
+                        <div class="prose dark:prose-invert break-words">
                             {!! $reply->content !!}
                         </div>
-
+                        
                         <div
                             class="flex justify-end mt-4 text-sm text-gray-500 dark:text-gray-400">
                             {{ $reply->created_at->format('M d, Y H:i') }}

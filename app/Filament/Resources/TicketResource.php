@@ -53,6 +53,17 @@ class TicketResource extends Resource
                             ->required()
                             ->maxLength(255),
                         RichEditor::make('description')
+                            ->toolbarButtons([
+                                'attachFiles',
+                                'bold',
+                                'bulletList',
+                                'italic',
+                                'link',
+                                'orderedList',
+                                'redo',
+                                'underline',
+                                'undo',
+                            ])
                             ->required(),
                         Fieldset::make('Details')
                             ->columns(3)

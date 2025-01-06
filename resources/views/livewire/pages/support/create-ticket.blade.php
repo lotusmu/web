@@ -35,7 +35,7 @@ new #[Layout('layouts.app')] class extends Component {
             'title'              => 'required|string|max:255',
             'ticket_category_id' => 'required|exists:ticket_categories,id',
             'priority'           => 'required|in:'.implode(',', array_column(TicketPriority::cases(), 'value')),
-            'description'        => 'required|string',
+            'description'        => 'required|string|max:16777215',
         ]);
 
         $ticket = Ticket::create([
@@ -43,7 +43,7 @@ new #[Layout('layouts.app')] class extends Component {
             'title'              => $this->title,
             'ticket_category_id' => $this->ticket_category_id,
             'priority'           => $this->priority,
-            'description'        => nl2br($this->description),
+            'description'        => $this->description,
             'status'             => TicketStatus::NEW,
         ]);
 
@@ -108,7 +108,8 @@ new #[Layout('layouts.app')] class extends Component {
             </flux:select>
         </div>
 
-        <flux:textarea wire:model="description" label="Description" rows="8"/>
+        <flux:editor wire:model="description" label="Description"
+                     toolbar="bold italic underline | bullet ordered highlight | link ~ undo redo"/>
 
         <div class="flex">
             <flux:spacer/>
