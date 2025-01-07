@@ -13,10 +13,13 @@ new class extends Component {
 
     public $serverOptions;
 
-    public function mount(): void
+    public $triggerType;
+
+    public function mount($triggerType = 'navbar'): void
     {
         $this->serverOptions    = $this->getServerOptions();
         $this->selectedServerId = session('selected_server_id', $this->serverOptions->keys()->first());
+        $this->triggerType      = $triggerType;
     }
 
     public function updateServer($newServerId, $referer = null): void
@@ -80,12 +83,14 @@ new class extends Component {
     private function getServerOptions(): Collection
     {
         return GameServer::where('is_active', true)
-            ->get(['id', 'name', 'experience_rate'])
+            ->get(['id', 'name', 'connection_name', 'experience_rate'])
             ->mapWithKeys(function ($server) {
                 return [
                     $server->id => [
                         'name'            => $server->name,
                         'experience_rate' => $server->experience_rate,
+                        'online_count'    => $server->getOnlineCount(),
+                        'is_online'       => $server->isOnline(),
                     ]
                 ];
             });
@@ -129,15 +134,44 @@ new class extends Component {
 @else
     {{-- Regular markup --}}
     <flux:dropdown>
-        <flux:button icon-trailing="chevron-down" variant="ghost" size="sm" :tooltip="__('Select Server')">
-            @if(isset($serverOptions[$selectedServerId]))
-                {{ $serverOptions[$selectedServerId]['name'] }} -
-                x{{ $serverOptions[$selectedServerId]['experience_rate'] }}
-            @else
-                Default
-            @endif
-        </flux:button>
+        {{--        Trigger dropdown --}}
+        @if($this->triggerType === 'navbar')
+            <flux:navbar.item icon-trailing="chevron-down">
+                @if(isset($serverOptions[$selectedServerId]))
+                    <span>
+                    {{ $serverOptions[$selectedServerId]['name'] }} - x{{ $serverOptions[$selectedServerId]['experience_rate'] }}
+                    </span>
 
+                    <flux:badge variant="pill" insert="top bottom" size="sm" icon="users"
+                                :color="$serverOptions[$selectedServerId]['is_online'] ? 'emerald' : 'rose'"
+                                class="ml-2">
+                        {{ $serverOptions[$selectedServerId]['online_count'] }}
+                    </flux:badge>
+                @else
+                    Default
+                @endif
+            </flux:navbar.item>
+
+        @elseif($this->triggerType === 'navlist')
+
+            <flux:navlist.item icon-trailing="chevron-down">
+                @if(isset($serverOptions[$selectedServerId]))
+                    <span>
+                    {{ $serverOptions[$selectedServerId]['name'] }} - x{{ $serverOptions[$selectedServerId]['experience_rate'] }}
+                    </span>
+
+                    <flux:badge variant="pill" insert="top bottom" size="sm" icon="users"
+                                :color="$serverOptions[$selectedServerId]['is_online'] ? 'emerald' : 'rose'"
+                                class="ml-2">
+                        {{ $serverOptions[$selectedServerId]['online_count'] }}
+                    </flux:badge>
+                @else
+                    Default
+                @endif
+            </flux:navlist.item>
+        @endif
+
+        {{--        Dropdown menu --}}
         <flux:menu>
             <flux:menu.radio.group>
                 @foreach($serverOptions as $id => $server)
@@ -145,8 +179,15 @@ new class extends Component {
                         wire:click="updateServer({{ $id }})"
                         :checked="$selectedServerId == $id"
                     >
-                        {{ $server['name'] }} -
-                        x{{ $server['experience_rate'] }}
+                        <div class="flex items-center justify-between w-full">
+                            <span>{{ $server['name'] }} - x{{ $server['experience_rate'] }}</span>
+
+                            <flux:badge variant="pill" inset="top bottom" size="sm" icon="users"
+                                        :color="$serverOptions[$id]['is_online'] ? 'emerald' : 'rose'"
+                                        class="ml-4">
+                                {{ $serverOptions[$id]['online_count'] }}
+                            </flux:badge>
+                        </div>
                     </flux:menu.radio>
                 @endforeach
             </flux:menu.radio.group>

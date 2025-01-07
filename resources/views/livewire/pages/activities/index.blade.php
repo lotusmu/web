@@ -30,7 +30,11 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $activityType = $activity->properties['activity_type'] ?? null;
 
-        return ActivityType::tryFrom($activityType) ?? ActivityType::DEFAULT;
+        if ($activityType === null) {
+            return ActivityType::DEFAULT;
+        }
+
+        return ActivityType::tryFrom((string) $activityType) ?? ActivityType::DEFAULT;
     }
 }; ?>
 

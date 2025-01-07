@@ -74,7 +74,9 @@ new class extends Component {
     <flux:spacer/>
 
     <flux:navbar class="-mb-px">
-        {{--        <livewire:connection-selector/>--}}
+        <div class="max-sm:hidden">
+            <livewire:connection-selector/>
+        </div>
 
         <flux:button size="sm"
                      x-on:click="$flux.dark = ! $flux.dark"
