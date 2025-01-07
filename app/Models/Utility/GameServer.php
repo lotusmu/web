@@ -61,9 +61,7 @@ class GameServer extends Model
 
     public function getMultipliedCount(): int
     {
-        $onlineCount = $this->getOnlineCount();
-
-        return ceil($onlineCount * $this->online_multiplier);
+        return ceil($this->getOnlineCount() * $this->online_multiplier);
     }
 
     public function getOnlineCount(): int
