@@ -24,29 +24,55 @@ class TokenPackageResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('')
-                    ->columns(2)
+                Section::make('Basic Information')
+                    ->description('Configure the basic package details and display settings.')
+                    ->aside()
                     ->schema([
                         TextInput::make('name')
-                            ->columnSpanFull()
-                            ->required(),
+                            ->label('Package Name')
+                            ->required()
+                            ->helperText('Enter a descriptive name for this token package.'),
+
+                        Toggle::make('is_popular')
+                            ->label('Most Popular Package')
+                            ->inline(false)
+                            ->helperText('Toggle to highlight this as the most popular package option.'),
+                    ]),
+
+                Section::make('Stripe Integration')
+                    ->description('Configure the Stripe payment integration details.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
                         TextInput::make('stripe_product_id')
                             ->label('Stripe Product ID')
-                            ->required(),
+                            ->required()
+                            ->helperText('Enter the Stripe product ID for payment integration.'),
+
                         TextInput::make('stripe_price_id')
                             ->label('Stripe Price ID')
-                            ->required(),
+                            ->required()
+                            ->helperText('Enter the Stripe price ID associated with this package.'),
+                    ]),
+
+                Section::make('Pricing Configuration')
+                    ->description('Set the token amount and price for this package.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
                         TextInput::make('tokens_amount')
-                            ->numeric()
-                            ->required(),
-                        TextInput::make('price')
+                            ->label('Token Amount')
                             ->numeric()
                             ->required()
-                            ->prefix('€'),
-                        Toggle::make('is_popular')
-                            ->inline(false)
-                            ->label('Most Popular')
-                            ->helperText('Toggle to set the package as most popular.'),
+                            ->suffix('Tokens')
+                            ->helperText('Number of tokens included in this package.'),
+
+                        TextInput::make('price')
+                            ->label('Package Price')
+                            ->numeric()
+                            ->required()
+                            ->prefix('€')
+                            ->helperText('Set the price for this token package.'),
                     ]),
             ]);
     }

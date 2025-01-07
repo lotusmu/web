@@ -30,21 +30,25 @@ class UpdateBannerResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Section::make('Banner')
-                ->columns(2)
+            Section::make('Update Banner Configuration')
+                ->description('Configure banner content, type, and activation status for the website update notifications.')
+                ->aside()
                 ->schema([
                     Select::make('type')
+                        ->label('Banner Type')
                         ->options(UpdateBannerType::class)
-                        ->required(),
+                        ->required()
+                        ->helperText('Select the type of update banner to display.'),
 
                     TextInput::make('content')
+                        ->label('Banner Content')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->helperText('Enter the message to display in the banner.'),
 
                     TextInput::make('url')
-                        ->label('URL')
+                        ->label('Banner URL')
                         ->url()
-                        ->columnSpanFull()
                         ->prefixIcon('heroicon-o-globe-alt')
                         ->helperText('Optional: Add URL to make banner clickable')
                         ->maxLength(255),
@@ -54,7 +58,6 @@ class UpdateBannerResource extends Resource
                         ->default(true)
                         ->required()
                         ->inline(false)
-                        ->columnSpanFull()
                         ->helperText('Toggle to activate or deactivate the banner.'),
                 ]),
         ]);

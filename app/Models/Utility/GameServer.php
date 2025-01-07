@@ -25,6 +25,7 @@ class GameServer extends Model
         'starting_resets',
         'reset_zen',
         'clear_pk_zen',
+        'online_multiplier',
     ];
 
     public function getServerName(): string

@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Enums\Game\AccountLevel;
 use App\Filament\Resources\VipPackageResource\Pages;
 use App\Models\Utility\VipPackage;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -28,34 +27,41 @@ class VipPackageResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('VIP Package')
+                Section::make('VIP Package Configuration')
+                    ->description('Configure VIP package details including level, duration, pricing, and promotional status.')
+                    ->aside()
+                    ->columns(2)
                     ->schema([
                         Select::make('level')
+                            ->label('VIP Level')
+                            ->columnSpanFull()
                             ->options(collect(AccountLevel::cases())
                                 ->except(AccountLevel::Regular->value)
                                 ->pluck('name', 'value'))
                             ->required()
                             ->enum(AccountLevel::class)
-                            ->label('Account Level'),
-                        Group::make()
-                            ->columns(2)
-                            ->schema([
-                                TextInput::make('duration')
-                                    ->required()
-                                    ->numeric()
-                                    ->helperText('Value in days')
-                                    ->label('Duration'),
-                                TextInput::make('cost')
-                                    ->required()
-                                    ->numeric()
-                                    ->helperText('Value in tokens')
-                                    ->label('Cost'),
-                            ]),
+                            ->helperText('Select the VIP tier for this package.'),
+
+                        TextInput::make('duration')
+                            ->label('Package Duration')
+                            ->required()
+                            ->numeric()
+                            ->suffix('Days')
+                            ->helperText('Number of days this VIP package will remain active.'),
+
+                        TextInput::make('cost')
+                            ->label('Package Cost')
+                            ->required()
+                            ->numeric()
+                            ->suffix('Tokens')
+                            ->helperText('Cost of the package in tokens.'),
+
                         Toggle::make('is_best_value')
+                            ->label('Best Value Package')
+                            ->columnSpanFull()
                             ->required()
                             ->inline(false)
-                            ->helperText('Toggle to set the package as Best Valued one.')
-                            ->label('Best Value'),
+                            ->helperText('Toggle to highlight this package as the best value option for players.'),
                     ]),
             ]);
     }

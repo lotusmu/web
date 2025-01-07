@@ -12,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
 
@@ -27,19 +28,23 @@ class GameServerResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Game Server')
-                    ->columns(2)
+                Section::make('Game Server Configuration')
+                    ->description('Configure basic server information and activation status.')
+                    ->aside()
                     ->schema([
                         TextInput::make('name')
-                            ->columnSpanFull()
+                            ->label('Server Name')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->helperText('Enter a unique name for this game server.'),
+
                         Select::make('connection_name')
+                            ->label('Database Connection')
                             ->options(self::getDbConnectionOptions())
-                            ->columnSpanFull()
-                            ->required(),
+                            ->required()
+                            ->helperText('Select the database connection for this server.'),
+
                         Toggle::make('is_active')
-                            ->columnSpanFull()
                             ->label('Server Status')
                             ->onColor('success')
                             ->offColor('danger')
@@ -49,39 +54,82 @@ class GameServerResource extends Resource
                             ->required()
                             ->inline(false)
                             ->helperText('Toggle to activate or deactivate the server.'),
+                    ]),
+
+                Section::make('Server Rate Configuration')
+                    ->description('Set up the server rates and multipliers that affect gameplay mechanics.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
                         TextInput::make('server_version')
-                            ->columnSpanFull()
-                            ->required(),
+                            ->label('Server Version')
+                            ->default('Season 3')
+                            ->required()
+                            ->helperText('Specify the MU Online server version.'),
+
+                        TextInput::make('online_multiplier')
+                            ->label('Online Multiplier')
+                            ->default(1)
+                            ->required()
+                            ->minValue(0)
+                            ->numeric()
+                            ->helperText('Multiplier applied when players are online.'),
+
                         TextInput::make('experience_rate')
+                            ->label('Experience Rate')
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->helperText('Rate at which players gain experience.'),
+
                         TextInput::make('drop_rate')
+                            ->label('Drop Rate')
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->helperText('Rate at which items drop from monsters.'),
+                    ]),
+
+                Section::make('Character Reset Settings')
+                    ->description('Configure character reset mechanics and associated costs.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
                         TextInput::make('max_resets')
+                            ->label('Maximum Resets')
                             ->required()
                             ->numeric()
                             ->default(0)
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->helperText('Maximum number of resets allowed per character.'),
+
                         TextInput::make('starting_resets')
+                            ->label('Starting Resets')
                             ->required()
                             ->numeric()
                             ->default(0)
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->helperText('Number of maximum resets the server starts with.'),
+
                         TextInput::make('reset_zen')
+                            ->label('Reset Cost')
                             ->required()
                             ->numeric()
                             ->mask(RawJs::make('$money($input)'))
                             ->stripCharacters(',')
                             ->default(0)
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->helperText('Amount of Zen required for character reset.')
+                            ->suffix('Zen'),
+
                         TextInput::make('clear_pk_zen')
+                            ->label('PK Clear Cost')
                             ->required()
                             ->numeric()
                             ->mask(RawJs::make('$money($input)'))
                             ->stripCharacters(',')
                             ->default(0)
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->helperText('Cost to clear PK status from a character.')
+                            ->suffix('Zen'),
                     ]),
             ]);
     }
@@ -106,11 +154,11 @@ class GameServerResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('connection_name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('experience_rate')
                     ->numeric(),
-                Tables\Columns\TextColumn::make('drop_rate')
+                TextColumn::make('online_multiplier')
+                    ->numeric(),
+                TextColumn::make('max_resets')
                     ->numeric(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Active')
