@@ -83,13 +83,13 @@ new class extends Component {
     private function getServerOptions(): Collection
     {
         return GameServer::where('is_active', true)
-            ->get(['id', 'name', 'connection_name', 'experience_rate'])
+            ->get(['id', 'name', 'connection_name', 'experience_rate', 'online_multiplier'])
             ->mapWithKeys(function ($server) {
                 return [
                     $server->id => [
                         'name'            => $server->name,
                         'experience_rate' => $server->experience_rate,
-                        'online_count'    => $server->getOnlineCount(),
+                        'online_count'    => $server->getMultipliedCount(),
                         'is_online'       => $server->isOnline(),
                     ]
                 ];

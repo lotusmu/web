@@ -59,6 +59,13 @@ class GameServer extends Model
         }
     }
 
+    public function getMultipliedCount(): int
+    {
+        $onlineCount = $this->getOnlineCount();
+
+        return ceil($onlineCount * $this->online_multiplier);
+    }
+
     public function getOnlineCount(): int
     {
         $cacheKey = "server_online_count_{$this->id}";
