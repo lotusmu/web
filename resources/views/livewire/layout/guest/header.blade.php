@@ -60,7 +60,7 @@ new class extends Component {
                     {{ __('Gameplay Updates') }}
                 </flux:navmenu.item>
 
-                <flux:navmenu.item href="{{ route('server.overview') }}">
+                <flux:navmenu.item href="{{ route('server.overview') }}" wire:navigate>
                     {{ __('Server Overview') }}
                 </flux:navmenu.item>
 
