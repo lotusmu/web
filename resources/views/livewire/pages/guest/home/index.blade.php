@@ -129,9 +129,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:tab.group>
                 <flux:tabs variant="pills" class="max-sm:flex-col justify-center">
-                    <flux:tab name="tab1" icon="swords">Evolving Items</flux:tab>
-                    <flux:tab name="tab2" icon="scroll">Progressive Quests</flux:tab>
-                    <flux:tab name="tab3" icon="sparkles">Crafting System</flux:tab>
+                    <flux:tab name="tab1" :accent="false" icon="swords">Evolving Items</flux:tab>
+                    <flux:tab name="tab2" :accent="false" icon="scroll">Progressive Quests</flux:tab>
+                    <flux:tab name="tab3" :accent="false" icon="sparkles">Crafting System</flux:tab>
                 </flux:tabs>
 
                 <flux:tab.panel name="tab1">

@@ -51,7 +51,9 @@ new #[Layout('layouts.guest')] class extends Component {
         <flux:tab.group>
             <flux:tabs variant="pills" wire:model="tab" class="justify-center">
                 @foreach($this->servers as $server)
-                    <flux:tab :name="$server->name">{{ $server->getServerName() }}</flux:tab>
+                    <flux:tab :name="$server->name" :accent="false">
+                        {{ $server->getServerName() }}
+                    </flux:tab>
                 @endforeach
             </flux:tabs>
 
