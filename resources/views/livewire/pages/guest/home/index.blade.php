@@ -217,32 +217,34 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
     </section>
 
-    <!-- More Features TO BE DONE -->
+    <!-- More Features -->
     <section class="relative isolate">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div
-                class="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-zinc-900/10 shadow overflow-hidden dark:bg-indigo-500 dark:highlight-white/20">
-            </div>
+            <div class="mb-12 space-y-6">
+                <div class="flex justify-start">
+                    <div class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
+                        <flux:icon.film class="h-6 w-6 text-[var(--color-compliment-content)]"/>
+                    </div>
+                </div>
 
-            <h2 class="mt-8 font-semibold text-indigo-500 dark:text-indigo-400">Modern features</h2>
+                <p class="text-[var(--color-compliment-content)] !mt-3">More Features</p>
 
-            <p class="mt-4 text-3xl sm:text-4xl text-zinc-900 font-extrabold tracking-tight dark:text-zinc-50 ">
-                Cutting-edge is our comfort&nbsp;zone.
-            </p>
+                <flux:heading size="2xl" level="2">
+                    Ancient powers reimagined for modern gameplay.
+                </flux:heading>
 
-            <div class="mt-4 max-w-3xl space-y-6">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus deserunt dolorem fuga maxime
-                    nihil non quam quos! Aspernatur deserunt magni neque, odio quos rerum tenetur vitae! Consectetur
-                    dolor nesciunt omnis?
-                </p>
+                <flux:text size="lg" class="max-w-3xl leading-8">
+                    Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
+                    Every feature is carefully crafted to enhance gameplay without compromising the core experience
+                    that made the game legendary.
+                </flux:text>
             </div>
 
             <flux:tab.group class="mt-10">
                 <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0">
-                    <flux:tab name="tab10" :accent="false" icon="swords">Evolving Items</flux:tab>
-                    <flux:tab name="tab20" :accent="false" icon="scroll">Progressive Quests</flux:tab>
-                    <flux:tab name="tab30" :accent="false" icon="sparkles">Crafting System</flux:tab>
+                    <flux:tab name="tab10" :accent="false">Tab Name</flux:tab>
+                    <flux:tab name="tab20" :accent="false">Tab Name</flux:tab>
+                    <flux:tab name="tab30" :accent="false">Tab Name</flux:tab>
                 </flux:tabs>
 
                 <div class="absolute w-full overflow-visible left-0 mt-8 xl:mt-16">
