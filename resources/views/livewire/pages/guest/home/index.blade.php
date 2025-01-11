@@ -219,9 +219,6 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <!-- More Features TO BE DONE -->
     <section class="relative isolate">
-
-        <x-grid-pattern position="top_left" class="mt-[30rem] max-h-[30rem]"/>
-
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div
                 class="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-zinc-900/10 shadow overflow-hidden dark:bg-indigo-500 dark:highlight-white/20">
@@ -239,10 +236,6 @@ new #[Layout('layouts.guest')] class extends Component {
                     nihil non quam quos! Aspernatur deserunt magni neque, odio quos rerum tenetur vitae! Consectetur
                     dolor nesciunt omnis?
                 </p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, commodi consequuntur fugiat minima
-                    natus officia optio quo. Neque omnis, reiciendis!
-                </p>
             </div>
 
             <flux:tab.group class="mt-10">
@@ -252,61 +245,56 @@ new #[Layout('layouts.guest')] class extends Component {
                     <flux:tab name="tab30" :accent="false" icon="sparkles">Crafting System</flux:tab>
                 </flux:tabs>
 
-                <flux:tab.panel name="tab10">
-                    <div class="lg:grid lg:grid-cols-12 lg:gap-8 pt-10 xl:pt-0 mt-10 xl:mt-2">
-                        <flux:text class="lg:col-span-4 lg:mt-10 xl:mt-18">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut
-                            deserunt
-                            ea
-                            eligendi eveniet expedita illum odio, provident recusandae rerum sapiente velit
-                            voluptatem!
-                            Accusantium adipisci, beatae blanditiis cumque ea eos id, illo illum, in minus
-                            nam
-                            nesciunt
-                            odio porro quaerat qui quis rem repellat temporibus. Atque fugit maiores
-                            tempore!
-                        </flux:text>
+                <div class="absolute w-full overflow-visible left-0 mt-8 xl:mt-16">
+                    <x-grid-pattern position="top_left" class="h-[30rem]"/>
+                </div>
 
-                        <x-browser-frame
-                            class="lg:col-span-8"
-                            video="{{ asset('videos/mu.mp4') }}"
-                            poster="{{ asset('images/auth/auth-dark.jpg') }}"
-                        />
-                    </div>
+                <flux:tab.panel name="tab10">
+                    <x-feature-split>
+                        <x-slot:text>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                        </x-slot:text>
+
+                        <x-slot:media>
+                            <x-browser-frame
+                                video="{{ asset('videos/mu.mp4') }}"
+                                poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                            />
+                        </x-slot:media>
+                    </x-feature-split>
                 </flux:tab.panel>
 
                 <flux:tab.panel name="tab20">
-                    <div class="lg:grid lg:grid-cols-12 lg:gap-8 pt-10 xl:pt-0 mt-10 xl:mt-2">
-                        <flux:text class="lg:col-span-4 lg:mt-10 xl:mt-18">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut
-                            deserunt
-                        </flux:text>
+                    <x-feature-split>
+                        <x-slot:text>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit. Ipsam, minima?
+                        </x-slot:text>
 
-                        <x-browser-frame
-                            class="lg:col-span-8"
-                            video="{{ asset('videos/example.mp4') }}"
-                            poster="{{ asset('images/auth/auth-dark.jpg') }}"
-                        />
-                    </div>
+                        <x-slot:media>
+                            <x-browser-frame
+                                video="{{ asset('videos/example.mp4') }}"
+                                poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                            />
+                        </x-slot:media>
+                    </x-feature-split>
                 </flux:tab.panel>
 
                 <flux:tab.panel name="tab30">
-                    <div class="lg:grid lg:grid-cols-12 lg:gap-8 pt-10 xl:pt-0 mt-10 xl:mt-2">
-                        <flux:text class="lg:col-span-4 lg:mt-10 xl:mt-18">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut
-                            deserunt
-                            ea
-                            eligendi eveniet expedita illum odio, provident recusandae rerum sapiente velit
-                            voluptatem!
-                            Accusantium adipisci, beatae blanditiis cumque ea eos id, illo illum, in minus
-                        </flux:text>
+                    <x-feature-split>
+                        <x-slot:text>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit. Ipsam, minima? Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Consectetur, minus.
+                        </x-slot:text>
 
-                        <x-browser-frame
-                            class="lg:col-span-8"
-                            video="{{ asset('videos/auth-video.mp4') }}"
-                            poster="{{ asset('images/auth/auth-dark.jpg') }}"
-                        />
-                    </div>
+                        <x-slot:media>
+                            <x-browser-frame
+                                video="{{ asset('videos/auth-video.mp4') }}"
+                                poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                            />
+                        </x-slot:media>
+                    </x-feature-split>
                 </flux:tab.panel>
             </flux:tab.group>
         </div>
