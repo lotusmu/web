@@ -157,9 +157,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:tab.group>
                 <flux:tabs variant="pills" class="max-sm:flex-col justify-center">
-                    <flux:tab name="tab1" :accent="false" icon="swords">Evolving Items</flux:tab>
-                    <flux:tab name="tab2" :accent="false" icon="scroll">Progressive Quests</flux:tab>
-                    <flux:tab name="tab3" :accent="false" icon="sparkles">Crafting System</flux:tab>
+                    <flux:tab name="tab1" :accent="false">Tab Name</flux:tab>
+                    <flux:tab name="tab2" :accent="false">Tab Name</flux:tab>
+                    <flux:tab name="tab3" :accent="false">Tab Name</flux:tab>
                 </flux:tabs>
 
                 <flux:tab.panel name="tab1">
@@ -220,8 +220,8 @@ new #[Layout('layouts.guest')] class extends Component {
     <!-- More Features -->
     <section class="relative isolate">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="mb-12 space-y-6">
-                <div class="flex justify-start">
+            <div class="mb-12 space-y-6 text-center">
+                <div class="flex justify-center">
                     <div class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
                         <flux:icon.film class="h-6 w-6 text-[var(--color-compliment-content)]"/>
                     </div>
@@ -233,7 +233,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     Ancient powers reimagined for modern gameplay.
                 </flux:heading>
 
-                <flux:text size="lg" class="max-w-3xl leading-8">
+                <flux:text size="lg" class="max-w-3xl leading-8 mx-auto">
                     Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
                     Every feature is carefully crafted to enhance gameplay without compromising the core experience
                     that made the game legendary.
@@ -241,10 +241,10 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
 
             <flux:tab.group class="mt-10">
-                <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0">
-                    <flux:tab name="tab10" :accent="false">Tab Name</flux:tab>
-                    <flux:tab name="tab20" :accent="false">Tab Name</flux:tab>
-                    <flux:tab name="tab30" :accent="false">Tab Name</flux:tab>
+                <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0 sm:justify-center">
+                    <flux:tab name="tab10" :accent="false" icon="swords">Evolving Items</flux:tab>
+                    <flux:tab name="tab20" :accent="false" icon="scroll">Progressive Quests</flux:tab>
+                    <flux:tab name="tab30" :accent="false" icon="sparkles">Crafting System</flux:tab>
                 </flux:tabs>
 
                 <div class="absolute w-full overflow-visible left-0 mt-8 xl:mt-16">
@@ -309,12 +309,12 @@ new #[Layout('layouts.guest')] class extends Component {
         <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
             {{-- texts --}}
             <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-12">
-                <div class="flex justify-start">
-                    <div
-                        class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
-                        <flux:icon.building-storefront class="h-6 w-6 text-[var(--color-compliment-content)]"/>
-                    </div>
-                </div>
+                {{--                <div class="flex justify-start">--}}
+                {{--                    <div--}}
+                {{--                        class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">--}}
+                {{--                        <flux:icon.building-storefront class="h-6 w-6 text-[var(--color-compliment-content)]"/>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
 
                 <p class="text-[var(--color-compliment-content)] mt-3">Catalog</p>
 
