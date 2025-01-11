@@ -210,66 +210,24 @@ new #[Layout('layouts.guest')] class extends Component {
                     natus officia optio quo. Neque omnis, reiciendis!
                 </p>
             </div>
-            <a class="group inline-flex items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-200 hover:text-indigo-700 focus:ring-indigo-500 dark:bg-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-600 dark:hover:text-white dark:focus:ring-zinc-500 mt-8"
-               href="/docs/grid-template-columns">Learn more<span class="sr-only">, grid template columns</span>
-                <svg
-                    class="overflow-visible ml-3 text-indigo-300 group-hover:text-indigo-400 dark:text-zinc-500 dark:group-hover:text-zinc-400"
-                    width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M0 0L3 3L0 6"></path>
-                </svg>
-            </a>
+
+            <flux:button icon-trailing="arrow-long-right" class="mt-6">
+                Learn More
+            </flux:button>
+
             <div class="mt-10">
                 <div class="flex overflow-auto -mx-4 sm:mx-0">
-                    <ul class="flex-none inline-grid gap-x-2 px-4 sm:px-0 xl:gap-x-6"
-                        style="grid-template-columns: repeat(3, minmax(6rem, 1fr));">
-                        <li>
-                            <button type="button"
-                                    class="group text-sm font-semibold w-full flex flex-col items-center text-indigo-600 dark:text-indigo-400">
-                                <svg width="48" height="48" fill="none" aria-hidden="true"
-                                     class="mb-6 text-indigo-500 dark:text-indigo-400">
-                                    <path
-                                        d="M5 13a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-6ZM5 29a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-6ZM19 29a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6ZM33 29a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6ZM19 13a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H22a3 3 0 0 1-3-3v-6Z"
-                                        fill="currentColor" fill-opacity=".1" stroke="currentColor"
-                                        stroke-width="2"></path>
-                                </svg>
-                                CSS Grid
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button"
-                                    class="group text-sm font-semibold w-full flex flex-col items-center ">
-                                <svg width="48" height="48" fill="none" aria-hidden="true"
-                                     class="mb-6 text-zinc-300 group-hover:text-zinc-400 dark:text-zinc-600 dark:group-hover:text-zinc-500">
-                                    <path
-                                        d="M5.632 11.725a3 3 0 0 1 2.554-3.388l3.96-.557a3 3 0 0 1 3.389 2.554l.835 5.941a3 3 0 0 1-2.553 3.388l-3.961.557a3 3 0 0 1-3.389-2.553l-.835-5.942ZM1 29a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-6ZM20 34a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6ZM36.728 27.026a3 3 0 0 1 3.558-2.31l3.913.831a3 3 0 0 1 2.31 3.558l-1.247 5.87a3 3 0 0 1-3.558 2.31l-3.913-.832a3 3 0 0 1-2.31-3.558l1.247-5.869ZM22.236 9.17a3 3 0 0 1 3.202-2.783l17.956 1.255a3 3 0 0 1 2.784 3.202l-.419 5.986a3 3 0 0 1-3.202 2.783l-17.956-1.255a3 3 0 0 1-2.784-3.202l.419-5.986Z"
-                                        fill="currentColor" fill-opacity="0" stroke="currentColor"
-                                        stroke-width="2"></path>
-                                </svg>
-                                Transforms
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button"
-                                    class="group text-sm font-semibold w-full flex flex-col items-center ">
-                                <svg width="48" height="48" fill="none" aria-hidden="true"
-                                     class="mb-6 text-zinc-300 group-hover:text-zinc-400 dark:text-zinc-600 dark:group-hover:text-zinc-500">
-                                    <path
-                                        d="M31 30c0-7.18-5.82-13-13-13m-5.009 1C8.298 19.961 5 24.596 5 30c0 7.18 5.82 13 13 13 5.404 0 10.039-3.298 12-7.991"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                    <circle cx="30" cy="18" r="13" fill="currentColor" fill-opacity="0"
-                                            stroke="currentColor" stroke-width="2"></circle>
-                                    <path d="m26 30 4-4M21 27l6-6M18 22l4-4" stroke="currentColor" stroke-width="2"
-                                          stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                                Filters
-                            </button>
-                        </li>
-                    </ul>
+                    <flux:tab.group>
+                        <flux:tabs variant="pills" class="max-sm:flex-col justify-center">
+                            <flux:tab name="tab1" :accent="false" icon="swords">Evolving Items</flux:tab>
+                            <flux:tab name="tab2" :accent="false" icon="scroll">Progressive Quests</flux:tab>
+                            <flux:tab name="tab3" :accent="false" icon="sparkles">Crafting System</flux:tab>
+                        </flux:tabs>
+                    </flux:tab.group>
                 </div>
             </div>
         </div>
+        
         <div class="relative pt-10 xl:pt-0 mt-10 xl:mt-2">
             <x-grid-pattern position="top_left" class="mt-8"/>
 
@@ -301,11 +259,11 @@ new #[Layout('layouts.guest')] class extends Component {
                             </div>
                             <div class="relative min-h-0 flex-auto flex flex-col">
                                 <div class="w-full flex-auto flex min-h-0" style="opacity: 1;">
-                                    <div class="w-full flex-auto flex min-h-0 overflow-auto">
+                                    <div class="w-full flex-auto flex min-h-0 overflow-hidden">
                                         <div class="w-full relative flex-auto"><pre
                                                 class="flex min-h-full text-sm leading-6"><div aria-hidden="true"
                                                                                                class="hidden md:block text-zinc-600 flex-none py-4 pr-4 text-right select-none w-[3.125rem]">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div><code
-                                                    class="flex-auto relative block text-zinc-50 overflow-auto p-4"><span
+                                                    class="flex-auto relative block text-zinc-50 overflow-hidden p-4"><span
                                                         class="tag punctuation token">&lt;</span><span
                                                         class="tag token">div</span><span
                                                         class="tag token"> </span><span class="tag attr-name token">class</span><span
