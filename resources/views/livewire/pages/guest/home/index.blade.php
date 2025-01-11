@@ -189,117 +189,332 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
     </section>
 
-    {{--    Placeholder SECTIOn--}}
-    <div class="mt-32 sm:mt-56">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <div class="mx-auto max-w-2xl sm:text-center">
-                <h2 class="text-base font-semibold leading-7 text-blue-400">Everything you need</h2>
-                <flux:heading class="mt-2 !text-3xl font-bold tracking-tight  sm:!text-4xl">No server? No
-                    problem.
-                </flux:heading>
-                <flux:text class="mt-6 !text-lg leading-8 text-zinc-300">Lorem ipsum, dolor sit amet consectetur
-                    adipisicing
-                    elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis.
-                </flux:text>
+    {{--    MORE FEATURES SECTION--}}
+    <section id="modern-features">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div
+                class="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-slate-900/10 shadow overflow-hidden dark:bg-indigo-500 dark:highlight-white/20">
+                <div class="aspect-w-1 aspect-h-1 bg-[length:100%] dark:hidden"
+                     style="background-image: url(&quot;/_next/static/media/modern-features.0c791977.png&quot;);"></div>
+                <div class="hidden aspect-w-1 aspect-h-1 bg-[length:100%] dark:block"
+                     style="background-image: url(&quot;/_next/static/media/modern-features.9af738b6.png&quot;);"></div>
+            </div>
+            <h2 class="mt-8 font-semibold text-indigo-500 dark:text-indigo-400">Modern features</h2>
+            <p class="mt-4 text-3xl sm:text-4xl text-slate-900 font-extrabold tracking-tight dark:text-slate-50 ">
+                Cutting-edge is our comfort&nbsp;zone.</p>
+            <div class="mt-4 max-w-3xl space-y-6 "><p>Tailwind is unapologetically modern, and takes advantage of all
+                    the latest and greatest CSS features to make the developer experience as enjoyable as possible.</p>
+                <p>We've got first-class CSS grid support, composable transforms and gradients powered by CSS variables,
+                    support for modern state selectors like <code
+                        class="font-mono text-slate-900 font-medium dark:text-slate-200 ">:focus-visible</code>, and
+                    tons more.</p></div>
+            <a class="group inline-flex items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-200 hover:text-indigo-700 focus:ring-indigo-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 mt-8"
+               href="/docs/grid-template-columns">Learn more<span class="sr-only">, grid template columns</span>
+                <svg
+                    class="overflow-visible ml-3 text-indigo-300 group-hover:text-indigo-400 dark:text-slate-500 dark:group-hover:text-slate-400"
+                    width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M0 0L3 3L0 6"></path>
+                </svg>
+            </a>
+            <div class="mt-10">
+                <div class="flex overflow-auto -mx-4 sm:mx-0">
+                    <ul class="flex-none inline-grid gap-x-2 px-4 sm:px-0 xl:gap-x-6"
+                        style="grid-template-columns: repeat(3, minmax(6rem, 1fr));">
+                        <li>
+                            <button type="button"
+                                    class="group text-sm font-semibold w-full flex flex-col items-center text-indigo-600 dark:text-indigo-400">
+                                <svg width="48" height="48" fill="none" aria-hidden="true"
+                                     class="mb-6 text-indigo-500 dark:text-indigo-400">
+                                    <path
+                                        d="M5 13a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-6ZM5 29a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-6ZM19 29a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6ZM33 29a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6ZM19 13a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H22a3 3 0 0 1-3-3v-6Z"
+                                        fill="currentColor" fill-opacity=".1" stroke="currentColor"
+                                        stroke-width="2"></path>
+                                </svg>
+                                CSS Grid
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button"
+                                    class="group text-sm font-semibold w-full flex flex-col items-center ">
+                                <svg width="48" height="48" fill="none" aria-hidden="true"
+                                     class="mb-6 text-slate-300 group-hover:text-slate-400 dark:text-slate-600 dark:group-hover:text-slate-500">
+                                    <path
+                                        d="M5.632 11.725a3 3 0 0 1 2.554-3.388l3.96-.557a3 3 0 0 1 3.389 2.554l.835 5.941a3 3 0 0 1-2.553 3.388l-3.961.557a3 3 0 0 1-3.389-2.553l-.835-5.942ZM1 29a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-6ZM20 34a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6ZM36.728 27.026a3 3 0 0 1 3.558-2.31l3.913.831a3 3 0 0 1 2.31 3.558l-1.247 5.87a3 3 0 0 1-3.558 2.31l-3.913-.832a3 3 0 0 1-2.31-3.558l1.247-5.869ZM22.236 9.17a3 3 0 0 1 3.202-2.783l17.956 1.255a3 3 0 0 1 2.784 3.202l-.419 5.986a3 3 0 0 1-3.202 2.783l-17.956-1.255a3 3 0 0 1-2.784-3.202l.419-5.986Z"
+                                        fill="currentColor" fill-opacity="0" stroke="currentColor"
+                                        stroke-width="2"></path>
+                                </svg>
+                                Transforms
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button"
+                                    class="group text-sm font-semibold w-full flex flex-col items-center ">
+                                <svg width="48" height="48" fill="none" aria-hidden="true"
+                                     class="mb-6 text-slate-300 group-hover:text-slate-400 dark:text-slate-600 dark:group-hover:text-slate-500">
+                                    <path
+                                        d="M31 30c0-7.18-5.82-13-13-13m-5.009 1C8.298 19.961 5 24.596 5 30c0 7.18 5.82 13 13 13 5.404 0 10.039-3.298 12-7.991"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                    <circle cx="30" cy="18" r="13" fill="currentColor" fill-opacity="0"
+                                            stroke="currentColor" stroke-width="2"></circle>
+                                    <path d="m26 30 4-4M21 27l6-6M18 22l4-4" stroke="currentColor" stroke-width="2"
+                                          stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                Filters
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="relative overflow-hidden pt-16">
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <img
-                    src="https://tailwindcss.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.d88bdbd2.png&w=1920&q=90"
-                    alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10" width="2432"
-                    height="1442">
-                <div class="relative" aria-hidden="true">
+        <div class="relative pt-10 xl:pt-0 mt-10 xl:mt-2">
+            <div
+                class="hidden dark:block absolute top-0 inset-x-0 h-[37.5rem] bg-gradient-to-b from-[#0c1120] top-0 xl:top-8"></div>
+            <div class="absolute top-0 inset-x-0 bg-top bg-no-repeat GridLockup_beams-0___8Vns top-0 xl:top-8"></div>
+            <div
+                class="absolute top-0 inset-x-0 h-[37.5rem] bg-grid-slate-900/[0.04] bg-top [mask-image:linear-gradient(0deg,transparent,black)] dark:bg-grid-slate-100/[0.03] dark:bg-[center_top_-1px] dark:border-t dark:border-slate-100/5 top-0 xl:top-8"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-5 xl:col-span-6 flex flex-col">
+                    <div class="flex text-4xl font-black lg:mt-10 xl:mt-18">
+                        <div class="w-full flex-none grid grid-cols-3 grid-rows-2 gap-8">
+                            <div style="transform: none;">
+                                <div
+                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
+                                    <img src="/_next/static/media/1.4985e539.jpg" alt=""
+                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
+                                         loading="lazy"></div>
+                            </div>
+                            <div class="col-start-3 col-end-4 row-start-2 row-end-3" style="transform: none;">
+                                <div
+                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
+                                    <img src="/_next/static/media/2.86c4c41e.jpg" alt=""
+                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
+                                         loading="lazy"></div>
+                            </div>
+                            <div class="origin-right" style="transform: none;">
+                                <div
+                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
+                                    <img src="/_next/static/media/3.19759950.jpg" alt=""
+                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
+                                         loading="lazy"></div>
+                            </div>
+                            <div style="transform: none;">
+                                <div
+                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
+                                    <img src="/_next/static/media/4.a2ed7a78.jpg" alt=""
+                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
+                                         loading="lazy"></div>
+                            </div>
+                            <div
+                                class="relative bg-white rounded-lg shadow-lg overflow-hidden col-start-2 col-end-4 row-start-1 row-end-2 transition-[filter] duration-500"
+                                style="opacity: 1; transform: none;"><img src="/_next/static/media/5.e8ff4aa4.jpg"
+                                                                          alt=""
+                                                                          class="absolute inset-0 w-full h-full object-cover"
+                                                                          decoding="async" loading="lazy"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 -mx-4 sm:mx-0 lg:mt-0 lg:col-span-7 xl:col-span-6">
                     <div
-                        class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-zinc-50 dark:from-zinc-900 pt-[7%]"></div>
+                        class="relative overflow-hidden shadow-xl flex bg-slate-800 h-[31.625rem] max-h-[60vh] sm:max-h-[none] sm:rounded-xl lg:h-[34.6875rem] xl:h-[31.625rem] dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10">
+                        <div class="relative w-full flex flex-col">
+                            <div class="flex-none border-b border-slate-500/30">
+                                <div class="flex items-center h-8 space-x-1.5 px-3">
+                                    <div class="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="relative min-h-0 flex-auto flex flex-col">
+                                <div class="w-full flex-auto flex min-h-0" style="opacity: 1;">
+                                    <div class="w-full flex-auto flex min-h-0 overflow-auto">
+                                        <div class="w-full relative flex-auto"><pre
+                                                class="flex min-h-full text-sm leading-6"><div aria-hidden="true"
+                                                                                               class="hidden md:block text-slate-600 flex-none py-4 pr-4 text-right select-none w-[3.125rem]">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div><code
+                                                    class="flex-auto relative block text-slate-50 overflow-auto p-4"><span
+                                                        class="tag punctuation token">&lt;</span><span
+                                                        class="tag token">div</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">class</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">grid grid-flow-col grid-rows-2 grid-cols-3 gap-8</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">src</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">/mountains-1.jpg</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">alt</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">lazy</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">class</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">col-start-3</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">src</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">/mountains-2.jpg</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">alt</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">lazy</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">src</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">/mountains-3.jpg</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">alt</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">lazy</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">src</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">/mountains-4.jpg</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">alt</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">lazy</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">class</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">row-start-1 col-start-2 col-span-2</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">src</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">/mountains-5.jpg</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span
+                                                        class="tag attr-name token">alt</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
+                                                        class="tag attr-value punctuation attr-equals token">=</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag attr-value token">lazy</span><span
+                                                        class="tag attr-value punctuation token">"</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span></span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
+                                                        class="tag punctuation token">&gt;</span><span></span>
+<span class="inline-block"></span>
+</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8">
-            <dl class="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-zinc-300 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
-                <div class="relative pl-9">
-                    <flux:subheading class="inline font-semibold">
-                        <svg class="absolute left-1 top-1 h-5 w-5 text-blue-500" viewBox="0 0 20 20"
-                             fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M5.5 17a4.5 4.5 0 01-1.44-8.765 4.5 4.5 0 018.302-3.046 3.5 3.5 0 014.504 4.272A4 4 0 0115 17H5.5zm3.75-2.75a.75.75 0 001.5 0V9.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0l-3.25 3.5a.75.75 0 101.1 1.02l1.95-2.1v4.59z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                        Push to deploy.
-                    </flux:subheading>
-                    <flux:text class="inline">Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.
-                    </flux:text>
+    </section>
+
+    <!-- Catalog -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex items-start w-full">
+            {{--        texts--}}
+            <div class="space-y-6 max-w-xl mt-12 ">
+                <div class="flex justify-start">
+                    <div
+                        class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
+                        <flux:icon.building-storefront class="h-6 w-6 text-[var(--color-compliment-content)]"/>
+                    </div>
                 </div>
-                <div class="relative pl-9">
-                    <flux:subheading class="inline font-semibold">
-                        <svg class="absolute left-1 top-1 h-5 w-5 text-blue-500" viewBox="0 0 20 20"
-                             fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                        SSL certificates.
-                    </flux:subheading>
-                    <flux:text class="inline">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem
-                        cupidatat commodo.
-                    </flux:text>
-                </div>
-                <div class="relative pl-9">
-                    <flux:subheading class="inline font-semibold">
-                        <svg class="absolute left-1 top-1 h-5 w-5 text-blue-500" viewBox="0 0 20 20"
-                             fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                        Simple queues.
-                    </flux:subheading>
-                    <flux:text class="inline">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.</flux:text>
-                </div>
-                <div class="relative pl-9">
-                    <flux:subheading class="inline font-semibold">
-                        <svg class="absolute left-1 top-1 h-5 w-5 text-blue-500" viewBox="0 0 20 20"
-                             fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M10 2.5c-1.31 0-2.526.386-3.546 1.051a.75.75 0 01-.82-1.256A8 8 0 0118 9a22.47 22.47 0 01-1.228 7.351.75.75 0 11-1.417-.49A20.97 20.97 0 0016.5 9 6.5 6.5 0 0010 2.5zM4.333 4.416a.75.75 0 01.218 1.038A6.466 6.466 0 003.5 9a7.966 7.966 0 01-1.293 4.362.75.75 0 01-1.257-.819A6.466 6.466 0 002 9c0-1.61.476-3.11 1.295-4.365a.75.75 0 011.038-.219zM10 6.12a3 3 0 00-3.001 3.041 11.455 11.455 0 01-2.697 7.24.75.75 0 01-1.148-.965A9.957 9.957 0 005.5 9c0-.028.002-.055.004-.082a4.5 4.5 0 018.996.084V9.15l-.005.297a.75.75 0 11-1.5-.034c.003-.11.004-.219.005-.328a3 3 0 00-3-2.965zm0 2.13a.75.75 0 01.75.75c0 3.51-1.187 6.745-3.181 9.323a.75.75 0 11-1.186-.918A13.687 13.687 0 009.25 9a.75.75 0 01.75-.75zm3.529 3.698a.75.75 0 01.584.885 18.883 18.883 0 01-2.257 5.84.75.75 0 11-1.29-.764 17.386 17.386 0 002.078-5.377.75.75 0 01.885-.584z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                        Advanced security.
-                    </flux:subheading>
-                    <flux:text class="inline">Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.
-                    </flux:text>
-                </div>
-                <div class="relative pl-9">
-                    <flux:subheading class="inline font-semibold">
-                        <svg class="absolute left-1 top-1 h-5 w-5 text-blue-500" viewBox="0 0 20 20"
-                             fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                        Powerful API.
-                    </flux:subheading>
-                    <flux:text class="inline">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem
-                        cupidatat commodo.
-                    </flux:text>
-                </div>
-                <div class="relative pl-9">
-                    <flux:subheading class="inline font-semibold">
-                        <svg class="absolute left-1 top-1 h-5 w-5 text-blue-500" viewBox="0 0 20 20"
-                             fill="currentColor" aria-hidden="true">
-                            <path
-                                d="M4.632 3.533A2 2 0 016.577 2h6.846a2 2 0 011.945 1.533l1.976 8.234A3.489 3.489 0 0016 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234z"/>
-                            <path fill-rule="evenodd"
-                                  d="M4 13a2 2 0 100 4h12a2 2 0 100-4H4zm11.24 2a.75.75 0 01.75-.75H16a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75h-.01a.75.75 0 01-.75-.75V15zm-2.25-.75a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 00.75-.75V15a.75.75 0 00-.75-.75h-.01z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                        Database backups.
-                    </flux:subheading>
-                    <flux:text class="inline">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.</flux:text>
-                </div>
-            </dl>
+
+                <p class="text-[var(--color-compliment-content)] !mt-3">Catalog</p>
+
+                <flux:heading size="2xl" level="2">
+                    Your path, your possibilities.
+                </flux:heading>
+
+                <flux:text size="lg" class="mx-auto leading-8">
+                    Explore our selection of convenience features and enhancements designed to complement your gameplay
+                    experience. See detailed information about everything available in the game.
+                </flux:text>
+
+                <flux:link href="#" variant="ghost" :accent="false"
+                           class="!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2">
+                    {{ __('Browse Offerings') }}
+                    <flux:icon.arrow-long-right variant="micro"/>
+                </flux:link>
+            </div>
+
+            {{--        image--}}
+            <div>
+                <img
+                    src="{{ asset('images/shop.png') }}"
+                    alt="App screenshot">
+            </div>
         </div>
-    </div>
+    </section>
+
 
     <!-- CTA section -->
     <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
