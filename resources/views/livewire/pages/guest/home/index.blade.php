@@ -1,17 +1,28 @@
 <?php
 
+use App\Enums\Content\ArticleType;
+use App\Models\Content\Article;
+use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
-//
+    #[Computed]
+    public function articles(): Collection
+    {
+        return Article::where('is_published', true)
+            ->where('type', ArticleType::NEWS)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+    }
 }; ?>
 
 <div class="space-y-40">
     <!-- Hero section -->
     <section class="relative isolate overflow-hidden">
         <x-grid-pattern position="top_left" :border-top="false"/>
-
 
         <div class="mx-auto max-w-7xl px-6 pt-10 lg:flex lg:px-8 lg:pt-40">
             <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
@@ -68,10 +79,27 @@ new #[Layout('layouts.guest')] class extends Component {
     </section>
 
     <!-- News Grid Container -->
-    <livewire:pages.guest.home.news-section/>
+    <section class="max-w-7xl mx-auto px-6 lg:px-8 !-mt-24">
+        <div class="flex gap-8 items-center mb-8">
+            <flux:heading size="xl" level="2" class="z-0">
+                {{ __('Latest News') }}
+            </flux:heading>
+            <flux:link variant="subtle" :href="route('articles')" wire:navigate class="flex items-center gap-2 z-0">
+                {{ __('View All') }}
+                <flux:icon.arrow-right variant="micro"/>
+            </flux:link>
+        </div>
+
+        <!-- News Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @foreach($this->articles as $article)
+                <livewire:pages.guest.articles.card :$article :wire:key="$article->id"/>
+            @endforeach
+        </div>
+    </section>
 
     <!-- Features -->
-    <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
+    <section class="relative isolate mt-32 px-6 pt-32 sm:mt-56 sm:pt-40 lg:px-8">
         <x-grid-pattern position="top_right"/>
 
         {{-- Dark theme beams --}}
@@ -190,15 +218,21 @@ new #[Layout('layouts.guest')] class extends Component {
     </section>
 
     <!-- More Features TO BE DONE -->
-    <section id="modern-features">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+    <section class="relative isolate">
+
+        <x-grid-pattern position="top_left" class="mt-[30rem] max-h-[30rem]"/>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div
                 class="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-zinc-900/10 shadow overflow-hidden dark:bg-indigo-500 dark:highlight-white/20">
             </div>
+
             <h2 class="mt-8 font-semibold text-indigo-500 dark:text-indigo-400">Modern features</h2>
+
             <p class="mt-4 text-3xl sm:text-4xl text-zinc-900 font-extrabold tracking-tight dark:text-zinc-50 ">
                 Cutting-edge is our comfort&nbsp;zone.
             </p>
+
             <div class="mt-4 max-w-3xl space-y-6">
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus deserunt dolorem fuga maxime
@@ -211,200 +245,73 @@ new #[Layout('layouts.guest')] class extends Component {
                 </p>
             </div>
 
-            <flux:button icon-trailing="arrow-long-right" class="mt-6">
-                Learn More
-            </flux:button>
+            <flux:tab.group class="mt-10">
+                <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0">
+                    <flux:tab name="tab10" :accent="false" icon="swords">Evolving Items</flux:tab>
+                    <flux:tab name="tab20" :accent="false" icon="scroll">Progressive Quests</flux:tab>
+                    <flux:tab name="tab30" :accent="false" icon="sparkles">Crafting System</flux:tab>
+                </flux:tabs>
 
-            <div class="mt-10">
-                <div class="flex overflow-auto -mx-4 sm:mx-0">
-                    <flux:tab.group>
-                        <flux:tabs variant="pills" class="max-sm:flex-col justify-center">
-                            <flux:tab name="tab1" :accent="false" icon="swords">Evolving Items</flux:tab>
-                            <flux:tab name="tab2" :accent="false" icon="scroll">Progressive Quests</flux:tab>
-                            <flux:tab name="tab3" :accent="false" icon="sparkles">Crafting System</flux:tab>
-                        </flux:tabs>
-                    </flux:tab.group>
-                </div>
-            </div>
-        </div>
-        
-        <div class="relative pt-10 xl:pt-0 mt-10 xl:mt-2">
-            <x-grid-pattern position="top_left" class="mt-8"/>
-
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
-                <div class="lg:col-span-5 xl:col-span-6 flex flex-col">
-                    <div class="flex text-4xl font-black lg:mt-10 xl:mt-18">
-                        <flux:text>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut deserunt
+                <flux:tab.panel name="tab10">
+                    <div class="lg:grid lg:grid-cols-12 lg:gap-8 pt-10 xl:pt-0 mt-10 xl:mt-2">
+                        <flux:text class="lg:col-span-4 lg:mt-10 xl:mt-18">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut
+                            deserunt
                             ea
                             eligendi eveniet expedita illum odio, provident recusandae rerum sapiente velit
                             voluptatem!
-                            Accusantium adipisci, beatae blanditiis cumque ea eos id, illo illum, in minus nam
+                            Accusantium adipisci, beatae blanditiis cumque ea eos id, illo illum, in minus
+                            nam
                             nesciunt
-                            odio porro quaerat qui quis rem repellat temporibus. Atque fugit maiores tempore!
-
+                            odio porro quaerat qui quis rem repellat temporibus. Atque fugit maiores
+                            tempore!
                         </flux:text>
+
+                        <x-browser-frame
+                            class="lg:col-span-8"
+                            video="{{ asset('videos/mu.mp4') }}"
+                            poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                        />
                     </div>
-                </div>
-                <div class="mt-4 -mx-4 sm:mx-0 lg:mt-0 lg:col-span-7 xl:col-span-6">
-                    <div
-                        class="relative overflow-hidden shadow-xl flex bg-zinc-800 h-[31.625rem] max-h-[60vh] sm:max-h-[none] sm:rounded-xl lg:h-[34.6875rem] xl:h-[31.625rem] dark:bg-zinc-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10">
-                        <div class="relative w-full flex flex-col">
-                            <div class="flex-none border-b border-zinc-500/30">
-                                <div class="flex items-center h-8 space-x-1.5 px-3">
-                                    <div class="w-2.5 h-2.5 bg-zinc-600 rounded-full"></div>
-                                    <div class="w-2.5 h-2.5 bg-zinc-600 rounded-full"></div>
-                                    <div class="w-2.5 h-2.5 bg-zinc-600 rounded-full"></div>
-                                </div>
-                            </div>
-                            <div class="relative min-h-0 flex-auto flex flex-col">
-                                <div class="w-full flex-auto flex min-h-0" style="opacity: 1;">
-                                    <div class="w-full flex-auto flex min-h-0 overflow-hidden">
-                                        <div class="w-full relative flex-auto"><pre
-                                                class="flex min-h-full text-sm leading-6"><div aria-hidden="true"
-                                                                                               class="hidden md:block text-zinc-600 flex-none py-4 pr-4 text-right select-none w-[3.125rem]">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div><code
-                                                    class="flex-auto relative block text-zinc-50 overflow-hidden p-4"><span
-                                                        class="tag punctuation token">&lt;</span><span
-                                                        class="tag token">div</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">class</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">grid grid-flow-col grid-rows-2 grid-cols-3 gap-8</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">src</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">/mountains-1.jpg</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">alt</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">lazy</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">class</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">col-start-3</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">src</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">/mountains-2.jpg</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">alt</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">lazy</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">src</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">/mountains-3.jpg</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">alt</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">lazy</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">src</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">/mountains-4.jpg</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">alt</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">lazy</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;</span><span class="tag token">div</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">class</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">row-start-1 col-start-2 col-span-2</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>    </span><span class="tag punctuation token">&lt;</span><span class="tag token">img</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">src</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">/mountains-5.jpg</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span
-                                                        class="tag attr-name token">alt</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag token"> </span><span class="tag attr-name token">loading</span><span
-                                                        class="tag attr-value punctuation attr-equals token">=</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag attr-value token">lazy</span><span
-                                                        class="tag attr-value punctuation token">"</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span>  </span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span></span><span class="tag punctuation token">&lt;/</span><span class="tag token">div</span><span
-                                                        class="tag punctuation token">&gt;</span><span></span>
-<span class="inline-block"></span>
-</code></pre>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                </flux:tab.panel>
+
+                <flux:tab.panel name="tab20">
+                    <div class="lg:grid lg:grid-cols-12 lg:gap-8 pt-10 xl:pt-0 mt-10 xl:mt-2">
+                        <flux:text class="lg:col-span-4 lg:mt-10 xl:mt-18">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut
+                            deserunt
+                        </flux:text>
+
+                        <x-browser-frame
+                            class="lg:col-span-8"
+                            video="{{ asset('videos/example.mp4') }}"
+                            poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                        />
                     </div>
-                </div>
-            </div>
+                </flux:tab.panel>
+
+                <flux:tab.panel name="tab30">
+                    <div class="lg:grid lg:grid-cols-12 lg:gap-8 pt-10 xl:pt-0 mt-10 xl:mt-2">
+                        <flux:text class="lg:col-span-4 lg:mt-10 xl:mt-18">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut
+                            deserunt
+                            ea
+                            eligendi eveniet expedita illum odio, provident recusandae rerum sapiente velit
+                            voluptatem!
+                            Accusantium adipisci, beatae blanditiis cumque ea eos id, illo illum, in minus
+                        </flux:text>
+
+                        <x-browser-frame
+                            class="lg:col-span-8"
+                            video="{{ asset('videos/auth-video.mp4') }}"
+                            poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                        />
+                    </div>
+                </flux:tab.panel>
+            </flux:tab.group>
         </div>
+
+
     </section>
 
     <!-- Catalog -->
