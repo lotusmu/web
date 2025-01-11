@@ -189,29 +189,31 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
     </section>
 
-    {{--    MORE FEATURES SECTION--}}
+    <!-- More Features TO BE DONE -->
     <section id="modern-features">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div
-                class="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-slate-900/10 shadow overflow-hidden dark:bg-indigo-500 dark:highlight-white/20">
-                <div class="aspect-w-1 aspect-h-1 bg-[length:100%] dark:hidden"
-                     style="background-image: url(&quot;/_next/static/media/modern-features.0c791977.png&quot;);"></div>
-                <div class="hidden aspect-w-1 aspect-h-1 bg-[length:100%] dark:block"
-                     style="background-image: url(&quot;/_next/static/media/modern-features.9af738b6.png&quot;);"></div>
+                class="w-16 h-16 p-[0.1875rem] rounded-full ring-1 ring-zinc-900/10 shadow overflow-hidden dark:bg-indigo-500 dark:highlight-white/20">
             </div>
             <h2 class="mt-8 font-semibold text-indigo-500 dark:text-indigo-400">Modern features</h2>
-            <p class="mt-4 text-3xl sm:text-4xl text-slate-900 font-extrabold tracking-tight dark:text-slate-50 ">
-                Cutting-edge is our comfort&nbsp;zone.</p>
-            <div class="mt-4 max-w-3xl space-y-6 "><p>Tailwind is unapologetically modern, and takes advantage of all
-                    the latest and greatest CSS features to make the developer experience as enjoyable as possible.</p>
-                <p>We've got first-class CSS grid support, composable transforms and gradients powered by CSS variables,
-                    support for modern state selectors like <code
-                        class="font-mono text-slate-900 font-medium dark:text-slate-200 ">:focus-visible</code>, and
-                    tons more.</p></div>
-            <a class="group inline-flex items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-200 hover:text-indigo-700 focus:ring-indigo-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 mt-8"
+            <p class="mt-4 text-3xl sm:text-4xl text-zinc-900 font-extrabold tracking-tight dark:text-zinc-50 ">
+                Cutting-edge is our comfort&nbsp;zone.
+            </p>
+            <div class="mt-4 max-w-3xl space-y-6">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus deserunt dolorem fuga maxime
+                    nihil non quam quos! Aspernatur deserunt magni neque, odio quos rerum tenetur vitae! Consectetur
+                    dolor nesciunt omnis?
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, commodi consequuntur fugiat minima
+                    natus officia optio quo. Neque omnis, reiciendis!
+                </p>
+            </div>
+            <a class="group inline-flex items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-200 hover:text-indigo-700 focus:ring-indigo-500 dark:bg-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-600 dark:hover:text-white dark:focus:ring-zinc-500 mt-8"
                href="/docs/grid-template-columns">Learn more<span class="sr-only">, grid template columns</span>
                 <svg
-                    class="overflow-visible ml-3 text-indigo-300 group-hover:text-indigo-400 dark:text-slate-500 dark:group-hover:text-slate-400"
+                    class="overflow-visible ml-3 text-indigo-300 group-hover:text-indigo-400 dark:text-zinc-500 dark:group-hover:text-zinc-400"
                     width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M0 0L3 3L0 6"></path>
@@ -238,7 +240,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <button type="button"
                                     class="group text-sm font-semibold w-full flex flex-col items-center ">
                                 <svg width="48" height="48" fill="none" aria-hidden="true"
-                                     class="mb-6 text-slate-300 group-hover:text-slate-400 dark:text-slate-600 dark:group-hover:text-slate-500">
+                                     class="mb-6 text-zinc-300 group-hover:text-zinc-400 dark:text-zinc-600 dark:group-hover:text-zinc-500">
                                     <path
                                         d="M5.632 11.725a3 3 0 0 1 2.554-3.388l3.96-.557a3 3 0 0 1 3.389 2.554l.835 5.941a3 3 0 0 1-2.553 3.388l-3.961.557a3 3 0 0 1-3.389-2.553l-.835-5.942ZM1 29a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-6ZM20 34a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3v-6ZM36.728 27.026a3 3 0 0 1 3.558-2.31l3.913.831a3 3 0 0 1 2.31 3.558l-1.247 5.87a3 3 0 0 1-3.558 2.31l-3.913-.832a3 3 0 0 1-2.31-3.558l1.247-5.869ZM22.236 9.17a3 3 0 0 1 3.202-2.783l17.956 1.255a3 3 0 0 1 2.784 3.202l-.419 5.986a3 3 0 0 1-3.202 2.783l-17.956-1.255a3 3 0 0 1-2.784-3.202l.419-5.986Z"
                                         fill="currentColor" fill-opacity="0" stroke="currentColor"
@@ -251,7 +253,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <button type="button"
                                     class="group text-sm font-semibold w-full flex flex-col items-center ">
                                 <svg width="48" height="48" fill="none" aria-hidden="true"
-                                     class="mb-6 text-slate-300 group-hover:text-slate-400 dark:text-slate-600 dark:group-hover:text-slate-500">
+                                     class="mb-6 text-zinc-300 group-hover:text-zinc-400 dark:text-zinc-600 dark:group-hover:text-zinc-500">
                                     <path
                                         d="M31 30c0-7.18-5.82-13-13-13m-5.009 1C8.298 19.961 5 24.596 5 30c0 7.18 5.82 13 13 13 5.404 0 10.039-3.298 12-7.991"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -269,61 +271,32 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
         </div>
         <div class="relative pt-10 xl:pt-0 mt-10 xl:mt-2">
-            <div
-                class="hidden dark:block absolute top-0 inset-x-0 h-[37.5rem] bg-gradient-to-b from-[#0c1120] top-0 xl:top-8"></div>
-            <div class="absolute top-0 inset-x-0 bg-top bg-no-repeat GridLockup_beams-0___8Vns top-0 xl:top-8"></div>
-            <div
-                class="absolute top-0 inset-x-0 h-[37.5rem] bg-grid-slate-900/[0.04] bg-top [mask-image:linear-gradient(0deg,transparent,black)] dark:bg-grid-slate-100/[0.03] dark:bg-[center_top_-1px] dark:border-t dark:border-slate-100/5 top-0 xl:top-8"></div>
+            <x-grid-pattern position="top_left" class="mt-8"/>
+
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-5 xl:col-span-6 flex flex-col">
                     <div class="flex text-4xl font-black lg:mt-10 xl:mt-18">
-                        <div class="w-full flex-none grid grid-cols-3 grid-rows-2 gap-8">
-                            <div style="transform: none;">
-                                <div
-                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
-                                    <img src="/_next/static/media/1.4985e539.jpg" alt=""
-                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
-                                         loading="lazy"></div>
-                            </div>
-                            <div class="col-start-3 col-end-4 row-start-2 row-end-3" style="transform: none;">
-                                <div
-                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
-                                    <img src="/_next/static/media/2.86c4c41e.jpg" alt=""
-                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
-                                         loading="lazy"></div>
-                            </div>
-                            <div class="origin-right" style="transform: none;">
-                                <div
-                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
-                                    <img src="/_next/static/media/3.19759950.jpg" alt=""
-                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
-                                         loading="lazy"></div>
-                            </div>
-                            <div style="transform: none;">
-                                <div
-                                    class="relative pt-full bg-white rounded-lg shadow-lg overflow-hidden transition-[filter] duration-500">
-                                    <img src="/_next/static/media/4.a2ed7a78.jpg" alt=""
-                                         class="absolute inset-0 w-full h-full object-cover" decoding="async"
-                                         loading="lazy"></div>
-                            </div>
-                            <div
-                                class="relative bg-white rounded-lg shadow-lg overflow-hidden col-start-2 col-end-4 row-start-1 row-end-2 transition-[filter] duration-500"
-                                style="opacity: 1; transform: none;"><img src="/_next/static/media/5.e8ff4aa4.jpg"
-                                                                          alt=""
-                                                                          class="absolute inset-0 w-full h-full object-cover"
-                                                                          decoding="async" loading="lazy"></div>
-                        </div>
+                        <flux:text>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto aut deserunt
+                            ea
+                            eligendi eveniet expedita illum odio, provident recusandae rerum sapiente velit
+                            voluptatem!
+                            Accusantium adipisci, beatae blanditiis cumque ea eos id, illo illum, in minus nam
+                            nesciunt
+                            odio porro quaerat qui quis rem repellat temporibus. Atque fugit maiores tempore!
+
+                        </flux:text>
                     </div>
                 </div>
                 <div class="mt-4 -mx-4 sm:mx-0 lg:mt-0 lg:col-span-7 xl:col-span-6">
                     <div
-                        class="relative overflow-hidden shadow-xl flex bg-slate-800 h-[31.625rem] max-h-[60vh] sm:max-h-[none] sm:rounded-xl lg:h-[34.6875rem] xl:h-[31.625rem] dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10">
+                        class="relative overflow-hidden shadow-xl flex bg-zinc-800 h-[31.625rem] max-h-[60vh] sm:max-h-[none] sm:rounded-xl lg:h-[34.6875rem] xl:h-[31.625rem] dark:bg-zinc-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10">
                         <div class="relative w-full flex flex-col">
-                            <div class="flex-none border-b border-slate-500/30">
+                            <div class="flex-none border-b border-zinc-500/30">
                                 <div class="flex items-center h-8 space-x-1.5 px-3">
-                                    <div class="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-                                    <div class="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-                                    <div class="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-zinc-600 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-zinc-600 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-zinc-600 rounded-full"></div>
                                 </div>
                             </div>
                             <div class="relative min-h-0 flex-auto flex flex-col">
@@ -331,8 +304,8 @@ new #[Layout('layouts.guest')] class extends Component {
                                     <div class="w-full flex-auto flex min-h-0 overflow-auto">
                                         <div class="w-full relative flex-auto"><pre
                                                 class="flex min-h-full text-sm leading-6"><div aria-hidden="true"
-                                                                                               class="hidden md:block text-slate-600 flex-none py-4 pr-4 text-right select-none w-[3.125rem]">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div><code
-                                                    class="flex-auto relative block text-slate-50 overflow-auto p-4"><span
+                                                                                               class="hidden md:block text-zinc-600 flex-none py-4 pr-4 text-right select-none w-[3.125rem]">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div><code
+                                                    class="flex-auto relative block text-zinc-50 overflow-auto p-4"><span
                                                         class="tag punctuation token">&lt;</span><span
                                                         class="tag token">div</span><span
                                                         class="tag token"> </span><span class="tag attr-name token">class</span><span
@@ -477,10 +450,10 @@ new #[Layout('layouts.guest')] class extends Component {
     </section>
 
     <!-- Catalog -->
-    <section class="max-w-7xl mx-auto px-6 lg:px-8">
-        <div class="flex items-start w-full">
-            {{--        texts--}}
-            <div class="space-y-6 max-w-xl mt-12 ">
+    <section class="relative isolate overflow-hidden">
+        <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
+            {{-- texts --}}
+            <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-12">
                 <div class="flex justify-start">
                     <div
                         class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
@@ -488,29 +461,54 @@ new #[Layout('layouts.guest')] class extends Component {
                     </div>
                 </div>
 
-                <p class="text-[var(--color-compliment-content)] !mt-3">Catalog</p>
+                <p class="text-[var(--color-compliment-content)] mt-3">Catalog</p>
 
-                <flux:heading size="2xl" level="2">
+                <flux:heading size="2xl" level="2" class="mt-6">
                     Your path, your possibilities.
                 </flux:heading>
 
-                <flux:text size="lg" class="mx-auto leading-8">
+                <flux:text size="lg" class="mt-6 leading-8">
                     Explore our selection of convenience features and enhancements designed to complement your gameplay
                     experience. See detailed information about everything available in the game.
                 </flux:text>
 
-                <flux:link href="#" variant="ghost" :accent="false"
-                           class="!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2">
-                    {{ __('Browse Offerings') }}
-                    <flux:icon.arrow-long-right variant="micro"/>
-                </flux:link>
+                <div class="mt-10">
+                    <flux:link href="#" variant="ghost" :accent="false"
+                               class="!text-[var(--color-compliment-content)] inline-flex items-center gap-2">
+                        {{ __('Browse Offerings') }}
+                        <flux:icon.arrow-long-right variant="micro"/>
+                    </flux:link>
+                </div>
             </div>
 
-            {{--        image--}}
-            <div>
+            {{-- image with floating boxes --}}
+            <div class="relative w-full justify-end ml-12 lg:ml-0 -z-10">
+                <x-feature-highlight
+                    class="absolute top-4 max-lg:top-10 right-4 max-xl:right-12 z-[2]">
+                    <flux:text class="text-white/70">
+                        Starter buffs inside!
+                    </flux:text>
+                </x-feature-highlight>
+
+                <x-feature-highlight class="absolute top-1/3 max-sm:left-4 sm:right-[29rem] lg:left-16">
+                    <flux:text class="!text-white/70">Two tiers!</flux:text>
+                </x-feature-highlight>
+
+                <x-feature-highlight
+                    class="absolute bottom-16 max-sm:left-16 md:right-[27rem] lg:-left-12 z-[2] max-w-xs">
+                    <flux:heading class="!text-white">
+                        Starting Item Bundles
+                    </flux:heading>
+                    <flux:subheading class="!text-white/70">
+                        Psst... these bundles are packed with goodies to begin your adventure in style.
+                    </flux:subheading>
+                </x-feature-highlight>
+
                 <img
                     src="{{ asset('images/shop.png') }}"
-                    alt="App screenshot">
+                    alt="App screenshot"
+                    class="relative max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem] ml-auto"
+                >
             </div>
         </div>
     </section>
