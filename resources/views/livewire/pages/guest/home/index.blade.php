@@ -220,7 +220,7 @@ new #[Layout('layouts.guest')] class extends Component {
     <!-- More Features -->
     <section class="relative isolate">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="mb-12 space-y-6 text-center">
+            <div class="text-center mb-12 space-y-6">
                 <div class="flex justify-center">
                     <div class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
                         <flux:icon.film class="h-6 w-6 text-[var(--color-compliment-content)]"/>
@@ -229,15 +229,21 @@ new #[Layout('layouts.guest')] class extends Component {
 
                 <p class="text-[var(--color-compliment-content)] !mt-3">More Features</p>
 
-                <flux:heading size="2xl" level="2">
+                <flux:heading size="2xl" level="2" class="max-w-3xl mx-auto">
                     Ancient powers reimagined for modern gameplay.
                 </flux:heading>
 
-                <flux:text size="lg" class="max-w-3xl leading-8 mx-auto">
+                <flux:text size="lg" class="mx-auto max-w-2xl leading-8">
                     Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
                     Every feature is carefully crafted to enhance gameplay without compromising the core experience
                     that made the game legendary.
                 </flux:text>
+
+                <flux:link href="https://wiki.lotusmu.org" variant="ghost" :accent="false" external
+                           class="!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2">
+                    {{ __('Learn more') }}
+                    <flux:icon.arrow-long-right variant="micro"/>
+                </flux:link>
             </div>
 
             <flux:tab.group class="mt-10">
