@@ -253,8 +253,8 @@ new #[Layout('layouts.guest')] class extends Component {
                     <flux:tab name="tab30" :accent="false" icon="sparkles">Crafting System</flux:tab>
                 </flux:tabs>
 
-                <div class="absolute w-full overflow-visible left-0 mt-8 xl:mt-16">
-                    <x-grid-pattern position="top_left" class="h-[30rem]"/>
+                <div class="absolute w-full overflow-visible left-0 h-[30rem] mt-8 xl:mt-16">
+                    <x-grid-pattern position="top_left"/>
                 </div>
 
                 <flux:tab.panel name="tab10">
@@ -346,7 +346,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <div class="relative w-full justify-end ml-12 lg:ml-0 -z-10">
                 <x-feature-highlight
                     class="absolute top-4 max-lg:top-10 right-4 max-xl:right-12 z-[2]">
-                    <flux:text class="text-white/70">
+                    <flux:text class="!text-white/70">
                         Starter buffs inside!
                     </flux:text>
                 </x-feature-highlight>
