@@ -14,7 +14,7 @@
     </flux:heading>
 
     @if($description)
-        <flux:subheading size="lg">
+        <flux:subheading size="lg" class="max-w-3xl">
             {{ __($description) }}
         </flux:subheading>
     @endif

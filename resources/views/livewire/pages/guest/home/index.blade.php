@@ -322,19 +322,21 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{--                    </div>--}}
                 {{--                </div>--}}
 
-                <p class="text-[var(--color-compliment-content)] mt-3">Catalog</p>
+                <p class="text-[var(--color-compliment-content)] mt-3">
+                    {{ __('Catalog') }}
+                </p>
 
                 <flux:heading size="2xl" level="2" class="mt-6">
-                    Your path, your possibilities.
+                    {{ __('Your path, your possibilities.') }}
                 </flux:heading>
 
                 <flux:text size="lg" class="mt-6 leading-8">
-                    Explore our selection of convenience features and enhancements designed to complement your gameplay
-                    experience. See detailed information about everything available in the game.
+                    {{ __ ('Explore our selection of convenience features and enhancements designed to complement your gameplay
+                    experience. See detailed information about everything available in the game.')}}
                 </flux:text>
 
                 <div class="mt-10">
-                    <flux:link href="#" variant="ghost" :accent="false"
+                    <flux:link variant="ghost" :accent="false" :href="route('catalog')" wire:navigate
                                class="!text-[var(--color-compliment-content)] inline-flex items-center gap-2">
                         {{ __('Browse Offerings') }}
                         <flux:icon.arrow-long-right variant="micro"/>
@@ -347,21 +349,23 @@ new #[Layout('layouts.guest')] class extends Component {
                 <x-feature-highlight
                     class="absolute top-4 max-lg:top-10 right-4 max-xl:right-12 z-[2]">
                     <flux:text class="!text-white/70">
-                        Starter buffs inside!
+                        {{ __('Starter buffs inside!') }}
                     </flux:text>
                 </x-feature-highlight>
 
                 <x-feature-highlight class="absolute top-1/3 max-sm:left-4 sm:right-[29rem] lg:left-16">
-                    <flux:text class="!text-white/70">Two tiers!</flux:text>
+                    <flux:text class="!text-white/70">
+                        {{ __('Two tiers!') }}
+                    </flux:text>
                 </x-feature-highlight>
 
                 <x-feature-highlight
                     class="absolute bottom-16 max-sm:left-16 md:right-[27rem] lg:-left-12 z-[2] max-w-xs">
                     <flux:heading class="!text-white">
-                        Starting Item Bundles
+                        {{ __('Starting Item Bundles') }}
                     </flux:heading>
                     <flux:subheading class="!text-white/70">
-                        Psst... these bundles are packed with goodies to begin your adventure in style.
+                        {{ __('Psst... these bundles are packed with goodies to begin your adventure in style.') }}
                     </flux:subheading>
                 </x-feature-highlight>
 
@@ -377,7 +381,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <!-- CTA section -->
     <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
-        <x-grid-pattern position="top_left"/>
+        <x-grid-pattern position="top_right"/>
 
         <picture class="absolute inset-0 h-full w-full -z-20">
             <source
