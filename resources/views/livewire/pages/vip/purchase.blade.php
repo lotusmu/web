@@ -54,7 +54,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <div class="grid sm:grid-cols-2 gap-4">
         @foreach ($this->packages as $index => $package)
-            <livewire:pages.vip.package-card
+            <livewire:pages.vip.card
                 :$package
                 :is-featured="$loop->first"
                 :wire:key="'package-' . $package->id"

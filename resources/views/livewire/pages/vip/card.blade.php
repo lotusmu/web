@@ -20,7 +20,7 @@ new class extends Component {
     'sm:col-span-2' => $this->isFeatured,
 ])>
     <div class="flex flex-col space-y-8 h-full rounded-lg shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-800">
-        <x-vip.package-card-header
+        <x-vip.card-header
             :tokens="$this->package->cost"
             :duration="$this->package->duration"
             :tier="$this->label"
