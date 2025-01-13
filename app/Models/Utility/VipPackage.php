@@ -13,4 +13,20 @@ class VipPackage extends Model
         'level' => AccountLevel::class,
         'is_best_value' => 'boolean',
     ];
+
+    public function getCatalogOrderAttribute(): int
+    {
+        return cache()->remember(
+            "vip_package.{$this->id}.catalog_order",
+            now()->addDay(),
+            function () {
+                return match ($this->level) {
+                    AccountLevel::Bronze => 1,
+                    AccountLevel::Gold => 2,
+                    AccountLevel::Silver => 3,
+                    default => 99
+                };
+            }
+        );
+    }
 }

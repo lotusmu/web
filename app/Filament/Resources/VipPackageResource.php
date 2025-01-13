@@ -21,7 +21,7 @@ class VipPackageResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $modelLabel = 'Package';
+    protected static ?string $modelLabel = 'VIP Package';
 
     public static function form(Form $form): Form
     {

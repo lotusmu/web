@@ -2,6 +2,7 @@
 
 namespace App\Actions\Member;
 
+use App\Enums\Game\AccountLevel;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
@@ -13,6 +14,10 @@ class UpgradeAccountLevel
 {
     public function handle(User $user, VipPackage $package): bool
     {
+        if (! $this->canUpgrade($user)) {
+            return false;
+        }
+
         if (! $user->resource(ResourceType::TOKENS)->decrement($package->cost)) {
             return false;
         }
@@ -47,5 +52,24 @@ class UpgradeAccountLevel
                 ...IdentityProperties::capture(),
             ])
             ->log('Upgraded account level to :properties.level for :properties.duration days');
+    }
+
+    private function canUpgrade(User $user): bool
+    {
+        if ($user->member->AccountLevel !== AccountLevel::Regular &&
+            now()->lessThan($user->member->AccountExpireDate)) {
+
+            Flux::toast(
+                text: __('You already have an active VIP subscription until :date.', [
+                    'date' => $user->member->AccountExpireDate->format('Y-m-d H:i'),
+                ]),
+                heading: __('Cannot Upgrade'),
+                variant: 'danger',
+            );
+
+            return false;
+        }
+
+        return true;
     }
 }

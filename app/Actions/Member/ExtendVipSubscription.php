@@ -2,6 +2,7 @@
 
 namespace App\Actions\Member;
 
+use App\Enums\Game\AccountLevel;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
@@ -13,6 +14,10 @@ class ExtendVipSubscription
 {
     public function handle(User $user, VipPackage $package): bool
     {
+        if (! $this->canExtend($user)) {
+            return false;
+        }
+
         if (! $user->resource(ResourceType::TOKENS)->decrement($package->cost)) {
             return false;
         }
@@ -60,5 +65,20 @@ class ExtendVipSubscription
                 ...IdentityProperties::capture(),
             ])
             ->log('Extended VIP subscription for :properties.duration days');
+    }
+
+    private function canExtend(User $user): bool
+    {
+        if ($user->member->AccountLevel === AccountLevel::Regular) {
+            Flux::toast(
+                text: __('You need to have an active VIP subscription to extend it.'),
+                heading: __('Cannot Extend'),
+                variant: 'danger',
+            );
+
+            return false;
+        }
+
+        return true;
     }
 }
