@@ -29,6 +29,12 @@
                                 </flux:link>
                             </li>
                             <li>
+                                <flux:link variant="subtle" href="{{ route('catalog') }}"
+                                           wire:navigate>
+                                    {{ __('Browse Offerings') }}
+                                </flux:link>
+                            </li>
+                            <li>
                                 <flux:link variant="subtle" href="{{ route('articles', ['tab' => 'updates']) }}"
                                            wire:navigate>
                                     {{ __('Gameplay Updates') }}
