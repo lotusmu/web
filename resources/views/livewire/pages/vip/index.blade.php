@@ -16,10 +16,6 @@ new #[Layout('layouts.app')] class extends Component {
     public function mount(): void
     {
         $this->user = auth()->user();
-
-        if ($this->user->member->AccountLevel === AccountLevel::Regular) {
-            Redirect::route('vip.purchase');
-        }
     }
 
     #[Computed]

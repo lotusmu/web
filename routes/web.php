@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\CheckArticlePublishedMiddleware;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -35,7 +34,7 @@ Route::prefix('articles')->group(function () {
         ->name('articles');
 
     Volt::route('/{article:slug}', 'pages.guest.articles.show')
-        ->middleware(CheckArticlePublishedMiddleware::class)
+        ->middleware('article.published')
         ->name('articles.show');
 });
 
@@ -70,7 +69,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // VIP routes group
-    Route::prefix('vip')->group(function () {
+    Route::prefix('vip')->middleware('vip.access')->group(function () {
         Volt::route('/', 'pages.vip.index')
             ->name('vip');
         Volt::route('/purchase', 'pages.vip.purchase')

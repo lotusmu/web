@@ -15,7 +15,7 @@
         {{ __('Castle Siege') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="fire" :href="route('vip')"
+    <flux:navlist.item wire:navigate icon="fire" :href="route('vip')"
                        :current="request()->is('vip') || request()->is('vip/*')">
         {{ __('Account Level') }}
     </flux:navlist.item>
@@ -27,7 +27,7 @@
     <flux:navlist.item wire:navigate.hover icon="hand-coins" :href="route('donate')">
         {{ __('Donate') }}
     </flux:navlist.item>
-    
+
     <flux:navlist.item wire:navigate.hover icon="scroll-text" :href="route('activities')">
         {{ __('Activities') }}
     </flux:navlist.item>

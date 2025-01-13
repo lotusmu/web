@@ -14,12 +14,6 @@ new #[Layout('layouts.app')] class extends Component {
     public function mount(): void
     {
         $this->user = auth()->user();
-
-        if ($this->user->member->AccountLevel !== AccountLevel::Regular &&
-            now()->lessThan($this->user->member->AccountExpireDate)
-        ) {
-            Redirect::route('vip');
-        }
     }
 
     #[Computed]

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CheckArticlePublishedMiddleware;
+use App\Http\Middleware\EnsureVipAccessMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,6 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'stripe/*',
             'webhook/paypal',
             'webhook/prime',
+        ]);
+
+        $middleware->alias([
+            'vip.access' => EnsureVipAccessMiddleware::class,
+            'article.published' => CheckArticlePublishedMiddleware::class,
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
