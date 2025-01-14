@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Actions\Member\SyncMember;
+use App\Enums\Game\AccountLevel;
 use App\Enums\Game\GuildMemberStatus;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
@@ -86,7 +87,7 @@ class User extends Authenticatable implements FilamentUser, HasMember
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; //$this->hasRole('admin');
+        return true; // $this->hasRole('admin');
     }
 
     public function verify(): void
@@ -132,6 +133,12 @@ class User extends Authenticatable implements FilamentUser, HasMember
     public function hasActiveStealth(): bool
     {
         return $this->stealth?->isActive() ?? false;
+    }
+
+    public function hasValidVipSubscription(): bool
+    {
+        return $this->member->AccountLevel !== AccountLevel::Regular
+            && now()->lessThan($this->member->AccountExpireDate);
     }
 
     public function member(): HasOne

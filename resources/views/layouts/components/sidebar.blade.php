@@ -15,7 +15,8 @@
         {{ __('Castle Siege') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate icon="fire" :href="route('vip')"
+    <flux:navlist.item wire:navigate icon="fire"
+                       :href="auth()->user()->hasValidVipSubscription() ? route('vip') : route('vip.purchase')"
                        :current="request()->is('vip') || request()->is('vip/*')">
         {{ __('Account Level') }}
     </flux:navlist.item>

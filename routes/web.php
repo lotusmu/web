@@ -69,10 +69,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // VIP routes group
-    Route::prefix('vip')->middleware('vip.access')->group(function () {
+    Route::prefix('vip')->group(function () {
         Volt::route('/', 'pages.vip.index')
+            ->middleware('vip.only')
             ->name('vip');
         Volt::route('/purchase', 'pages.vip.purchase')
+            ->middleware('non.vip.only')
             ->name('vip.purchase');
     });
 

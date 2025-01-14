@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
-use App\Http\Middleware\EnsureVipAccessMiddleware;
+use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
+use App\Http\Middleware\EnsureVipOnlyMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'vip.access' => EnsureVipAccessMiddleware::class,
+            'vip.only' => EnsureVipOnlyMiddleware::class,
+            'non.vip.only' => EnsureNonVipOnlyMiddleware::class,
             'article.published' => CheckArticlePublishedMiddleware::class,
         ]);
     })
