@@ -2,7 +2,6 @@
 
 namespace App\Actions\Member;
 
-use App\Enums\Game\AccountLevel;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
@@ -56,8 +55,7 @@ class UpgradeAccountLevel
 
     private function canUpgrade(User $user): bool
     {
-        if ($user->member->AccountLevel !== AccountLevel::Regular &&
-            now()->lessThan($user->member->AccountExpireDate)) {
+        if ($user->hasValidVipSubscription()) {
 
             Flux::toast(
                 text: __('You already have an active VIP subscription until :date.', [

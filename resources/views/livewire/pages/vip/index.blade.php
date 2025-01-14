@@ -21,8 +21,7 @@ new #[Layout('layouts.app')] class extends Component {
     #[Computed]
     public function accountLevel(): ?array
     {
-        $level = $this->user->member->AccountLevel;
-        if ($level === AccountLevel::Regular) {
+        if ( ! $this->user->hasValidVipSubscription()) {
             return null;
         }
 

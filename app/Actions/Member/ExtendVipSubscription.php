@@ -2,7 +2,6 @@
 
 namespace App\Actions\Member;
 
-use App\Enums\Game\AccountLevel;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\User\User;
@@ -69,7 +68,7 @@ class ExtendVipSubscription
 
     private function canExtend(User $user): bool
     {
-        if ($user->member->AccountLevel === AccountLevel::Regular) {
+        if (! $user->hasValidVipSubscription()) {
             Flux::toast(
                 text: __('You need to have an active VIP subscription to extend it.'),
                 heading: __('Cannot Extend'),
