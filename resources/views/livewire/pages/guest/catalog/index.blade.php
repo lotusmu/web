@@ -588,24 +588,294 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:subheading>
         </div>
 
-        <flux:tab.group>
-            <flux:tabs variant="pills" wire:model="tab" class="justify-center">
-                <flux:tab name="profile" :accent="false">Profile</flux:tab>
-                <flux:tab name="account" :accent="false">Account</flux:tab>
-                <flux:tab name="billing" :accent="false">Billing</flux:tab>
-            </flux:tabs>
+        <flux:card>
+            <div
+                class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16">
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/blood-castle.webp') }}"
+                         class="w-8 h-8 object-contain">
 
-            <flux:tab.panel name="profile">
-                <div class="h-[20rem] w-full rounded-xl bg-zinc-300"></div>
+                    <div class="flex flex-col space-y-2 min-h-24">
+                        <flux:heading>
+                            Blood Castle Ticket
+                        </flux:heading>
 
-            </flux:tab.panel>
-            <flux:tab.panel name="account">
-                <div class="h-[20rem] w-full rounded-xl bg-zinc-500"></div>
+                        <flux:text size="sm">
+                            <p>
+                                Entrance ticket which allows your participation in Blood Castle.
+                            </p>
+                            <p>
+                                5 charges per ticket
+                            </p>
+                        </flux:text>
 
-            </flux:tab.panel>
-            <flux:tab.panel name="billing">
-                <div class="h-[20rem] w-full rounded-xl bg-zinc-700"></div>
-            </flux:tab.panel>
-        </flux:tab.group>
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/magic-backpack.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Magic Backpack
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                This item expands your inventory.
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/devil-square.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Devil Square Ticket
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Entrance ticket which allows your participation in Blood Castle.
+                            </p>
+                            <p>
+                                5 charges per ticket
+                            </p></flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/magic-backpack.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Magic Backpack
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                This item expands your inventory.
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/talisman-of-chaos-assembly.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Talisman of Chaos Assembly
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Prevents items from disappearing in failing Chaos Combination.
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/blood-castle.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-24">
+                        <flux:heading>
+                            Blood Castle Ticket
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Entrance ticket which allows your participation in Blood Castle.
+                            </p>
+                            <p>
+                                5 charges per ticket
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/devil-square.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Devil Square Ticket
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Entrance ticket which allows your participation in Blood Castle.
+                            </p>
+                            <p>
+                                5 charges per ticket
+                            </p></flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/devil-square.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Devil Square Ticket
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Entrance ticket which allows your participation in Blood Castle.
+                            </p>
+                            <p>
+                                5 charges per ticket
+                            </p></flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/magic-backpack.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Magic Backpack
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                This item expands your inventory.
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/talisman-of-chaos-assembly.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Talisman of Chaos Assembly
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Prevents items from disappearing in failing Chaos Combination.
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/blood-castle.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-24">
+                        <flux:heading>
+                            Blood Castle Ticket
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Entrance ticket which allows your participation in Blood Castle.
+                            </p>
+                            <p>
+                                5 charges per ticket
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset('images/catalog/tickets/talisman-of-chaos-assembly.webp') }}"
+                         class="w-8 h-8 object-contain">
+
+                    <div class="flex flex-col space-y-2 min-h-28">
+                        <flux:heading>
+                            Talisman of Chaos Assembly
+                        </flux:heading>
+
+                        <flux:text size="sm">
+                            <p>
+                                Prevents items from disappearing in failing Chaos Combination.
+                            </p>
+                        </flux:text>
+
+                        <flux:spacer/>
+
+                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                            70 Credits
+                        </flux:badge>
+                    </div>
+                </div>
+            </div>
+
+
+            <flux:text size="sm" class="mt-12">
+                All items can be found in-game within the Cash Shop.
+            </flux:text>
+        </flux:card>
     </section>
 </flux:main>
