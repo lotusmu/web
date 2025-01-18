@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Game\CharacterClass;
 use App\Models\Utility\VipPackage;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -19,6 +20,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <livewire:pages.guest.catalog.vip.list/>
 
+    <!-- Buffs -->
     <section class="isolate">
         <div class="text-center mb-12 space-y-4">
             <div class="flex justify-center">
@@ -525,6 +527,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </flux:card>
     </section>
 
+    <!-- Item Bundles -->
     <section class="isolate">
         <div class="text-center mb-12 space-y-4">
             <div class="flex justify-center">
@@ -548,25 +551,85 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <flux:tab.group>
             <flux:tabs variant="pills" wire:model="tab" class="justify-center">
-                <flux:tab name="profile" :accent="false">Profile</flux:tab>
-                <flux:tab name="account" :accent="false">Account</flux:tab>
-                <flux:tab name="billing" :accent="false">Billing</flux:tab>
+                <flux:tab name="{{ CharacterClass::DarkKnight->value }}"
+                          :accent="false">
+                    {{ CharacterClass::DarkKnight->getLabel() }}
+                </flux:tab>
+                <flux:tab name="{{ CharacterClass::DarkWizard->value }}"
+                          :accent="false">
+                    {{ CharacterClass::DarkWizard->getLabel() }}
+                </flux:tab>
+                <flux:tab name="{{ CharacterClass::FairyElf->value }}"
+                          :accent="false">
+                    {{ CharacterClass::FairyElf->getLabel() }}
+                </flux:tab>
+                <flux:tab name="{{ CharacterClass::MagicGladiator->value }}"
+                          :accent="false">
+                    {{ CharacterClass::MagicGladiator->getLabel() }}
+                </flux:tab>
+                <flux:tab name="{{ CharacterClass::DarkLord->value }}"
+                          :accent="false">
+                    {{ CharacterClass::DarkLord->getLabel() }}
+                </flux:tab>
             </flux:tabs>
 
-            <flux:tab.panel name="profile">
-                <div class="h-[20rem] w-full rounded-xl bg-zinc-300"></div>
+            <!-- DK -->
+            <flux:tab.panel name="{{ CharacterClass::DarkKnight->value }}" class="flex items-center">
 
-            </flux:tab.panel>
-            <flux:tab.panel name="account">
-                <div class="h-[20rem] w-full rounded-xl bg-zinc-500"></div>
+                <flux:card>
+                    <figure
+                        class="overflow-hidden w-full text-center">
+                        <img
+                            src="{{ asset('images/catalog/items/bundles/knight/brass.webp') }}"
+                            class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
+                        />
 
+                        <figcaption>
+                            <flux:heading level="3" size="xl"
+                                          class="w-full px-3 py-1.5 uppercase tracking-widest !font-light">
+                                Dark <span class="font-black">Knight</span>
+                            </flux:heading>
+
+                            <flux:text
+                                class="max-w-[65%] mx-auto py-1.5 uppercase border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
+                                Tier 1
+                            </flux:text>
+                        </figcaption>
+                    </figure>
+                </flux:card>
             </flux:tab.panel>
-            <flux:tab.panel name="billing">
-                <div class="h-[20rem] w-full rounded-xl bg-zinc-700"></div>
+
+            <!-- Dw -->
+            <flux:tab.panel name="{{ CharacterClass::DarkWizard->value }}">
+                <flux:card>
+
+                </flux:card>
+            </flux:tab.panel>
+
+            <!-- FE -->
+            <flux:tab.panel name="{{ CharacterClass::FairyElf->value }}">
+                <flux:card>
+
+                </flux:card>
+            </flux:tab.panel>
+
+            <!-- MG -->
+            <flux:tab.panel name="{{ CharacterClass::MagicGladiator->value }}">
+                <flux:card>
+
+                </flux:card>
+            </flux:tab.panel>
+
+            <!-- DL -->
+            <flux:tab.panel name="{{ CharacterClass::DarkLord->value }}">
+                <flux:card>
+
+                </flux:card>
             </flux:tab.panel>
         </flux:tab.group>
     </section>
 
+    <!-- Consumables -->
     <section class="isolate">
         <div class="text-center mb-12 space-y-4">
             <div class="flex justify-center">
