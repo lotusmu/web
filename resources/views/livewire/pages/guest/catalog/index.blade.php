@@ -581,17 +581,17 @@ new #[Layout('layouts.guest')] class extends Component {
                             class="overflow-hidden max-w-xs w-full text-center">
                             <img
                                 src="{{ asset('images/catalog/items/bundles/knight/brass.webp') }}"
-                                class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
+                                class="max-w-[65%] mx-auto p-8 rounded-tl-xl  rounded-tr-xl border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
                             />
 
                             <figcaption>
                                 <flux:heading level="3" size="xl"
-                                              class="w-full px-3 py-1.5 uppercase tracking-widest !font-light">
+                                              class="w-full py-1.5 uppercase tracking-widest !font-light">
                                     Dark <span class="font-black">Knight</span>
                                 </flux:heading>
 
                                 <flux:text
-                                    class="max-w-[65%] mx-auto py-1.5 uppercase border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
+                                    class="max-w-[65%] mx-auto py-1.5 uppercase rounded-br-xl rounded-bl-xl border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
                                     Tier 1
                                 </flux:text>
                             </figcaption>
@@ -622,7 +622,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <flux:separator variant="subtle"/>
 
                             <div class="space-y-2">
-                                <flux:subheading>
+                                <flux:subheading size="sm">
                                     Equipment Options:
                                 </flux:subheading>
                                 <div class="flex items-center flex-wrap whitespace-nowrap gap-2">
@@ -654,17 +654,17 @@ new #[Layout('layouts.guest')] class extends Component {
                             class="overflow-hidden max-w-xs w-full text-center">
                             <img
                                 src="{{ asset('images/catalog/items/bundles/knight/brass.webp') }}"
-                                class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
+                                class="max-w-[65%] mx-auto p-8 rounded-tl-xl  rounded-tr-xl border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
                             />
 
                             <figcaption>
                                 <flux:heading level="3" size="xl"
-                                              class="w-full px-3 py-1.5 uppercase tracking-widest !font-light">
-                                    Dark <span class="font-black">Knight</span>
+                                              class="w-full py-1.5 uppercase tracking-widest !font-light">
+                                    Fairy <span class="font-black">Elf</span>
                                 </flux:heading>
 
                                 <flux:text
-                                    class="max-w-[65%] mx-auto py-1.5 uppercase border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
+                                    class="max-w-[65%] mx-auto py-1.5 uppercase rounded-bl-xl rounded-br-xl border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
                                     Tier 1
                                 </flux:text>
                             </figcaption>
@@ -695,7 +695,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <flux:separator variant="subtle"/>
 
                             <div class="space-y-2">
-                                <flux:subheading>
+                                <flux:subheading size="sm">
                                     Equipment Options:
                                 </flux:subheading>
                                 <div class="flex items-center flex-wrap whitespace-nowrap gap-2">
