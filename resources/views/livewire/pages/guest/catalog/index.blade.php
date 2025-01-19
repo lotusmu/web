@@ -604,7 +604,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                             <div class="space-y-2">
                                 <flux:card class="flex items-center gap-2 py-2">
-                                    <flux:icon.sword variant="mini" color="orange"/>
+                                    <flux:icon.sword variant="mini"/>
                                     <flux:text>
                                         {{ __('Light Spear') }}
                                     </flux:text>
@@ -625,9 +625,12 @@ new #[Layout('layouts.guest')] class extends Component {
                                 <flux:subheading>
                                     Equipment Options:
                                 </flux:subheading>
-                                <div class="flex items-center space-x-2">
-                                    <flux:badge size="sm" icon="plus-circle" color="amber">
+                                <div class="flex items-center flex-wrap whitespace-nowrap gap-2">
+                                    <flux:badge size="sm" icon="plus-circle" color="yellow">
                                         7
+                                    </flux:badge>
+                                    <flux:badge size="sm" icon="chevron-double-up" color="blue">
+                                        Additional +4
                                     </flux:badge>
                                     <flux:badge size="sm" icon="star" color="blue">
                                         Luck
@@ -648,7 +651,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                     <flux:card class="flex w-full max-md:flex-col max-md:items-center max-md:space-y-8">
                         <figure
-                            class="overflow-hidden max-w-sm w-full text-center">
+                            class="overflow-hidden max-w-xs w-full text-center">
                             <img
                                 src="{{ asset('images/catalog/items/bundles/knight/brass.webp') }}"
                                 class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
@@ -674,7 +677,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                             <div class="space-y-2">
                                 <flux:card class="flex items-center gap-2 py-2">
-                                    <flux:icon.sword variant="mini" color="orange"/>
+                                    <flux:icon.sword variant="mini"/>
                                     <flux:text>
                                         {{ __('Light Spear') }}
                                     </flux:text>
@@ -695,14 +698,17 @@ new #[Layout('layouts.guest')] class extends Component {
                                 <flux:subheading>
                                     Equipment Options:
                                 </flux:subheading>
-                                <div class="flex items-center space-x-2">
-                                    <flux:badge size="sm" icon="plus-circle">
+                                <div class="flex items-center flex-wrap whitespace-nowrap gap-2">
+                                    <flux:badge size="sm" icon="plus-circle" color="yellow">
                                         7
                                     </flux:badge>
-                                    <flux:badge size="sm" icon="star">
+                                    <flux:badge size="sm" icon="chevron-double-up" color="blue">
+                                        Additional +4
+                                    </flux:badge>
+                                    <flux:badge size="sm" icon="star" color="blue">
                                         Luck
                                     </flux:badge>
-                                    <flux:badge size="sm" icon="sword">
+                                    <flux:badge size="sm" icon="sword" color="blue">
                                         Weapon Skill
                                     </flux:badge>
                                 </div>
