@@ -156,7 +156,7 @@ new #[Layout('layouts.guest')] class extends Component {
             </div>
 
             <flux:tab.group>
-                <flux:tabs variant="pills" class="max-sm:flex-col justify-center">
+                <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0 sm:justify-center">
                     <flux:tab name="tab1" :accent="false">Tab Name</flux:tab>
                     <flux:tab name="tab2" :accent="false">Tab Name</flux:tab>
                     <flux:tab name="tab3" :accent="false">Tab Name</flux:tab>

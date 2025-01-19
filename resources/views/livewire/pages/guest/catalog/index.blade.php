@@ -77,7 +77,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     70 Credits
                                 </flux:badge>
                             </div>
@@ -97,7 +97,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     70 Credits
                                 </flux:badge>
                             </div>
@@ -118,7 +118,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     70 Credits
                                 </flux:badge>
                             </div>
@@ -138,7 +138,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     70 Credits
                                 </flux:badge>
                             </div>
@@ -158,7 +158,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     70 Credits
                                 </flux:badge>
                             </div>
@@ -178,7 +178,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     70 Credits
                                 </flux:badge>
                             </div>
@@ -205,7 +205,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     140 Credits
                                 </flux:badge>
                             </div>
@@ -225,7 +225,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     140 Credits
                                 </flux:badge>
                             </div>
@@ -246,7 +246,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     140 Credits
                                 </flux:badge>
                             </div>
@@ -266,7 +266,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     140 Credits
                                 </flux:badge>
                             </div>
@@ -286,7 +286,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     140 Credits
                                 </flux:badge>
                             </div>
@@ -306,7 +306,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     140 Credits
                                 </flux:badge>
                             </div>
@@ -333,7 +333,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     300 Credits
                                 </flux:badge>
                             </div>
@@ -353,7 +353,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     300 Credits
                                 </flux:badge>
                             </div>
@@ -374,7 +374,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     300 Credits
                                 </flux:badge>
                             </div>
@@ -394,7 +394,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     300 Credits
                                 </flux:badge>
                             </div>
@@ -414,7 +414,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     300 Credits
                                 </flux:badge>
                             </div>
@@ -434,7 +434,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                                 <flux:spacer/>
 
-                                <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                                <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                                     300 Credits
                                 </flux:badge>
                             </div>
@@ -466,7 +466,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             700 Credits
                         </flux:badge>
                     </div>
@@ -490,7 +490,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             1400 Credits
                         </flux:badge>
                     </div>
@@ -514,7 +514,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             3000 Credits
                         </flux:badge>
                     </div>
@@ -550,7 +550,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <flux:tab.group>
-            <flux:tabs variant="pills" wire:model="tab" class="justify-center">
+            <flux:tabs variant="pills" wire:model="tab" class="flex overflow-auto sm:mx-0 sm:justify-center">
                 <flux:tab name="{{ CharacterClass::DarkKnight->value }}"
                           :accent="false">
                     {{ CharacterClass::DarkKnight->getLabel() }}
@@ -574,29 +574,152 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:tabs>
 
             <!-- DK -->
-            <flux:tab.panel name="{{ CharacterClass::DarkKnight->value }}" class="flex items-center">
+            <flux:tab.panel name="{{ CharacterClass::DarkKnight->value }}">
+                <div class="flex items-center justify-center max-xl:flex-col gap-8 w-full">
+                    <flux:card class="flex w-full max-md:flex-col max-md:items-center max-md:space-y-8">
+                        <figure
+                            class="overflow-hidden max-w-xs w-full text-center">
+                            <img
+                                src="{{ asset('images/catalog/items/bundles/knight/brass.webp') }}"
+                                class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
+                            />
 
-                <flux:card>
-                    <figure
-                        class="overflow-hidden w-full text-center">
-                        <img
-                            src="{{ asset('images/catalog/items/bundles/knight/brass.webp') }}"
-                            class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
-                        />
+                            <figcaption>
+                                <flux:heading level="3" size="xl"
+                                              class="w-full px-3 py-1.5 uppercase tracking-widest !font-light">
+                                    Dark <span class="font-black">Knight</span>
+                                </flux:heading>
 
-                        <figcaption>
-                            <flux:heading level="3" size="xl"
-                                          class="w-full px-3 py-1.5 uppercase tracking-widest !font-light">
-                                Dark <span class="font-black">Knight</span>
+                                <flux:text
+                                    class="max-w-[65%] mx-auto py-1.5 uppercase border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
+                                    Tier 1
+                                </flux:text>
+                            </figcaption>
+                        </figure>
+
+                        <div class="flex flex-col space-y-6 w-full">
+                            <flux:heading level="3" size="lg">
+                                Bundle Contents
                             </flux:heading>
 
-                            <flux:text
-                                class="max-w-[65%] mx-auto py-1.5 uppercase border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
-                                Tier 1
-                            </flux:text>
-                        </figcaption>
-                    </figure>
-                </flux:card>
+                            <div class="space-y-2">
+                                <flux:card class="flex items-center gap-2 py-2">
+                                    <flux:icon.sword variant="mini" color="orange"/>
+                                    <flux:text>
+                                        {{ __('Light Spear') }}
+                                    </flux:text>
+                                </flux:card>
+
+                                <flux:card class="flex items-center gap-2 py-2">
+                                    <flux:icon.shield variant="mini"/>
+                                    <flux:text>
+                                        {{ __('Brass Set') }}
+                                    </flux:text>
+                                </flux:card>
+
+                            </div>
+
+                            <flux:separator variant="subtle"/>
+
+                            <div class="space-y-2">
+                                <flux:subheading>
+                                    Equipment Options:
+                                </flux:subheading>
+                                <div class="flex items-center space-x-2">
+                                    <flux:badge size="sm" icon="plus-circle" color="amber">
+                                        7
+                                    </flux:badge>
+                                    <flux:badge size="sm" icon="star" color="blue">
+                                        Luck
+                                    </flux:badge>
+                                    <flux:badge size="sm" icon="sword" color="blue">
+                                        Weapon Skill
+                                    </flux:badge>
+                                </div>
+                            </div>
+                            <flux:spacer/>
+                            <div>
+                                <flux:badge variant="pill" size="sm" color="teal">
+                                    400 credits
+                                </flux:badge>
+                            </div>
+                        </div>
+                    </flux:card>
+
+                    <flux:card class="flex w-full max-md:flex-col max-md:items-center max-md:space-y-8">
+                        <figure
+                            class="overflow-hidden max-w-sm w-full text-center">
+                            <img
+                                src="{{ asset('images/catalog/items/bundles/knight/brass.webp') }}"
+                                class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"
+                            />
+
+                            <figcaption>
+                                <flux:heading level="3" size="xl"
+                                              class="w-full px-3 py-1.5 uppercase tracking-widest !font-light">
+                                    Dark <span class="font-black">Knight</span>
+                                </flux:heading>
+
+                                <flux:text
+                                    class="max-w-[65%] mx-auto py-1.5 uppercase border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
+                                    Tier 1
+                                </flux:text>
+                            </figcaption>
+                        </figure>
+
+                        <div class="flex flex-col space-y-6 w-full">
+                            <flux:heading level="3" size="lg">
+                                Bundle Contents
+                            </flux:heading>
+
+                            <div class="space-y-2">
+                                <flux:card class="flex items-center gap-2 py-2">
+                                    <flux:icon.sword variant="mini" color="orange"/>
+                                    <flux:text>
+                                        {{ __('Light Spear') }}
+                                    </flux:text>
+                                </flux:card>
+
+                                <flux:card class="flex items-center gap-2 py-2">
+                                    <flux:icon.shield variant="mini"/>
+                                    <flux:text>
+                                        {{ __('Brass Set') }}
+                                    </flux:text>
+                                </flux:card>
+
+                            </div>
+
+                            <flux:separator variant="subtle"/>
+
+                            <div class="space-y-2">
+                                <flux:subheading>
+                                    Equipment Options:
+                                </flux:subheading>
+                                <div class="flex items-center space-x-2">
+                                    <flux:badge size="sm" icon="plus-circle">
+                                        7
+                                    </flux:badge>
+                                    <flux:badge size="sm" icon="star">
+                                        Luck
+                                    </flux:badge>
+                                    <flux:badge size="sm" icon="sword">
+                                        Weapon Skill
+                                    </flux:badge>
+                                </div>
+                            </div>
+                            <flux:spacer/>
+                            <div>
+                                <flux:badge variant="pill" size="sm" color="teal">
+                                    400 credits
+                                </flux:badge>
+                            </div>
+                        </div>
+                    </flux:card>
+                </div>
+
+                <flux:text size="sm" class="mt-12 text-center">
+                    All items can be found in-game within the Cash Shop.
+                </flux:text>
             </flux:tab.panel>
 
             <!-- Dw -->
@@ -674,7 +797,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -696,7 +819,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -720,7 +843,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -742,7 +865,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -764,7 +887,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -789,7 +912,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -813,7 +936,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -837,7 +960,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -859,7 +982,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -881,7 +1004,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -906,7 +1029,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
@@ -928,7 +1051,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="sky" size="sm" class="mt-auto w-fit">
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
                             70 Credits
                         </flux:badge>
                     </div>
