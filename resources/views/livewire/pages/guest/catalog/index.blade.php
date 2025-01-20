@@ -21,8 +21,8 @@ new #[Layout('layouts.guest')] class extends Component {
     <livewire:pages.guest.catalog.vip.list/>
 
     <!-- Buffs -->
-    <livewire:pages.guest.catalog.buffs/>
-    
+    <livewire:pages.guest.catalog.buffs lazy/>
+
     <!-- Item Bundles -->
     <section class="isolate">
         <div class="text-center mb-12 space-y-4">
