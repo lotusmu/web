@@ -12,25 +12,30 @@ new class extends Component {
     public int $buffDuration = 7;
 
     #[Computed]
+    public function allBundles(): Collection
+    {
+        $latestUpdate = Buff::max('updated_at');
+
+        return cache()->remember("buff_bundles.{$latestUpdate}", now()->addWeek(), function () {
+            return Buff::where('is_bundle', true)->get();
+        });
+    }
+
+    #[Computed]
     public function bundles(): Collection
     {
-        $bundles = Buff::where('is_bundle', true)->get();
-
-        return $bundles->flatMap(function ($bundle) {
-            // For each bundle, create duration variants
+        return $this->allBundles->flatMap(function ($bundle) {
             return collect(BuffDuration::cases())->map(function ($duration) use ($bundle) {
                 $price = collect($bundle->duration_prices)
                     ->firstWhere('duration', (string) $duration->value)['price'] ?? null;
 
-                if ( ! $price) return null;
-
-                return [
+                return $price ? [
                     'name'         => $bundle->name,
                     'image'        => $bundle->image_path,
                     'bundle_items' => $bundle->bundle_items,
                     'duration'     => $duration->getLabel(),
                     'price'        => $price
-                ];
+                ] : null;
             });
         })->filter()->values();
     }
@@ -42,39 +47,38 @@ new class extends Component {
     }
 
     #[Computed]
-    public function weekBuffs(): Collection
+    public function buffsByDuration(): array
     {
-        return $this->getBuffsForDuration('7');
+        return [
+            '7'  => $this->getBuffsForDuration('7'),
+            '14' => $this->getBuffsForDuration('14'),
+            '30' => $this->getBuffsForDuration('30')
+        ];
     }
 
     #[Computed]
-    public function twoWeekBuffs(): Collection
+    public function buffs(): Collection
     {
-        return $this->getBuffsForDuration('14');
+        $latestUpdate = Buff::max('updated_at');
+
+        return cache()->remember("buffs.{$latestUpdate}", now()->addWeek(), function () {
+            return Buff::where('is_bundle', false)->get();
+        });
     }
 
-    #[Computed]
-    public function monthBuffs(): Collection
+    public function getBuffsForDuration(string $duration): Collection
     {
-        return $this->getBuffsForDuration('30');
-    }
+        return $this->buffs->map(function ($buff) use ($duration) {
+            $price = collect($buff->duration_prices)
+                ->firstWhere('duration', $duration)['price'] ?? null;
 
-    private function getBuffsForDuration(string $duration): Collection
-    {
-        return Buff::where('is_bundle', false)
-            ->get()
-            ->map(function ($buff) use ($duration) {
-                $price = collect($buff->duration_prices)
-                    ->firstWhere('duration', $duration)['price'] ?? null;
-
-                return [
-                    'name'  => $buff->name,
-                    'image' => $buff->image_path,
-                    'stats' => $buff->stats,
-                    'price' => $price
-                ];
-            })
-            ->filter(fn($buff) => ! is_null($buff['price']));
+            return [
+                'name'  => $buff->name,
+                'image' => $buff->image_path,
+                'stats' => $buff->stats,
+                'price' => $price
+            ];
+        })->filter(fn($buff) => ! is_null($buff['price']));
     }
 }; ?>
 
@@ -119,13 +123,9 @@ new class extends Component {
             </flux:tabs>
 
             @foreach($this->durations as $duration)
-                <flux:tab.panel name="{{ $duration->value }}">
+                <flux:tab.panel name="{{ $duration->value }}" :lazy="true">
                     <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-                        @foreach(match($duration) {
-                            BuffDuration::WEEK => $this->weekBuffs,
-                            BuffDuration::TWO_WEEKS => $this->twoWeekBuffs,
-                            BuffDuration::MONTH => $this->monthBuffs,
-                        } as $buff)
+                        @foreach($this->buffsByDuration[$duration->value] as $buff)
                             <div class="flex items-start gap-2">
                                 <img src="{{ asset($buff['image']) }}" class="w-24 h-24 object-contain">
 
@@ -153,7 +153,9 @@ new class extends Component {
             @endforeach
         </flux:tab.group>
 
-        <flux:separator class="my-16" variant="subtle"/>
+        @if($this->bundles->isNotEmpty())
+            <flux:separator class="my-16" variant="subtle"/>
+        @endif
 
         <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
             @foreach($this->bundles as $bundle)
@@ -167,7 +169,7 @@ new class extends Component {
                         </flux:heading>
                         <flux:text size="sm">
                             @foreach($bundle['bundle_items'] as $item)
-                                <li class="list-disc ml-2">{{ $item['name'] }}</li>
+                                <li class="list-disc ml-2">{{ $item }}</li>
                             @endforeach
                         </flux:text>
 

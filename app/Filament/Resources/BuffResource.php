@@ -82,12 +82,13 @@ class BuffResource extends Resource
                         ->defaultItems(1)
                         ->hidden(fn (Get $get): bool => $get('is_bundle')),
 
-                    Repeater::make('bundle_items')
-                        ->schema([
-                            TextInput::make('name')
-                                ->required()
-                                ->helperText('Enter buff name included in bundle'),
-                        ])
+                    Select::make('bundle_items')
+                        ->multiple()
+                        ->options(function () {
+                            return Buff::where('is_bundle', false)
+                                ->pluck('name', 'name');
+                        })
+                        ->searchable()
                         ->hidden(fn (Get $get): bool => ! $get('is_bundle')),
                 ]),
 
