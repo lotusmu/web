@@ -8,7 +8,7 @@ use App\Enums\Content\Catalog\BuffDuration;
 use Illuminate\Support\Collection;
 
 new class extends Component {
-    public int $buffDuration = 7;
+    public int $buffDuration = BuffDuration::WEEK->value;
 
     #[Computed]
     public function allBundles(): Collection

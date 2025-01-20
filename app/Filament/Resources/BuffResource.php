@@ -18,7 +18,6 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\File;
 
@@ -136,11 +135,6 @@ class BuffResource extends Resource
                     ->listWithLineBreaks()
                     ->formatStateUsing(fn ($state) => collect($state)->implode(', ')),
             ])
-            ->defaultSort('name')
-            ->filters([
-                TernaryFilter::make('is_bundle')
-                    ->label('Bundle Items'),
-            ])
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
@@ -163,7 +157,7 @@ class BuffResource extends Resource
 
     public static function getImageOptionString(string $filename): string
     {
-        return view('filament.components.select-buff-image')
+        return view('filament.components.select-image')
             ->with('filename', $filename)
             ->with('path', 'images/catalog/buffs/'.$filename)
             ->render();
