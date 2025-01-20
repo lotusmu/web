@@ -8,7 +8,6 @@ use App\Enums\Content\Catalog\BuffDuration;
 use Illuminate\Support\Collection;
 
 new class extends Component {
-    #[Url(as: 'duration')]
     public int $buffDuration = 7;
 
     #[Computed]
@@ -153,7 +152,7 @@ new class extends Component {
             @endforeach
         </flux:tab.group>
 
-        @if($this->bundles->isNotEmpty())
+        @if($this->bundles->isNotEmpty() && $this->buffs->isNotEmpty())
             <flux:separator class="my-16" variant="subtle"/>
         @endif
 
