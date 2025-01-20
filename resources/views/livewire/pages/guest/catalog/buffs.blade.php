@@ -2,29 +2,79 @@
 
 use Livewire\Volt\Component;
 use App\Models\Content\Catalog\Buff;
+use Livewire\Attributes\Url;
+use Livewire\Attributes\Computed;
+use App\Enums\Content\Catalog\BuffDuration;
 use Illuminate\Support\Collection;
 
 new class extends Component {
-    public string $tab = '7';
+    #[Url(as: 'duration')]
+    public int $buffDuration = 7;
 
-    public function getPrice(array $duration_prices, int $duration): ?int
+    #[Computed]
+    public function bundles(): Collection
     {
-        return collect($duration_prices)
-            ->firstWhere('duration', $duration)['price'] ?? null;
+        $bundles = Buff::where('is_bundle', true)->get();
+
+        return $bundles->flatMap(function ($bundle) {
+            // For each bundle, create duration variants
+            return collect(BuffDuration::cases())->map(function ($duration) use ($bundle) {
+                $price = collect($bundle->duration_prices)
+                    ->firstWhere('duration', (string) $duration->value)['price'] ?? null;
+
+                if ( ! $price) return null;
+
+                return [
+                    'name'         => $bundle->name,
+                    'image'        => $bundle->image_path,
+                    'bundle_items' => $bundle->bundle_items,
+                    'duration'     => $duration->getLabel(),
+                    'price'        => $price
+                ];
+            });
+        })->filter()->values();
     }
 
-    public function with(): array
+    #[Computed]
+    public function durations(): array
     {
-        $allBuffs = cache()->remember('catalog.buffs', now()->addHour(), function () {
-            return Buff::select(['name', 'stats', 'image_path', 'duration_prices', 'is_bundle', 'bundle_items'])
-                ->get()
-                ->partition(fn($buff) => $buff->is_bundle);
-        });
+        return BuffDuration::cases();
+    }
 
-        return [
-            'buffs'   => $allBuffs->get(1, collect()),  // Return empty collection if null
-            'bundles' => $allBuffs->get(0, collect()) // Return empty collection if null
-        ];
+    #[Computed]
+    public function weekBuffs(): Collection
+    {
+        return $this->getBuffsForDuration('7');
+    }
+
+    #[Computed]
+    public function twoWeekBuffs(): Collection
+    {
+        return $this->getBuffsForDuration('14');
+    }
+
+    #[Computed]
+    public function monthBuffs(): Collection
+    {
+        return $this->getBuffsForDuration('30');
+    }
+
+    private function getBuffsForDuration(string $duration): Collection
+    {
+        return Buff::where('is_bundle', false)
+            ->get()
+            ->map(function ($buff) use ($duration) {
+                $price = collect($buff->duration_prices)
+                    ->firstWhere('duration', $duration)['price'] ?? null;
+
+                return [
+                    'name'  => $buff->name,
+                    'image' => $buff->image_path,
+                    'stats' => $buff->stats,
+                    'price' => $price
+                ];
+            })
+            ->filter(fn($buff) => ! is_null($buff['price']));
     }
 }; ?>
 
@@ -52,480 +102,83 @@ new class extends Component {
 
     <flux:card>
         <flux:tab.group>
-            <flux:tabs variant="segmented" wire:model="tab" class="w-full max-sm:hidden">
-                <flux:tab name="7" icon="clock">7 days</flux:tab>
-                <flux:tab name="14" icon="clock">14 days</flux:tab>
-                <flux:tab name="30" icon="clock">30 days</flux:tab>
+            <flux:tabs variant="segmented" wire:model="buffDuration" class="w-full max-sm:hidden">
+                @foreach($this->durations as $duration)
+                    <flux:tab name="{{ $duration->value }}" icon="clock">
+                        {{ $duration->getLabel() }}
+                    </flux:tab>
+                @endforeach
             </flux:tabs>
 
-            <flux:tabs variant="segmented" size="sm" wire:model="tab" class="w-full sm:hidden">
-                <flux:tab name="7">7 days</flux:tab>
-                <flux:tab name="14">14 days</flux:tab>
-                <flux:tab name="30">30 days</flux:tab>
+            <flux:tabs variant="segmented" size="sm" wire:model="buffDuration" class="w-full sm:hidden">
+                @foreach($this->durations as $duration)
+                    <flux:tab name="{{ $duration->value }}">
+                        {{ $duration->getLabel() }}
+                    </flux:tab>
+                @endforeach
             </flux:tabs>
 
-            <flux:tab.panel name="7">
-                <div
-                    class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/1.webp') }}"
-                             class="w-24 h-24 object-contain">
+            @foreach($this->durations as $duration)
+                <flux:tab.panel name="{{ $duration->value }}">
+                    <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
+                        @foreach(match($duration) {
+                            BuffDuration::WEEK => $this->weekBuffs,
+                            BuffDuration::TWO_WEEKS => $this->twoWeekBuffs,
+                            BuffDuration::MONTH => $this->monthBuffs,
+                        } as $buff)
+                            <div class="flex items-start gap-2">
+                                <img src="{{ asset($buff['image']) }}" class="w-24 h-24 object-contain">
 
-                        <div class="flex flex-col space-y-2 min-h-24">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
+                                <div class="flex flex-col space-y-2 min-h-24">
+                                    <flux:heading>
+                                        {{ $buff['name'] }}
+                                    </flux:heading>
 
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                            </flux:text>
+                                    <flux:text size="sm">
+                                        @foreach($buff['stats'] as $stat)
+                                            <p>{{ $stat['value'] }}</p>
+                                        @endforeach
+                                    </flux:text>
 
-                            <flux:spacer/>
+                                    <flux:spacer/>
 
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                70 Credits
-                            </flux:badge>
-                        </div>
+                                    <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
+                                        {{ $buff['price'] }} Credits
+                                    </flux:badge>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/2.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense/
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                70 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/3.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                70 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/5.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                70 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/6.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                70 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/8.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                70 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                </div>
-            </flux:tab.panel>
-            <flux:tab.panel name="14">
-                <div
-                    class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/1.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-24">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                140 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/2.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                140 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/3.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                140 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/5.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                140 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/6.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                140 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/8.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                140 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                </div>
-            </flux:tab.panel>
-            <flux:tab.panel name="30">
-                <div
-                    class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/1.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-24">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                300 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/2.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                300 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/3.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                300 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/5.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                300 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/6.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                300 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <img src="{{ asset('images/catalog/buffs/8.webp') }}"
-                             class="w-24 h-24 object-contain">
-
-                        <div class="flex flex-col space-y-2 min-h-28">
-                            <flux:heading>
-                                Scroll of Defense
-                            </flux:heading>
-
-                            <flux:text size="sm">
-                                <p>+200 defense</p>
-                            </flux:text>
-
-                            <flux:spacer/>
-
-                            <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                300 Credits
-                            </flux:badge>
-                        </div>
-                    </div>
-                </div>
-            </flux:tab.panel>
+                </flux:tab.panel>
+            @endforeach
         </flux:tab.group>
 
         <flux:separator class="my-16" variant="subtle"/>
 
-        <div
-            class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-            <div class="flex items-start gap-2">
-                <img src="{{ asset('images/catalog/buffs/bundle.gif') }}"
-                     class="w-20 h-20 object-contain">
+        <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
+            @foreach($this->bundles as $bundle)
+                <div class="flex items-start gap-2">
+                    <img src="{{ asset($bundle['image']) }}"
+                         class="w-20 h-20 object-contain">
 
-                <div class="flex flex-col space-y-2 min-h-24">
-                    <flux:heading>
-                        Buff Bundle - 7 days
-                    </flux:heading>
-                    <flux:text size="sm">
-                        <li class="list-disc ml-2">Scroll of Defense</li>
-                        <li class="list-disc ml-2">Scroll of Damage</li>
-                        <li class="list-disc ml-2">Scroll of Swiftness</li>
-                        <li class="list-disc ml-2">Scroll of Defense</li>
-                        <li class="list-disc ml-2">Scroll of Damage</li>
-                        <li class="list-disc ml-2">Scroll of Swiftness</li>
-                    </flux:text>
+                    <div class="flex flex-col space-y-2 min-h-24">
+                        <flux:heading>
+                            {{ $bundle['name'] }} - {{ $bundle['duration'] }}
+                        </flux:heading>
+                        <flux:text size="sm">
+                            @foreach($bundle['bundle_items'] as $item)
+                                <li class="list-disc ml-2">{{ $item['name'] }}</li>
+                            @endforeach
+                        </flux:text>
 
-                    <flux:spacer/>
+                        <flux:spacer/>
 
-                    <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                        700 Credits
-                    </flux:badge>
+                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
+                            {{ $bundle['price'] }} Credits
+                        </flux:badge>
+                    </div>
                 </div>
-            </div>
-            <div class="flex items-start gap-2">
-                <img src="{{ asset('images/catalog/buffs/bundle.gif') }}"
-                     class="w-20 h-20 object-contain">
-
-                <div class="flex flex-col space-y-2 min-h-24">
-                    <flux:heading>
-                        Buff Bundle - 7 days
-                    </flux:heading>
-                    <flux:text size="sm">
-                        <li class="list-disc ml-2">Scroll of Defense</li>
-                        <li class="list-disc ml-2">Scroll of Damage</li>
-                        <li class="list-disc ml-2">Scroll of Swiftness</li>
-                        <li class="list-disc ml-2">Scroll of Defense</li>
-                        <li class="list-disc ml-2">Scroll of Damage</li>
-                        <li class="list-disc ml-2">Scroll of Swiftness</li>
-                    </flux:text>
-
-                    <flux:spacer/>
-
-                    <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                        1400 Credits
-                    </flux:badge>
-                </div>
-            </div>
-            <div class="flex items-start gap-2">
-                <img src="{{ asset('images/catalog/buffs/bundle.gif') }}"
-                     class="w-20 h-20 object-contain">
-
-                <div class="flex flex-col space-y-2 min-h-24">
-                    <flux:heading>
-                        Buff Bundle - 30 days
-                    </flux:heading>
-                    <flux:text size="sm">
-                        <li class="list-disc ml-2">Scroll of Defense</li>
-                        <li class="list-disc ml-2">Scroll of Damage</li>
-                        <li class="list-disc ml-2">Scroll of Swiftness</li>
-                        <li class="list-disc ml-2">Scroll of Defense</li>
-                        <li class="list-disc ml-2">Scroll of Damage</li>
-                        <li class="list-disc ml-2">Scroll of Swiftness</li>
-                    </flux:text>
-
-                    <flux:spacer/>
-
-                    <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                        3000 Credits
-                    </flux:badge>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <flux:text size="sm" class="mt-12">
