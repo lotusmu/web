@@ -35,7 +35,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::PENDING => Color::Blue,
             self::COMPLETED => Color::Emerald,
-            self::FAILED => Color::Red,
+            self::FAILED => Color::Rose,
             self::REFUNDED => Color::Fuchsia,
             self::EXPIRED => Color::Amber,
             self::CANCELLED => Color::Zinc,

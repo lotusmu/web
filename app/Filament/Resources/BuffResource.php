@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Content\Catalog\BuffDuration;
 use App\Enums\Utility\ResourceType;
 use App\Filament\Resources\BuffResource\Pages;
 use App\Models\Content\Catalog\Buff;
@@ -15,7 +16,6 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
@@ -27,6 +27,8 @@ class BuffResource extends Resource
     protected static ?string $model = Buff::class;
 
     protected static ?string $navigationGroup = 'Catalog';
+
+    protected static ?string $modelLabel = 'Buff';
 
     public static function form(Form $form): Form
     {
@@ -97,11 +99,7 @@ class BuffResource extends Resource
                         ->schema([
                             Select::make('duration')
                                 ->native(false)
-                                ->options([
-                                    7 => '7 days',
-                                    14 => '14 days',
-                                    30 => '30 days',
-                                ])
+                                ->options(BuffDuration::class)
                                 ->required(),
                             TextInput::make('price')
                                 ->numeric()
@@ -114,7 +112,6 @@ class BuffResource extends Resource
                         ])
                         ->defaultItems(1)
                         ->columns(3),
-
                 ]),
         ]);
     }
@@ -137,9 +134,6 @@ class BuffResource extends Resource
                 TextColumn::make('bundle_items')
                     ->listWithLineBreaks()
                     ->formatStateUsing(fn ($state) => collect($state)->implode(', ')),
-                IconColumn::make('is_bundle')
-                    ->label('Bundle')
-                    ->boolean(),
             ])
             ->defaultSort('name')
             ->filters([
