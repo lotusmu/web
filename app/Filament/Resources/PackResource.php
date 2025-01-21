@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Content\Catalog\EquipmentType;
 use App\Enums\Content\Catalog\PackTier;
 use App\Enums\Game\CharacterClass;
 use App\Enums\Utility\ResourceType;
@@ -9,6 +10,7 @@ use App\Filament\Resources\PackResource\Pages;
 use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Content\Catalog\Pack;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -75,10 +77,26 @@ class PackResource extends Resource
                         ->helperText('Select an image from the catalog.'),
                 ]),
 
+            Section::make('Starter Pack Contents')
+                ->description('Configure pack content - the items within it.')
+                ->aside()
+                ->schema([
+                    Repeater::make('contents')
+                        ->schema([
+                            Select::make('type')
+                                ->options(EquipmentType::class)
+                                ->native(false)
+                                ->required(),
+                            TextInput::make('name')
+                                ->required(),
+                        ]),
+                ]),
+
             Section::make('Equipment Options')
                 ->description('Configure the equipment bonuses.')
                 ->aside()
                 ->schema([
+
                     Fieldset::make('Item Level')
                         ->schema([
                             Toggle::make('has_level')

@@ -21,13 +21,23 @@ enum EquipmentOption: string implements HasLabel
         };
     }
 
-    public function icon(): string
+    public function badgeIcon(): string
     {
         return match ($this) {
             self::LEVEL => 'plus-circle',
             self::ADDITIONAL => 'chevron-double-up',
             self::LUCK => 'star',
             self::WEAPON_SKILL => 'sword'
+        };
+    }
+
+    public function badgeColor(): string
+    {
+        return match ($this) {
+            self::LEVEL => 'yellow',
+            self::ADDITIONAL => 'blue',
+            self::LUCK => 'blue',
+            self::WEAPON_SKILL => 'blue'
         };
     }
 }

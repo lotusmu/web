@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('character_class');
             $table->enum('tier', collect(PackTier::cases())->map(fn ($case) => $case->value)->toArray());
             $table->string('image_path');
+            $table->json('contents');
             $table->boolean('has_level')->default(false);
             $table->integer('level')->nullable();
             $table->boolean('has_additional')->default(false);
