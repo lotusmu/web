@@ -20,7 +20,8 @@ new class extends Component {
                     'name'        => $item->name,
                     'image'       => $item->image_path,
                     'description' => $item->description,
-                    'price'       => $item->price
+                    'price'       => $item->price,
+                    'resource'    => $item->resource
                 ]);
             });
         });
@@ -88,7 +89,7 @@ new class extends Component {
                                         <flux:spacer/>
 
                                         <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                            {{ $supply['price'] }} Credits
+                                            {{ $supply['price'] }} {{ $supply['resource']->getLabel() }}
                                         </flux:badge>
                                     </div>
                                 </div>

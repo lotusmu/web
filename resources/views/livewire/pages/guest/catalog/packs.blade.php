@@ -13,7 +13,6 @@ new class extends Component {
 
     public function mount()
     {
-        // Set initial tab to first available class
         $this->selectedClass = $this->characterClasses[0]->value;
     }
 
@@ -83,7 +82,6 @@ new class extends Component {
                 <div class="flex items-stretch justify-center max-xl:flex-col gap-8 w-full">
                     @foreach($this->packs->get($class->value, []) as $pack)
                         <flux:card class="flex w-full max-md:flex-col max-md:items-center max-md:space-y-8">
-                            <!-- Pack Image and Title -->
                             <figure class="overflow-hidden max-w-xs w-full text-center">
                                 <img src="{{ asset($pack->image_path) }}"
                                      class="max-w-[65%] mx-auto p-8 rounded-tl-xl rounded-tr-xl border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"/>
@@ -120,21 +118,22 @@ new class extends Component {
 
                                 <flux:separator variant="subtle"/>
 
-                                <!-- Equipment Section -->
-                                <flux:heading level="3" size="lg">
-                                    {{ __('Equipment Options') }}
-                                </flux:heading>
-
                                 <!-- Badges for options -->
                                 <div class="space-y-2">
+                                    <flux:subheading size="sm">
+                                        {{ __('Equipment Options') }}
+                                    </flux:subheading>
+
                                     <div class="flex items-center flex-wrap whitespace-nowrap gap-2">
                                         @foreach(EquipmentOption::cases() as $option)
                                             @if($pack->hasOption($option))
-                                                <flux:badge size="sm" icon="{{ $option->badgeIcon() }}"
-                                                            color="{{ $option->badgeColor() }}">
+                                                <flux:badge size="sm"
+                                                            icon="{{ $option->badgeIcon() }}"
+                                                            color="{{ $option->badgeColor() }}"
+                                                >
                                                     @if($value = $pack->getOptionValue($option))
                                                         @if($option === EquipmentOption::ADDITIONAL)
-                                                            Additional +{{ $value }}
+                                                            {{__('Additional')}} +{{ $value }}
                                                         @else
                                                             {{ $value }}
                                                         @endif
@@ -148,11 +147,10 @@ new class extends Component {
                                 </div>
 
                                 <flux:spacer/>
-                                
-                                <!-- Price -->
+
                                 <div>
                                     <flux:badge variant="pill" size="sm" color="teal">
-                                        {{ $pack->price }} {{ strtolower($pack->resource->value) }}
+                                        {{ $pack->price }} {{ $pack->resource->getLabel() }}
                                     </flux:badge>
                                 </div>
                             </div>

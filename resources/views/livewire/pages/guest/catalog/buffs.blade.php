@@ -33,7 +33,8 @@ new class extends Component {
                     'image'        => $bundle->image_path,
                     'bundle_items' => $bundle->bundle_items,
                     'duration'     => $duration->getLabel(),
-                    'price'        => $price
+                    'price'        => $price,
+                    'resource'     => $bundle->resource
                 ] : null;
             });
         })->filter()->values();
@@ -175,7 +176,7 @@ new class extends Component {
                         <flux:spacer/>
 
                         <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                            {{ $bundle['price'] }} Credits
+                            {{ $bundle['price'] }} {{ $bundle['resource']->getLabel() }}
                         </flux:badge>
                     </div>
                 </div>
