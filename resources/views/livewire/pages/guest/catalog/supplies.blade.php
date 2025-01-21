@@ -42,7 +42,7 @@ new class extends Component {
         </div>
 
         <p class="text-[var(--color-compliment-content)] !mt-2">
-            {{ __('Consumables') }}
+            {{ __('Utilities') }}
         </p>
 
         <flux:heading size="2xl" level="2" class="max-w-3xl mx-auto">
