@@ -12,13 +12,13 @@ return new class extends Migration
         Schema::create('buffs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('stats')->nullable(); // ["+200 defense", "+200 attack", etc]
+            $table->json('stats')->nullable();
             $table->string('image_path');
-            $table->json('duration_prices'); // [{duration: 7, price: 100}, {duration: 14, price: 200}]
+            $table->json('duration_prices');
             $table->enum('resource', collect(ResourceType::cases())->map(fn ($case) => $case->value)->toArray())
                 ->default(ResourceType::CREDITS->value);
             $table->boolean('is_bundle')->default(false);
-            $table->json('bundle_items')->nullable(); // For bundles: array of buff names
+            $table->json('bundle_items')->nullable();
             $table->timestamps();
         });
     }
