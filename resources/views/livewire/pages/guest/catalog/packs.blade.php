@@ -116,25 +116,26 @@ new class extends Component {
                                                     <flux:heading level="3" size="lg" class="flex items-center gap-2">
                                                         {{ __('Bundle Contents') }}
 
-                                                        <flux:tooltip class="max-lg:hidden">
-                                                            <flux:button icon="information-circle" size="sm"
-                                                                         variant="ghost"/>
+                                                        @if($pack->tooltip_image_path)
+                                                            <flux:tooltip class="max-lg:hidden">
+                                                                <flux:icon.information-circle variant="mini"/>
 
-                                                            <flux:tooltip.content class="max-w-[20rem] space-y-2">
-                                                                <img
-                                                                    src="{{ asset($pack->tooltip_image_path) }}">
-                                                            </flux:tooltip.content>
-                                                        </flux:tooltip>
+                                                                <flux:tooltip.content class="max-w-[20rem] space-y-2">
+                                                                    <img
+                                                                        src="{{ asset($pack->tooltip_image_path) }}">
+                                                                </flux:tooltip.content>
+                                                            </flux:tooltip>
 
-                                                        <flux:tooltip toggleable class="lg:hidden">
-                                                            <flux:button icon="information-circle" size="sm"
-                                                                         variant="ghost"/>
+                                                            <flux:tooltip toggleable class="lg:hidden">
+                                                                <flux:button icon="information-circle" size="sm"
+                                                                             variant="ghost"/>
 
-                                                            <flux:tooltip.content class="max-w-[20rem] space-y-2">
-                                                                <img
-                                                                    src="{{ asset($pack->tooltip_image_path) }}">
-                                                            </flux:tooltip.content>
-                                                        </flux:tooltip>
+                                                                <flux:tooltip.content class="max-w-[20rem] space-y-2">
+                                                                    <img
+                                                                        src="{{ asset($pack->tooltip_image_path) }}">
+                                                                </flux:tooltip.content>
+                                                            </flux:tooltip>
+                                                        @endif
                                                     </flux:heading>
 
                                                     <div class="flex-1 space-y-2">
