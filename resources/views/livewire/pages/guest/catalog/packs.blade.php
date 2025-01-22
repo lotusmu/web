@@ -116,9 +116,17 @@ new class extends Component {
                                                     <flux:heading level="3" size="lg" class="flex items-center gap-2">
                                                         {{ __('Bundle Contents') }}
 
-                                                        <flux:tooltip>
+                                                        <flux:tooltip class="max-lg:hidden">
                                                             <flux:button icon="information-circle" size="sm"
-                                                                         inset="bottom top"
+                                                                         variant="ghost"/>
+
+                                                            <flux:tooltip.content class="max-w-[20rem] space-y-2">
+                                                                <img src="{{ asset('images/news_characters.png') }}">
+                                                            </flux:tooltip.content>
+                                                        </flux:tooltip>
+                                                        
+                                                        <flux:tooltip toggleable class="lg:hidden">
+                                                            <flux:button icon="information-circle" size="sm"
                                                                          variant="ghost"/>
 
                                                             <flux:tooltip.content class="max-w-[20rem] space-y-2">
