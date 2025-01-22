@@ -75,6 +75,26 @@ class PackResource extends Resource
                         ->required()
                         ->label('Image')
                         ->helperText('Select an image from the catalog.'),
+
+                    Select::make('tooltip_image_path')
+                        ->options(function () {
+                            return collect(File::files(public_path('images/catalog/packs/tooltips')))
+                                ->mapWithKeys(fn ($file) => [
+                                    'images/catalog/packs/tooltips/'.$file->getFilename() => static::getTooltipImageOptionString($file->getFilename()),
+                                ]);
+                        })
+                        ->allowHtml()
+                        ->searchable()
+                        ->getSearchResultsUsing(function (string $search) {
+                            return collect(File::files(public_path('images/catalog/packs/tooltips')))
+                                ->filter(fn ($file) => str_contains(strtolower($file->getFilename()), strtolower($search)))
+                                ->mapWithKeys(fn ($file) => [
+                                    'images/catalog/packs/tooltips/'.$file->getFilename() => static::getTooltipImageOptionString($file->getFilename()),
+                                ])
+                                ->toArray();
+                        })
+                        ->label('Tooltip Image')
+                        ->helperText('Select an image from the catalog show in the contents tooltip.'),
                 ]),
 
             Section::make('Starter Pack Contents')
@@ -152,6 +172,25 @@ class PackResource extends Resource
                                 ->inline(false)
                                 ->helperText('Add weapon skill badge to the starter pack.'),
                         ])->columns(2),
+
+                    Fieldset::make('Excellent Options')
+                        ->schema([
+                            Toggle::make('has_excellent')
+                                ->label('Excellent Options Badge')
+                                ->inline(false)
+                                ->helperText('Toggle excellent options.')
+                                ->live(),
+
+                            Repeater::make('excellent_options')
+                                ->hidden(fn (Get $get): bool => ! $get('has_excellent'))
+                                ->required(fn (Get $get): bool => $get('has_excellent'))
+                                ->schema([
+                                    TextInput::make('option')
+                                        ->label('Option Text')
+                                        ->required(),
+                                ])
+                                ->columnSpanFull(),
+                        ])->columns(2),
                 ]),
 
             Section::make('Pricing')
@@ -212,6 +251,14 @@ class PackResource extends Resource
         return view('filament.components.select-image')
             ->with('filename', $filename)
             ->with('path', 'images/catalog/packs/'.$filename)
+            ->render();
+    }
+
+    public static function getTooltipImageOptionString(string $filename): string
+    {
+        return view('filament.components.select-image')
+            ->with('filename', $filename)
+            ->with('path', 'images/catalog/packs/tooltips/'.$filename)
             ->render();
     }
 }

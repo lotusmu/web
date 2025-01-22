@@ -121,16 +121,18 @@ new class extends Component {
                                                                          variant="ghost"/>
 
                                                             <flux:tooltip.content class="max-w-[20rem] space-y-2">
-                                                                <img src="{{ asset('images/news_characters.png') }}">
+                                                                <img
+                                                                    src="{{ asset($pack->tooltip_image_path) }}">
                                                             </flux:tooltip.content>
                                                         </flux:tooltip>
-                                                        
+
                                                         <flux:tooltip toggleable class="lg:hidden">
                                                             <flux:button icon="information-circle" size="sm"
                                                                          variant="ghost"/>
 
                                                             <flux:tooltip.content class="max-w-[20rem] space-y-2">
-                                                                <img src="{{ asset('images/news_characters.png') }}">
+                                                                <img
+                                                                    src="{{ asset($pack->tooltip_image_path) }}">
                                                             </flux:tooltip.content>
                                                         </flux:tooltip>
                                                     </flux:heading>
@@ -159,19 +161,25 @@ new class extends Component {
                                                             class="flex items-center flex-wrap whitespace-nowrap gap-2">
                                                             @foreach(EquipmentOption::cases() as $option)
                                                                 @if($pack->hasOption($option))
-                                                                    <flux:badge size="sm"
-                                                                                icon="{{ $option->badgeIcon() }}"
-                                                                                color="{{ $option->badgeColor() }}">
-                                                                        @if($value = $pack->getOptionValue($option))
-                                                                            @if($option === EquipmentOption::ADDITIONAL)
-                                                                                {{__('Additional')}} +{{ $value }}
-                                                                            @else
-                                                                                {{ $value }}
-                                                                            @endif
-                                                                        @else
-                                                                            {{ $option->getLabel() }}
-                                                                        @endif
-                                                                    </flux:badge>
+                                                                    @php
+                                                                        $text = $pack->getOptionDisplayText($option)
+                                                                    @endphp
+
+                                                                    @if(is_array($text))
+                                                                        @foreach($text as $excellentOption)
+                                                                            <flux:badge size="sm"
+                                                                                        icon="{{ $option->badgeIcon() }}"
+                                                                                        color="{{ $option->badgeColor() }}">
+                                                                                {{ $excellentOption }}
+                                                                            </flux:badge>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <flux:badge size="sm"
+                                                                                    icon="{{ $option->badgeIcon() }}"
+                                                                                    color="{{ $option->badgeColor() }}">
+                                                                            {{ $text }}
+                                                                        </flux:badge>
+                                                                    @endif
                                                                 @endif
                                                             @endforeach
                                                         </div>

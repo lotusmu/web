@@ -10,6 +10,7 @@ enum EquipmentOption: string implements HasLabel
     case ADDITIONAL = 'additional';
     case LUCK = 'luck';
     case WEAPON_SKILL = 'weapon_skill';
+    case EXCELLENT = 'excellent';
 
     public function getLabel(): string
     {
@@ -17,7 +18,8 @@ enum EquipmentOption: string implements HasLabel
             self::LEVEL => 'Level',
             self::ADDITIONAL => 'Additional',
             self::LUCK => 'Luck',
-            self::WEAPON_SKILL => 'Weapon Skill'
+            self::WEAPON_SKILL => 'Weapon Skill',
+            self::EXCELLENT => 'Excellent'
         };
     }
 
@@ -27,7 +29,8 @@ enum EquipmentOption: string implements HasLabel
             self::LEVEL => 'plus-circle',
             self::ADDITIONAL => 'chevron-double-up',
             self::LUCK => 'star',
-            self::WEAPON_SKILL => 'sword'
+            self::WEAPON_SKILL => 'sword',
+            self::EXCELLENT => 'bolt',
         };
     }
 
@@ -35,9 +38,8 @@ enum EquipmentOption: string implements HasLabel
     {
         return match ($this) {
             self::LEVEL => 'yellow',
-            self::ADDITIONAL => 'blue',
-            self::LUCK => 'blue',
-            self::WEAPON_SKILL => 'blue'
+            self::ADDITIONAL, self::WEAPON_SKILL, self::LUCK => 'blue',
+            self::EXCELLENT => 'emerald',
         };
     }
 }

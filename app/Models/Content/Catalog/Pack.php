@@ -14,6 +14,7 @@ class Pack extends Model
         'character_class',
         'tier',
         'image_path',
+        'tooltip_image_path',
         'contents',
         'has_level',
         'level',
@@ -21,6 +22,8 @@ class Pack extends Model
         'additional',
         'has_luck',
         'has_skill',
+        'has_excellent',
+        'excellent_options',
         'price',
         'resource',
     ];
@@ -34,6 +37,8 @@ class Pack extends Model
         'has_additional' => 'boolean',
         'has_luck' => 'boolean',
         'has_skill' => 'boolean',
+        'has_excellent' => 'boolean',
+        'excellent_options' => 'array',
         'level' => 'integer',
         'additional' => 'integer',
         'price' => 'integer',
@@ -46,6 +51,7 @@ class Pack extends Model
             EquipmentOption::ADDITIONAL => $this->has_additional && $this->additional > 0,
             EquipmentOption::LUCK => $this->has_luck,
             EquipmentOption::WEAPON_SKILL => $this->has_skill,
+            EquipmentOption::EXCELLENT => $this->has_excellent,
         };
     }
 
@@ -59,6 +65,22 @@ class Pack extends Model
             EquipmentOption::LEVEL => $this->level,
             EquipmentOption::ADDITIONAL => $this->additional,
             default => null
+        };
+    }
+
+    public function getOptionDisplayText(EquipmentOption $option): string|array
+    {
+        if (! $this->hasOption($option)) {
+            return '';
+        }
+
+        return match ($option) {
+            EquipmentOption::ADDITIONAL => "{$option->getLabel()} +{$this->additional}",
+            EquipmentOption::LEVEL => "{$option->getLabel()} +{$this->level}",
+            EquipmentOption::EXCELLENT => collect($this->excellent_options)
+                ->pluck('option')
+                ->toArray(),
+            default => $option->getLabel()
         };
     }
 }

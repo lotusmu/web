@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('character_class');
             $table->enum('tier', collect(PackTier::cases())->map(fn ($case) => $case->value)->toArray());
             $table->string('image_path');
+            $table->string('tooltip_image_path')->nullable();
             $table->json('contents');
             $table->boolean('has_level')->default(false);
             $table->integer('level')->nullable();
@@ -22,6 +23,8 @@ return new class extends Migration
             $table->integer('additional')->nullable();
             $table->boolean('has_luck')->default(false);
             $table->boolean('has_skill')->default(false);
+            $table->boolean('has_excellent')->default(false);
+            $table->json('excellent_options')->nullable();
             $table->integer('price');
             $table->enum('resource', collect(ResourceType::cases())->map(fn ($case) => $case->value)->toArray())
                 ->default(ResourceType::CREDITS->value);
