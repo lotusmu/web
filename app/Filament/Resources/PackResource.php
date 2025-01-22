@@ -178,7 +178,7 @@ class PackResource extends Resource
                             Toggle::make('has_excellent')
                                 ->label('Excellent Options Badge')
                                 ->inline(false)
-                                ->helperText('Toggle excellent options.')
+                                ->helperText('Add excellent option badge to the starter pack.')
                                 ->live(),
 
                             Repeater::make('excellent_options')
@@ -186,7 +186,7 @@ class PackResource extends Resource
                                 ->required(fn (Get $get): bool => $get('has_excellent'))
                                 ->schema([
                                     TextInput::make('option')
-                                        ->label('Option Text')
+                                        ->label('Excellent Option')
                                         ->required(),
                                 ])
                                 ->columnSpanFull(),
