@@ -82,7 +82,7 @@ new class extends Component {
                 <div class="flex items-stretch justify-center max-xl:flex-col gap-8 w-full">
                     @foreach($this->packs->get($class->value, []) as $pack)
                         <flux:card class="flex w-full max-md:flex-col max-md:items-center max-md:space-y-8">
-                            <figure class="overflow-hidden max-w-xs w-full text-center">
+                            <figure class="overflow-hidden max-w-xs w-full text-center mt-12">
                                 <img src="{{ asset($pack->image_path) }}"
                                      class="max-w-[65%] mx-auto p-8 rounded-tl-xl rounded-tr-xl border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"/>
                                 <figcaption>

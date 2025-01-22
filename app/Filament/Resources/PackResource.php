@@ -175,16 +175,17 @@ class PackResource extends Resource
     {
         return $table
             ->columns([
+                CharacterClassColumn::make('character_class')
+                    ->label('Class')
+                    ->imageSize(32),
                 ImageColumn::make('image_path')
                     ->label('Image Preview')
                     ->square()
                     ->width(32)
                     ->getStateUsing(fn ($record) => asset($record->image_path)),
-                CharacterClassColumn::make('character_class')
-                    ->label('Class')
-                    ->imageSize(32),
                 TextColumn::make('tier')
                     ->badge(),
+                TextColumn::make('price'),
             ])
             ->actions([
                 EditAction::make(),
