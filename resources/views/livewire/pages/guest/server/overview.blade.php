@@ -32,7 +32,7 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <flux:main container>
-    <x-page-hero
+    <x-page-header
         title="A peek at the server basics"
         kicker="Server Overview"
         description="Check out our core server settings, experience rates, and basic configuration details."

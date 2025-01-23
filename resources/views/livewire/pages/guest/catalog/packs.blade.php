@@ -97,6 +97,7 @@ new class extends Component {
                                                 class="flex max-md:flex-col max-md:items-center max-md:space-y-8 w-full h-full ">
                                                 <figure class="overflow-hidden max-w-xs w-full text-center">
                                                     <img src="{{ asset($pack->image_path) }}"
+                                                         alt="Image preview of the item set which is included in this starter pack"
                                                          class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"/>
                                                     <figcaption>
                                                         <flux:heading level="3" size="xl"
@@ -122,7 +123,8 @@ new class extends Component {
 
                                                                 <flux:tooltip.content class="max-w-[20rem] space-y-2">
                                                                     <img
-                                                                        src="{{ asset($pack->tooltip_image_path) }}">
+                                                                        src="{{ asset($pack->tooltip_image_path) }}"
+                                                                        alt="Screenshot of all items included in this starter package">
                                                                 </flux:tooltip.content>
                                                             </flux:tooltip>
 
@@ -132,7 +134,8 @@ new class extends Component {
 
                                                                 <flux:tooltip.content class="max-w-[20rem] space-y-2">
                                                                     <img
-                                                                        src="{{ asset($pack->tooltip_image_path) }}">
+                                                                        src="{{ asset($pack->tooltip_image_path) }}"
+                                                                        alt="Screenshot of all items included in this starter package">
                                                                 </flux:tooltip.content>
                                                             </flux:tooltip>
                                                         @endif
@@ -201,7 +204,7 @@ new class extends Component {
                             @endforeach
 
                             <flux:text size="sm" class="mt-12 text-center">
-                                All items can be found in-game within the Cash Shop.
+                                {{ __('All items can be found in-game within the Cash Shop.') }}
                             </flux:text>
                         </flux:tab.group>
                     </flux:card>

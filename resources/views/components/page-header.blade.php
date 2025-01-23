@@ -4,7 +4,7 @@
    'description' => null,
 ])
 
-<section {{ $attributes->merge(['class' => 'flex flex-col items-center text-center mb-12']) }}>
+<header {{ $attributes->merge(['class' => 'flex flex-col items-center text-center mb-12']) }}>
     <flux:heading level="1" size="lg" class="!text-[var(--color-compliment-content)] mb-3">
         {{ __($kicker) }}
     </flux:heading>
@@ -18,4 +18,4 @@
             {{ __($description) }}
         </flux:subheading>
     @endif
-</section>
+</header>

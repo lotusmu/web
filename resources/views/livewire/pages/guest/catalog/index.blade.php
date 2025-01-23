@@ -12,7 +12,7 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <flux:main container class="space-y-40">
-    <x-page-hero
+    <x-page-header
         title="Your path, your possibilities"
         kicker="Catalog"
         description="Explore our selection of convenience features and enhancements designed to complement your gameplay experience. See detailed information about everything available in the game."

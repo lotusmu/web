@@ -30,7 +30,10 @@ new class extends Component {
     #[Computed]
     public function categories(): array
     {
-        return SupplyCategory::cases();
+        return collect(SupplyCategory::cases())
+            ->filter(fn($class) => $this->supplies->has($class->value))
+            ->values()
+            ->toArray();
     }
 }; ?>
 
@@ -68,32 +71,27 @@ new class extends Component {
                     <div
                         class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16">
                         @foreach($this->supplies->get($category->value, []) as $supply)
-                            @if($this->supplies->get($category->value, [])->isEmpty())
-                                <div class="text-center py-12">
-                                    <flux:text>No items available in this category yet.</flux:text>
+                            <div class="flex items-start gap-2">
+                                <img src="{{ asset($supply['image']) }}"
+                                     alt="{{ $supply['name'] }} image preview"
+                                     class="w-8 h-8 object-contain">
+
+                                <div class="flex flex-col space-y-2 min-h-24">
+                                    <flux:heading>
+                                        {{ $supply['name'] }}
+                                    </flux:heading>
+
+                                    <flux:text size="sm">
+                                        <p>{{ $supply['description'] }}</p>
+                                    </flux:text>
+
+                                    <flux:spacer/>
+
+                                    <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
+                                        {{ $supply['price'] }} {{ $supply['resource']->getLabel() }}
+                                    </flux:badge>
                                 </div>
-                            @else
-                                <div class="flex items-start gap-2">
-                                    <img src="{{ asset($supply['image']) }}"
-                                         class="w-8 h-8 object-contain">
-
-                                    <div class="flex flex-col space-y-2 min-h-24">
-                                        <flux:heading>
-                                            {{ $supply['name'] }}
-                                        </flux:heading>
-
-                                        <flux:text size="sm">
-                                            <p>{{ $supply['description'] }}</p>
-                                        </flux:text>
-
-                                        <flux:spacer/>
-
-                                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                            {{ $supply['price'] }} {{ $supply['resource']->getLabel() }}
-                                        </flux:badge>
-                                    </div>
-                                </div>
-                            @endif
+                            </div>
                         @endforeach
                     </div>
                 </flux:tab.panel>
@@ -101,7 +99,7 @@ new class extends Component {
         </flux:tab.group>
 
         <flux:text size="sm" class="mt-12">
-            All items can be found in-game within the Cash Shop.
+            {{ __('All items can be found in-game within the Cash Shop.') }}
         </flux:text>
     </flux:card>
 </section>

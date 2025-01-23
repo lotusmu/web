@@ -22,7 +22,7 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <flux:main container>
-    <x-page-hero
+    <x-page-header
         title="Begin your journey"
         kicker="Files"
         description="Ready to start your adventure? Download our game client and join the world of Lotus Mu."

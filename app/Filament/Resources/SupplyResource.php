@@ -68,6 +68,7 @@ class SupplyResource extends Resource
 
                     Select::make('category')
                         ->options(SupplyCategory::class)
+                        ->default(SupplyCategory::CONSUMABLES)
                         ->required()
                         ->native(false),
                 ]),
@@ -105,7 +106,9 @@ class SupplyResource extends Resource
                     ->limit(50),
                 TextColumn::make('category')
                     ->badge(),
-                TextColumn::make('price'),
+                TextColumn::make('price')
+                    ->badge()
+                    ->formatStateUsing(fn ($state, $record) => "{$state} {$record->resource->getLabel()}"),
             ])
             ->actions([
                 EditAction::make(),

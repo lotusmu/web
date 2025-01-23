@@ -128,7 +128,7 @@ class PackResource extends Resource
 
                             Select::make('level')
                                 ->label('Item Level')
-                                ->default(0)
+                                ->default(7)
                                 ->native(false)
                                 ->options(array_combine(
                                     range(0, 15),
@@ -149,7 +149,7 @@ class PackResource extends Resource
 
                             Select::make('additional')
                                 ->label('Additional Bonus')
-                                ->default(0)
+                                ->default(12)
                                 ->native(false)
                                 ->options(array_combine(
                                     range(0, 28, 4),
@@ -165,11 +165,13 @@ class PackResource extends Resource
                             Toggle::make('has_luck')
                                 ->label('Luck Badge')
                                 ->inline(false)
+                                ->default(true)
                                 ->helperText('Add luck badge to the starter pack.'),
 
                             Toggle::make('has_skill')
                                 ->label('Weapon Skill Badge')
                                 ->inline(false)
+                                ->default(true)
                                 ->helperText('Add weapon skill badge to the starter pack.'),
                         ])->columns(2),
 
@@ -214,17 +216,18 @@ class PackResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('image_path')
+                    ->label('')
+                    ->width(20)
+                    ->getStateUsing(fn ($record) => asset($record->image_path)),
                 CharacterClassColumn::make('character_class')
                     ->label('Class')
                     ->imageSize(32),
-                ImageColumn::make('image_path')
-                    ->label('Image Preview')
-                    ->square()
-                    ->width(32)
-                    ->getStateUsing(fn ($record) => asset($record->image_path)),
                 TextColumn::make('tier')
                     ->badge(),
-                TextColumn::make('price'),
+                TextColumn::make('price')
+                    ->badge()
+                    ->formatStateUsing(fn ($state, $record) => "{$state} {$record->resource->getLabel()}"),
             ])
             ->actions([
                 EditAction::make(),

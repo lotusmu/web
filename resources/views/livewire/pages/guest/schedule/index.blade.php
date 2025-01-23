@@ -30,7 +30,7 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <flux:main container>
-    <x-page-hero
+    <x-page-header
         title="Time Your Adventures"
         kicker="Schedule"
         description="Stay ahead with real-time tracking of events and invasions across the realm."

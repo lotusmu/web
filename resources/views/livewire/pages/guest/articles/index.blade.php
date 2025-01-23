@@ -15,7 +15,7 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <flux:main container>
-    <x-page-hero
+    <x-page-header
         title="What's new around here?"
         kicker="News"
         description="Succinct and informative updates about Lotus Mu."

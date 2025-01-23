@@ -73,10 +73,11 @@ new class extends Component {
                 ->firstWhere('duration', $duration)['price'] ?? null;
 
             return [
-                'name'  => $buff->name,
-                'image' => $buff->image_path,
-                'stats' => $buff->stats,
-                'price' => $price
+                'name'     => $buff->name,
+                'image'    => $buff->image_path,
+                'stats'    => $buff->stats,
+                'price'    => $price,
+                'resource' => $buff->resource
             ];
         })->filter(fn($buff) => ! is_null($buff['price']));
     }
@@ -127,7 +128,8 @@ new class extends Component {
                     <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
                         @foreach($this->buffsByDuration[$duration->value] as $buff)
                             <div class="flex items-start gap-2">
-                                <img src="{{ asset($buff['image']) }}" class="w-24 h-24 object-contain">
+                                <img src="{{ asset($buff['image']) }}" class="w-24 h-24 object-contain"
+                                     alt="{{ $buff['name'] }} image preview">
 
                                 <div class="flex flex-col space-y-2 min-h-24">
                                     <flux:heading>
@@ -143,7 +145,7 @@ new class extends Component {
                                     <flux:spacer/>
 
                                     <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                        {{ $buff['price'] }} Credits
+                                        {{ $buff['price'] }} {{ $buff['resource']->getLabel() }}
                                     </flux:badge>
                                 </div>
                             </div>
@@ -160,7 +162,7 @@ new class extends Component {
         <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
             @foreach($this->bundles as $bundle)
                 <div class="flex items-start gap-2">
-                    <img src="{{ asset($bundle['image']) }}"
+                    <img src="{{ asset($bundle['image']) }}" alt="{{ $bundle['name'] }} image preview"
                          class="w-20 h-20 object-contain">
 
                     <div class="flex flex-col space-y-2 min-h-24">
@@ -184,7 +186,7 @@ new class extends Component {
         </div>
 
         <flux:text size="sm" class="mt-12">
-            All items can be found in-game within the Cash Shop.
+            {{ __('All items can be found in-game within the Cash Shop.') }}
         </flux:text>
     </flux:card>
 </section>
