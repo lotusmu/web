@@ -23,7 +23,9 @@ class UpdateBannerResource extends Resource
 {
     protected static ?string $model = UpdateBanner::class;
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationIcon = 'heroicon-o-megaphone';
+
+    protected static ?string $navigationLabel = 'Update Banner';
 
     protected static ?string $modelLabel = 'Update Banner';
 

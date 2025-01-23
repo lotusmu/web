@@ -55,12 +55,16 @@ new class extends Component {
             <flux:navbar.item icon-trailing="chevron-down">{{ __('Information') }}</flux:navbar.item>
 
             <flux:navmenu>
+                <flux:navmenu.item href="{{ route('server.overview') }}" wire:navigate>
+                    {{ __('Server Overview') }}
+                </flux:navmenu.item>
+
                 <flux:navmenu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate>
                     {{ __('Gameplay Updates') }}
                 </flux:navmenu.item>
 
-                <flux:navmenu.item href="{{ route('server.overview') }}" wire:navigate>
-                    {{ __('Server Overview') }}
+                <flux:navmenu.item href="{{ route('catalog') }}" wire:navigate>
+                    {{ __('Browse Offerings') }}
                 </flux:navmenu.item>
 
                 <flux:navmenu.item href="https://wiki.lotusmu.org" target="_blank">
@@ -111,6 +115,10 @@ new class extends Component {
 
                     <flux:menu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate>
                         {{ __('Gameplay Updates') }}
+                    </flux:menu.item>
+
+                    <flux:menu.item href="{{ route('catalog') }}" wire:navigate>
+                        {{ __('Browse Offerings') }}
                     </flux:menu.item>
 
                     <flux:menu.item href="https://wiki.lotusmu.org" target="_blank">

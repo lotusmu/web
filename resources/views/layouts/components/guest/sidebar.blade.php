@@ -21,15 +21,20 @@
         {{ __('Event Schedule') }}
     </flux:navlist.item>
 
+    <flux:navlist.item wire:navigate.hover icon="information-circle" href="{{ route('server.overview') }}">
+        {{ __('Server Overview') }}
+    </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="scroll-text"
                        href="{{ route('articles', ['tab' => 'updates']) }}">
         {{ __('Gameplay Updates') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="information-circle" href="{{ route('server.overview') }}">
-        {{ __('Server Overview') }}
+    <flux:navlist.item wire:navigate.hover icon="building-storefront"
+                       href="{{ route('catalog') }}">
+        {{ __('Browser Offerings') }}
     </flux:navlist.item>
-
+    
     <flux:navlist.item icon="book-open" href="https://wiki.lotusmu.org" target="_blank">
         {{ __('Wiki') }}
     </flux:navlist.item>

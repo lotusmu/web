@@ -17,7 +17,7 @@ new class extends Component {
         <div class="mt-24 sm:mt-32 lg:mt-16">
             @if($this->banner->url)
                 {{-- With URL version --}}
-                <a href="{{ $this->banner->url }}" class="inline-flex space-x-6">
+                <a href="{{ $this->banner->url }}" class="inline-flex space-x-6" wire:navigate>
                     <flux:badge variant="pill"
                                 :color="$this->banner->type->color()"
                                 :icon="$this->banner->type->icon()"

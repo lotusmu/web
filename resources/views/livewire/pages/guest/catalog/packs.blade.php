@@ -97,7 +97,7 @@ new class extends Component {
                                                 class="flex max-md:flex-col max-md:items-center max-md:space-y-8 w-full h-full ">
                                                 <figure class="overflow-hidden max-w-xs w-full text-center">
                                                     <img src="{{ asset($pack->image_path) }}"
-                                                         class="max-w-[65%] mx-auto p-8 rounded-tl-xl rounded-tr-xl border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"/>
+                                                         class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"/>
                                                     <figcaption>
                                                         <flux:heading level="3" size="xl"
                                                                       class="w-full py-1.5 uppercase tracking-widest !font-light">
@@ -106,7 +106,7 @@ new class extends Component {
                                                                 class="font-black">{{ explode(' ', $class->getLabel())[1] }}</span>
                                                         </flux:heading>
                                                         <flux:text
-                                                            class="max-w-[65%] mx-auto py-1.5 uppercase rounded-bl-xl rounded-br-xl border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
+                                                            class="max-w-[65%] mx-auto py-1.5 uppercase border-b-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30">
                                                             {{ $pack->tier->getLabel() }}
                                                         </flux:text>
                                                     </figcaption>
