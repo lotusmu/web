@@ -13,7 +13,7 @@
         {{ __('Files') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="trophy" href="#">
+    <flux:navlist.item wire:navigate.hover icon="trophy" href="{{ route('rankings') }}">
         {{ __('Rankings') }}
     </flux:navlist.item>
 
@@ -34,7 +34,7 @@
                        href="{{ route('catalog') }}">
         {{ __('Browser Offerings') }}
     </flux:navlist.item>
-    
+
     <flux:navlist.item icon="book-open" href="https://wiki.lotusmu.org" target="_blank">
         {{ __('Wiki') }}
     </flux:navlist.item>

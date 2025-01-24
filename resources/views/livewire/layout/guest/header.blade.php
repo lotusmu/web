@@ -46,7 +46,7 @@ new class extends Component {
                 {{ __('Files') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="#" wire:navigate>
+            <flux:navbar.item href="{{ route('rankings') }}" wire:navigate>
                 {{ __('Rankings') }}
             </flux:navbar.item>
 

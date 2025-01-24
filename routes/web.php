@@ -38,6 +38,11 @@ Route::prefix('articles')->group(function () {
         ->name('articles.show');
 });
 
+Route::prefix('rankings')->group(function () {
+    Volt::route('/', 'pages.guest.rankings.index')
+        ->name('rankings');
+});
+
 Route::prefix('server')->group(function () {
     Volt::route('/overview', 'pages.guest.server.overview')
         ->name('server.overview');
