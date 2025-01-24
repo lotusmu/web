@@ -21,7 +21,7 @@ new #[Layout('layouts.app')] class extends Component {
     public function mount(Character $character): void
     {
         $this->character     = $character;
-        $this->user          = Character::findUserByCharacterName($this->character->Name);
+        $this->user          = auth()->user();
         $this->operationType = OperationType::PK_CLEAR;
         $this->initializeTaxable();
     }

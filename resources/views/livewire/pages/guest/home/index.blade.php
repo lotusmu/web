@@ -29,11 +29,11 @@ new #[Layout('layouts.guest')] class extends Component {
                 <livewire:pages.guest.home.updates-banner/>
 
                 <flux:heading level="1" size="3xl" class="mt-10">
-                    {{ __('Embark on a divine conquest') }}
+                    {{ __('Reimagined. Refined. Revolutionary.') }}
                 </flux:heading>
 
                 <flux:subheading size="xl" class="mt-6">
-                    {{ __('Through mystical lands where legendary warriors rise and immortal battles echo across time.') }}
+                    {{ __('A server with soul. Thoughtfully crafted, not copy-pasted.') }}
                 </flux:subheading>
 
                 <div class="mt-10 flex items-center gap-x-6">
