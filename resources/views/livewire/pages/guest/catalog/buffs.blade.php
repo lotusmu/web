@@ -127,11 +127,11 @@ new class extends Component {
                 <flux:tab.panel name="{{ $duration->value }}" :lazy="true">
                     <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
                         @foreach($this->buffsByDuration[$duration->value] as $buff)
-                            <div class="flex items-start gap-2">
+                            <div class="flex items-start gap-2 h-full">
                                 <img src="{{ asset($buff['image']) }}" class="w-24 h-24 object-contain"
                                      alt="{{ $buff['name'] }} image preview">
 
-                                <div class="flex flex-col space-y-2 min-h-24">
+                                <div class="flex flex-col space-y-2 h-full w-full">
                                     <flux:heading>
                                         {{ $buff['name'] }}
                                     </flux:heading>
@@ -161,11 +161,11 @@ new class extends Component {
 
         <div class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
             @foreach($this->bundles as $bundle)
-                <div class="flex items-start gap-2">
+                <div class="flex items-start gap-2 h-full">
                     <img src="{{ asset($bundle['image']) }}" alt="{{ $bundle['name'] }} image preview"
                          class="w-20 h-20 object-contain">
 
-                    <div class="flex flex-col space-y-2 min-h-24">
+                    <div class="flex flex-col space-y-2 h-full w-full">
                         <flux:heading>
                             {{ $bundle['name'] }} - {{ $bundle['duration'] }}
                         </flux:heading>
