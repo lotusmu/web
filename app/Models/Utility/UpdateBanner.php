@@ -19,22 +19,31 @@ class UpdateBanner extends Model
         'is_active',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
         static::saving(function ($model) {
-            if ($model->is_active) {
-                // Deactivate all other banners except this one
-                static::query()
-                    ->where('id', '!=', $model->id)
-                    ->update(['is_active' => false]);
+            if (! $model->is_active) {
+                return;
             }
-        });
-    }
 
-    public static function getActive()
-    {
-        return static::where('is_active', true)->first();
+            $isAnnouncement = $model->type === UpdateBannerType::ANNOUNCEMENT;
+
+            static::query()
+                ->where('id', '!=', $model->id)
+                ->where('type', $isAnnouncement ? UpdateBannerType::ANNOUNCEMENT : '!=', UpdateBannerType::ANNOUNCEMENT)
+                ->update(['is_active' => false]);
+        });
+
+        static::saved(function () {
+            cache()->forget('active_announcement_banner');
+            cache()->forget('active_updates_banner');
+        });
+
+        static::deleted(function () {
+            cache()->forget('active_announcement_banner');
+            cache()->forget('active_updates_banner');
+        });
     }
 }

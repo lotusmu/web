@@ -13,6 +13,7 @@ enum UpdateBannerType: string implements HasColor, HasIcon, HasLabel
     case NEW = 'new';
     case IMPORTANT = 'important';
     case MAINTENANCE = 'maintenance';
+    case ANNOUNCEMENT = 'announcement';
 
     public function getLabel(): string
     {
@@ -21,6 +22,7 @@ enum UpdateBannerType: string implements HasColor, HasIcon, HasLabel
             self::NEW => 'New Feature',
             self::IMPORTANT => 'Important',
             self::MAINTENANCE => 'Maintenance',
+            self::ANNOUNCEMENT => 'Top Banner Announcement',
         };
     }
 
@@ -31,6 +33,7 @@ enum UpdateBannerType: string implements HasColor, HasIcon, HasLabel
             self::NEW => Color::Emerald,
             self::IMPORTANT => Color::Orange,
             self::MAINTENANCE => Color::Rose,
+            self::ANNOUNCEMENT => Color::Yellow,
         };
     }
 
@@ -41,6 +44,7 @@ enum UpdateBannerType: string implements HasColor, HasIcon, HasLabel
             self::NEW => 'emerald',
             self::IMPORTANT => 'orange',
             self::MAINTENANCE => 'rose',
+            self::ANNOUNCEMENT => 'yellow',
         };
     }
 
@@ -51,6 +55,7 @@ enum UpdateBannerType: string implements HasColor, HasIcon, HasLabel
             self::NEW => 'heroicon-o-sparkles',
             self::IMPORTANT => 'heroicon-o-exclamation-triangle',
             self::MAINTENANCE => 'heroicon-o-wrench',
+            self::ANNOUNCEMENT => 'heroicon-o-bell-alert',
         };
     }
 
@@ -61,6 +66,7 @@ enum UpdateBannerType: string implements HasColor, HasIcon, HasLabel
             self::NEW => 'sparkles',
             self::IMPORTANT => 'exclamation-triangle',
             self::MAINTENANCE => 'wrench',
+            self::ANNOUNCEMENT => 'bell-alert',
         };
     }
 }

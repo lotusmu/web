@@ -40,6 +40,7 @@ class UpdateBannerResource extends Resource
                         ->label('Banner Type')
                         ->options(UpdateBannerType::class)
                         ->required()
+                        ->native(false)
                         ->helperText('Select the type of update banner to display.'),
 
                     TextInput::make('content')
@@ -75,6 +76,7 @@ class UpdateBannerResource extends Resource
                     ->badge(),
 
                 IconColumn::make('is_active')
+                    ->label('Banner Status')
                     ->boolean(),
 
                 TextColumn::make('created_at')
