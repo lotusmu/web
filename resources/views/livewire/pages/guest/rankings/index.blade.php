@@ -27,11 +27,11 @@ new #[Layout('layouts.guest')] class extends Component {
         description="The numbers don’t lie — players and guilds ranked by their achievements."
     />
 
-    <div class="grid xl:grid-cols-5 gap-8 mt-12">
+    <div class="flex items-center gap-8 whitespace-nowrap overflow-auto touch-pan-x no-scrollbar snap-x w-full">
         <!-- Dark Knight -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl overflow-hidden">
-            <div class="p-6 max-xl:flex max-xl:items-center max-xl:justify-center max-xl:space-x-6 xl:space-y-6">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            <div class="p-6 space-y-6">
                 <div>
                     <div
                         class="w-28 h-28 mx-auto rounded-tr-full rounded-tl-full p-1  bg-gradient-to-b from-red-700 via-red-600 dark:from-red-600 dark:via-red-700 to-transparent to-85%">
@@ -56,8 +56,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Dark Wizard -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl overflow-hidden">
-            <div class="p-6 max-xl:flex max-xl:items-center max-xl:justify-center max-xl:space-x-6 xl:space-y-6">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            <div class="p-6 space-y-6">
                 <div>
                     <div
                         class="w-28 h-28 mx-auto rounded-tr-full rounded-tl-full p-1  bg-gradient-to-b from-blue-700 via-blue-600 dark:from-blue-600 dark:via-blue-700 to-transparent to-85%">
@@ -82,8 +82,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Muse Elf -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl overflow-hidden">
-            <div class="p-6 max-xl:flex max-xl:items-center max-xl:justify-center max-xl:space-x-6 xl:space-y-6">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            <div class="p-6 space-y-6">
                 <div>
                     <div
                         class="w-28 h-28 mx-auto rounded-tr-full rounded-tl-full p-1  bg-gradient-to-b from-green-700 via-green-600 dark:from-green-600 dark:via-green-700 to-transparent to-85%">
@@ -92,7 +92,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     </div>
                 </div>
 
-                <div class="flex flex-col space-y-3">
+                <div class="flex flex-col text-center space-y-3">
                     <flux:link variant="subtle" href="#">
                         WeedQueen
                     </flux:link>
@@ -108,8 +108,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Magic Gladiator-->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl overflow-hidden">
-            <div class="p-6 max-xl:flex max-xl:items-center max-xl:justify-center max-xl:space-x-6 xl:space-y-6">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            <div class="p-6 space-y-6">
                 <div>
                     <div
                         class="w-28 h-28 mx-auto rounded-tr-full rounded-tl-full p-1  bg-gradient-to-b from-purple-700 via-purple-600 dark:from-purple-600 dark:via-purple-700 to-transparent to-85%">
@@ -134,8 +134,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Dark Lord -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl overflow-hidden">
-            <div class="p-6 max-xl:flex max-xl:items-center max-xl:justify-center max-xl:space-x-6 xl:space-y-6">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            <div class="p-6 space-y-6">
                 <div>
                     <div
                         class="w-28 h-28 mx-auto rounded-tr-full rounded-tl-full p-1  bg-gradient-to-b from-yellow-700 via-yellow-600 dark:from-yellow-600 dark:via-yellow-700 to-transparent to-85%">
