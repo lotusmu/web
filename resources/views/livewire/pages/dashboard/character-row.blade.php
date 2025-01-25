@@ -75,8 +75,8 @@ new #[Layout('layouts.app')] class extends Component {
             <flux:avatar size="xs" src="{{ asset($this->character->Class->getImagePath()) }}"/>
 
             <span class="max-sm:hidden">
-            {{  $this->character->Class->getLabel()  }}
-        </span>
+                {{  $this->character->Class->getLabel()  }}
+            </span>
         </div>
     </flux:cell>
 

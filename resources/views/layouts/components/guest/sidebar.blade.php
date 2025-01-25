@@ -13,7 +13,9 @@
         {{ __('Files') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="trophy" href="{{ route('rankings') }}">
+    <flux:navlist.item wire:navigate.hover icon="trophy"
+                       href="{{ route('rankings') }}"
+                       :current="request()->is('rankings') || request()->is('rankings/*')">
         {{ __('Rankings') }}
     </flux:navlist.item>
 
