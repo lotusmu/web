@@ -30,7 +30,7 @@ new #[Layout('layouts.guest')] class extends Component {
     <div class="flex items-center gap-8 whitespace-nowrap overflow-auto touch-pan-x no-scrollbar snap-x w-full">
         <!-- Dark Knight -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center min-w-48 w-full">
             <div class="p-6 space-y-6">
                 <div>
                     <div
@@ -56,7 +56,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Dark Wizard -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center min-w-48 w-full">
             <div class="p-6 space-y-6">
                 <div>
                     <div
@@ -82,7 +82,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Muse Elf -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center min-w-48 w-full">
             <div class="p-6 space-y-6">
                 <div>
                     <div
@@ -108,7 +108,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Magic Gladiator-->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center min-w-48 w-full">
             <div class="p-6 space-y-6">
                 <div>
                     <div
@@ -134,7 +134,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Dark Lord -->
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center w-full">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center min-w-48 w-full">
             <div class="p-6 space-y-6">
                 <div>
                     <div
