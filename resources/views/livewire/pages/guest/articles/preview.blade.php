@@ -38,5 +38,4 @@ new class extends Component {
         <!-- Content -->
         <x-prose :content="$article->content" class="!mt-16"/>
     </div>
-    <flux:separator/>
 </article>

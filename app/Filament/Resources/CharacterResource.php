@@ -11,11 +11,13 @@ use App\Filament\Resources\CharacterResource\Pages;
 use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Game\Character;
 use App\Models\Game\Guild;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\GlobalSearch\Actions\Action;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -55,6 +57,14 @@ class CharacterResource extends Resource
         return "{$record->Name} ({$record->Class->getLabel()})";
     }
 
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('view')
+                ->url(static::getUrl('view', ['record' => $record])),
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -64,10 +74,12 @@ class CharacterResource extends Resource
                     ->aside()
                     ->columns(2)
                     ->schema([
-                        TextInput::make('Name')
+                        Placeholder::make('Name')
                             ->label('Character Name')
-                            ->columnSpanFull()
-                            ->disabled(),
+                            ->content(fn ($record) => $record->Name),
+                        Placeholder::make('AccountID')
+                            ->label('Username')
+                            ->content(fn ($record) => $record->AccountID),
                         Select::make('Class')
                             ->label('Class')
                             ->columnSpanFull()

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Game\AccountLevel;
 use App\Models\Game\Character;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -13,7 +14,7 @@ new #[Layout('layouts.guest')] class extends Component {
     public function characters()
     {
         return Character::query()
-            ->with('guildMember')
+            ->with('guildMember', 'member')
             ->orderBy('ResetCount', 'desc')
             ->selectRaw('*, ROW_NUMBER() OVER (ORDER BY ResetCount DESC) as rank')
             ->paginate(10);
@@ -160,10 +161,10 @@ new #[Layout('layouts.guest')] class extends Component {
     </div>
 
     <div class="flex justify-end items-center my-8">
-        <flux:button.group>
-            <flux:button>Players</flux:button>
-            <flux:button>Guilds</flux:button>
-        </flux:button.group>
+        <flux:tabs variant="segmented" wire:model="tab">
+            <flux:tab name="players">Players</flux:tab>
+            <flux:tab name="guilds">Guilds</flux:tab>
+        </flux:tabs>
     </div>
 
     <div class="overflow-x-auto">
@@ -181,14 +182,19 @@ new #[Layout('layouts.guest')] class extends Component {
                 @foreach($this->characters as $character)
                     <flux:row wire:key="{{ $character->Name }}">
 
-                        <flux:cell class="space-x-2">
-                                    <span>
-                                        {{ $character->rank }}.
-                                    </span>
+                        <flux:cell class="flex items-center space-x-2">
+                            <span>
+                                {{ $character->rank }}.
+                            </span>
 
                             <flux:link variant="ghost" href="#">
                                 {{ $character->Name }}
                             </flux:link>
+
+                            @if($character->member->AccountLevel !== AccountLevel::Regular)
+                                <flux:icon.fire variant="mini"
+                                                class="text-{{ $character->member->AccountLevel->badgeColor() }}-500"/>
+                            @endif
                         </flux:cell>
 
                         <flux:cell>
