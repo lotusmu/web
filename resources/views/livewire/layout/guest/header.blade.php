@@ -46,7 +46,7 @@ new class extends Component {
                 {{ __('Files') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('rankings') }}" wire:navigate
+            <flux:navbar.item href="{{ route('rankings', ['section' => 'players']) }}" wire:navigate
                               :current="request()->is('rankings') || request()->is('rankings/*')">
                 {{ __('Rankings') }}
             </flux:navbar.item>

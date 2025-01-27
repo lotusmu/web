@@ -17,6 +17,9 @@ Volt::route('/schedule', 'pages.guest.schedule.index')
 Volt::route('/catalog', 'pages.guest.catalog.index')
     ->name('catalog');
 
+Volt::route('/rankings', 'pages.guest.rankings.index')
+    ->name('rankings');
+
 Volt::route('/terms', 'pages.guest.legal.terms')
     ->name('terms');
 
@@ -36,11 +39,6 @@ Route::prefix('articles')->group(function () {
     Volt::route('/{article:slug}', 'pages.guest.articles.show')
         ->middleware('article.published')
         ->name('articles.show');
-});
-
-Route::prefix('rankings')->group(function () {
-    Volt::route('/', 'pages.guest.rankings.index')
-        ->name('rankings');
 });
 
 Route::prefix('server')->group(function () {
