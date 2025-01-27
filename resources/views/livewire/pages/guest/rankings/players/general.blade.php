@@ -37,6 +37,8 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:column>Class</flux:column>
             <flux:column>Level</flux:column>
             <flux:column>Resets</flux:column>
+            <flux:column>HoF</flux:column>
+            <flux:column>Quests</flux:column>
             <flux:column>Guild</flux:column>
             <flux:column>Location</flux:column>
         </flux:columns>
@@ -77,6 +79,14 @@ new #[Layout('layouts.guest')] class extends Component {
 
                     <flux:cell>
                         {{ $character->ResetCount }}
+                    </flux:cell>
+
+                    <flux:cell>
+                        {{ rand(0,5) }}
+                    </flux:cell>
+
+                    <flux:cell>
+                        {{ rand(0,320) }}
                     </flux:cell>
 
                     <flux:cell>

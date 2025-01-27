@@ -34,7 +34,7 @@
 
     <flux:navlist.item wire:navigate.hover icon="building-storefront"
                        href="{{ route('catalog') }}">
-        {{ __('Browser Offerings') }}
+        {{ __('Browse Offerings') }}
     </flux:navlist.item>
 
     <flux:navlist.item icon="book-open" href="https://wiki.lotusmu.org" target="_blank">

@@ -8,7 +8,7 @@ new #[Layout('layouts.guest')] class extends Component {
     public string $section = 'players';
 
     #[\Livewire\Attributes\Url]
-    public string $playersType = 'resets';
+    public string $playersType = 'general';
 
     #[\Livewire\Attributes\Url]
     public string $guildsType = 'resets';
@@ -43,12 +43,8 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:tab.group class="mt-8">
                 <flux:tabs variant="pills" wire:model="playersType"
                            class="flex overflow-auto sm:mx-0 sm:justify-center">
-                    <flux:tab :accent="false" name="resets">
-                        {{ __('Resets') }}
-                    </flux:tab>
-
-                    <flux:tab :accent="false" name="hof">
-                        {{ __('Hall of Fame') }}
+                    <flux:tab :accent="false" name="general">
+                        {{ __('General') }}
                     </flux:tab>
 
                     <flux:tab :accent="false" name="events">
@@ -58,32 +54,24 @@ new #[Layout('layouts.guest')] class extends Component {
                     <flux:tab :accent="false" name="hunters">
                         {{ __('Hunters') }}
                     </flux:tab>
-
-                    <flux:tab :accent="false" name="quests">
-                        {{ __('Quests') }}
-                    </flux:tab>
                 </flux:tabs>
 
-                <flux:tab.panel name="resets">
+                <flux:tab.panel name="general">
                     <livewire:pages.guest.rankings.players.filters wire:model.live="class"/>
 
-                    <livewire:pages.guest.rankings.players.resets :$class/>
-                </flux:tab.panel>
-
-                <flux:tab.panel name="hof">
-                    Hall of Fame Rankings
+                    <livewire:pages.guest.rankings.players.general :$class/>
                 </flux:tab.panel>
 
                 <flux:tab.panel name="events">
-                    Event Rankings
+                    <livewire:pages.guest.rankings.players.filters wire:model.live="class"/>
+
+                    <livewire:pages.guest.rankings.players.events :$class/>
                 </flux:tab.panel>
 
                 <flux:tab.panel name="hunters">
-                    Hunter Rankings
-                </flux:tab.panel>
+                    <livewire:pages.guest.rankings.players.filters wire:model.live="class"/>
 
-                <flux:tab.panel name="quests">
-                    Quest Rankings
+                    <livewire:pages.guest.rankings.players.hunters :$class/>
                 </flux:tab.panel>
             </flux:tab.group>
         </flux:tab.panel>

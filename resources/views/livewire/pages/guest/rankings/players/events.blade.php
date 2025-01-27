@@ -1,23 +1,32 @@
 <?php
 
-use App\Enums\Game\AccountLevel;
 use App\Models\Game\Character;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use App\Enums\Game\AccountLevel;
+use Livewire\Attributes\Modelable;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
 new #[Layout('layouts.guest')] class extends Component {
     use WithPagination;
 
+    #[Modelable]
+    public string $class = 'all';
+
     #[Computed]
     public function characters()
     {
-        return Character::query()
-            ->with('guildMember', 'member')
-            ->orderBy('ResetCount', 'desc')
+        $query = Character::query()
+            ->with('guildMember', 'member');
+
+        if ($this->class !== 'all') {
+            $query->where('Class', $this->class);
+        }
+
+        return $query->orderBy('ResetCount', 'desc')
             ->selectRaw('*, ROW_NUMBER() OVER (ORDER BY ResetCount DESC) as rank')
-            ->paginate(10);
+            ->paginate(15);
     }
 } ?>
 
@@ -29,18 +38,68 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:column>Level</flux:column>
             <flux:column>Resets</flux:column>
             <flux:column>Guild</flux:column>
-            <flux:column>HoF</flux:column>
-            <flux:column>Quests</flux:column>
-            <flux:column>Location</flux:column>
             <flux:column>
                 <div class="flex items-center gap-2">
-                    <span>Hunter Score</span>
+                    <span>Event Score</span>
 
-                    <flux:modal.trigger name="edit-profile">
-                        <flux:button icon="information-circle" size="sm" variant="ghost"/>
+                    <flux:modal.trigger name="score-info">
+                        <flux:button icon="information-circle" size="sm" inset="top bottom" variant="ghost"/>
                     </flux:modal.trigger>
 
-                    <flux:modal name="edit-profile" variant="flyout" position="bottom" class="space-y-6">
+                    <flux:modal name="score-info" variant="flyout" position="bottom" class="space-y-6">
+                        <div>
+                            <flux:heading size="lg">Monster Score Table</flux:heading>
+                            <flux:subheading>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At,
+                                consequuntur.
+                            </flux:subheading>
+                        </div>
+
+                        <div>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                            <flux:text>
+                                Lorem ipsum dolor sit amet.
+                            </flux:text>
+                        </div>
+                    </flux:modal>
+                </div>
+            </flux:column>
+
+            <flux:column>
+                <div class="flex items-center gap-2">
+                    <span>Event Score All Time</span>
+
+                    <flux:modal.trigger name="score-info-all-time">
+                        <flux:button icon="information-circle" size="sm" inset="top bottom" variant="ghost"/>
+                    </flux:modal.trigger>
+
+                    <flux:modal name="score-info-all-time" variant="flyout" position="bottom" class="space-y-6">
                         <div>
                             <flux:heading size="lg">Monster Score Table</flux:heading>
                             <flux:subheading>
@@ -90,7 +149,7 @@ new #[Layout('layouts.guest')] class extends Component {
             @foreach($this->characters as $character)
                 <flux:row wire:key="{{ $character->Name }}">
 
-                    <flux:cell class="flex items-center space-x-2">
+                    <flux:cell class="flex items-center space-x-2 h-full">
                             <span>
                                 {{ $character->rank }}.
                             </span>
@@ -111,8 +170,8 @@ new #[Layout('layouts.guest')] class extends Component {
                                          src="{{ asset($character->Class->getImagePath()) }}"/>
 
                             <span class="max-sm:hidden">
-                                            {{ $character->Class->getLabel()  }}
-                                        </span>
+                                {{ $character->Class->getLabel()  }}
+                            </span>
                         </div>
                     </flux:cell>
 
@@ -129,27 +188,44 @@ new #[Layout('layouts.guest')] class extends Component {
                     </flux:cell>
 
                     <flux:cell>
-                        {{ rand(0,5) }}
-                    </flux:cell>
-
-                    <flux:cell>
-                        {{ rand(0,320) }}
-                    </flux:cell>
-
-                    <flux:cell>
-                        {{ $character->MapNumber->getLabel() }}
-                    </flux:cell>
-
-                    <flux:cell>
-
                         <div>
                             <flux:modal.trigger name="score-{{ $character->Name }}">
-                                <flux:button size="sm" variant="ghost" icon-trailing="chevron-down">
+                                <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
                                     <span>{{ rand(400,900) }}</span>
                                 </flux:button>
                             </flux:modal.trigger>
 
                             <flux:modal name="score-{{ $character->Name }}" variant="flyout" position="bottom"
+                                        class="space-y-6">
+                                <div>
+                                    <flux:heading size="lg">{{ $character->Name }} Hunt Score</flux:heading>
+                                    <flux:subheading>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At,
+                                        consequuntur.
+                                    </flux:subheading>
+                                </div>
+
+                                <div>
+                                    <flux:text>
+                                        Lorem ipsum dolor sit amet.
+                                    </flux:text>
+                                    <flux:text>
+                                        Lorem ipsum dolor sit amet.
+                                    </flux:text>
+                                </div>
+                            </flux:modal>
+                        </div>
+                    </flux:cell>
+
+                    <flux:cell>
+                        <div>
+                            <flux:modal.trigger name="score-total-{{ $character->Name }}">
+                                <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
+                                    <span>{{ rand(4000,9000) }}</span>
+                                </flux:button>
+                            </flux:modal.trigger>
+
+                            <flux:modal name="score-total-{{ $character->Name }}" variant="flyout" position="bottom"
                                         class="space-y-6">
                                 <div>
                                     <flux:heading size="lg">{{ $character->Name }} Hunt Score</flux:heading>
