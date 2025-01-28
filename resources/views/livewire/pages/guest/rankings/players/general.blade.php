@@ -26,11 +26,11 @@ new #[Layout('layouts.guest')] class extends Component {
 
         return $query->orderBy('ResetCount', 'desc')
             ->selectRaw('*, ROW_NUMBER() OVER (ORDER BY ResetCount DESC) as rank')
-            ->paginate(15);
+            ->simplePaginate(15);
     }
 } ?>
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto relative">
     <flux:table :paginate="$this->characters" wire:loading.class="opacity-50">
         <flux:columns>
             <flux:column>Name</flux:column>

@@ -5,13 +5,10 @@ use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
     #[\Livewire\Attributes\Url]
-    public string $section = 'players';
+    public string $tab = 'players';
 
     #[\Livewire\Attributes\Url]
-    public string $playersType = 'general';
-
-    #[\Livewire\Attributes\Url]
-    public string $guildsType = 'resets';
+    public string $type = 'general';
 
     #[\Livewire\Attributes\Url]
     public string $class = 'all';
@@ -26,7 +23,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <flux:tab.group>
         <div class="flex justify-end items-center">
-            <flux:tabs variant="segmented" wire:model="section">
+            <flux:tabs variant="segmented" wire:model="tab">
                 <flux:tab name="players">
                     {{ __('Players') }}
                 </flux:tab>
@@ -41,7 +38,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <livewire:pages.guest.rankings.spotlight.players/>
 
             <flux:tab.group class="mt-8">
-                <flux:tabs variant="pills" wire:model="playersType"
+                <flux:tabs variant="pills" wire:model="type"
                            class="flex overflow-auto sm:mx-0 sm:justify-center">
                     <flux:tab :accent="false" name="general">
                         {{ __('General') }}
@@ -81,32 +78,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
                 <livewire:pages.guest.rankings.spotlight.guilds/>
 
-                <flux:tab.group class="mt-8">
-                    <flux:tabs variant="pills" wire:model="guildsType"
-                               class="flex overflow-auto sm:mx-0 sm:justify-center">
-                        <flux:tab :accent="false" name="resets">
-                            {{ __('Resets') }}
-                        </flux:tab>
-                        <flux:tab :accent="false" name="cs">
-                            {{ __('Castle Siege') }}
-                        </flux:tab>
-                        <flux:tab :accent="false" name="king-of-yoskreth">
-                            {{ __('King of Yoskreth') }}
-                        </flux:tab>
-                        <flux:tab :accent="false" name="hunters">
-                            {{ __('Hunters') }}
-                        </flux:tab>
-                    </flux:tabs>
+                <livewire:pages.guest.rankings.guilds.filters/>
 
-                    <flux:tab.panel name="resets">
-                        <livewire:pages.guest.rankings.guilds.filters/>
-
-                        <livewire:pages.guest.rankings.guilds.resets :$class lazy/>
-                    </flux:tab.panel>
-                    <flux:tab.panel name="cs">Castle Siege Rankings</flux:tab.panel>
-                    <flux:tab.panel name="king-of-yoskreth">KoY Rankings</flux:tab.panel>
-                    <flux:tab.panel name="hunters">Guild Hunter Rankings</flux:tab.panel>
-                </flux:tab.group>
+                <livewire:pages.guest.rankings.guilds.resets :$class lazy/>
             </div>
         </flux:tab.panel>
     </flux:tab.group>

@@ -36,14 +36,16 @@ class UpdateBanner extends Model
                 ->update(['is_active' => false]);
         });
 
-        static::saved(function () {
-            cache()->forget('active_announcement_banner');
-            cache()->forget('active_updates_banner');
+        static::saved(function ($model) {
+            if ($model->type !== UpdateBannerType::ANNOUNCEMENT) {
+                cache()->forget('active_updates_banner');
+            }
         });
 
-        static::deleted(function () {
-            cache()->forget('active_announcement_banner');
-            cache()->forget('active_updates_banner');
+        static::deleted(function ($model) {
+            if ($model->type !== UpdateBannerType::ANNOUNCEMENT) {
+                cache()->forget('active_updates_banner');
+            }
         });
     }
 }

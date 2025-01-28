@@ -6,36 +6,23 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 
 new class extends Component {
-    public function dismiss(): void
-    {
-        session()->put('announcement_dismissed_id', $this->banner->id);
-        session()->put('announcement_dismissed_checksum', md5($this->banner->content.$this->banner->url));
-    }
-
     #[Computed]
     public function banner(): ?UpdateBanner
     {
-        $cacheKey = 'active_announcement_banner';
-
-        if (cache()->has($cacheKey)) {
-            return cache()->get($cacheKey);
-        }
-
-        $banner = UpdateBanner::where('is_active', true)
+        return UpdateBanner::where('is_active', true)
             ->where('type', UpdateBannerType::ANNOUNCEMENT)
             ->first();
-
-        if ($banner) {
-            cache()->put($cacheKey, $banner, now()->addDay());
-        }
-
-        return $banner;
     }
 
-    public function resetDismiss(): void
+    public function dismiss(): void
     {
-        session()->forget('announcement_dismissed_id');
-        session()->forget('announcement_dismissed_checksum');
+        $cookieData = [
+            'id'        => $this->banner->id,
+            'timestamp' => $this->banner->updated_at->timestamp,
+            'checksum'  => md5($this->banner->content.$this->banner->url)
+        ];
+
+        Cookie::queue('announcement_dismissed', json_encode($cookieData), 60 * 24 * 30);
     }
 
     public function isBannerDismissed(): bool
@@ -44,10 +31,30 @@ new class extends Component {
             return false;
         }
 
-        $dismissedId       = session('announcement_dismissed_id');
-        $dismissedChecksum = session('announcement_dismissed_checksum');
+        $cookieValue = request()->cookie('announcement_dismissed');
 
-        return $dismissedId === $this->banner->id && $dismissedChecksum === md5($this->banner->content.$this->banner->url);
+        if ( ! $cookieValue) {
+            return false;
+        }
+
+        try {
+            $dismissed = json_decode($cookieValue, true);
+
+            if ( ! is_array($dismissed) ||
+                ! isset($dismissed['id']) ||
+                ! isset($dismissed['timestamp']) ||
+                ! isset($dismissed['checksum'])
+            ) {
+                return false;
+            }
+
+            return $dismissed['id'] === $this->banner->id
+                && $dismissed['timestamp'] === $this->banner->updated_at->timestamp
+                && $dismissed['checksum'] === md5($this->banner->content.$this->banner->url);
+
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }; ?>
 

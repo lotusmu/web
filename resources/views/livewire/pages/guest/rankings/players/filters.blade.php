@@ -45,7 +45,7 @@ new class extends Component {
         </flux:select>
     </div>
 
-    <flux:input placeholder="Search..." icon="magnifying-glass"
+    <flux:input placeholder="Search character..." icon="magnifying-glass"
                 class="max-w-sm mx-auto">
         <x-slot name="iconTrailing">
             <flux:button size="sm" variant="subtle" icon="x-mark" class="-mr-1"/>
