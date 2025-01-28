@@ -1,18 +1,20 @@
 <?php
 
 use App\Enums\Game\AccountLevel;
+use App\Livewire\Forms\Filters;
 use App\Models\Game\Character;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Modelable;
+use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
 new #[Layout('layouts.guest')] class extends Component {
     use WithPagination;
 
-    #[Modelable]
-    public string $class = 'all';
+    #[Reactive]
+    public Filters $filters;
 
     #[Computed]
     public function characters()
@@ -20,16 +22,13 @@ new #[Layout('layouts.guest')] class extends Component {
         $query = Character::query()
             ->with('guildMember', 'member');
 
-        if ($this->class !== 'all') {
-            $query->where('Class', $this->class);
-        }
+        $query = $this->filters->apply($query);
 
         return $query->orderBy('ResetCount', 'desc')
             ->selectRaw('*, ROW_NUMBER() OVER (ORDER BY ResetCount DESC) as rank')
-            ->simplePaginate(15);
+            ->simplePaginate(10);
     }
 } ?>
-
 <div class="overflow-x-auto relative">
     <flux:table :paginate="$this->characters" wire:loading.class="opacity-50">
         <flux:columns>

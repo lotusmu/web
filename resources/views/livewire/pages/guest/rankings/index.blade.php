@@ -1,17 +1,23 @@
 <?php
 
+use App\Livewire\Forms\Filters;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
+    public Filters $filters;
+
     #[\Livewire\Attributes\Url]
     public string $tab = 'players';
 
     #[\Livewire\Attributes\Url]
     public string $type = 'general';
 
-    #[\Livewire\Attributes\Url]
-    public string $class = 'all';
+    public function mount()
+    {
+        $this->filters->init();
+    }
 } ?>
 
 <flux:main container>
@@ -37,6 +43,12 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <livewire:pages.guest.rankings.spotlight.players/>
 
+            <flux:radio.group variant="segmented" class="max-w-xs mx-auto mt-8 cursor-pointer">
+                <flux:radio value="general" label="{{ __('General') }}" checked/>
+                <flux:radio value="events" label="{{ __('Events') }}"/>
+                <flux:radio value="hunters" label="{{ __('Hunters') }}"/>
+            </flux:radio.group>
+
             <flux:tab.group class="mt-8">
                 <flux:tabs variant="pills" wire:model="type"
                            class="flex overflow-auto sm:mx-0 sm:justify-center">
@@ -52,23 +64,18 @@ new #[Layout('layouts.guest')] class extends Component {
                         {{ __('Hunters') }}
                     </flux:tab>
                 </flux:tabs>
-
                 <flux:tab.panel name="general">
-                    <livewire:pages.guest.rankings.players.filters wire:model.live="class"/>
-
-                    <livewire:pages.guest.rankings.players.general :$class/>
+                    <x-filters :filters="$this->filters"/>
+                    
+                    <livewire:pages.guest.rankings.players.general :filters="$this->filters"/>
                 </flux:tab.panel>
 
                 <flux:tab.panel name="events">
-                    <livewire:pages.guest.rankings.players.filters wire:model.live="class"/>
-
-                    <livewire:pages.guest.rankings.players.events :$class/>
+                    <livewire:pages.guest.rankings.players.events/>
                 </flux:tab.panel>
 
                 <flux:tab.panel name="hunters">
-                    <livewire:pages.guest.rankings.players.filters wire:model.live="class"/>
-
-                    <livewire:pages.guest.rankings.players.hunters :$class/>
+                    <livewire:pages.guest.rankings.players.hunters/>
                 </flux:tab.panel>
             </flux:tab.group>
         </flux:tab.panel>
@@ -80,7 +87,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
                 <livewire:pages.guest.rankings.guilds.filters/>
 
-                <livewire:pages.guest.rankings.guilds.resets :$class lazy/>
+                <livewire:pages.guest.rankings.guilds.table lazy/>
             </div>
         </flux:tab.panel>
     </flux:tab.group>

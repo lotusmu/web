@@ -70,10 +70,10 @@ new class extends Component {
     ];
 } ?>
 
-<div class="flex items-center gap-8 whitespace-nowrap overflow-auto touch-pan-x no-scrollbar snap-x w-full min-h-64">
+<div class="flex items-center gap-8 whitespace-nowrap overflow-auto touch-pan-x no-scrollbar snap-x w-full">
     @foreach($winners as $winner)
         <div
-            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center min-w-48 w-full h-full">
+            class="bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl snap-center inline-flex items-center justify-center min-w-48 w-full min-h-64">
             <div class="p-6 space-y-6">
                 <div>
                     <div
