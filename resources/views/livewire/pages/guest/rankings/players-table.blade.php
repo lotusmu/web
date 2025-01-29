@@ -52,7 +52,7 @@ new #[Layout('layouts.guest')] class extends Component {
         <flux:rows>
             @if($this->characters->isEmpty())
                 <flux:row>
-                    <flux:cell>
+                    <flux:cell colspan="100%">
                         {{ __('No characters found.') }}
                     </flux:cell>
                 </flux:row>
