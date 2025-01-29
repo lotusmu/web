@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Utility\RankingType;
 use App\Livewire\Forms\Filters;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Reactive;
@@ -12,11 +13,16 @@ new #[Layout('layouts.guest')] class extends Component {
     public string $tab = 'players';
 
     #[\Livewire\Attributes\Url]
-    public string $type = 'general';
+    public RankingType $type = RankingType::GENERAL;
 
     public function mount()
     {
         $this->filters->init();
+    }
+
+    public function isType(RankingType $type): bool
+    {
+        return $this->type === $type;
     }
 } ?>
 
@@ -39,55 +45,30 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:tabs>
         </div>
 
-        <flux:tab.panel name="players">
-
+        <flux:tab.panel name="players" class="space-y-8">
             <livewire:pages.guest.rankings.spotlight.players/>
 
-            <flux:radio.group variant="segmented" class="max-w-xs mx-auto mt-8 cursor-pointer">
-                <flux:radio value="general" label="{{ __('General') }}" checked/>
-                <flux:radio value="events" label="{{ __('Events') }}"/>
-                <flux:radio value="hunters" label="{{ __('Hunters') }}"/>
+            <flux:radio.group variant="segmented" wire:model.live="type"
+                              class="max-w-xs mx-auto cursor-pointer">
+                @foreach(RankingType::cases() as $type)
+                    <flux:radio :value="$type->value" :label="$type->label()"/>
+                @endforeach
             </flux:radio.group>
 
-            <flux:tab.group class="mt-8">
-                <flux:tabs variant="pills" wire:model="type"
-                           class="flex overflow-auto sm:mx-0 sm:justify-center">
-                    <flux:tab :accent="false" name="general">
-                        {{ __('General') }}
-                    </flux:tab>
+            <x-rankings.filters :filters="$this->filters"/>
 
-                    <flux:tab :accent="false" name="events">
-                        {{ __('Events') }}
-                    </flux:tab>
+            <x-rankings.search/>
 
-                    <flux:tab :accent="false" name="hunters">
-                        {{ __('Hunters') }}
-                    </flux:tab>
-                </flux:tabs>
-                <flux:tab.panel name="general">
-                    <x-filters :filters="$this->filters"/>
-                    
-                    <livewire:pages.guest.rankings.players.general :filters="$this->filters"/>
-                </flux:tab.panel>
-
-                <flux:tab.panel name="events">
-                    <livewire:pages.guest.rankings.players.events/>
-                </flux:tab.panel>
-
-                <flux:tab.panel name="hunters">
-                    <livewire:pages.guest.rankings.players.hunters/>
-                </flux:tab.panel>
-            </flux:tab.group>
+            <livewire:pages.guest.rankings.players-table :filters="$this->filters" :type="$this->type"/>
         </flux:tab.panel>
 
         <flux:tab.panel name="guilds">
-            <div class="w-full mb-8">
-
+            <div class="w-full space-y-8">
                 <livewire:pages.guest.rankings.spotlight.guilds/>
 
-                <livewire:pages.guest.rankings.guilds.filters/>
+                <x-rankings.search/>
 
-                <livewire:pages.guest.rankings.guilds.table lazy/>
+                <livewire:pages.guest.rankings.guilds-table lazy/>
             </div>
         </flux:tab.panel>
     </flux:tab.group>

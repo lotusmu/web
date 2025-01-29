@@ -48,14 +48,14 @@ new class extends Component {
 
         <div class="flex items-center max-sm:flex-col max-sm:items-start max-sm:gap-3 gap-6 mt-6">
             <div class="flex items-center gap-2">
-                <flux:icon.castle variant="mini"/>
+                <flux:icon.castle variant="micro"/>
                 <flux:text>
                     {{ __('CS Wins') }}: 4
                 </flux:text>
             </div>
 
             <div class="flex items-center gap-2">
-                <flux:icon.users variant="mini"/>
+                <flux:icon.members variant="micro"/>
                 <flux:text>
                     {{ __('Members') }}: 30
                 </flux:text>
