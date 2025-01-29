@@ -49,7 +49,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <livewire:pages.guest.rankings.spotlight.players/>
 
             <flux:radio.group variant="segmented" wire:model.live="type"
-                              class="max-w-xs mx-auto cursor-pointer">
+                              class="max-sm:max-w-none max-w-xs mx-auto cursor-pointer">
                 @foreach(RankingType::cases() as $type)
                     <flux:radio :value="$type->value" :label="$type->label()"/>
                 @endforeach
