@@ -57,9 +57,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <x-rankings.filters :filters="$this->filters"/>
 
-            <x-rankings.search/>
-
-            <livewire:pages.guest.rankings.players-table :filters="$this->filters" :type="$this->type"/>
+            <livewire:pages.guest.rankings.players-table :filters="$this->filters"
+                                                         :type="$this->type"/>
         </flux:tab.panel>
 
         <flux:tab.panel name="guilds">
