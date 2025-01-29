@@ -5,7 +5,7 @@
             <x-rankings.radio-group.option
                 :value="$class['value']"
                 class-checked="opacity-100"
-                class-not-checked="opacity-80 dark:opacity-70"
+                class-not-checked="opacity-70"
                 class="flex flex-col items-center justify-center hover:opacity-100 transition-opacity duration-200 cursor-pointer">
 
                 <x-rankings.radio-group.description class="text-lg font-semibold">
