@@ -4,10 +4,12 @@ namespace App\Livewire\Forms;
 
 use App\Enums\Utility\FilterCharacterClass;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Url;
 use Livewire\Form;
 
 class Filters extends Form
 {
+    #[Url]
     public FilterCharacterClass $class = FilterCharacterClass::All;
 
     public function init() {}
