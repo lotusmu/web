@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\Game\AccountLevel;
-use App\Enums\Utility\RankingType;
+use App\Enums\Utility\RankingViewType;
 use App\Livewire\Forms\Filters;
 use App\Models\Game\Character;
 use App\Traits\Searchable;
@@ -16,7 +16,7 @@ new #[Layout('layouts.guest')] class extends Component {
     use WithPagination, Searchable;
 
     #[Reactive]
-    public RankingType $type;
+    public RankingViewType $type;
 
     #[Reactive]
     public Filters $filters;

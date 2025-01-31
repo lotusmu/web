@@ -10,24 +10,19 @@
 
 <flux:column>{{ __('Resets') }}</flux:column>
 
-<flux:column>{{ __('HoF') }}</flux:column>
-
-<flux:column>{{ __('Quests') }}</flux:column>
-
 <flux:column>{{ __('Guild') }}</flux:column>
 
 <flux:column>
     <div class="flex items-center gap-2">
-        <span>{{ __('Total Event Score') }}</span>
+        <span>{{ __('Weekly Event Score') }}</span>
         <livewire:pages.guest.rankings.scoring-rules-modal :type="RankingScoreType::EVENTS"/>
     </div>
 </flux:column>
 
 <flux:column>
     <div class="flex items-center gap-2">
-        <span>{{ __('Total Hunt Score') }}</span>
+        <span>{{ __('Weekly Hunt Score') }}</span>
         <livewire:pages.guest.rankings.scoring-rules-modal :type="RankingScoreType::HUNTERS"/>
     </div>
 </flux:column>
-
 <flux:column>{{ __('Location') }}</flux:column>

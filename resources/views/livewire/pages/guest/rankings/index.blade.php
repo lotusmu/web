@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Utility\RankingType;
+use App\Enums\Utility\RankingViewType;
 use App\Livewire\Forms\Filters;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Reactive;
@@ -13,14 +13,14 @@ new #[Layout('layouts.guest')] class extends Component {
     public string $tab = 'players';
 
     #[\Livewire\Attributes\Url]
-    public RankingType $type = RankingType::GENERAL;
+    public RankingViewType $type = RankingViewType::GENERAL;
 
     public function mount()
     {
         $this->filters->init();
     }
 
-    public function isType(RankingType $type): bool
+    public function isType(RankingViewType $type): bool
     {
         return $this->type === $type;
     }
@@ -50,7 +50,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:radio.group variant="segmented" wire:model.live="type"
                               class="max-sm:max-w-none max-w-xs mx-auto cursor-pointer">
-                @foreach(RankingType::cases() as $type)
+                @foreach(RankingViewType::cases() as $type)
                     <flux:radio :value="$type->value" :label="$type->label()"/>
                 @endforeach
             </flux:radio.group>

@@ -1,33 +1,26 @@
 <?php
 
+use App\Enums\Utility\RankingScoreType;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 use Illuminate\Support\Collection;
 
 new class extends Component {
-    public string $type; // events/hunters
+    public RankingScoreType $type;
 
-    public function mount(string $type)
+    public function mount(RankingScoreType $type)
     {
         $this->type = $type;
     }
 
     public function getTitle(): string
     {
-        return match ($this->type) {
-            'events' => __('Event Scoring Rules'),
-            'hunters' => __('Hunter Scoring Rules'),
-            default => __('Scoring Rules'),
-        };
+        return __("{$this->type->label()} Scoring Rules");
     }
 
     public function getDescription(): string
     {
-        return match ($this->type) {
-            'events' => __("Points awarded for defeating monsters in events."),
-            'hunters' => __("Points awarded for monster hunting."),
-            default => __("Points breakdown."),
-        };
+        return $this->type->description();
     }
 
     #[Computed]
@@ -48,12 +41,12 @@ new class extends Component {
 } ?>
 
 <div class="flex items-center gap-2">
-    <flux:modal.trigger :name="$type . '-scoring'">
+    <flux:modal.trigger :name="$type->value . '-scoring'">
         <flux:button icon="information-circle" size="sm" inset="top bottom" variant="ghost"/>
     </flux:modal.trigger>
 
     <flux:modal
-        :name="$type . '-scoring'"
+        :name="$type->value . '-scoring'"
         variant="flyout"
         position="bottom"
     >

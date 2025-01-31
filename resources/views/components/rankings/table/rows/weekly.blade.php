@@ -16,14 +16,6 @@
 </flux:cell>
 
 <flux:cell>
-    {{ rand(0,5) }}
-</flux:cell>
-
-<flux:cell>
-    {{ rand(0,320) }}
-</flux:cell>
-
-<flux:cell>
     <x-guild-identity :guildMember="$character->guildMember"/>
 </flux:cell>
 
@@ -31,7 +23,7 @@
     <livewire:pages.guest.rankings.character-score-modal
         :type="RankingScoreType::EVENTS"
         :character="$character"
-        :scope="RankingPeriodType::TOTAL"
+        :scope="RankingPeriodType::WEEKLY"
     />
 </flux:cell>
 
@@ -39,7 +31,7 @@
     <livewire:pages.guest.rankings.character-score-modal
         :type="RankingScoreType::HUNTERS"
         :character="$character"
-        :scope="RankingPeriodType::TOTAL"
+        :scope="RankingPeriodType::WEEKLY"
     />
 </flux:cell>
 

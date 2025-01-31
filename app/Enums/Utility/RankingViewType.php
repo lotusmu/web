@@ -2,18 +2,16 @@
 
 namespace App\Enums\Utility;
 
-enum RankingType: string
+enum RankingViewType: string
 {
     case GENERAL = 'general';
-    case EVENTS = 'events';
-    case HUNTERS = 'hunters';
+    case WEEKLY = 'weekly';
 
     public function label(): string
     {
         return match ($this) {
             self::GENERAL => __('General'),
-            self::EVENTS => __('Events'),
-            self::HUNTERS => __('Hunters'),
+            self::WEEKLY => __('Weekly'),
         };
     }
 

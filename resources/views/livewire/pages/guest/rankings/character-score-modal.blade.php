@@ -2,6 +2,7 @@
 // app/Livewire/Rankings/CharacterScoreModal.php
 
 use App\Enums\Utility\RankingPeriodType;
+use App\Enums\Utility\RankingScoreType;
 use App\Models\Game\Character;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Reactive;
@@ -9,14 +10,14 @@ use Livewire\Volt\Component;
 use Illuminate\Support\Collection;
 
 new class extends Component {
-    public string $type; // events/hunters
+    public RankingScoreType $type;
 
     public Character $character;
 
     public RankingPeriodType $scope;
 
     public function mount(
-        string $type,
+        RankingScoreType $type,
         Character $character,
         RankingPeriodType $scope = RankingPeriodType::WEEKLY
     ) {
@@ -27,13 +28,7 @@ new class extends Component {
 
     public function getTitle(): string
     {
-        $period = $this->scope === 'weekly' ? __('Weekly') : __('Total');
-
-        return match ($this->type) {
-            'events' => __("{$this->scope->label()} Event Score: {$this->character->Name}"),
-            'hunters' => __("{$this->scope->label()} Hunt Score: {$this->character->Name}"),
-            default => __("Score Breakdown: {$this->character->Name}"),
-        };
+        return __("{$this->scope->label()} {$this->type->label()} Score: {$this->character->Name}");
     }
 
     #[Computed]
@@ -64,14 +59,14 @@ new class extends Component {
 } ?>
 
 <div>
-    <flux:modal.trigger :name="$type . '-score-' . $scope->value . '-' . $character->Name">
+    <flux:modal.trigger :name="$type->value . '-score-' . $scope->value . '-' . $character->Name">
         <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
             <span>{{ $this->totalScore }}</span>
         </flux:button>
     </flux:modal.trigger>
 
     <flux:modal
-        :name="$type . '-score-' . $scope->value . '-' . $character->Name"
+        :name="$type->value . '-score-' . $scope->value . '-' . $character->Name"
         variant="flyout"
         position="bottom"
     >
