@@ -24,7 +24,7 @@
         :type="RankingScoreType::EVENTS"
         :character="$character"
         :scope="RankingPeriodType::WEEKLY"
-        wire:key="{{ $character->Name.RankingPeriodType::WEEKLY->value.RankingScoreType::EVENTS->value }}"
+        :wire:key="$this->getScoreKey($character, RankingScoreType::EVENTS)"
     />
 </flux:cell>
 
@@ -33,7 +33,7 @@
         :type="RankingScoreType::HUNTERS"
         :character="$character"
         :scope="RankingPeriodType::WEEKLY"
-        wire:key="{{ $character->Name.RankingPeriodType::WEEKLY->value.RankingScoreType::HUNTERS->value }}"
+        :wire:key="$this->getScoreKey($character, RankingScoreType::HUNTERS)"
     />
 </flux:cell>
 

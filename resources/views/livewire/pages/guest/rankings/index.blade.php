@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\Utility\RankingViewType;
 use App\Livewire\Forms\Filters;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Reactive;
@@ -13,11 +12,19 @@ new #[Layout('layouts.guest')] class extends Component {
     public string $tab = 'players';
 
     #[\Livewire\Attributes\Url]
-    public RankingViewType $type = RankingViewType::GENERAL;
+    public string $type = 'general';
 
     public function mount()
     {
         $this->filters->init();
+
+        if ( ! in_array($this->tab, ['players', 'guilds'])) {
+            $this->tab = 'players';
+        }
+
+        if ( ! in_array($this->type, ['general', 'weekly'])) {
+            $this->type = 'general';
+        }
     }
 } ?>
 
@@ -54,26 +61,19 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:tab.group>
                 <div class="flex justify-center">
                     <flux:tabs variant="segmented" class="w-full max-w-xs mb-8" wire:model="type">
-                        @foreach(RankingViewType::cases() as $type)
-                            <flux:tab :name="$type->value">{{ $type->label() }}</flux:tab>
-                        @endforeach
+                        <flux:tab name="general">{{ __('General') }}</flux:tab>
+                        <flux:tab name="weekly">{{ __('Weekly') }}</flux:tab>
                     </flux:tabs>
                 </div>
 
                 <x-rankings.filters :filters="$this->filters"/>
 
-                <flux:tab.panel :name="RankingViewType::GENERAL->value">
-                    <livewire:pages.guest.rankings.players.general
-                        :filters="$this->filters"
-                        lazy
-                    />
+                <flux:tab.panel name="general">
+                    <livewire:pages.guest.rankings.players.general :filters="$this->filters" lazy/>
                 </flux:tab.panel>
 
-                <flux:tab.panel :name="RankingViewType::WEEKLY->value">
-                    <livewire:pages.guest.rankings.players.weekly
-                        :filters="$this->filters"
-                        lazy
-                    />
+                <flux:tab.panel name="weekly">
+                    <livewire:pages.guest.rankings.players.weekly :filters="$this->filters" lazy/>
                 </flux:tab.panel>
             </flux:tab.group>
         </flux:tab.panel>

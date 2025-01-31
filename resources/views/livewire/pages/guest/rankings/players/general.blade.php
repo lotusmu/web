@@ -1,6 +1,7 @@
 <?php
 
-use App\Enums\Utility\RankingViewType;
+use App\Enums\Utility\RankingPeriodType;
+use App\Enums\Utility\RankingScoreType;
 use App\Livewire\Forms\Filters;
 use App\Models\Game\Character;
 use App\Traits\Searchable;
@@ -36,6 +37,16 @@ new #[Layout('layouts.guest')] class extends Component {
         return $this->searchCharacter($query);
     }
 
+    protected function getRowKey($character): string
+    {
+        return $character->Name.'-general-row';
+    }
+
+    protected function getScoreKey($character, RankingScoreType $type): string
+    {
+        return $character->Name.'-'.RankingPeriodType::TOTAL->value.'-'.$type->value.'-score';
+    }
+
     public function placeholder()
     {
         return view('livewire.pages.guest.rankings.placeholders.table');
@@ -59,7 +70,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 </flux:row>
             @else
                 @foreach($this->characters as $character)
-                    <flux:row wire:key="{{ $character->Name }}-{{ RankingViewType::GENERAL }}">
+                    <flux:row wire:key="{{ $this->getRowKey($character) }}">
                         @include('components.rankings.table.rows.general')
                     </flux:row>
                 @endforeach
