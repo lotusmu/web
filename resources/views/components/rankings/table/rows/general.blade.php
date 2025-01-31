@@ -32,6 +32,7 @@
         :type="RankingScoreType::EVENTS"
         :character="$character"
         :scope="RankingPeriodType::TOTAL"
+        wire:key="{{ $character->Name . '-' . RankingPeriodType::TOTAL->value . '-' . RankingScoreType::EVENTS->value }}"
     />
 </flux:cell>
 
@@ -40,6 +41,7 @@
         :type="RankingScoreType::HUNTERS"
         :character="$character"
         :scope="RankingPeriodType::TOTAL"
+        wire:key="{{ $character->Name . '-' . RankingPeriodType::TOTAL->value . '-' . RankingScoreType::HUNTERS->value }}"
     />
 </flux:cell>
 

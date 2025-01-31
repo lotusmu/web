@@ -5,10 +5,11 @@ use App\Models\Game\Character;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
 new #[Layout('layouts.guest')] class extends Component {
-    use WithPagination;
+    use WithPagination, WithoutUrlPagination;
 
     #[Computed]
     public function characters()
@@ -17,11 +18,18 @@ new #[Layout('layouts.guest')] class extends Component {
             ->with('guildMember', 'member')
             ->orderBy('ResetCount', 'desc')
             ->selectRaw('*, ROW_NUMBER() OVER (ORDER BY ResetCount DESC) as rank')
-            ->paginate(10);
+            ->simplePaginate(10);
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.pages.guest.rankings.placeholders.table');
     }
 } ?>
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto relative space-y-8">
+    <x-rankings.search/>
+
     <flux:table :paginate="$this->characters" wire:loading.class="opacity-50">
         <flux:columns>
             <flux:column>Guild</flux:column>

@@ -14,14 +14,4 @@ enum RankingViewType: string
             self::WEEKLY => __('Weekly'),
         };
     }
-
-    public function getColumnsPath(): string
-    {
-        return "components.rankings.table.columns.{$this->value}";
-    }
-
-    public function getRowsPath(): string
-    {
-        return "components.rankings.table.rows.{$this->value}";
-    }
 }

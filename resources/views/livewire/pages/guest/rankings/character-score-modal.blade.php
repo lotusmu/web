@@ -1,5 +1,4 @@
 <?php
-// app/Livewire/Rankings/CharacterScoreModal.php
 
 use App\Enums\Utility\RankingPeriodType;
 use App\Enums\Utility\RankingScoreType;
@@ -19,7 +18,7 @@ new class extends Component {
     public function mount(
         RankingScoreType $type,
         Character $character,
-        RankingPeriodType $scope = RankingPeriodType::WEEKLY
+        RankingPeriodType $scope,
     ) {
         $this->type      = $type;
         $this->character = $character;
@@ -34,7 +33,6 @@ new class extends Component {
     #[Computed]
     public function characterScores(): Collection
     {
-        // This will pull character's specific monster kills and points
         return collect([
             [
                 'monster_name'    => 'Golden Dragon',

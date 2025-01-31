@@ -19,11 +19,6 @@ new #[Layout('layouts.guest')] class extends Component {
     {
         $this->filters->init();
     }
-
-    public function isType(RankingViewType $type): bool
-    {
-        return $this->type === $type;
-    }
 } ?>
 
 <flux:main container>
@@ -32,6 +27,14 @@ new #[Layout('layouts.guest')] class extends Component {
         kicker="Rankings"
         description="The numbers don’t lie — players and guilds ranked by their achievements."
     />
+
+    <flux:modal name="events-scoring" variant="flyout" position="bottom">
+        <livewire:pages.guest.rankings.scoring-rules.events lazy/>
+    </flux:modal>
+
+    <flux:modal name="hunters-scoring" variant="flyout" position="bottom">
+        <livewire:pages.guest.rankings.scoring-rules.hunters lazy/>
+    </flux:modal>
 
     <flux:tab.group>
         <div class="flex justify-end items-center">
@@ -48,24 +51,36 @@ new #[Layout('layouts.guest')] class extends Component {
         <flux:tab.panel name="players" class="space-y-8">
             <livewire:pages.guest.rankings.spotlight.players/>
 
-            <flux:radio.group variant="segmented" wire:model.live="type"
-                              class="max-sm:max-w-none max-w-xs mx-auto cursor-pointer">
-                @foreach(RankingViewType::cases() as $type)
-                    <flux:radio :value="$type->value" :label="$type->label()"/>
-                @endforeach
-            </flux:radio.group>
+            <flux:tab.group>
+                <div class="flex justify-center">
+                    <flux:tabs variant="segmented" class="w-full max-w-xs mb-8" wire:model="type">
+                        @foreach(RankingViewType::cases() as $type)
+                            <flux:tab :name="$type->value">{{ $type->label() }}</flux:tab>
+                        @endforeach
+                    </flux:tabs>
+                </div>
 
-            <x-rankings.filters :filters="$this->filters"/>
+                <x-rankings.filters :filters="$this->filters"/>
 
-            <livewire:pages.guest.rankings.players-table :filters="$this->filters"
-                                                         :type="$this->type"/>
+                <flux:tab.panel :name="RankingViewType::GENERAL->value">
+                    <livewire:pages.guest.rankings.players.general
+                        :filters="$this->filters"
+                        lazy
+                    />
+                </flux:tab.panel>
+
+                <flux:tab.panel :name="RankingViewType::WEEKLY->value">
+                    <livewire:pages.guest.rankings.players.weekly
+                        :filters="$this->filters"
+                        lazy
+                    />
+                </flux:tab.panel>
+            </flux:tab.group>
         </flux:tab.panel>
 
         <flux:tab.panel name="guilds">
             <div class="w-full space-y-8">
                 <livewire:pages.guest.rankings.spotlight.guilds/>
-
-                <x-rankings.search/>
 
                 <livewire:pages.guest.rankings.guilds-table lazy/>
             </div>

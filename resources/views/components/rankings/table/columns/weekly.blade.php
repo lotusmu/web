@@ -15,14 +15,15 @@
 <flux:column>
     <div class="flex items-center gap-2">
         <span>{{ __('Weekly Event Score') }}</span>
-        <livewire:pages.guest.rankings.scoring-rules-modal :type="RankingScoreType::EVENTS"/>
+        <x-rankings.scoring-modals-trigger :type="RankingScoreType::EVENTS"/>
     </div>
 </flux:column>
 
 <flux:column>
     <div class="flex items-center gap-2">
         <span>{{ __('Weekly Hunt Score') }}</span>
-        <livewire:pages.guest.rankings.scoring-rules-modal :type="RankingScoreType::HUNTERS"/>
+        <x-rankings.scoring-modals-trigger :type="RankingScoreType::HUNTERS"/>
     </div>
 </flux:column>
+
 <flux:column>{{ __('Location') }}</flux:column>

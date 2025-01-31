@@ -39,8 +39,6 @@ class Filters extends Form
 
     public function apply($query)
     {
-        $this->applyClass($query);
-
-        return $query;
+        return $this->applyClass($query);
     }
 }
