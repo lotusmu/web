@@ -47,9 +47,11 @@
              alt="Guild Mark"
              class="{{ $sizes[$size]['image'] }} shrink-0 rounded border border-zinc-200 dark:border-white/10"
         />
+    @else
+        <span class="sm:hidden">—</span>
     @endif
 
     <span class="max-sm:hidden {{ $sizes[$size]['text'] }}">
-        {{ $guildInstance?->G_Name ?? 'No Guild' }}
+        {{ $guildInstance?->G_Name ?? '—' }}
     </span>
 </div>
