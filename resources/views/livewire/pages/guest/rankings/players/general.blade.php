@@ -33,11 +33,22 @@ new #[Layout('layouts.guest')] class extends Component {
             ->with([
                 'member:memb___id,AccountLevel',
                 'guildMember.guild',
-                'hunterScores' => function ($q) {
+                'hunterScores'       => function ($q) {
                     $q->select([
                         'Name',
                         'MonsterName',
-                        'MonsterClass',  // Added this field
+                        'MonsterClass',
+                        'KillCount',
+                        'PointsPerKill',
+                        'TotalPoints'
+                    ])
+                        ->with(['monster:MonsterName,MonsterClass,image_path']);
+                },
+                'weeklyHunterScores' => function ($q) {
+                    $q->select([
+                        'Name',
+                        'MonsterName',
+                        'MonsterClass',
                         'KillCount',
                         'PointsPerKill',
                         'TotalPoints'

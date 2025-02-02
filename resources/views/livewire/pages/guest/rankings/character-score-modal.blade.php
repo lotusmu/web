@@ -34,7 +34,6 @@ new class extends Component {
     #[Computed]
     public function characterScores(): Collection
     {
-        // Get eagerly loaded relation instead of making a new query
         $scores = $this->scope === RankingPeriodType::WEEKLY
             ? $this->character->weeklyHunterScores
             : $this->character->hunterScores;
