@@ -41,8 +41,7 @@ class HunterWeekly extends Model
 
     public function monster(): BelongsTo
     {
-        return $this->belongsTo(Monster::class, 'MonsterName', 'MonsterName')
-            ->where('MonsterClass', $this->MonsterClass);
+        return $this->belongsTo(Monster::class, 'MonsterName', 'MonsterName');
     }
 
     public function scopeCurrentWeek($query)

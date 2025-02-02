@@ -6,6 +6,8 @@ use App\Enums\Game\CharacterClass;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Models\Concerns\GameConnection;
+use App\Models\Game\Ranking\Hunter;
+use App\Models\Game\Ranking\HunterWeekly;
 use App\Models\User\Member;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -143,5 +145,15 @@ class Character extends Model
     public function guildMember(): HasOne
     {
         return $this->hasOne(GuildMember::class, 'Name', 'Name');
+    }
+
+    public function hunterScores(): HasMany
+    {
+        return $this->hasMany(Hunter::class, 'Name', 'Name');
+    }
+
+    public function weeklyHunterScores(): HasMany
+    {
+        return $this->hasMany(HunterWeekly::class, 'Name', 'Name');
     }
 }

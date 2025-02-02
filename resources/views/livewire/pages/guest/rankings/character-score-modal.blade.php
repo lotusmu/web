@@ -34,19 +34,24 @@ new class extends Component {
     #[Computed]
     public function characterScores(): Collection
     {
-        return Monster::query()
-            ->where('PointsPerKill', '>', 0)
-            ->orderBy('PointsPerKill', 'desc')
-            ->get()
-            ->map(function ($monster) {
-                return [
-                    'name'         => $monster->MonsterName,
-                    'kills'        => 3,
-                    'points'       => $monster->PointsPerKill,
-                    'total_points' => $monster->PointsPerKill * 3,
-                    'image'        => $monster->image_path ? asset($monster->image_path) : null,
-                ];
-            });
+        $query = $this->scope === RankingPeriodType::WEEKLY
+            ? $this->character->weeklyHunterScores()
+            : $this->character->hunterScores();
+
+        $scores = $query->with('monster')->get();
+
+        return $scores->map(function ($score) {
+            $monster = $score->monster?->MonsterClass === $score->MonsterClass ? $score->monster : null;
+
+            return [
+                'name'         => $score->MonsterName,
+                'kills'        => $score->KillCount,
+                'points'       => $score->PointsPerKill,
+                'total_points' => $score->TotalPoints,
+                'image'        => $monster?->image_path ? asset($monster->image_path) : null,
+            ];
+        })
+            ->sortByDesc('total_points');
     }
 
     #[Computed]

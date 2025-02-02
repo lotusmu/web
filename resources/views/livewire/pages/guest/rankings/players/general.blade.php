@@ -22,14 +22,16 @@ new #[Layout('layouts.guest')] class extends Component {
     public function characters()
     {
         $query = Character::query()
-            ->with('guildMember', 'member');
+            ->with([
+                'guildMember',
+                'member',
+                'hunterScores.monster'
+            ]);
 
         $query = $this->applySearch($query);
         $query = $this->filters->apply($query);
 
-        return $query->orderBy('ResetCount', 'desc')
-            ->selectRaw('*, ROW_NUMBER() OVER (ORDER BY ResetCount DESC) as rank')
-            ->simplePaginate(10);
+        return $query->simplePaginate(10);
     }
 
     protected function applySearch($query)
