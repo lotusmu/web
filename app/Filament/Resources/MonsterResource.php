@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MonsterResource\Pages\CreateMonster;
 use App\Filament\Resources\MonsterResource\Pages\EditMonster;
 use App\Filament\Resources\MonsterResource\Pages\ListMonsters;
-use App\Models\Game\Monster;
+use App\Models\Game\Ranking\Monster;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;

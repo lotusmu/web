@@ -2,10 +2,10 @@
 <?php
 
 use App\Enums\Utility\RankingScoreType;
-use App\Models\Game\Monster;
+use App\Models\Game\Ranking\Monster;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
-use Illuminate\Support\Collection;
 
 new class extends Component {
     public RankingScoreType $type = RankingScoreType::EVENTS;
@@ -53,7 +53,7 @@ new class extends Component {
                     {{ $monster['points'] }} {{ __('points') }}
                 </flux:badge>
             </div>
-        
+
             @if(!$loop->last)
                 <flux:separator variant="subtle" class="my-6"/>
             @endif

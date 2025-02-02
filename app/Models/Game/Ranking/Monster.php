@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Game;
+namespace App\Models\Game\Ranking;
 
 use Illuminate\Database\Eloquent\Model;
 
