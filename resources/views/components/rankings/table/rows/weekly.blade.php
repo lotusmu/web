@@ -20,12 +20,9 @@
 </flux:cell>
 
 <flux:cell>
-    <livewire:pages.guest.rankings.character-score-modal
-        :type="RankingScoreType::EVENTS"
-        :character="$character"
-        :scope="RankingPeriodType::WEEKLY"
-        :wire:key="$this->getScoreKey($character, RankingScoreType::EVENTS)"
-    />
+    <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
+        <span>{{ rand(0,5000) }}</span>
+    </flux:button>
 </flux:cell>
 
 <flux:cell>
