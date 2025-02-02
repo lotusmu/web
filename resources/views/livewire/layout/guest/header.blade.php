@@ -21,7 +21,10 @@ new class extends Component {
 
     <flux:header container
                  x-data="{ isScrolled: false }"
-                 x-init="window.addEventListener('scroll', () => isScrolled = window.scrollY > 0)"
+                 x-init="
+                     isScrolled = window.scrollY > 0;
+                     window.addEventListener('scroll', () => isScrolled = window.scrollY > 0)
+                 "
                  x-bind:class="{
                 'backdrop-blur-2xl': isScrolled
              }"
