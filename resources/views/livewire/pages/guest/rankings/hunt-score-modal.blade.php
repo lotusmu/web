@@ -58,6 +58,11 @@ new class extends Component {
     {
         return $this->characterScores->sum('total_points');
     }
+
+    public function placeholder()
+    {
+        return view('livewire.pages.guest.rankings.placeholders.modal');
+    }
 } ?>
 
 <div>

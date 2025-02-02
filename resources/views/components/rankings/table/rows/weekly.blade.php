@@ -26,7 +26,7 @@
 </flux:cell>
 
 <flux:cell>
-    <livewire:pages.guest.rankings.character-score-modal
+    <livewire:pages.guest.rankings.hunt-score-modal
         :type="RankingScoreType::HUNTERS"
         :character="$character"
         :scope="RankingPeriodType::WEEKLY"

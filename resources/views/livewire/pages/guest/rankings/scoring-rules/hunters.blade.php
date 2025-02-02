@@ -25,6 +25,11 @@ new class extends Component {
                 ];
             });
     }
+
+    public function placeholder()
+    {
+        return view('livewire.pages.guest.rankings.placeholders.modal');
+    }
 } ?>
 
 
@@ -43,10 +48,7 @@ new class extends Component {
                              class="w-12 h-12 object-cover">
                     @endif
 
-                    <div class="space-y-2">
-                        <flux:text>{{ $monster['name'] }}</flux:text>
-                    </div>
-
+                    <flux:text>{{ $monster['name'] }}</flux:text>
                 </div>
 
                 <flux:badge size="sm" variant="solid">
