@@ -22,10 +22,28 @@ new #[Layout('layouts.guest')] class extends Component {
     public function characters()
     {
         $query = Character::query()
+            ->select([
+                'Name',
+                'AccountID',
+                'cLevel',
+                'ResetCount',
+                'Class',
+                'MapNumber'
+            ])
             ->with([
-                'guildMember',
-                'member',
-                'weeklyHunterScores.monster'
+                'member:memb___id,AccountLevel',
+                'guildMember.guild',
+                'hunterScores' => function ($q) {
+                    $q->select([
+                        'Name',
+                        'MonsterName',
+                        'MonsterClass',  // Added this field
+                        'KillCount',
+                        'PointsPerKill',
+                        'TotalPoints'
+                    ])
+                        ->with(['monster:MonsterName,MonsterClass,image_path']);
+                }
             ]);
 
         $query = $this->applySearch($query);

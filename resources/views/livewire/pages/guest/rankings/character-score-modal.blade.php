@@ -34,14 +34,15 @@ new class extends Component {
     #[Computed]
     public function characterScores(): Collection
     {
-        $query = $this->scope === RankingPeriodType::WEEKLY
-            ? $this->character->weeklyHunterScores()
-            : $this->character->hunterScores();
-
-        $scores = $query->with('monster')->get();
+        // Get eagerly loaded relation instead of making a new query
+        $scores = $this->scope === RankingPeriodType::WEEKLY
+            ? $this->character->weeklyHunterScores
+            : $this->character->hunterScores;
 
         return $scores->map(function ($score) {
-            $monster = $score->monster?->MonsterClass === $score->MonsterClass ? $score->monster : null;
+            $monster = $score->monster?->MonsterClass === $score->MonsterClass
+                ? $score->monster
+                : null;
 
             return [
                 'name'         => $score->MonsterName,
@@ -50,8 +51,7 @@ new class extends Component {
                 'total_points' => $score->TotalPoints,
                 'image'        => $monster?->image_path ? asset($monster->image_path) : null,
             ];
-        })
-            ->sortByDesc('total_points');
+        })->sortByDesc('total_points');
     }
 
     #[Computed]
