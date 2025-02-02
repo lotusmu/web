@@ -2,6 +2,7 @@
 <?php
 
 use App\Enums\Utility\RankingScoreType;
+use App\Models\Game\Monster;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 use Illuminate\Support\Collection;
@@ -12,41 +13,50 @@ new class extends Component {
     #[Computed]
     public function monsterScores(): Collection
     {
-        // This will pull from your database/config based on type
-        return collect([
-            // Example structure - adjust based on your needs
-            [
-                'name'   => 'Golden Dragon',
-                'points' => 100,
-                'level'  => 95,
-                'map'    => 'Dragon Valley',
-                // Any other relevant info
-            ]
-        ]);
+        return Monster::query()
+            ->where('PointsPerKill', '>', 0)
+            ->orderBy('PointsPerKill', 'desc')
+            ->get()
+            ->map(function ($monster) {
+                return [
+                    'name'   => $monster->MonsterName,
+                    'points' => $monster->PointsPerKill,
+                    'image'  => $monster->image_path ? asset($monster->image_path) : null,
+                ];
+            });
     }
 } ?>
 
 
-<div class="space-y-6">
+<div class="space-y-12">
     <header>
         <flux:heading size="lg">{{ __('Hunter Scoring Rules') }}</flux:heading>
         <flux:subheading>{{ __('Points awarded for monster hunting.') }}</flux:subheading>
     </header>
 
-    <div class="space-y-4">
+    <div>
         @foreach($this->monsterScores as $monster)
-            <div class="flex justify-between items-center p-2">
+            <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    {{-- We could add monster icon/image here --}}
-                    <div>
+                    @if($monster['image'])
+                        <img src="{{ $monster['image'] }}" alt="{{ $monster['name'] }}"
+                             class="w-12 h-12 object-cover">
+                    @endif
+
+                    <div class="space-y-2">
                         <flux:text>{{ $monster['name'] }}</flux:text>
-                        <flux:text size="sm">
-                            Level {{ $monster['level'] }} • {{ $monster['map'] }}
-                        </flux:text>
                     </div>
+
                 </div>
-                <flux:badge size="lg">{{ $monster['points'] }} points</flux:badge>
+
+                <flux:badge size="sm" variant="solid">
+                    {{ $monster['points'] }} {{ __('points') }}
+                </flux:badge>
             </div>
+        
+            @if(!$loop->last)
+                <flux:separator variant="subtle" class="my-6"/>
+            @endif
         @endforeach
     </div>
 </div>

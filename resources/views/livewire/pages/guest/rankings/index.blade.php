@@ -39,7 +39,7 @@ new #[Layout('layouts.guest')] class extends Component {
         <livewire:pages.guest.rankings.scoring-rules.events lazy/>
     </flux:modal>
 
-    <flux:modal name="hunters-scoring" variant="flyout" position="bottom">
+    <flux:modal name="hunters-scoring" variant="flyout" position="right">
         <livewire:pages.guest.rankings.scoring-rules.hunters lazy/>
     </flux:modal>
 

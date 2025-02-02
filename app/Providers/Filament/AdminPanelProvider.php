@@ -53,6 +53,8 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-cog-6-tooth'),
                 NavigationGroup::make('Catalog')
                     ->icon('heroicon-o-building-storefront'),
+                NavigationGroup::make('Rankings')
+                    ->icon('heroicon-o-trophy'),
             ])
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

@@ -24,7 +24,7 @@ class MonsterResource extends Resource
 {
     protected static ?string $model = Monster::class;
 
-    protected static ?string $navigationGroup = 'Game Content';
+    protected static ?string $navigationGroup = 'Rankings';
 
     protected static ?string $modelLabel = 'Monster';
 
@@ -66,7 +66,6 @@ class MonsterResource extends Resource
                                 ->toArray();
                         })
                         ->label('Image')
-                        ->required()
                         ->helperText('Select an image from the catalog.'),
                 ]),
 

@@ -3,6 +3,7 @@
 use App\Enums\Utility\RankingPeriodType;
 use App\Enums\Utility\RankingScoreType;
 use App\Models\Game\Character;
+use App\Models\Game\Monster;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
@@ -27,26 +28,25 @@ new class extends Component {
 
     public function getTitle(): string
     {
-        return __("{$this->scope->label()} {$this->type->label()} Score: {$this->character->Name}");
+        return __("{$this->scope->label()} {$this->type->label()} Score");
     }
 
     #[Computed]
     public function characterScores(): Collection
     {
-        return collect([
-            [
-                'monster_name'    => 'Golden Dragon',
-                'kills'           => 50,
-                'points_per_kill' => 100,
-                'total_points'    => 5000,
-            ],
-            [
-                'monster_name'    => 'Golden Tantal',
-                'kills'           => 25,
-                'points_per_kill' => 500,
-                'total_points'    => 12500,
-            ],
-        ]);
+        return Monster::query()
+            ->where('PointsPerKill', '>', 0)
+            ->orderBy('PointsPerKill', 'desc')
+            ->get()
+            ->map(function ($monster) {
+                return [
+                    'name'         => $monster->MonsterName,
+                    'kills'        => 3,
+                    'points'       => $monster->PointsPerKill,
+                    'total_points' => $monster->PointsPerKill * 3,
+                    'image'        => $monster->image_path ? asset($monster->image_path) : null,
+                ];
+            });
     }
 
     #[Computed]
@@ -66,31 +66,43 @@ new class extends Component {
     <flux:modal
         :name="$type->value . '-score-' . $scope->value . '-' . $character->Name"
         variant="flyout"
-        position="bottom"
+        position="right"
     >
-        <div class="space-y-6">
+        <div class="space-y-12 ">
             <header>
-                <flux:heading size="lg">{{ $this->getTitle() }}</flux:heading>
+                <flux:heading size="lg">{{ $this->character->Name }}</flux:heading>
+                <flux:subheading>{{ $this->getTitle() }}</flux:subheading>
             </header>
 
-            <div class="space-y-4">
+            <div>
                 @foreach($this->characterScores as $score)
-                    <div class="flex justify-between items-center p-2">
-                        <div>
-                            <flux:text>{{ $score['monster_name'] }}</flux:text>
-                            <flux:text size="sm">
-                                {{ $score['kills'] }} kills × {{ $score['points_per_kill'] }} points
-                            </flux:text>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            @if($score['image'])
+                                <img src="{{ $score['image'] }}" alt="{{ $score['name'] }}"
+                                     class="w-12 h-12 object-cover">
+                            @endif
+
+                            <div>
+                                <flux:text>{{ $score['name'] }}</flux:text>
+                                <flux:text size="sm">
+                                    {{ $score['kills'] }} kills × {{ $score['points'] }} points
+                                </flux:text>
+                            </div>
                         </div>
-                        <flux:badge>{{ $score['total_points'] }}</flux:badge>
+                        <flux:badge size="sm" variant="solid">{{ $score['total_points'] }} points</flux:badge>
                     </div>
+
+                    @if(!$loop->last)
+                        <flux:separator variant="subtle" class="my-6"/>
+                    @endif
                 @endforeach
 
-                <flux:separator class="my-2"/>
+                <flux:separator class="my-6"/>
 
                 <div class="flex justify-between items-center">
-                    <flux:text>{{ __('Total Score') }}</flux:text>
-                    <flux:badge>{{ $this->totalScore }}</flux:badge>
+                    <flux:heading>{{ __('Total Score') }}</flux:heading>
+                    <flux:badge size="sm" variant="solid">{{ $this->totalScore }} points</flux:badge>
                 </div>
             </div>
         </div>
