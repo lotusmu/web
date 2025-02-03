@@ -49,7 +49,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     protected function getRowKey($character): string
     {
-        return "{$character->Name}.-weekly-row";
+        return "{$character->Name}-weekly-row";
     }
 
     protected function getScoreKey($character, RankingScoreType $type): string
