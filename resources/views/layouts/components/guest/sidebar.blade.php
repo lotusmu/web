@@ -61,7 +61,7 @@
 
                 <flux:menu.separator/>
 
-                <flux:navmenu.item wire:navigate icon="cog-6-tooth"
+                <flux:navmenu.item wire:navigate.hover icon="cog-6-tooth"
                                    :href="route('profile')">
                     {{ __('Profile Settings') }}
                 </flux:navmenu.item>

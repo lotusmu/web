@@ -78,6 +78,8 @@ class Character extends Model
         'MasterResetCount' => 'integer',
         'Kills' => 'integer',
         'Deads' => 'integer',
+        'HunterScore' => 'integer',
+        'HunterScoreWeekly' => 'integer',
     ];
 
     public static function getFillableFields(): array

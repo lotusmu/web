@@ -28,28 +28,18 @@ new #[Layout('layouts.guest')] class extends Component {
                 'cLevel',
                 'ResetCount',
                 'Class',
-                'MapNumber'
+                'MapNumber',
+                'HunterScore',
             ])
             ->with([
                 'member:memb___id,AccountLevel',
                 'guildMember.guild',
-                'hunterScores' => function ($q) {
-                    $q->select([
-                        'Name',
-                        'MonsterName',
-                        'MonsterClass',
-                        'KillCount',
-                        'PointsPerKill',
-                        'TotalPoints'
-                    ])
-                        ->with(['monster:MonsterName,MonsterClass,image_path']);
-                }
             ]);
 
         $query = $this->applySearch($query);
         $query = $this->filters->apply($query);
 
-        return $query->simplePaginate(10);
+        return $query->simplePaginate(20);
     }
 
     protected function applySearch($query)

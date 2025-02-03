@@ -15,7 +15,7 @@
         {{ __('Castle Siege') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate icon="fire"
+    <flux:navlist.item wire:navigate.hover icon="fire"
                        :href="auth()->user()->hasValidVipSubscription() ? route('vip') : route('vip.purchase')"
                        :current="request()->is('vip') || request()->is('vip/*')">
         {{ __('Account Level') }}
@@ -65,7 +65,7 @@
                 {{ __('Admin Dashboard') }}
             </flux:navmenu.item>
 
-            <flux:navmenu.item wire:navigate icon="cog-6-tooth"
+            <flux:navmenu.item wire:navigate.hover icon="cog-6-tooth"
                                :href="route('profile')">
                 {{ __('Profile Settings') }}
             </flux:navmenu.item>

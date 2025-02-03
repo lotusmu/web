@@ -40,21 +40,21 @@ new class extends Component {
         />
 
         <flux:navbar class="-mb-px max-lg:hidden">
-            <flux:navbar.item :href="route('articles')" wire:navigate
+            <flux:navbar.item :href="route('articles')" wire:navigate.hover
                               :current="request()->is('articles') || request()->is('articles/*')">
                 {{ __('News') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('files') }}" wire:navigate>
+            <flux:navbar.item href="{{ route('files') }}" wire:navigate.hover>
                 {{ __('Files') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('rankings', ['tab' => 'players']) }}" wire:navigate
+            <flux:navbar.item href="{{ route('rankings', ['tab' => 'players']) }}" wire:navigate.hover
                               :current="request()->is('rankings') || request()->is('rankings/*')">
                 {{ __('Rankings') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('schedule') }}" wire:navigate>
+            <flux:navbar.item href="{{ route('schedule') }}" wire:navigate.hover>
                 {{ __('Event Schedule') }}
             </flux:navbar.item>
 
@@ -64,15 +64,15 @@ new class extends Component {
                 <flux:navbar.item icon-trailing="chevron-down">{{ __('Information') }}</flux:navbar.item>
 
                 <flux:navmenu>
-                    <flux:navmenu.item href="{{ route('server.overview') }}" wire:navigate>
+                    <flux:navmenu.item href="{{ route('server.overview') }}" wire:navigate.hover>
                         {{ __('Server Overview') }}
                     </flux:navmenu.item>
 
-                    <flux:navmenu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate>
+                    <flux:navmenu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate.hover>
                         {{ __('Gameplay Updates') }}
                     </flux:navmenu.item>
 
-                    <flux:navmenu.item href="{{ route('catalog') }}" wire:navigate>
+                    <flux:navmenu.item href="{{ route('catalog') }}" wire:navigate.hover>
                         {{ __('Browse Offerings') }}
                     </flux:navmenu.item>
 
@@ -108,11 +108,11 @@ new class extends Component {
             @endauth
 
             @guest
-                <flux:navbar.item icon-trailing="chevron-right" :href="route('login')" wire:navigate>
+                <flux:navbar.item icon-trailing="chevron-right" :href="route('login')" wire:navigate.hover>
                     {{ __('Sign In') }}
                 </flux:navbar.item>
 
-                <flux:button size="sm" inset="top bottom" :href="route('register')" wire:navigate>
+                <flux:button size="sm" inset="top bottom" :href="route('register')" wire:navigate.hover>
                     {{ __('Register') }}
                 </flux:button>
             @endguest

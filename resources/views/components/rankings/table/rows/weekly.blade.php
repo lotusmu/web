@@ -26,12 +26,26 @@
 </flux:cell>
 
 <flux:cell>
-    <livewire:pages.guest.rankings.hunt-score-modal
-        :type="RankingScoreType::HUNTERS"
-        :character="$character"
-        :scope="RankingPeriodType::WEEKLY"
-        :wire:key="$this->getScoreKey($character, RankingScoreType::HUNTERS)"
-    />
+    @php
+        $type = RankingScoreType::HUNTERS;
+        $scope= RankingPeriodType::WEEKLY;
+        $modalKey = $type->value . '-score-' . $scope->value . '-' . $character->Name;
+    @endphp
+
+    <flux:modal.trigger :name="$modalKey">
+        <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
+            <span>{{ $character->HunterScoreWeekly }}</span>
+        </flux:button>
+    </flux:modal.trigger>
+
+    <flux:modal :name="$modalKey" variant="flyout" position="right">
+        <livewire:pages.guest.rankings.hunt-score-modal
+            :character="$character"
+            :scope="$scope"
+            :wire:key="$modalKey"
+            lazy
+        />
+    </flux:modal>
 </flux:cell>
 
 <flux:cell>

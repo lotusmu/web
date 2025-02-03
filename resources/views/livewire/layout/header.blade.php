@@ -40,19 +40,19 @@ new class extends Component {
         />
 
         <flux:navbar class="-mb-px max-lg:hidden">
-            <flux:navbar.item :href="route('articles')" wire:navigate>
+            <flux:navbar.item :href="route('articles')" wire:navigate.hover>
                 {{ __('News') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('files') }}" wire:navigate>
+            <flux:navbar.item href="{{ route('files') }}" wire:navigate.hover>
                 {{ __('Files') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('rankings', ['tab' => 'players']) }}" wire:navigate>
+            <flux:navbar.item href="{{ route('rankings', ['tab' => 'players']) }}" wire:navigate.hover>
                 {{ __('Rankings') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('schedule') }}" wire:navigate>
+            <flux:navbar.item href="{{ route('schedule') }}" wire:navigate.hover>
                 {{ __('Event Schedule') }}
             </flux:navbar.item>
 
@@ -62,15 +62,15 @@ new class extends Component {
                 <flux:navbar.item icon-trailing="chevron-down">{{ __('Information') }}</flux:navbar.item>
 
                 <flux:navmenu>
-                    <flux:navmenu.item href="{{ route('server.overview') }}" wire:navigate>
+                    <flux:navmenu.item href="{{ route('server.overview') }}" wire:navigate.hover>
                         {{ __('Server Overview') }}
                     </flux:navmenu.item>
 
-                    <flux:navmenu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate>
+                    <flux:navmenu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate.hover>
                         {{ __('Gameplay Updates') }}
                     </flux:navmenu.item>
 
-                    <flux:navmenu.item href="{{ route('catalog') }}" wire:navigate>
+                    <flux:navmenu.item href="{{ route('catalog') }}" wire:navigate.hover>
                         {{ __('Browse Offerings') }}
                     </flux:navmenu.item>
 
@@ -99,32 +99,32 @@ new class extends Component {
                 <flux:button icon="ellipsis-vertical" variant="subtle" inset="right" class="lg:hidden shrink-0"/>
 
                 <flux:menu>
-                    <flux:menu.item :href="route('articles')" wire:navigate>
+                    <flux:menu.item :href="route('articles')" wire:navigate.hover>
                         {{ __('News') }}
                     </flux:menu.item>
 
-                    <flux:menu.item href="{{ route('files') }}" wire:navigate>
+                    <flux:menu.item href="{{ route('files') }}" wire:navigate.hover>
                         {{ __('Files') }}
                     </flux:menu.item>
 
-                    <flux:menu.item href="{{ route('rankings', ['tab' => 'players']) }}" wire:navigate>
+                    <flux:menu.item href="{{ route('rankings', ['tab' => 'players']) }}" wire:navigate.hover>
                         {{ __('Rankings') }}
                     </flux:menu.item>
 
-                    <flux:menu.item href="{{ route('schedule') }}" wire:navigate>
+                    <flux:menu.item href="{{ route('schedule') }}" wire:navigate.hover>
                         {{ __('Event Schedule') }}
                     </flux:menu.item>
 
                     <flux:menu.submenu :heading="__('Information')">
-                        <flux:menu.item href="{{ route('server.overview') }}" wire:navigate>
+                        <flux:menu.item href="{{ route('server.overview') }}" wire:navigate.hover>
                             {{ __('Server Overview') }}
                         </flux:menu.item>
 
-                        <flux:menu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate>
+                        <flux:menu.item href="{{ route('articles', ['tab' => 'updates']) }}" wire:navigate.hover>
                             {{ __('Gameplay Updates') }}
                         </flux:menu.item>
 
-                        <flux:menu.item href="{{ route('catalog') }}" wire:navigate>
+                        <flux:menu.item href="{{ route('catalog') }}" wire:navigate.hover>
                             {{ __('Browse Offerings') }}
                         </flux:menu.item>
 
@@ -158,7 +158,7 @@ new class extends Component {
 
                 <flux:navmenu>
                     <flux:navmenu.item
-                        wire:navigate
+                        wire:navigate.hover
                         icon="cog-6-tooth"
                         :href="route('profile')"
                     >
