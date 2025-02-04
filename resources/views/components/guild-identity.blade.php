@@ -43,15 +43,16 @@
 
 <div class="flex items-center w-full {{ $sizes[$size]['container'] }}">
     @if($guildInstance)
-        <img src="{{ $guildInstance->getMarkUrl($sizes[$size]['mark']) }}"
-             alt="Guild Mark"
-             class="{{ $sizes[$size]['image'] }} shrink-0 rounded border border-zinc-200 dark:border-white/10"
-        />
+        <flux:link href="#" variant="ghost" class="flex items-center gap-x-2">
+            <img src="{{ $guildInstance->getMarkUrl($sizes[$size]['mark']) }}"
+                 alt="Guild Mark"
+                 class="{{ $sizes[$size]['image'] }} shrink-0 rounded border border-zinc-200 dark:border-white/10"
+            />
+            <span class="max-sm:hidden {{ $sizes[$size]['text'] }}">
+                {{ $guildInstance->G_Name }}
+            </span>
+        </flux:link>
     @else
-        <span class="sm:hidden">—</span>
+        <flux:text>—</flux:text>
     @endif
-
-    <span class="max-sm:hidden {{ $sizes[$size]['text'] }}">
-        {{ $guildInstance?->G_Name ?? '—' }}
-    </span>
 </div>
