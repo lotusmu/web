@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MonsterResource\Pages\CreateMonster;
 use App\Filament\Resources\MonsterResource\Pages\EditMonster;
 use App\Filament\Resources\MonsterResource\Pages\ListMonsters;
-use App\Models\Game\Ranking\Monster;
+use App\Models\Game\Ranking\MonsterSetting;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\File;
 
 class MonsterResource extends Resource
 {
-    protected static ?string $model = Monster::class;
+    protected static ?string $model = MonsterSetting::class;
 
     protected static ?string $navigationGroup = 'Rankings';
 

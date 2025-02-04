@@ -2,7 +2,7 @@
 <?php
 
 use App\Enums\Utility\RankingScoreType;
-use App\Models\Game\Ranking\Monster;
+use App\Models\Game\Ranking\MonsterSetting;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
@@ -13,7 +13,7 @@ new class extends Component {
     #[Computed]
     public function monsters(): Collection
     {
-        return Monster::query()
+        return MonsterSetting::query()
             ->where('PointsPerKill', '>', 0)
             ->orderBy('PointsPerKill', 'desc')
             ->get()

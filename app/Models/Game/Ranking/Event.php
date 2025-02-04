@@ -40,7 +40,7 @@ class Event extends Model
         return $this->belongsTo(Character::class, 'Name', 'Name');
     }
 
-    public function eventSetting(): BelongsTo
+    public function event(): BelongsTo
     {
         return $this->belongsTo(EventSetting::class, 'EventID', 'EventID');
     }

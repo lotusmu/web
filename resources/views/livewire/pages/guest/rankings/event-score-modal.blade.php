@@ -3,7 +3,7 @@
 use App\Enums\Utility\RankingPeriodType;
 use App\Enums\Utility\RankingScoreType;
 use App\Models\Game\Character;
-use App\Models\Game\Ranking\Monster;
+use App\Models\Game\Ranking\MonsterSetting;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
@@ -17,8 +17,8 @@ new class extends Component {
     public function scores()
     {
         $scores = $this->scope === RankingPeriodType::WEEKLY
-            ? $this->character->weeklyEventScores()->with('eventSetting')->get()
-            : $this->character->eventScores()->with('eventSetting')->get();
+            ? $this->character->weeklyEventScores()->with('event')->get()
+            : $this->character->eventScores()->with('event')->get();
 
         return $scores->map(function ($score) {
             return [
@@ -26,7 +26,7 @@ new class extends Component {
                 'wins'         => $score->WinCount,
                 'points'       => $score->PointsPerWin,
                 'total_points' => $score->TotalPoints,
-                'image'        => $score->eventSetting?->image_path ? asset($score->eventSetting->image_path) : null,
+                'image'        => $score->event?->image_path ? asset($score->event->image_path) : null,
             ];
         })->sortByDesc('total_points');
     }

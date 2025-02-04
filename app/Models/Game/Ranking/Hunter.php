@@ -38,7 +38,7 @@ class Hunter extends Model
 
     public function monster(): BelongsTo
     {
-        return $this->belongsTo(Monster::class, 'MonsterName', 'MonsterName');
+        return $this->belongsTo(MonsterSetting::class, 'MonsterName', 'MonsterName');
     }
 
     public function character(): BelongsTo

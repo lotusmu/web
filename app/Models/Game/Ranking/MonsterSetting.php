@@ -4,7 +4,7 @@ namespace App\Models\Game\Ranking;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Monster extends Model
+class MonsterSetting extends Model
 {
     protected $connection = 'gamedb_main';
 

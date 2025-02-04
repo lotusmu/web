@@ -92,12 +92,15 @@ class EventSettingResource extends Resource
                     ->width(50)
                     ->getStateUsing(fn ($record) => asset($record->image_path)),
                 TextColumn::make('EventID')
+                    ->label('Event ID')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('EventName')
+                    ->label('Name')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('PointsPerWin')
+                    ->label('Points Per Win')
                     ->badge()
                     ->sortable(),
             ])

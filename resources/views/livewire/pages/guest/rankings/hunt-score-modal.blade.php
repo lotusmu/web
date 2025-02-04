@@ -3,7 +3,7 @@
 use App\Enums\Utility\RankingPeriodType;
 use App\Enums\Utility\RankingScoreType;
 use App\Models\Game\Character;
-use App\Models\Game\Ranking\Monster;
+use App\Models\Game\Ranking\MonsterSetting;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
