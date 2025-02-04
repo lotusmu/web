@@ -30,6 +30,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 'Class',
                 'MapNumber',
                 'HunterScore',
+                'EventScore',
             ])
             ->with([
                 'member:memb___id,AccountLevel',
@@ -39,7 +40,7 @@ new #[Layout('layouts.guest')] class extends Component {
         $query = $this->applySearch($query);
         $query = $this->filters->apply($query);
 
-        return $query->simplePaginate(20);
+        return $query->simplePaginate(10);
     }
 
     protected function applySearch($query)

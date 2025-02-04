@@ -17,16 +17,16 @@ new class extends Component {
     public function scores()
     {
         $scores = $this->scope === RankingPeriodType::WEEKLY
-            ? $this->character->weeklyHunterScores()->with('monster')->get()
-            : $this->character->hunterScores()->with('monster')->get();
+            ? $this->character->weeklyEventScores()->with('eventSetting')->get()
+            : $this->character->eventScores()->with('eventSetting')->get();
 
         return $scores->map(function ($score) {
             return [
-                'name'         => $score->MonsterName,
-                'kills'        => $score->KillCount,
-                'points'       => $score->PointsPerKill,
+                'name'         => $score->EventName,
+                'wins'         => $score->WinCount,
+                'points'       => $score->PointsPerWin,
                 'total_points' => $score->TotalPoints,
-                'image'        => $score->monster?->image_path ? asset($score->monster->image_path) : null,
+                'image'        => $score->eventSetting?->image_path ? asset($score->eventSetting->image_path) : null,
             ];
         })->sortByDesc('total_points');
     }
@@ -35,19 +35,19 @@ new class extends Component {
     public function totalScore(): int
     {
         return $this->scope === RankingPeriodType::WEEKLY
-            ? $this->character->HunterScoreWeekly
-            : $this->character->HunterScore;
+            ? $this->character->EventScoreWeekly
+            : $this->character->EventScore;
     }
 
     #[Computed]
     public function getTitle(): string
     {
-        return __("{$this->scope->label()} Hunt Score");
+        return __("{$this->scope->label()} Event Score");
     }
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.placeholders.hunters-modal');
+        return view('livewire.pages.guest.rankings.placeholders.events-modal');
     }
 } ?>
 
@@ -70,7 +70,7 @@ new class extends Component {
                     <div>
                         <flux:text>{{ $score['name'] }}</flux:text>
                         <flux:text size="sm">
-                            {{ $score['kills'] }} kills × {{ $score['points'] }} points
+                            {{ $score['wins'] }} wins × {{ $score['points'] }} points
                         </flux:text>
                     </div>
                 </div>

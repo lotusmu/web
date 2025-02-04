@@ -29,7 +29,8 @@ new #[Layout('layouts.guest')] class extends Component {
                 'ResetCount',
                 'Class',
                 'MapNumber',
-                'HunterScoreWeekly'
+                'HunterScoreWeekly',
+                'EventScoreWeekly',
             ])
             ->with([
                 'member:memb___id,AccountLevel',

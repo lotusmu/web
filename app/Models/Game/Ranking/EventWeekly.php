@@ -8,40 +8,44 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class HunterWeekly extends Model
+class EventWeekly extends Model
 {
     use GameConnection;
 
-    protected $table = 'RankingHuntersWeekly';
+    protected $table = 'RankingEventsWeekly';
 
     protected $keyType = 'int';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'Account',
         'Name',
-        'MonsterName',
-        'MonsterClass',
-        'KillCount',
-        'PointsPerKill',
+        'EventID',
+        'EventName',
+        'PointsPerWin',
+        'WinCount',
         'TotalPoints',
-        'LastUpdated',
         'WeekNumber',
+        'LastUpdated',
     ];
 
     protected $casts = [
-        'MonsterClass' => 'integer',
-        'KillCount' => 'integer',
-        'PointsPerKill' => 'integer',
+        'EventID' => 'integer',
+        'PointsPerWin' => 'integer',
+        'WinCount' => 'integer',
         'TotalPoints' => 'integer',
-        'LastUpdated' => 'datetime',
         'WeekNumber' => 'integer',
+        'LastUpdated' => 'datetime',
     ];
 
-    public function monster(): BelongsTo
+    public function character(): BelongsTo
     {
-        return $this->belongsTo(Monster::class, 'MonsterName', 'MonsterName');
+        return $this->belongsTo(Character::class, 'Name', 'Name');
+    }
+
+    public function eventSetting(): BelongsTo
+    {
+        return $this->belongsTo(EventSetting::class, 'EventID', 'EventID');
     }
 
     public function scopeCurrentWeek($query)
@@ -49,11 +53,6 @@ class HunterWeekly extends Model
         $currentWeek = Carbon::now()->format('oW');
 
         return $query->where('WeekNumber', $currentWeek);
-    }
-
-    public function character(): BelongsTo
-    {
-        return $this->belongsTo(Character::class, 'Name', 'Name');
     }
 
     public function getUser()

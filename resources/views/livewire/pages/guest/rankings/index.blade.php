@@ -35,7 +35,7 @@ new #[Layout('layouts.guest')] class extends Component {
         description="The numbers don’t lie — players and guilds ranked by their achievements."
     />
 
-    <flux:modal name="events-scoring" variant="flyout" position="bottom">
+    <flux:modal name="events-scoring" variant="flyout" position="right">
         <livewire:pages.guest.rankings.scoring-rules.events lazy/>
     </flux:modal>
 

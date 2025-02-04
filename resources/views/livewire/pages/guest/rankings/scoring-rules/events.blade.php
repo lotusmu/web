@@ -2,6 +2,7 @@
 <?php
 
 use App\Enums\Utility\RankingScoreType;
+use App\Models\Game\Ranking\EventSetting;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 use Illuminate\Support\Collection;
@@ -9,20 +10,25 @@ use Illuminate\Support\Collection;
 new class extends Component {
     private RankingScoreType $type = RankingScoreType::EVENTS;
 
+
     #[Computed]
-    public function eventScores(): Collection
+    public function events(): Collection
     {
-        // This will pull from your database/config based on type
-        return collect([
-            // Example structure - adjust based on your needs
-            [
-                'name'   => 'Blood Castle',
-                'points' => 100,
-                'level'  => 95,
-                'map'    => 'Dragon Valley',
-                // Any other relevant info
-            ]
-        ]);
+        return EventSetting::query()
+            ->orderBy('PointsPerWin', 'desc')
+            ->get()
+            ->map(function ($event) {
+                return [
+                    'name'   => $event->EventName,
+                    'points' => $event->PointsPerWin,
+                    'image'  => $event->image_path ? asset($event->image_path) : null,
+                ];
+            });
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.pages.guest.rankings.placeholders.events-modal');
     }
 } ?>
 
@@ -30,23 +36,29 @@ new class extends Component {
 <div class="space-y-6">
     <header>
         <flux:heading size="lg">{{ __('Event Scoring Rules') }}</flux:heading>
-        <flux:subheading>{{ __('Points awarded for defeating monsters in events.') }}</flux:subheading>
+        <flux:subheading>{{ __('Points awarded for winning in events.') }}</flux:subheading>
     </header>
 
-    <div class="space-y-4">
-        @foreach($this->eventScores as $event)
-            <div class="flex justify-between items-center p-2">
+    <div>
+        @foreach($this->events as $event)
+            <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    {{-- We could add monster icon/image here --}}
-                    <div>
-                        <flux:text>{{ $event['name'] }}</flux:text>
-                        <flux:text size="sm">
-                            Level {{ $event['level'] }} • {{ $event['map'] }}
-                        </flux:text>
-                    </div>
+                    @if($event['image'])
+                        <img src="{{ $event['image'] }}" alt="{{ $event['name'] }}"
+                             class="w-12 h-12 object-cover">
+                    @endif
+
+                    <flux:text>{{ $event['name'] }}</flux:text>
                 </div>
-                <flux:badge size="lg">{{ $event['points'] }} points</flux:badge>
+
+                <flux:badge size="sm" variant="solid">
+                    {{ $event['points'] }} {{ __('points') }}
+                </flux:badge>
             </div>
+
+            @if(!$loop->last)
+                <flux:separator variant="subtle" class="my-6"/>
+            @endif
         @endforeach
     </div>
 </div>

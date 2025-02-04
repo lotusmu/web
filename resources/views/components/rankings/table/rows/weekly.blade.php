@@ -20,29 +20,54 @@
 </flux:cell>
 
 <flux:cell>
-    <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
-        <span>{{ rand(0,5000) }}</span>
-    </flux:button>
+    @php
+        $eventModalKey =  RankingScoreType::EVENTS->value . '-score-' . RankingPeriodType::WEEKLY->value . '-' . $character->Name;
+    @endphp
+
+    @if( $character->EventScoreWeekly > 0 )
+        <flux:modal.trigger :name="$eventModalKey">
+            <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
+                <span>{{ $character->EventScoreWeekly }}</span>
+            </flux:button>
+        </flux:modal.trigger>
+    @else
+        <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
+            <span>{{ $character->EventScoreWeekly }}</span>
+        </flux:button>
+    @endif
+
+    <flux:modal :name="$eventModalKey" variant="flyout" position="right">
+        <livewire:pages.guest.rankings.event-score-modal
+            :character="$character"
+            :scope="RankingPeriodType::WEEKLY"
+            :wire:key="$eventModalKey"
+            lazy
+        />
+    </flux:modal>
 </flux:cell>
 
 <flux:cell>
     @php
-        $type = RankingScoreType::HUNTERS;
-        $scope= RankingPeriodType::WEEKLY;
-        $modalKey = $type->value . '-score-' . $scope->value . '-' . $character->Name;
+        $hunterModalKey = RankingScoreType::HUNTERS->value . '-score-' . RankingPeriodType::WEEKLY->value . '-' . $character->Name;
     @endphp
 
-    <flux:modal.trigger :name="$modalKey">
+    @if( $character->HunterScoreWeekly > 0)
+        <flux:modal.trigger :name="$hunterModalKey">
+            <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
+                <span>{{ $character->HunterScoreWeekly }}</span>
+            </flux:button>
+        </flux:modal.trigger>
+    @else
         <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
             <span>{{ $character->HunterScoreWeekly }}</span>
         </flux:button>
-    </flux:modal.trigger>
+    @endif
 
-    <flux:modal :name="$modalKey" variant="flyout" position="right">
+    <flux:modal :name="$hunterModalKey" variant="flyout" position="right">
         <livewire:pages.guest.rankings.hunt-score-modal
             :character="$character"
-            :scope="$scope"
-            :wire:key="$modalKey"
+            :scope="RankingPeriodType::WEEKLY"
+            :wire:key="$hunterModalKey"
             lazy
         />
     </flux:modal>

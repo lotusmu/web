@@ -23,7 +23,8 @@ class ListMonsters extends ListRecords
         return [
             'rewarding' => Tab::make('Rewarding Monsters')
                 ->modifyQueryUsing(function ($query) {
-                    return $query->where('PointsPerKill', '>', 0);
+                    return $query->where('PointsPerKill', '>', 0)
+                        ->orderBy('PointsPerKill', 'desc');
                 }),
             'non_rewarding' => Tab::make('Non-Rewarding Monsters')
                 ->modifyQueryUsing(function ($query) {

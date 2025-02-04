@@ -11,7 +11,7 @@ new class extends Component {
     public RankingScoreType $type = RankingScoreType::EVENTS;
 
     #[Computed]
-    public function monsterScores(): Collection
+    public function monsters(): Collection
     {
         return Monster::query()
             ->where('PointsPerKill', '>', 0)
@@ -28,7 +28,7 @@ new class extends Component {
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.placeholders.modal');
+        return view('livewire.pages.guest.rankings.placeholders.hunters-modal');
     }
 } ?>
 
@@ -40,7 +40,7 @@ new class extends Component {
     </header>
 
     <div>
-        @foreach($this->monsterScores as $monster)
+        @foreach($this->monsters as $monster)
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     @if($monster['image'])

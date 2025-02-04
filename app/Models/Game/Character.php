@@ -6,6 +6,8 @@ use App\Enums\Game\CharacterClass;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Models\Concerns\GameConnection;
+use App\Models\Game\Ranking\Event;
+use App\Models\Game\Ranking\EventWeekly;
 use App\Models\Game\Ranking\Hunter;
 use App\Models\Game\Ranking\HunterWeekly;
 use App\Models\User\Member;
@@ -80,6 +82,8 @@ class Character extends Model
         'Deads' => 'integer',
         'HunterScore' => 'integer',
         'HunterScoreWeekly' => 'integer',
+        'EventScore' => 'integer',
+        'EventScoreWeekly' => 'integer',
     ];
 
     public static function getFillableFields(): array
@@ -157,5 +161,15 @@ class Character extends Model
     public function weeklyHunterScores(): HasMany
     {
         return $this->hasMany(HunterWeekly::class, 'Name', 'Name');
+    }
+
+    public function eventScores(): HasMany
+    {
+        return $this->hasMany(Event::class, 'Name', 'Name');
+    }
+
+    public function weeklyEventScores(): HasMany
+    {
+        return $this->hasMany(EventWeekly::class, 'Name', 'Name');
     }
 }

@@ -7,43 +7,42 @@ use App\Models\Game\Character;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Hunter extends Model
+class Event extends Model
 {
     use GameConnection;
 
-    protected $table = 'RankingHunters';
+    protected $table = 'RankingEvents';
 
     protected $keyType = 'int';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'Account',
         'Name',
-        'MonsterName',
-        'MonsterClass',
-        'KillCount',
-        'PointsPerKill',
+        'EventID',
+        'EventName',
+        'PointsPerWin',
+        'WinCount',
         'TotalPoints',
         'LastUpdated',
     ];
 
     protected $casts = [
-        'MonsterClass' => 'integer',
-        'KillCount' => 'integer',
-        'PointsPerKill' => 'integer',
+        'EventID' => 'integer',
+        'PointsPerWin' => 'integer',
+        'WinCount' => 'integer',
         'TotalPoints' => 'integer',
         'LastUpdated' => 'datetime',
     ];
 
-    public function monster(): BelongsTo
-    {
-        return $this->belongsTo(Monster::class, 'MonsterName', 'MonsterName');
-    }
-
     public function character(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'Name', 'Name');
+    }
+
+    public function eventSetting(): BelongsTo
+    {
+        return $this->belongsTo(EventSetting::class, 'EventID', 'EventID');
     }
 
     public function getUser()
