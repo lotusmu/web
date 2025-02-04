@@ -2,5 +2,5 @@
             placeholder="Search..."
             icon="magnifying-glass"
             clearable
-            class="max-sm:max-w-none max-w-sm mx-auto"
+            class="max-md:max-w-none max-w-lg mx-auto"
 />

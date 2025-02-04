@@ -1,27 +1,22 @@
 <div>
-    <x-rankings.radio-group class="sm:flex items-center justify-center gap-8 hidden"
-                            wire:model.live="filters.class">
+    <flux:radio.group variant="cards"
+                      wire:model.live="filters.class"
+                      class="md:flex hidden items-center justify-center">
         @foreach($filters->classes() as $class)
-            <x-rankings.radio-group.option
-                :value="$class['value']"
-                class-checked="opacity-100"
-                class-not-checked="opacity-70"
-                class="flex flex-col items-center justify-center hover:opacity-100 transition-opacity duration-200 cursor-pointer">
-
-                <x-rankings.radio-group.description class="text-lg font-semibold">
-                    <img src="{{ asset($class['image']) }}"
-                         alt="{{ $class['label'] }}"
-                         class="w-12 rounded-xl mb-2">
-                </x-rankings.radio-group.description>
+            <flux:radio :value="$class['value']"
+                        class="flex flex-col items-center justify-center !gap-2 !flex-none min-w-28">
+                <img src="{{ asset($class['image']) }}"
+                     alt="{{ $class['label'] }}"
+                     class="w-12 rounded-xl">
 
                 <flux:text size="sm" class="text-center">
-                    <x-rankings.radio-group.label>{{ $class['label'] }}</x-rankings.radio-group.label>
+                    {{ $class['label'] }}
                 </flux:text>
-            </x-rankings.radio-group.option>
+            </flux:radio>
         @endforeach
-    </x-rankings.radio-group>
+    </flux:radio.group>
 
-    <div class="sm:hidden mb-8">
+    <div class="md:hidden">
         <flux:select wire:model.live="filters.class" variant="listbox" placeholder="Select class...">
             @foreach($filters->classes() as $class)
                 <flux:option value="{{ $class['value'] }}">
