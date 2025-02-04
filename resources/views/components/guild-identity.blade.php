@@ -1,7 +1,8 @@
 @props([
     'guild' => null,
     'guildMember' => null,
-    'size' => 'base'
+    'size' => 'base',
+    'href' => '#'
 ])
 
 @php
@@ -43,7 +44,7 @@
 
 <div class="flex items-center w-full {{ $sizes[$size]['container'] }}">
     @if($guildInstance)
-        <flux:link href="#" variant="ghost" class="flex items-center gap-x-2">
+        <flux:link variant="ghost" :$href wire:navigate.hover class="flex items-center gap-x-2">
             <img src="{{ $guildInstance->getMarkUrl($sizes[$size]['mark']) }}"
                  alt="Guild Mark"
                  class="{{ $sizes[$size]['image'] }} shrink-0 rounded border border-zinc-200 dark:border-white/10"
