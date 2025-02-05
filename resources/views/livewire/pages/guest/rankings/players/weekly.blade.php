@@ -21,7 +21,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function mount()
     {
-        $this->sortBy = 'EventScoreWeekly';
+        $this->sortBy = 'weekly-event-score';
     }
 
     #[Reactive]
@@ -101,8 +101,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:column>
                 <flux:table.sortable
-                    wire:click="sort('EventScoreWeekly')"
-                    :sorted="$sortBy === 'EventScoreWeekly'"
+                    wire:click="sort('weekly-event-score')"
+                    :sorted="$sortBy === 'weekly-event-score'"
                     :direction="$sortDirection"
                     class="flex items-center gap-2">
                     <span>{{ __('Weekly Event Score') }}</span>
@@ -113,8 +113,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:column>
                 <flux:table.sortable
-                    wire:click="sort('HunterScoreWeekly')"
-                    :sorted="$sortBy === 'HunterScoreWeekly'"
+                    wire:click="sort('weekly-hunt-score')"
+                    :sorted="$sortBy === 'weekly-hunt-score'"
                     :direction="$sortDirection"
                     class="flex items-center gap-2">
                     <span>{{ __('Weekly Hunt Score') }}</span>

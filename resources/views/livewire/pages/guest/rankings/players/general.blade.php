@@ -88,18 +88,18 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{ __('Level') }}
             </flux:column>
 
-            <flux:column sortable :sorted="$sortBy === 'ResetCount'" :direction="$sortDirection"
-                         wire:click="sort('ResetCount')">
+            <flux:column sortable :sorted="$sortBy === 'resets'" :direction="$sortDirection"
+                         wire:click="sort('resets')">
                 {{ __('Resets') }}
             </flux:column>
 
-            <flux:column sortable :sorted="$sortBy === 'HofWins'" :direction="$sortDirection"
-                         wire:click="sort('HofWins')">
+            <flux:column sortable :sorted="$sortBy === 'hof'" :direction="$sortDirection"
+                         wire:click="sort('hof')">
                 {{ __('HoF') }}
             </flux:column>
 
-            <flux:column sortable :sorted="$sortBy === 'QuestCount'" :direction="$sortDirection"
-                         wire:click="sort('QuestCount')">
+            <flux:column sortable :sorted="$sortBy === 'quests'" :direction="$sortDirection"
+                         wire:click="sort('quests')">
                 {{ __('Quests') }}
             </flux:column>
 
@@ -109,8 +109,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:column>
                 <flux:table.sortable
-                    wire:click="sort('EventScore')"
-                    :sorted="$sortBy === 'EventScore'"
+                    wire:click="sort('event-score')"
+                    :sorted="$sortBy === 'event-score'"
                     :direction="$sortDirection"
                     class="flex items-center gap-2">
                     <span>{{ __('Event Score') }}</span>
@@ -121,8 +121,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:column>
                 <flux:table.sortable
-                    wire:click="sort('HunterScore')"
-                    :sorted="$sortBy === 'HunterScore'"
+                    wire:click="sort('hunt-score')"
+                    :sorted="$sortBy === 'hunt-score'"
                     :direction="$sortDirection"
                     class="flex items-center gap-2">
                     <span>{{ __('Hunt Score') }}</span>
