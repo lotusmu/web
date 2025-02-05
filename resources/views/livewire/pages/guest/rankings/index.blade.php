@@ -4,6 +4,7 @@ use App\Livewire\Forms\Filters;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Reactive;
 use Livewire\Volt\Component;
+use App\Enums\Utility\RankingScoreType;
 
 new #[Layout('layouts.guest')] class extends Component {
     public Filters $filters;
@@ -36,11 +37,15 @@ new #[Layout('layouts.guest')] class extends Component {
     />
 
     <flux:modal name="events-scoring" variant="flyout" position="right">
-        <livewire:pages.guest.rankings.scoring-rules.events lazy/>
+        <livewire:pages.guest.rankings.modals.scoring-rules
+            :type="RankingScoreType::EVENTS"
+            lazy/>
     </flux:modal>
 
     <flux:modal name="hunters-scoring" variant="flyout" position="right">
-        <livewire:pages.guest.rankings.scoring-rules.hunters lazy/>
+        <livewire:pages.guest.rankings.modals.scoring-rules
+            :type="RankingScoreType::HUNTERS"
+            lazy/>
     </flux:modal>
 
     <flux:tab.group>
@@ -61,8 +66,12 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:tab.group>
                 <div class="flex justify-center">
                     <flux:tabs variant="segmented" class="w-full max-w-xs mb-8" wire:model="type">
-                        <flux:tab name="general">{{ __('General') }}</flux:tab>
-                        <flux:tab name="weekly">{{ __('Weekly') }}</flux:tab>
+                        <flux:tab name="general">
+                            {{ __('General') }}
+                        </flux:tab>
+                        <flux:tab name="weekly">
+                            {{ __('Weekly') }}
+                        </flux:tab>
                     </flux:tabs>
                 </div>
 

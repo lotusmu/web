@@ -69,7 +69,51 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <flux:table wire:loading.class="opacity-50">
         <flux:columns>
-            @include('components.rankings.table.columns.general')
+            <flux:column>
+                {{ __('Character') }}
+            </flux:column>
+
+            <flux:column>
+                {{ __('Class') }}
+            </flux:column>
+
+            <flux:column>
+                {{ __('Level') }}
+            </flux:column>
+
+            <flux:column sortable>
+                {{ __('Resets') }}
+            </flux:column>
+
+            <flux:column sortable>
+                {{ __('HoF') }}
+            </flux:column>
+
+            <flux:column sortable>
+                {{ __('Quests') }}
+            </flux:column>
+
+            <flux:column>
+                {{ __('Guild') }}
+            </flux:column>
+
+            <flux:column>
+                <div class="flex items-center gap-2">
+                    <span>{{ __('Total Event Score') }}</span>
+                    <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::EVENTS"/>
+                </div>
+            </flux:column>
+
+            <flux:column>
+                <div class="flex items-center gap-2">
+                    <span>{{ __('Total Hunt Score') }}</span>
+                    <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::HUNTERS"/>
+                </div>
+            </flux:column>
+
+            <flux:column>
+                {{ __('Location') }}
+            </flux:column>
         </flux:columns>
 
         <flux:rows>
@@ -82,7 +126,49 @@ new #[Layout('layouts.guest')] class extends Component {
             @else
                 @foreach($this->characters as $character)
                     <flux:row wire:key="{{ $this->getRowKey($character) }}">
-                        @include('components.rankings.table.rows.general')
+                        <x-rankings.table.cells.character-name :$character/>
+
+                        <x-rankings.table.cells.character-class :$character/>
+
+                        <flux:cell>
+                            {{ $character->cLevel }}
+                        </flux:cell>
+
+                        <flux:cell>
+                            {{ $character->ResetCount }}
+                        </flux:cell>
+
+                        <flux:cell>
+                            {{ rand(0,5) }}
+                        </flux:cell>
+
+                        <flux:cell>
+                            {{ rand(0,320) }}
+                        </flux:cell>
+
+                        <flux:cell>
+                            <x-guild-identity :guildMember="$character->guildMember"/>
+                        </flux:cell>
+
+                        <x-rankings.table.cells.score
+                            :character="$character"
+                            :score-type="RankingScoreType::EVENTS"
+                            :scope="RankingPeriodType::TOTAL"
+                            :score="$character->EventScore"
+                            :modal-key="$this->getScoreKey($character, RankingScoreType::EVENTS)"
+                        />
+
+                        <x-rankings.table.cells.score
+                            :character="$character"
+                            :score-type="RankingScoreType::HUNTERS"
+                            :scope="RankingPeriodType::TOTAL"
+                            :score="$character->HunterScore"
+                            :modal-key="$this->getScoreKey($character, RankingScoreType::HUNTERS)"
+                        />
+
+                        <flux:cell>
+                            {{ $character->MapNumber->getLabel() }}
+                        </flux:cell>
                     </flux:row>
                 @endforeach
             @endif

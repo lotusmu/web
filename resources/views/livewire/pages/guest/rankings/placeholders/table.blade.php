@@ -1,3 +1,5 @@
+@props(['rows' => 10])
+
 <div role="status" class="overflow-x-auto relative space-y-8">
     <x-rankings.search placeholder="Search..."/>
 
@@ -9,7 +11,7 @@
         </flux:columns>
 
         <flux:rows>
-            @foreach (range(0, 10) as $i)
+            @foreach (range(1, $rows) as $i)
                 <flux:row>
                     <flux:cell>
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>

@@ -1,5 +1,5 @@
-@props(['type'])
+@props(['scoreType'])
 
-<flux:modal.trigger :name="$type->value . '-scoring'">
+<flux:modal.trigger :name="$scoreType->value . '-scoring'">
     <flux:button icon="information-circle" size="sm" inset="top bottom" variant="ghost"/>
 </flux:modal.trigger>

@@ -1,10 +1,12 @@
+@props(['rows' => 10])
+
 <div role="status" class="animate-pulse">
     <div class="mb-12">
         <flux:heading size="lg" class="w-48 bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</flux:heading>
         <flux:subheading class="w-72 bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</flux:subheading>
     </div>
 
-    @foreach (range(0, 3) as $i)
+    @foreach (range(1, $rows) as $i)
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="flex items-center justify-center h-12 w-12 bg-zinc-200 dark:bg-zinc-700 rounded-md">

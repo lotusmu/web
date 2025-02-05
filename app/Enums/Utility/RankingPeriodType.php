@@ -14,4 +14,20 @@ enum RankingPeriodType: string
             self::TOTAL => __('Total')
         };
     }
+
+    public function scoreField(RankingScoreType $type): string
+    {
+        return match ($this) {
+            self::WEEKLY => $type->weeklyScoreField(),
+            self::TOTAL => $type->totalScoreField(),
+        };
+    }
+
+    public function relationName(RankingScoreType $type): string
+    {
+        return match ($this) {
+            self::WEEKLY => $type->weeklyRelation(),
+            self::TOTAL => $type->totalRelation(),
+        };
+    }
 }
