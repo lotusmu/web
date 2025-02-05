@@ -67,7 +67,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.placeholders.table');
+        return view('livewire.pages.guest.rankings.players.placeholders.table');
     }
 } ?>
 

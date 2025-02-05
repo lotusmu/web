@@ -37,13 +37,13 @@ new #[Layout('layouts.guest')] class extends Component {
     />
 
     <flux:modal name="events-scoring" variant="flyout" position="right">
-        <livewire:pages.guest.rankings.modals.scoring-rules
+        <livewire:pages.guest.rankings.scoring-rules-modal
             :type="RankingScoreType::EVENTS"
             lazy/>
     </flux:modal>
 
     <flux:modal name="hunters-scoring" variant="flyout" position="right">
-        <livewire:pages.guest.rankings.modals.scoring-rules
+        <livewire:pages.guest.rankings.scoring-rules-modal
             :type="RankingScoreType::HUNTERS"
             lazy/>
     </flux:modal>
@@ -91,7 +91,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <div class="w-full space-y-8">
                 <livewire:pages.guest.rankings.spotlight.guilds/>
 
-                <livewire:pages.guest.rankings.guilds-table lazy/>
+                <livewire:pages.guest.rankings.guilds.table lazy/>
             </div>
         </flux:tab.panel>
     </flux:tab.group>

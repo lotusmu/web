@@ -20,7 +20,7 @@
     @endif
 
     <flux:modal :name="$modalKey" variant="flyout" position="right">
-        <livewire:pages.guest.rankings.modals.score
+        <livewire:pages.guest.rankings.players.score-modal
             :character="$character"
             :scope="$scope"
             :type="$scoreType"
