@@ -10,6 +10,7 @@ use App\Models\Game\Ranking\Event;
 use App\Models\Game\Ranking\EventWeekly;
 use App\Models\Game\Ranking\Hunter;
 use App\Models\Game\Ranking\HunterWeekly;
+use App\Models\Game\Ranking\Quest;
 use App\Models\User\Member;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -84,6 +85,7 @@ class Character extends Model
         'HunterScoreWeekly' => 'integer',
         'EventScore' => 'integer',
         'EventScoreWeekly' => 'integer',
+        'HofWins' => 'integer',
     ];
 
     public static function getFillableFields(): array
@@ -106,6 +108,11 @@ class Character extends Model
         }
 
         return User::where('name', $member->memb___id)->first();
+    }
+
+    public function getQuestCountAttribute(): int
+    {
+        return $this->quest?->Quest ?? 0;
     }
 
     //    public function shouldHideInformation(): bool
@@ -151,6 +158,11 @@ class Character extends Model
     public function guildMember(): HasOne
     {
         return $this->hasOne(GuildMember::class, 'Name', 'Name');
+    }
+
+    public function quest(): HasOne
+    {
+        return $this->hasOne(Quest::class, 'Name', 'Name');
     }
 
     public function hunterScores(): HasMany

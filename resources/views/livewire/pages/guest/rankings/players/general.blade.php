@@ -5,6 +5,7 @@ use App\Enums\Utility\RankingScoreType;
 use App\Livewire\Forms\Filters;
 use App\Models\Game\Character;
 use App\Traits\Searchable;
+use App\Traits\Sortable;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Reactive;
@@ -13,7 +14,10 @@ use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
 new #[Layout('layouts.guest')] class extends Component {
-    use WithPagination, WithoutUrlPagination, Searchable;
+    use WithPagination;
+    use WithoutUrlPagination;
+    use Searchable;
+    use Sortable;
 
     #[Reactive]
     public Filters $filters;
@@ -27,6 +31,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 'AccountID',
                 'cLevel',
                 'ResetCount',
+                'HofWins',
                 'Class',
                 'MapNumber',
                 'HunterScore',
@@ -35,10 +40,12 @@ new #[Layout('layouts.guest')] class extends Component {
             ->with([
                 'member:memb___id,AccountLevel',
                 'guildMember.guild',
+                'quest:Name,Quest',
             ]);
 
         $query = $this->applySearch($query);
         $query = $this->filters->apply($query);
+        $query = $this->applySorting($query);
 
         return $query->simplePaginate(10);
     }
@@ -81,15 +88,18 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{ __('Level') }}
             </flux:column>
 
-            <flux:column sortable>
+            <flux:column sortable :sorted="$sortBy === 'ResetCount'" :direction="$sortDirection"
+                         wire:click="sort('ResetCount')">
                 {{ __('Resets') }}
             </flux:column>
 
-            <flux:column sortable>
+            <flux:column sortable :sorted="$sortBy === 'HofWins'" :direction="$sortDirection"
+                         wire:click="sort('HofWins')">
                 {{ __('HoF') }}
             </flux:column>
 
-            <flux:column sortable>
+            <flux:column sortable :sorted="$sortBy === 'QuestCount'" :direction="$sortDirection"
+                         wire:click="sort('QuestCount')">
                 {{ __('Quests') }}
             </flux:column>
 
@@ -98,17 +108,27 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:column>
 
             <flux:column>
-                <div class="flex items-center gap-2">
-                    <span>{{ __('Total Event Score') }}</span>
-                    <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::EVENTS"/>
-                </div>
+                <flux:table.sortable
+                    wire:click="sort('EventScore')"
+                    :sorted="$sortBy === 'EventScore'"
+                    :direction="$sortDirection"
+                    class="flex items-center gap-2">
+                    <span>{{ __('Event Score') }}</span>
+                </flux:table.sortable>
+
+                <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::EVENTS"/>
             </flux:column>
 
             <flux:column>
-                <div class="flex items-center gap-2">
-                    <span>{{ __('Total Hunt Score') }}</span>
-                    <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::HUNTERS"/>
-                </div>
+                <flux:table.sortable
+                    wire:click="sort('HunterScore')"
+                    :sorted="$sortBy === 'HunterScore'"
+                    :direction="$sortDirection"
+                    class="flex items-center gap-2">
+                    <span>{{ __('Hunt Score') }}</span>
+                </flux:table.sortable>
+
+                <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::HUNTERS"/>
             </flux:column>
 
             <flux:column>
@@ -139,11 +159,11 @@ new #[Layout('layouts.guest')] class extends Component {
                         </flux:cell>
 
                         <flux:cell>
-                            {{ rand(0,5) }}
+                            {{ $character->HofWins }}
                         </flux:cell>
 
                         <flux:cell>
-                            {{ rand(0,320) }}
+                            {{ $character->quest_count }}
                         </flux:cell>
 
                         <flux:cell>

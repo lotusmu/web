@@ -5,6 +5,7 @@ use App\Enums\Utility\RankingScoreType;
 use App\Livewire\Forms\Filters;
 use App\Models\Game\Character;
 use App\Traits\Searchable;
+use App\Traits\Sortable;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Reactive;
@@ -13,7 +14,15 @@ use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
 new #[Layout('layouts.guest')] class extends Component {
-    use WithPagination, WithoutUrlPagination, Searchable;
+    use WithPagination;
+    use WithoutUrlPagination;
+    use Searchable;
+    use Sortable;
+
+    public function mount()
+    {
+        $this->sortBy = 'EventScoreWeekly';
+    }
 
     #[Reactive]
     public Filters $filters;
@@ -39,6 +48,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         $query = $this->applySearch($query);
         $query = $this->filters->apply($query);
+        $query = $this->applySorting($query);
 
         return $query->simplePaginate(10);
     }
@@ -90,17 +100,27 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:column>
 
             <flux:column>
-                <div class="flex items-center gap-2">
+                <flux:table.sortable
+                    wire:click="sort('EventScoreWeekly')"
+                    :sorted="$sortBy === 'EventScoreWeekly'"
+                    :direction="$sortDirection"
+                    class="flex items-center gap-2">
                     <span>{{ __('Weekly Event Score') }}</span>
-                    <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::EVENTS"/>
-                </div>
+                </flux:table.sortable>
+
+                <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::EVENTS"/>
             </flux:column>
 
             <flux:column>
-                <div class="flex items-center gap-2">
+                <flux:table.sortable
+                    wire:click="sort('HunterScoreWeekly')"
+                    :sorted="$sortBy === 'HunterScoreWeekly'"
+                    :direction="$sortDirection"
+                    class="flex items-center gap-2">
                     <span>{{ __('Weekly Hunt Score') }}</span>
-                    <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::HUNTERS"/>
-                </div>
+                </flux:table.sortable>
+
+                <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::HUNTERS"/>
             </flux:column>
 
             <flux:column>
