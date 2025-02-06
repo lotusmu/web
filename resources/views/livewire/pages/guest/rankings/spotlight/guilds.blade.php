@@ -16,7 +16,16 @@ new class extends Component {
     #[Computed]
     public function guild()
     {
-        return Guild::where('G_Name', $this->castle->OWNER_GUILD)->first();
+        return Guild::query()
+            ->select([
+                'G_Name',
+                'G_Mark',
+                'G_Master',
+                'CS_Wins',
+            ])
+            ->where('G_Name', $this->castle->OWNER_GUILD)
+            ->withCount('members')
+            ->first();
     }
 }; ?>
 
@@ -50,14 +59,16 @@ new class extends Component {
             <div class="flex items-center gap-2">
                 <flux:icon.castle variant="micro"/>
                 <flux:text>
-                    {{ __('CS Wins') }}: 4
+                    {{ __('CS Wins') }}:
+                    <span>{{ $this->guild->CS_Wins }}</span>
                 </flux:text>
             </div>
 
             <div class="flex items-center gap-2">
                 <flux:icon.members variant="micro"/>
                 <flux:text>
-                    {{ __('Members') }}: 30
+                    {{ __('Members') }}:
+                    <span>{{ $this->guild->members_count }}</span>
                 </flux:text>
             </div>
         </div>

@@ -3,10 +3,13 @@
 namespace App\Models\Game;
 
 use App\Models\Concerns\GameConnection;
+use App\Models\Game\Ranking\Event;
+use App\Models\Game\Ranking\Hunter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,23 +33,10 @@ class Guild extends Model
         'G_Mark',
         'G_Score',
         'G_Master',
-        'G_Count',
-        'G_Notice',
-        'G_Type',
-        'G_Rival',
-        'G_Union',
-        'MemberCount',
         'CS_Wins',
     ];
 
     protected $casts = [
-        'G_Score' => 'integer',
-        'G_Count' => 'integer',
-        'Number' => 'integer',
-        'G_Type' => 'integer',
-        'G_Rival' => 'integer',
-        'G_Union' => 'integer',
-        'MemberCount' => 'integer',
         'CS_Wins' => 'integer',
     ];
 
@@ -164,6 +154,42 @@ class Guild extends Model
     public function members(): HasMany
     {
         return $this->hasMany(GuildMember::class, 'G_Name', 'G_Name');
+    }
+
+    public function characters(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Character::class,
+            GuildMember::class,
+            'G_Name',
+            'Name',
+            'G_Name',
+            'Name'
+        );
+    }
+
+    public function eventScores(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Event::class,
+            GuildMember::class,
+            'G_Name',
+            'Name',
+            'G_Name',
+            'Name'
+        );
+    }
+
+    public function hunterScores(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Hunter::class,
+            GuildMember::class,
+            'G_Name',
+            'Name',
+            'G_Name',
+            'Name'
+        );
     }
 
     public function master(): BelongsTo

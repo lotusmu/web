@@ -14,6 +14,7 @@ trait Sortable
         'event-score' => 'EventScore',
         'weekly-hunt-score' => 'HunterScoreWeekly',
         'weekly-event-score' => 'EventScoreWeekly',
+        'members' => 'members_count',
     ];
 
     private const VALID_DIRECTIONS = ['asc', 'desc'];
@@ -47,7 +48,7 @@ trait Sortable
         }
     }
 
-    protected function applySorting($query)
+    protected function sortCharacters($query)
     {
         $dbColumn = self::SORT_MAP[$this->sortBy] ?? $this->sortBy;
 
@@ -71,5 +72,10 @@ trait Sortable
 
             default => $query
         };
+    }
+
+    protected function sortGuilds($query)
+    {
+        return $query;
     }
 }

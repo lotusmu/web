@@ -1,3 +1,5 @@
+@props(['character'])
+
 @php
     use App\Enums\Game\AccountLevel;
 @endphp
