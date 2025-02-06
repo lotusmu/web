@@ -125,11 +125,7 @@ new #[Layout('layouts.guest')] class extends Component {
         <flux:rows>
             @foreach($this->guilds as $guild)
                 <flux:row wire:key="{{ $guild->G_Name }}">
-                    <flux:cell>
-                        <span>
-                            {{'No'}}.
-                        </span>
-                    </flux:cell>
+                    <x-rankings.table.cells.rank :paginator="$this->guilds" :$loop/>
 
                     <flux:cell class="flex items-center space-x-2">
                         <x-guild-identity :$guild/>

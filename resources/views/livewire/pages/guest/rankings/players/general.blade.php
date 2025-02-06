@@ -155,9 +155,7 @@ new #[Layout('layouts.guest')] class extends Component {
             @else
                 @foreach($this->characters as $character)
                     <flux:row wire:key="{{ $this->getRowKey($character) }}">
-                        <flux:cell>
-                            <span>No.</span>
-                        </flux:cell>
+                        <x-rankings.table.cells.rank :paginator="$this->characters" :$loop/>
 
                         <x-rankings.table.cells.character-name :$character/>
 
