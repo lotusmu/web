@@ -20,8 +20,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function mount()
     {
-        $this->sortBy      = 'total-resets';
-        $this->defaultSort = 'total-resets';
+        $this->sortBy = 'total-resets';
     }
 
     #[Computed]

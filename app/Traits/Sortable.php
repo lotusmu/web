@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use Livewire\Attributes\Url;
-
 trait Sortable
 {
     private const SORT_MAP = [
@@ -25,18 +23,31 @@ trait Sortable
 
     private const VALID_DIRECTIONS = ['asc', 'desc'];
 
-    protected string $defaultSort = 'resets';
+    private const GUILD_SORTS = [
+        'members',
+        'total-resets',
+        'castle-siege',
+        'guild-event-score',
+        'guild-hunt-score',
+    ];
 
-    #[Url(as: 'sort')]
     public string $sortBy = 'resets';
 
-    #[Url(as: 'direction')]
     public string $sortDirection = 'desc';
+
+    protected function getDefaultSort(): string
+    {
+        if (in_array($this->sortBy, self::GUILD_SORTS)) {
+            return 'total-resets';
+        }
+
+        return 'resets';
+    }
 
     public function mount(): void
     {
         if (! array_key_exists($this->sortBy, self::SORT_MAP)) {
-            $this->sortBy = $this->defaultSort;
+            $this->sortBy = $this->getDefaultSort();
         }
 
         if (! in_array($this->sortDirection, self::VALID_DIRECTIONS)) {
@@ -92,15 +103,10 @@ trait Sortable
 
         return match ($dbColumn) {
             'members_count' => $query->orderBy('members_count', $this->sortDirection),
-
             'characters_sum_reset_count' => $query->orderBy('characters_sum_reset_count', $this->sortDirection),
-
             'CS_Wins' => $query->orderBy('CS_Wins', $this->sortDirection),
-
             'characters_sum_event_score' => $query->orderBy('characters_sum_event_score', $this->sortDirection),
-
             'characters_sum_hunter_score' => $query->orderBy('characters_sum_hunter_score', $this->sortDirection),
-
             default => $query
         };
     }
