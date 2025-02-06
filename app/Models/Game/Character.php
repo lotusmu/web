@@ -88,7 +88,7 @@ class Character extends Model
         'HofWins' => 'integer',
     ];
 
-    public static function getFillableFields(): array
+    protected static function getFillableFields(): array
     {
         return (new static)->getFillable();
     }
