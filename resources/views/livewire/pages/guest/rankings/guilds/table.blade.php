@@ -20,7 +20,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function mount()
     {
-        $this->sortBy = 'members';
+        $this->sortBy      = 'total-resets';
+        $this->defaultSort = 'total-resets';
     }
 
     #[Computed]
@@ -45,7 +46,7 @@ new #[Layout('layouts.guest')] class extends Component {
         $query = $this->applySearch($query);
         $query = $this->applySorting($query);
 
-        return $query->simplePaginate(50);
+        return $query->simplePaginate(10);
     }
 
     protected function applySearch($query)
@@ -60,7 +61,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.players.placeholders.table');
+        return view('livewire.pages.guest.rankings.placeholders.table');
     }
 } ?>
 
@@ -70,6 +71,10 @@ new #[Layout('layouts.guest')] class extends Component {
     <flux:table wire:loading.class="opacity-50">
         <flux:columns>
             <flux:column>
+                #
+            </flux:column>
+
+            <flux:column>
                 {{ __('Guild Name') }}
             </flux:column>
 
@@ -78,7 +83,8 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{ __('Members') }}
             </flux:column>
 
-            <flux:column sortable>
+            <flux:column sortable :sorted="$sortBy === 'total-resets'" :direction="$sortDirection"
+                         wire:click="sort('total-resets')">
                 {{ __('Total Resets') }}
             </flux:column>
 
@@ -86,14 +92,15 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{ __('Guild Master') }}
             </flux:column>
 
-            <flux:column sortable>
+            <flux:column sortable :sorted="$sortBy === 'castle-siege'" :direction="$sortDirection"
+                         wire:click="sort('castle-siege')">
                 {{ __('Castle Siege Wins') }}
             </flux:column>
 
             <flux:column>
                 <flux:table.sortable
-                    wire:click="sort('event-score')"
-                    :sorted="$sortBy === 'event-score'"
+                    wire:click="sort('characters_sum_event_score')"
+                    :sorted="$sortBy === 'characters_sum_event_score'"
                     :direction="$sortDirection"
                     class="flex items-center gap-2">
                     <span>{{ __('Event Score') }}</span>
@@ -104,8 +111,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:column>
                 <flux:table.sortable
-                    wire:click="sort('hunt-score')"
-                    :sorted="$sortBy === 'hunt-score'"
+                    wire:click="sort('characters_sum_hunter_score')"
+                    :sorted="$sortBy === 'characters_sum_hunter_score'"
                     :direction="$sortDirection"
                     class="flex items-center gap-2">
                     <span>{{ __('Hunt Score') }}</span>
@@ -113,17 +120,18 @@ new #[Layout('layouts.guest')] class extends Component {
 
                 <x-rankings.scoring-rules-trigger :score-type="RankingScoreType::HUNTERS"/>
             </flux:column>
-
         </flux:columns>
 
         <flux:rows>
             @foreach($this->guilds as $guild)
                 <flux:row wire:key="{{ $guild->G_Name }}">
-                    <flux:cell class="flex items-center space-x-2">
+                    <flux:cell>
                         <span>
                             {{'No'}}.
                         </span>
+                    </flux:cell>
 
+                    <flux:cell class="flex items-center space-x-2">
                         <x-guild-identity :$guild/>
                     </flux:cell>
 
@@ -136,7 +144,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     </flux:cell>
 
                     <x-rankings.table.cells.guild-master :character="$guild->master"/>
-                    
+
                     <flux:cell>
                         {{ $guild->CS_Wins }}
                     </flux:cell>

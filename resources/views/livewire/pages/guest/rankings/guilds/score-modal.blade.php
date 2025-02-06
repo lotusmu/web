@@ -86,7 +86,7 @@ new class extends Component {
             RankingScoreType::HUNTERS => 10,
         };
 
-        return view("livewire.pages.guest.rankings.players.placeholders.modal", [
+        return view("livewire.pages.guest.rankings.placeholders.modal", [
             'rows' => $rows
         ]);
     }

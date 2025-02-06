@@ -62,7 +62,7 @@ new #[Layout('layouts.guest')] class extends Component {
     {
         return $this->sortCharacters($query);
     }
-    
+
     protected function getRowKey($character): string
     {
         return "{$character->Name}-weekly-row";
@@ -75,7 +75,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.players.placeholders.table');
+        return view('livewire.pages.guest.rankings.placeholders.table');
     }
 } ?>
 
@@ -84,6 +84,10 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <flux:table wire:loading.class="opacity-50">
         <flux:columns>
+            <flux:column>
+                #
+            </flux:column>
+
             <flux:column>
                 {{ __('Character') }}
             </flux:column>
@@ -143,6 +147,10 @@ new #[Layout('layouts.guest')] class extends Component {
             @else
                 @foreach($this->characters as $character)
                     <flux:row wire:key="{{ $this->getRowKey($character) }}">
+                        <flux:cell>
+                            <span>No.</span>
+                        </flux:cell>
+
                         <x-rankings.table.cells.character-name :$character/>
 
                         <x-rankings.table.cells.character-class :$character/>

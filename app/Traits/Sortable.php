@@ -14,10 +14,18 @@ trait Sortable
         'event-score' => 'EventScore',
         'weekly-hunt-score' => 'HunterScoreWeekly',
         'weekly-event-score' => 'EventScoreWeekly',
+
+        // Guild-specific mappings
         'members' => 'members_count',
+        'total-resets' => 'characters_sum_reset_count',
+        'castle-siege' => 'CS_Wins',
+        'guild-event-score' => 'characters_sum_event_score',
+        'guild-hunt-score' => 'characters_sum_hunter_score',
     ];
 
     private const VALID_DIRECTIONS = ['asc', 'desc'];
+
+    protected string $defaultSort = 'resets';
 
     #[Url(as: 'sort')]
     public string $sortBy = 'resets';
@@ -28,7 +36,7 @@ trait Sortable
     public function mount(): void
     {
         if (! array_key_exists($this->sortBy, self::SORT_MAP)) {
-            $this->sortBy = 'resets';
+            $this->sortBy = $this->defaultSort;
         }
 
         if (! in_array($this->sortDirection, self::VALID_DIRECTIONS)) {
@@ -76,6 +84,24 @@ trait Sortable
 
     protected function sortGuilds($query)
     {
-        return $query;
+        $dbColumn = self::SORT_MAP[$this->sortBy] ?? $this->sortBy;
+
+        if (! $dbColumn) {
+            return $query;
+        }
+
+        return match ($dbColumn) {
+            'members_count' => $query->orderBy('members_count', $this->sortDirection),
+
+            'characters_sum_reset_count' => $query->orderBy('characters_sum_reset_count', $this->sortDirection),
+
+            'CS_Wins' => $query->orderBy('CS_Wins', $this->sortDirection),
+
+            'characters_sum_event_score' => $query->orderBy('characters_sum_event_score', $this->sortDirection),
+
+            'characters_sum_hunter_score' => $query->orderBy('characters_sum_hunter_score', $this->sortDirection),
+
+            default => $query
+        };
     }
 }
