@@ -4,6 +4,7 @@ use App\Enums\Utility\RankingPeriodType;
 use App\Enums\Utility\RankingScoreType;
 use App\Livewire\Forms\Filters;
 use App\Models\Game\Character;
+use App\Enums\Utility\ResourceType;
 use App\Traits\Searchable;
 use App\Traits\Sortable;
 use Livewire\Attributes\Computed;
@@ -133,7 +134,22 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:column>
 
             <flux:column>
-                {{ __('Location') }}
+                <span class="mr-1">{{ __('Reward') }}</span>
+
+                <flux:modal.trigger name="rewards-distribution">
+                    <flux:button variant="ghost" icon="information-circle" size="sm" inset="top bottom"/>
+                </flux:modal.trigger>
+
+                <flux:separator vertical class="mx-1"/>
+
+                <flux:button variant="ghost"
+                             icon="history"
+                             size="sm"
+                             inset="top bottom"
+                             href="{{ route('rankings.archive') }}"
+                             wire:navigate.hover>
+                    {{ __('Archive') }}
+                </flux:button>
             </flux:column>
         </flux:columns>
 
@@ -181,8 +197,12 @@ new #[Layout('layouts.guest')] class extends Component {
                             :modal-key="$this->getScoreKey($character, RankingScoreType::HUNTERS)"
                         />
 
-                        <flux:cell>
-                            {{ $character->MapNumber->getLabel() }}
+                        <flux:cell class="space-x-1">
+                            <x-resource-badge value="100000000"
+                                              :resource="ResourceType::ZEN"/>
+
+                            <x-resource-badge value="1000"
+                                              :resource="ResourceType::CREDITS"/>
                         </flux:cell>
                     </flux:row>
                 @endforeach
@@ -193,4 +213,53 @@ new #[Layout('layouts.guest')] class extends Component {
     <div>
         <flux:pagination :paginator="$this->characters" class="!border-0"/>
     </div>
+
+    <flux:modal name="rewards-distribution" class="w-96 space-y-6">
+        <header>
+            <flux:heading size="lg">
+                {{ __('Weekly Rankings Rewards') }}
+            </flux:heading>
+            <flux:subheading>
+                {{ __('Rewards are distributed every Sunday at 23:59 server time.') }}
+            </flux:subheading>
+        </header>
+
+        <flux:table>
+            <flux:columns>
+                <flux:column>
+                    {{ __('Rank') }}
+                </flux:column>
+
+                <flux:column>
+                    {{ __('Reward') }}
+                </flux:column>
+            </flux:columns>
+
+            <flux:rows>
+                @foreach (range(1, 6) as $i)
+                    <flux:row>
+                        <flux:cell>
+                            # 1-5
+                        </flux:cell>
+
+                        <flux:cell class="space-x-1">
+                            <x-resource-badge value="100000000"
+                                              :resource="ResourceType::ZEN"/>
+
+                            <x-resource-badge value="1000"
+                                              :resource="ResourceType::CREDITS"/>
+                        </flux:cell>
+                    </flux:row>
+                @endforeach
+            </flux:rows>
+        </flux:table>
+
+        <div class="flex items-center justify-center gap-1">
+            <flux:icon.information-circle variant="mini" inset="top bottom"/>
+
+            <flux:text size="sm">
+                {{ __('Rankings reset immediately after rewards distribution.') }}
+            </flux:text>
+        </div>
+    </flux:modal>
 </div>

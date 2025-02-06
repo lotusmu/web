@@ -144,9 +144,9 @@ new class extends Component {
 
                                     <flux:spacer/>
 
-                                    <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                        {{ $buff['price'] }} {{ $buff['resource']->getLabel() }}
-                                    </flux:badge>
+                                    <x-resource-badge :value="$buff['price']"
+                                                      :resource="$buff['resource']"
+                                                      class="mt-auto w-fit"/>
                                 </div>
                             </div>
                         @endforeach
@@ -177,9 +177,9 @@ new class extends Component {
 
                         <flux:spacer/>
 
-                        <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                            {{ $bundle['price'] }} {{ $bundle['resource']->getLabel() }}
-                        </flux:badge>
+                        <x-resource-badge :value="$bundle['price']"
+                                          :resource="$bundle['resource']"
+                                          class="mt-auto w-fit"/>
                     </div>
                 </div>
             @endforeach

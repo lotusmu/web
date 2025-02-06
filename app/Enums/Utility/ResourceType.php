@@ -18,4 +18,13 @@ enum ResourceType: string implements HasLabel
             self::ZEN => 'Zen',
         };
     }
+
+    public function getBadgeColor(): string
+    {
+        return match ($this) {
+            self::TOKENS => 'sky',
+            self::CREDITS => 'teal',
+            self::ZEN => 'amber',
+        };
+    }
 }

@@ -19,6 +19,6 @@
             </span>
         </flux:link>
     @else
-        <flux:text>—</flux:text>
+        <x-empty-cell/>
     @endif
 </div>

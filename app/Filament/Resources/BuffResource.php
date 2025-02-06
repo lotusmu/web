@@ -95,6 +95,12 @@ class BuffResource extends Resource
                 ->description('Configure duration-based pricing and resource.')
                 ->aside()
                 ->schema([
+                    Select::make('resource')
+                        ->options(ResourceType::class)
+                        ->default(ResourceType::CREDITS)
+                        ->native(false)
+                        ->required(),
+
                     Repeater::make('duration_prices')
                         ->schema([
                             Select::make('duration')
@@ -104,14 +110,9 @@ class BuffResource extends Resource
                             TextInput::make('price')
                                 ->numeric()
                                 ->required(),
-                            Select::make('resource')
-                                ->options(ResourceType::class)
-                                ->default(ResourceType::CREDITS)
-                                ->native(false)
-                                ->required(),
                         ])
                         ->defaultItems(1)
-                        ->columns(3),
+                        ->columns(2),
                 ]),
         ]);
     }

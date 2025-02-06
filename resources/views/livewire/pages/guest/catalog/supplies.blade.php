@@ -87,9 +87,9 @@ new class extends Component {
 
                                     <flux:spacer/>
 
-                                    <flux:badge variant="pill" color="teal" size="sm" class="mt-auto w-fit">
-                                        {{ $supply['price'] }} {{ $supply['resource']->getLabel() }}
-                                    </flux:badge>
+                                    <x-resource-badge :value="$supply['price']"
+                                                      :resource="$supply['resource']"
+                                                      class="mt-auto w-fit"/>
                                 </div>
                             </div>
                         @endforeach

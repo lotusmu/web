@@ -17,8 +17,13 @@ Volt::route('/schedule', 'pages.guest.schedule.index')
 Volt::route('/catalog', 'pages.guest.catalog.index')
     ->name('catalog');
 
-Volt::route('/rankings', 'pages.guest.rankings.index')
-    ->name('rankings');
+Route::prefix('rankings')->group(function () {
+    Volt::route('/', 'pages.guest.rankings.index')
+        ->name('rankings');
+
+    Volt::route('/archive', 'pages.guest.rankings.players.archive')
+        ->name('rankings.archive');
+});
 
 Volt::route('/terms', 'pages.guest.legal.terms')
     ->name('terms');

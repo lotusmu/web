@@ -192,9 +192,8 @@ new class extends Component {
                                                     <flux:spacer/>
 
                                                     <div>
-                                                        <flux:badge variant="pill" size="sm" color="teal">
-                                                            {{ $pack->price }} {{ $pack->resource->getLabel() }}
-                                                        </flux:badge>
+                                                        <x-resource-badge :value="$pack->price"
+                                                                          :resource="$pack->resource"/>
                                                     </div>
                                                 </div>
                                             </div>
