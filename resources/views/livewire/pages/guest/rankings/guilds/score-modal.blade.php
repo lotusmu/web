@@ -28,7 +28,7 @@ new class extends Component {
                 ->join('GuildMember', 'RankingEvents.Name', '=', 'GuildMember.Name')
                 ->where('GuildMember.G_Name', $this->guild->G_Name)
                 ->groupBy('EventID', 'EventName', 'PointsPerWin')
-                ->with('event')
+                ->with('event:EventID,EventName,image_path')
                 ->get()
                 ->map(fn($score) => [
                     'name'         => $score->EventName,
@@ -52,7 +52,7 @@ new class extends Component {
             ->join('GuildMember', 'RankingHunters.Name', '=', 'GuildMember.Name')
             ->where('GuildMember.G_Name', $this->guild->G_Name)
             ->groupBy('MonsterName', 'MonsterClass', 'PointsPerKill')
-            ->with('monster')
+            ->with('monster:MonsterClass,MonsterName,image_path')
             ->get()
             ->map(fn($score) => [
                 'name'         => $score->MonsterName,
@@ -68,20 +68,8 @@ new class extends Component {
     #[Computed]
     public function totalScore(): string
     {
-        if ($this->type === RankingScoreType::EVENTS) {
-            return number_format(
-                Event::query()
-                    ->join('GuildMember', 'RankingEvents.Name', '=', 'GuildMember.Name')
-                    ->where('GuildMember.G_Name', $this->guild->G_Name)
-                    ->sum('TotalPoints')
-            );
-        }
-
         return number_format(
-            Hunter::query()
-                ->join('GuildMember', 'RankingHunters.Name', '=', 'GuildMember.Name')
-                ->where('GuildMember.G_Name', $this->guild->G_Name)
-                ->sum('TotalPoints')
+            $this->scores->sum(fn($score) => (int) str_replace(',', '', $score['total_points']))
         );
     }
 

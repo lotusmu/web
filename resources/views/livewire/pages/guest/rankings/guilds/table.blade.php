@@ -35,10 +35,11 @@ new #[Layout('layouts.guest')] class extends Component {
             ])
             ->withCount('members')
             ->withSum('characters', 'ResetCount')
-            ->withSum('characters', 'EventScore')  // This matches Character table column
-            ->withSum('characters', 'HunterScore') // This matches Character table column
+            ->withSum('characters', 'EventScore')
+            ->withSum('characters', 'HunterScore')
             ->with([
-                'master.member',
+                'master:Name,AccountID,Class',
+                'master.member:memb___id,AccountLevel',
             ]);
 
         $query = $this->applySearch($query);
@@ -72,10 +73,6 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{ __('Guild Name') }}
             </flux:column>
 
-            <flux:column>
-                {{ __('Guild Master') }}
-            </flux:column>
-
             <flux:column sortable :sorted="$sortBy === 'members'" :direction="$sortDirection"
                          wire:click="sort('members')">
                 {{ __('Members') }}
@@ -83,6 +80,10 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:column sortable>
                 {{ __('Total Resets') }}
+            </flux:column>
+
+            <flux:column>
+                {{ __('Guild Master') }}
             </flux:column>
 
             <flux:column sortable>
@@ -126,8 +127,6 @@ new #[Layout('layouts.guest')] class extends Component {
                         <x-guild-identity :$guild/>
                     </flux:cell>
 
-                    <x-rankings.table.cells.guild-master :character="$guild->master"/>
-
                     <flux:cell>
                         {{ $guild->members_count }}
                     </flux:cell>
@@ -136,55 +135,23 @@ new #[Layout('layouts.guest')] class extends Component {
                         {{ number_format($guild->characters_sum_reset_count ?? 0) }}
                     </flux:cell>
 
+                    <x-rankings.table.cells.guild-master :character="$guild->master"/>
+                    
                     <flux:cell>
                         {{ $guild->CS_Wins }}
                     </flux:cell>
 
-                    <flux:cell>
-                        @if($guild->characters_sum_event_score > 0)
-                            <flux:modal.trigger name="guild-event-score-{{ $guild->G_Name }}">
-                                <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
-                                    <span>{{ number_format($guild->characters_sum_event_score) }}</span>
-                                </flux:button>
-                            </flux:modal.trigger>
-                        @else
-                            <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
-                                <span>0</span>
-                            </flux:button>
-                        @endif
+                    <x-rankings.table.cells.guild-score
+                        :$guild
+                        :score-type="RankingScoreType::EVENTS"
+                        :score="$guild->characters_sum_event_score"
+                    />
 
-                        <flux:modal name="guild-event-score-{{ $guild->G_Name }}" variant="flyout" position="right">
-                            <livewire:pages.guest.rankings.guilds.score-modal
-                                :guild="$guild"
-                                :type="RankingScoreType::EVENTS"
-                                :wire:key="'guild-event-'.$guild->G_Name"
-                                lazy
-                            />
-                        </flux:modal>
-                    </flux:cell>
-
-                    <flux:cell>
-                        @if($guild->characters_sum_hunter_score > 0)
-                            <flux:modal.trigger name="guild-hunter-score-{{ $guild->G_Name }}">
-                                <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
-                                    <span>{{ number_format($guild->characters_sum_hunter_score) }}</span>
-                                </flux:button>
-                            </flux:modal.trigger>
-                        @else
-                            <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
-                                <span>0</span>
-                            </flux:button>
-                        @endif
-
-                        <flux:modal name="guild-hunter-score-{{ $guild->G_Name }}" variant="flyout" position="right">
-                            <livewire:pages.guest.rankings.guilds.score-modal
-                                :guild="$guild"
-                                :type="RankingScoreType::HUNTERS"
-                                :wire:key="'guild-hunter-'.$guild->G_Name"
-                                lazy
-                            />
-                        </flux:modal>
-                    </flux:cell>
+                    <x-rankings.table.cells.guild-score
+                        :$guild
+                        :score-type="RankingScoreType::HUNTERS"
+                        :score="$guild->characters_sum_hunter_score"
+                    />
 
                 </flux:row>
             @endforeach

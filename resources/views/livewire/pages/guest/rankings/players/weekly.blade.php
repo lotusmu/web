@@ -58,6 +58,11 @@ new #[Layout('layouts.guest')] class extends Component {
         return $this->searchCharacter($query);
     }
 
+    protected function applySorting($query)
+    {
+        return $this->sortCharacters($query);
+    }
+    
     protected function getRowKey($character): string
     {
         return "{$character->Name}-weekly-row";
