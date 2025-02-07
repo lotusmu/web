@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('orders:expire')->everyMinute();
         $schedule->command('guild:cleanup-marks')->daily();
         $schedule->command('castle:distribute-prizes')->daily();
+        $schedule->command('rankings:process-weekly')->hourly();
         //        $schedule->command('orders:cleanup')
         //            ->quarterly()
         //            ->runInBackground()
