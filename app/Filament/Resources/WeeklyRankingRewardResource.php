@@ -129,9 +129,4 @@ class WeeklyRankingRewardResource extends Resource
             'edit' => Pages\EditWeeklyRankingReward::route('/{record}/edit'),
         ];
     }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [];
-    }
 }

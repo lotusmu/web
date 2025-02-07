@@ -64,18 +64,6 @@ class WeeklyRankingArchiveResource extends Resource
                     ->label('Score')
                     ->numeric()
                     ->sortable(),
-
-                TextColumn::make('rewards_given')
-                    ->label('Rewards')
-                    ->formatStateUsing(function ($state) {
-                        return collect($state)->map(function ($reward) {
-                            return view('components.resource-badge', [
-                                'value' => $reward['amount'],
-                                'resource' => ResourceType::from($reward['type']),
-                            ]);
-                        })->join(' ');
-                    })
-                    ->html(),
             ])
             ->filters([
                 SelectFilter::make('type')
@@ -100,10 +88,5 @@ class WeeklyRankingArchiveResource extends Resource
         return [
             'index' => Pages\ListWeeklyRankingArchives::route('/'),
         ];
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['character_name'];
     }
 }
