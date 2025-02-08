@@ -5,6 +5,7 @@ use App\Enums\Utility\RankingScoreType;
 use App\Livewire\Forms\Filters;
 use App\Models\Game\Character;
 use App\Enums\Utility\ResourceType;
+use App\Models\Game\Ranking\WeeklyRankingReward;
 use App\Traits\Searchable;
 use App\Traits\Sortable;
 use Livewire\Attributes\Computed;
@@ -52,6 +53,25 @@ new #[Layout('layouts.guest')] class extends Component {
         $query = $this->applySorting($query);
 
         return $query->simplePaginate(10);
+    }
+
+    #[Computed]
+    public function rankingRewards()
+    {
+        return WeeklyRankingReward::query()
+            ->orderBy('position_from')
+            ->get();
+    }
+
+    protected function getRewardsForPosition(int $iteration): array
+    {
+        // Calculate actual position based on pagination
+        $position = ($this->characters->currentPage() - 1) * 10 + $iteration;
+
+        return $this->rankingRewards()
+            ->first(fn($reward) => $position >= $reward->position_from &&
+                $position <= $reward->position_to
+            )?->rewards ?? [];
     }
 
     protected function applySearch($query)
@@ -198,11 +218,18 @@ new #[Layout('layouts.guest')] class extends Component {
                         />
 
                         <flux:cell class="space-x-1">
-                            <x-resource-badge value="100000000"
-                                              :resource="ResourceType::ZEN"/>
+                            @php $rewards = $this->getRewardsForPosition($loop->iteration) @endphp
 
-                            <x-resource-badge value="1000"
-                                              :resource="ResourceType::CREDITS"/>
+                            @if(empty($rewards))
+                                <x-empty-cell/>
+                            @else
+                                @foreach($rewards as $reward)
+                                    <x-resource-badge
+                                        :value="$reward['amount']"
+                                        :resource="ResourceType::from($reward['type'])"
+                                    />
+                                @endforeach
+                            @endif
                         </flux:cell>
                     </flux:row>
                 @endforeach
