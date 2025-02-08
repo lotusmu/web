@@ -24,16 +24,20 @@ class ProcessRankingType
 
     public function handle(): void
     {
-        $topPlayers = $this->getTopPlayers();
+        $rankings = $this->getTopPlayers()
+            ->map(fn (Character $player, int $index) => [
+                'player' => $player,
+                'rank' => $index + 1,
+                'rewards' => $this->getRewardsForRank($index + 1),
+            ]);
 
-        DB::connection($this->config->server->connection_name)->transaction(function () use ($topPlayers) {
-            foreach ($topPlayers as $rank => $player) {
-                $rewards = $this->getRewardsForRank($rank + 1);
-
-                if ($player->{$this->type->weeklyScoreField()}) {
-                    $this->archiveRanking($player, $rank + 1, $rewards);
-                    $this->giveRewards($player, $rewards, $rank + 1);
-                }
+        DB::connection($this->config->server->connection_name)->transaction(function () use ($rankings) {
+            foreach ($rankings as $ranking) {
+                $this->processRanking(
+                    character: $ranking['player'],
+                    rank: $ranking['rank'],
+                    rewards: $ranking['rewards']
+                );
             }
 
             $this->resetScores();
@@ -42,7 +46,7 @@ class ProcessRankingType
         Log::info('Rankings processed', [
             'server' => $this->config->server->name,
             'type' => $this->type->value,
-            'players_rewarded' => $topPlayers->count(),
+            'players_rewarded' => $rankings->count(),
             'cycle_end' => $this->cycleEnd->format('Y-m-d H:i:s'),
         ]);
     }
@@ -64,12 +68,20 @@ class ProcessRankingType
             ->get();
     }
 
-    private function getRewardsForRank(int $position)
+    private function getRewardsForRank(int $position): array
     {
         return $this->config->rewards()
             ->where('position_from', '<=', $position)
             ->where('position_to', '>=', $position)
             ->first()?->rewards ?? [];
+    }
+
+    private function processRanking(Character $character, int $rank, array $rewards): void
+    {
+        if ($character->{$this->type->weeklyScoreField()}) {
+            $this->archiveRanking($character, $rank, $rewards);
+            $this->distributeRewards($character, $rank, $rewards);
+        }
     }
 
     private function archiveRanking(Character $character, int $rank, array $rewards): void
@@ -86,7 +98,7 @@ class ProcessRankingType
         ]);
     }
 
-    private function giveRewards(Character $character, array $rewards, int $rank): void
+    private function distributeRewards(Character $character, int $rank, array $rewards): void
     {
         if (empty($rewards)) {
             return;
