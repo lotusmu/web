@@ -17,7 +17,6 @@ class ProcessWeeklyRankings
             ->get();
 
         foreach ($configs as $config) {
-
             if (! $config->shouldProcessReset()) {
                 continue;
             }

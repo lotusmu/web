@@ -100,27 +100,31 @@ class ProcessRankingType
                 amount: (int) $reward['amount']
             ))->handle();
 
-            activity('weekly_ranking_reward')
-                ->performedOn($user)
-                ->withProperties([
-                    'activity_type' => ActivityType::INCREMENT->value,
-                    'character' => $character->Name,
-                    'amount' => $this->format($reward['amount']),
-                    'rank' => $rank,
-                    'score' => $character->{$this->type->weeklyScoreField()},
-                    'reward_type' => $resourceType->value,
-                    'reward_amount' => $this->format($reward['amount']),
-                    'ranking_type' => $this->type->label(),
-                    'server' => $this->config->server->name,
-                    'cycle_end' => $this->cycleEnd->format('Y-m-d'),
-                ])
-                ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->value}).");
+            $this->logRewardDistribution($user, $character, $rank, $resourceType, $reward['amount']);
         }
     }
 
     private function format(int $amount): string
     {
         return number_format($amount);
+    }
+
+    private function logRewardDistribution($user, $character, $rank, $resourceType, $amount): void
+    {
+        activity('weekly_ranking_reward')
+            ->performedOn($user)
+            ->withProperties([
+                'activity_type' => ActivityType::INCREMENT->value,
+                'character' => $character->Name,
+                'rank' => $rank,
+                'score' => $character->{$this->type->weeklyScoreField()},
+                'reward_type' => $resourceType->value,
+                'reward_amount' => $this->format($amount),
+                'ranking_type' => $this->type->label(),
+                'server' => $this->config->server->name,
+                'cycle_end' => $this->cycleEnd->format('Y-m-d'),
+            ])
+            ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->value}).");
     }
 
     private function resetScores(): void
