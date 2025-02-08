@@ -11,6 +11,7 @@ use App\Models\Game\Ranking\WeeklyRankingArchive;
 use App\Models\Game\Ranking\WeeklyRankingConfiguration;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProcessRankingType
 {
@@ -23,21 +24,23 @@ class ProcessRankingType
 
     public function handle(): void
     {
-        // Get top 30 players for this type
         $topPlayers = $this->getTopPlayers();
 
         foreach ($topPlayers as $rank => $player) {
-            // Get rewards for this rank position
             $rewards = $this->getRewardsForRank($rank + 1);
 
-            // Archive the ranking
             $this->archiveRanking($player, $rank + 1, $rewards);
 
-            // Give rewards to player - pass the rank
             $this->giveRewards($player, $rewards, $rank + 1);
         }
 
-        // Reset scores
+        Log::info('Rankings processed', [
+            'server' => $this->config->server->name,
+            'type' => $this->type->value,
+            'players_rewarded' => $topPlayers->count(),
+            'cycle_end' => $this->cycleEnd->format('Y-m-d H:i:s'),
+        ]);
+
         $this->resetScores();
     }
 
@@ -45,7 +48,6 @@ class ProcessRankingType
     {
         $scoreField = $this->type->weeklyScoreField();
 
-        // Get max position from rewards configuration
         $maxPosition = $this->config->rewards()
             ->max('position_to');
 
@@ -90,17 +92,14 @@ class ProcessRankingType
         }
 
         foreach ($rewards as $reward) {
-            // Create ResourceType enum from string
             $resourceType = ResourceType::from($reward['type']);
 
-            // Give the reward
             (new IncrementResource(
                 user: $user,
-                resourceType: $resourceType,  // Now passing proper enum object
+                resourceType: $resourceType,
                 amount: (int) $reward['amount']
             ))->handle();
 
-            // Log the activity
             activity('weekly_ranking_reward')
                 ->performedOn($user)
                 ->withProperties([
@@ -126,12 +125,10 @@ class ProcessRankingType
 
     private function resetScores(): void
     {
-        // Reset character weekly scores
-        Character::on($this->config->server->connection_name)  // Add on() here too
+        Character::on($this->config->server->connection_name)
             ->where($this->type->weeklyScoreField(), '>', 0)
             ->update([$this->type->weeklyScoreField() => 0]);
 
-        // Clear weekly detailed scores
         DB::connection($this->config->server->connection_name)
             ->table($this->type === RankingScoreType::EVENTS ? 'RankingEventsWeekly' : 'RankingHuntersWeekly')
             ->truncate();

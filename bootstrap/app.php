@@ -28,10 +28,25 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command('orders:expire')->everyMinute();
-        $schedule->command('guild:cleanup-marks')->daily();
-        $schedule->command('castle:distribute-prizes')->daily();
-        $schedule->command('rankings:process-weekly')->hourly();
+        $schedule->command('orders:expire')
+            ->everyMinute()
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command('guild:cleanup-marks')
+            ->daily()
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command('castle:distribute-prizes')
+            ->daily()
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command('rankings:process-weekly')
+            ->hourly()
+            ->runInBackground()
+            ->withoutOverlapping();
         //        $schedule->command('orders:cleanup')
         //            ->quarterly()
         //            ->runInBackground()
