@@ -26,13 +26,18 @@ class ProcessRankingType
     {
         $topPlayers = $this->getTopPlayers();
 
-        foreach ($topPlayers as $rank => $player) {
-            $rewards = $this->getRewardsForRank($rank + 1);
+        DB::connection($this->config->server->connection_name)->transaction(function () use ($topPlayers) {
+            foreach ($topPlayers as $rank => $player) {
+                $rewards = $this->getRewardsForRank($rank + 1);
 
-            $this->archiveRanking($player, $rank + 1, $rewards);
+                if ($player->{$this->type->weeklyScoreField()}) {
+                    $this->archiveRanking($player, $rank + 1, $rewards);
+                    $this->giveRewards($player, $rewards, $rank + 1);
+                }
+            }
 
-            $this->giveRewards($player, $rewards, $rank + 1);
-        }
+            $this->resetScores();
+        });
 
         Log::info('Rankings processed', [
             'server' => $this->config->server->name,
@@ -40,18 +45,20 @@ class ProcessRankingType
             'players_rewarded' => $topPlayers->count(),
             'cycle_end' => $this->cycleEnd->format('Y-m-d H:i:s'),
         ]);
-
-        $this->resetScores();
     }
 
     private function getTopPlayers()
     {
         $scoreField = $this->type->weeklyScoreField();
-
-        $maxPosition = $this->config->rewards()
-            ->max('position_to');
+        $maxPosition = $this->config->rewards()->max('position_to');
 
         return Character::on($this->config->server->connection_name)
+            ->select([
+                'Name',
+                'AccountID',
+                $scoreField,
+            ])
+            ->where($scoreField, '>', 0)
             ->orderByDesc($scoreField)
             ->limit($maxPosition)
             ->get();
@@ -104,11 +111,6 @@ class ProcessRankingType
         }
     }
 
-    private function format(int $amount): string
-    {
-        return number_format($amount);
-    }
-
     private function logRewardDistribution($user, $character, $rank, $resourceType, $amount): void
     {
         activity('weekly_ranking_reward')
@@ -125,6 +127,11 @@ class ProcessRankingType
                 'cycle_end' => $this->cycleEnd->format('Y-m-d'),
             ])
             ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->value}).");
+    }
+
+    private function format(int $amount): string
+    {
+        return number_format($amount);
     }
 
     private function resetScores(): void
