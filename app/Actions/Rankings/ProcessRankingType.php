@@ -106,6 +106,7 @@ class ProcessRankingType
                 ->withProperties([
                     'activity_type' => ActivityType::INCREMENT->value,
                     'character' => $character->Name,
+                    'amount' => $this->format($reward['amount']),
                     'rank' => $rank,
                     'score' => $character->{$this->type->weeklyScoreField()},
                     'reward_type' => $resourceType->value,
@@ -114,7 +115,7 @@ class ProcessRankingType
                     'server' => $this->config->server->name,
                     'cycle_end' => $this->cycleEnd->format('Y-m-d'),
                 ])
-                ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank}");
+                ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->value}).");
         }
     }
 
