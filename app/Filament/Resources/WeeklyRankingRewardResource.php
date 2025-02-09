@@ -23,7 +23,7 @@ class WeeklyRankingRewardResource extends Resource
 
     protected static ?string $navigationGroup = 'Rankings';
 
-    protected static ?string $modelLabel = 'Weekly Ranking Reward';
+    protected static ?string $modelLabel = 'Ranking Rewards';
 
     public static function form(Form $form): Form
     {

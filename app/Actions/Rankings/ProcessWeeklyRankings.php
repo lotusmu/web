@@ -2,12 +2,12 @@
 
 namespace App\Actions\Rankings;
 
+use App\Enums\Utility\RankingLogStatus;
 use App\Enums\Utility\RankingScoreType;
 use App\Models\Game\Ranking\WeeklyRankingConfiguration;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ProcessWeeklyRankings
 {
@@ -30,10 +30,13 @@ class ProcessWeeklyRankings
     private function isAlreadyProcessing(WeeklyRankingConfiguration $config): bool
     {
         if ($config->last_processing_start && $config->last_processing_start->gt(now()->subHours(1))) {
-            Log::warning('Skipping - another process might be running', [
-                'server' => $config->server->name,
-                'started_at' => $config->last_processing_start,
-            ]);
+            activity('weekly_rankings')
+                ->event('process')
+                ->withProperties([
+                    'server' => $config->server->name,
+                    'status' => RankingLogStatus::SKIPPED,
+                ])
+                ->log('Rankings process skipped - another process running');
 
             return true;
         }
@@ -62,10 +65,13 @@ class ProcessWeeklyRankings
 
         DB::beginTransaction();
 
-        Log::info('Processing weekly rankings for server', [
-            'server' => $config->server->name,
-            'cycle_end' => $config->getNextResetDate()->format('Y-m-d H:i:s'),
-        ]);
+        activity('weekly_rankings')
+            ->event('process')
+            ->withProperties([
+                'server' => $config->server->name,
+                'status' => RankingLogStatus::STARTED,
+            ])
+            ->log('Starting weekly rankings process');
     }
 
     private function processRankingTypes(WeeklyRankingConfiguration $config): void
@@ -101,15 +107,27 @@ class ProcessWeeklyRankings
             'processing_state' => null,
         ]);
 
+        activity('weekly_rankings')
+            ->event('process')
+            ->withProperties([
+                'server' => $config->server->name,
+                'status' => RankingLogStatus::SUCCESS,
+            ])
+            ->log('Weekly rankings process completed');
+
         DB::commit();
     }
 
     private function logError(WeeklyRankingConfiguration $config, Exception $e): void
     {
-        Log::error('Failed to process weekly rankings', [
-            'server' => $config->server->name,
-            'error' => $e->getMessage(),
-            'completed_types' => $config->processing_state,
-        ]);
+        activity('weekly_rankings')
+            ->event('process')
+            ->withProperties([
+                'server' => $config->server->name,
+                'status' => RankingLogStatus::FAILED,
+                'error' => $e->getMessage(),
+                'completed_types' => $config->processing_state,
+            ])
+            ->log('Weekly rankings process failed');
     }
 }

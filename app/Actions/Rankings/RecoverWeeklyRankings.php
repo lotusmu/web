@@ -2,11 +2,11 @@
 
 namespace App\Actions\Rankings;
 
+use App\Enums\Utility\RankingLogStatus;
 use App\Enums\Utility\RankingScoreType;
 use App\Models\Game\Ranking\WeeklyRankingConfiguration;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class RecoverWeeklyRankings
 {
@@ -25,11 +25,14 @@ class RecoverWeeklyRankings
     {
         DB::beginTransaction();
 
-        Log::info('Attempting rankings recovery', [
-            'server' => $config->server->name,
-            'last_attempt' => $config->last_processing_start,
-            'completed_types' => $config->processing_state,
-        ]);
+        activity('weekly_rankings')
+            ->event('recovery')
+            ->withProperties([
+                'server' => $config->server->name,
+                'status' => RankingLogStatus::STARTED,
+                'last_attempt' => $config->last_processing_start,
+            ])
+            ->log('Starting rankings recovery process');
     }
 
     private function recoverRankingTypes(WeeklyRankingConfiguration $config): void
@@ -78,6 +81,14 @@ class RecoverWeeklyRankings
             'processing_state' => null,
         ]);
 
+        activity('weekly_rankings')
+            ->event('recovery')
+            ->withProperties([
+                'server' => $config->server->name,
+                'status' => RankingLogStatus::SUCCESS,
+            ])
+            ->log('Rankings recovery completed successfully');
+
         DB::commit();
     }
 
@@ -85,10 +96,14 @@ class RecoverWeeklyRankings
     {
         DB::rollBack();
 
-        Log::error('Failed to recover weekly rankings', [
-            'server' => $config->server->name,
-            'error' => $e->getMessage(),
-        ]);
+        activity('weekly_rankings')
+            ->event('recovery')
+            ->withProperties([
+                'server' => $config->server->name,
+                'status' => RankingLogStatus::FAILED,
+                'error' => $e->getMessage(),
+            ])
+            ->log('Rankings recovery failed');
 
         throw $e;
     }

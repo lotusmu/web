@@ -4,6 +4,7 @@ namespace App\Actions\Rankings;
 
 use App\Actions\Wallet\IncrementResource;
 use App\Enums\Utility\ActivityType;
+use App\Enums\Utility\RankingLogStatus;
 use App\Enums\Utility\RankingScoreType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Game\Character;
@@ -11,7 +12,6 @@ use App\Models\Game\Ranking\WeeklyRankingArchive;
 use App\Models\Game\Ranking\WeeklyRankingConfiguration;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ProcessRankingType
 {
@@ -43,12 +43,15 @@ class ProcessRankingType
             $this->resetScores();
         });
 
-        Log::info('Rankings processed', [
-            'server' => $this->config->server->name,
-            'type' => $this->type->value,
-            'players_rewarded' => $rankings->count(),
-            'cycle_end' => $this->cycleEnd->format('Y-m-d H:i:s'),
-        ]);
+        activity('weekly_rankings')
+            ->event('process')
+            ->withProperties([
+                'server' => $this->config->server->name,
+                'type' => $this->type->value,
+                'status' => RankingLogStatus::SUCCESS,
+                'players_count' => $rankings->count(),
+            ])
+            ->log("Rankings type {$this->type->value} processed successfully");
     }
 
     private function getTopPlayers()
@@ -129,14 +132,13 @@ class ProcessRankingType
             ->performedOn($user)
             ->withProperties([
                 'activity_type' => ActivityType::INCREMENT->value,
+                'amount' => $this->format($amount),
                 'character' => $character->Name,
                 'rank' => $rank,
                 'score' => $character->{$this->type->weeklyScoreField()},
                 'reward_type' => $resourceType->value,
-                'reward_amount' => $this->format($amount),
                 'ranking_type' => $this->type->label(),
                 'server' => $this->config->server->name,
-                'cycle_end' => $this->cycleEnd->format('Y-m-d'),
             ])
             ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->value}).");
     }
