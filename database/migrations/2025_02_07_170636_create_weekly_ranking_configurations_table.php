@@ -16,6 +16,9 @@ return new class extends Migration
             $table->tinyInteger('reset_day_of_week');
             $table->string('reset_time');
             $table->boolean('is_enabled')->default(false);
+            $table->timestamp('last_processing_start')->nullable();
+            $table->timestamp('last_successful_processing')->nullable();
+            $table->json('processing_state')->nullable();
             $table->timestamps();
         });
     }

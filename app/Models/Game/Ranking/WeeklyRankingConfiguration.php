@@ -16,12 +16,18 @@ class WeeklyRankingConfiguration extends Model
         'reset_day_of_week',
         'reset_time',
         'is_enabled',
+        'last_processing_start',
+        'last_successful_processing',
+        'processing_state',
     ];
 
     protected $casts = [
         'first_cycle_start' => 'date',
         'reset_day_of_week' => 'integer',
         'is_enabled' => 'boolean',
+        'last_processing_start' => 'datetime',
+        'last_successful_processing' => 'datetime',
+        'processing_state' => 'array',
     ];
 
     public function server(): BelongsTo
