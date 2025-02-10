@@ -57,6 +57,8 @@ trait Sortable
 
     public function sort($column): void
     {
+        $this->resetPage();
+
         $urlColumn = array_flip(self::SORT_MAP)[$column] ?? $column;
 
         if ($this->sortBy === $urlColumn) {
