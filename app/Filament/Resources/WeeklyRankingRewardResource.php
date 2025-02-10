@@ -12,6 +12,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -74,7 +75,10 @@ class WeeklyRankingRewardResource extends Resource
                                 ->label('Amount')
                                 ->required()
                                 ->numeric()
-                                ->minValue(1),
+                                ->mask(RawJs::make('$money($input)'))
+                                ->stripCharacters(',')
+                                ->default(0)
+                                ->minValue(0),
                         ])
                         ->addActionLabel('Add Resource')
                         ->minItems(1)
