@@ -37,4 +37,19 @@ class Status extends Model
     {
         return $this->belongsTo(User::class, 'memb___id', 'name');
     }
+
+    public function getCurrentStatusAttribute(): string
+    {
+        return $this->ConnectStat ? __('Online') : __('Offline');
+    }
+
+    public function getLastLoginAttribute(): string
+    {
+        return $this->ConnectTM?->diffForHumans() ?? __('Never');
+    }
+
+    public function getLastDisconnectAttribute(): string
+    {
+        return $this->DisConnectTM?->diffForHumans() ?? __('Never');
+    }
 }

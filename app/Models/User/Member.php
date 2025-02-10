@@ -5,6 +5,7 @@ namespace App\Models\User;
 use App\Enums\Game\AccountLevel;
 use App\Models\Concerns\MemberAccessors;
 use App\Models\Game\Character;
+use App\Models\Game\Status;
 use App\Models\Game\Wallet;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,6 +52,11 @@ class Member extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'name', 'memb___id');
+    }
+
+    public function status(): HasOne
+    {
+        return $this->hasOne(Status::class, 'memb___id', 'memb___id');
     }
 
     public function wallet(): HasOne

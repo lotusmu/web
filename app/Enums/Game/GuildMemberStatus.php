@@ -31,9 +31,8 @@ enum GuildMemberStatus: int implements HasColor, HasLabel
             self::GuildMaster => Color::Red,
             self::AssistantGuildMaster => Color::Orange,
             self::BattleMaster => Color::Sky,
-            self::GuildMember => Color::Gray,
+            self::GuildMember => Color::Zinc,
             self::None => null,
-
         };
     }
 }
