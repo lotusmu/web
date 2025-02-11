@@ -21,20 +21,26 @@ new #[Layout('layouts.guest')] class extends Component {
     #[Computed]
     public function character(): ?Character
     {
-        return Character::with([
-            'member:memb___id,AccountLevel',
-            'member.status:memb___id,ConnectStat,ConnectTM,DisConnectTM',
-            'guildMember:Name,G_Name,G_Status',
-            'guildMember.guild:G_Name,G_Mark',
-            'quest:Name,Quest',
-        ])
-            ->select([
-                'Name', 'AccountID', 'cLevel', 'Class', 'ResetCount', 'MapNumber',
-                'Strength', 'Dexterity', 'Vitality', 'Energy', 'Leadership',
-                'HofWins', 'EventScore', 'HunterScore'
-            ])
-            ->where('Name', $this->name)
-            ->first();
+        return cache()->remember(
+            "character_{$this->name}",
+            now()->addMinutes(5),
+            function () {
+                return Character::with([
+                    'member:memb___id,AccountLevel',
+                    'member.status:memb___id,ConnectStat,ConnectTM,DisConnectTM',
+                    'guildMember:Name,G_Name,G_Status',
+                    'guildMember.guild:G_Name,G_Mark',
+                    'quest:Name,Quest',
+                ])
+                    ->select([
+                        'Name', 'AccountID', 'cLevel', 'Class', 'ResetCount', 'MapNumber',
+                        'Strength', 'Dexterity', 'Vitality', 'Energy', 'Leadership',
+                        'HofWins', 'EventScore', 'HunterScore'
+                    ])
+                    ->where('Name', $this->name)
+                    ->first();
+            }
+        );
     }
 
 
@@ -45,11 +51,17 @@ new #[Layout('layouts.guest')] class extends Component {
             return collect();
         }
 
-        return Character::with(['guildMember.guild'])
-            ->select(['Name', 'AccountID', 'cLevel', 'Class', 'ResetCount'])
-            ->where('AccountID', $this->character->AccountID)
-            ->where('Name', '!=', $this->name)
-            ->get();
+        return cache()->remember(
+            "account_characters_{$this->name}",
+            now()->addMinutes(5),
+            function () {
+                return Character::with(['guildMember.guild'])
+                    ->select(['Name', 'AccountID', 'cLevel', 'Class', 'ResetCount'])
+                    ->where('AccountID', $this->character->AccountID)
+                    ->where('Name', '!=', $this->name)
+                    ->get();
+            }
+        );
     }
 
 
