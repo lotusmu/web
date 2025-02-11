@@ -48,7 +48,7 @@ class Guild extends Model
 
         $cacheKey = "guild_mark_{$this->G_Name}_{$size}";
 
-        return cache()->remember($cacheKey, 3600, function () use ($size) {
+        return cache()->remember($cacheKey, now()->addWeek(), function () use ($size) {
             $path = "guild_marks/{$this->G_Name}_{$size}.png";
 
             if (! Storage::disk('public')->exists($path)) {

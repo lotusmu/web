@@ -22,21 +22,31 @@ new #[Layout('layouts.guest')] class extends Component {
     public function character(): ?Character
     {
         return Character::with([
-            'member',
-            'member.status',
-            'guildMember.guild',
-            'quest'
+            'member:memb___id,AccountLevel',
+            'member.status:memb___id,ConnectStat,ConnectTM,DisConnectTM',
+            'guildMember:Name,G_Name,G_Status',
+            'guildMember.guild:G_Name,G_Mark',
+            'quest:Name,Quest',
         ])
+            ->select([
+                'Name', 'AccountID', 'cLevel', 'Class', 'ResetCount', 'MapNumber',
+                'Strength', 'Dexterity', 'Vitality', 'Energy', 'Leadership',
+                'HofWins', 'EventScore', 'HunterScore'
+            ])
             ->where('Name', $this->name)
             ->first();
     }
 
+
     #[Computed]
-    public function otherCharacters()
+    public function accountCharacters()
     {
-        return Character::with([
-            'guildMember.guild',
-        ])
+        if ( ! $this->character) {
+            return collect();
+        }
+
+        return Character::with(['guildMember.guild'])
+            ->select(['Name', 'AccountID', 'cLevel', 'Class', 'ResetCount'])
             ->where('AccountID', $this->character->AccountID)
             ->where('Name', '!=', $this->name)
             ->get();
@@ -134,7 +144,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     </flux:columns>
 
                     <flux:rows>
-                        @foreach($this->otherCharacters as $character)
+                        @foreach($this->accountCharacters as $character)
                             <flux:row :key="$character->Name">
                                 <flux:cell>
                                     <flux:link variant="ghost"
