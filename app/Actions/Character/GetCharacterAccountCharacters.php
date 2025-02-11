@@ -12,8 +12,12 @@ class GetCharacterAccountCharacters
         return cache()->remember(
             "account_characters_{$excludeName}",
             now()->addMinutes(5),
-            fn () => Character::with(['guildMember.guild'])
+            fn () => Character::query()
                 ->select(['Name', 'AccountID', 'cLevel', 'Class', 'ResetCount'])
+                ->with([
+                    'guildMember:Name,G_Name,G_Status,G_Level',
+                    'guildMember.guild:G_Name,G_Mark,G_Master',
+                ])
                 ->where('AccountID', $accountId)
                 ->where('Name', '!=', $excludeName)
                 ->get()

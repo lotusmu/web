@@ -15,7 +15,7 @@
                 <flux:cell>
                     <flux:link variant="ghost"
                                :href="route('character', ['name' => $character->Name])"
-                               wire:navigate>
+                               wire:navigate.hover>
                         {{ $character->Name }}
                     </flux:link>
                 </flux:cell>

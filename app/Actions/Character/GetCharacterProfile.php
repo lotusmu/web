@@ -12,17 +12,18 @@ class GetCharacterProfile
         return cache()->remember(
             "character_{$name}",
             now()->addMinutes(5),
-            fn () => Character::with([
-                'member:memb___id,AccountLevel',
-                'member.status:memb___id,ConnectStat,ConnectTM,DisConnectTM',
-                'guildMember:Name,G_Name,G_Status',
-                'guildMember.guild:G_Name,G_Mark',
-                'quest:Name,Quest',
-            ])
+            fn () => Character::query()
                 ->select([
                     'Name', 'AccountID', 'cLevel', 'Class', 'ResetCount', 'MapNumber',
                     'Strength', 'Dexterity', 'Vitality', 'Energy', 'Leadership',
                     'HofWins', 'EventScore', 'HunterScore',
+                ])
+                ->with([
+                    'member:memb___id,AccountLevel',
+                    'member.status:memb___id,ConnectStat,ConnectTM,DisConnectTM',
+                    'guildMember:Name,G_Name,G_Status,G_Level',
+                    'guildMember.guild:G_Name,G_Mark,G_Master',
+                    'quest:Name,Quest',
                 ])
                 ->where('Name', $name)
                 ->first()
