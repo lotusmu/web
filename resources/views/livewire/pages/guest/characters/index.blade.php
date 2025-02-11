@@ -1,5 +1,7 @@
 <?php
 
+use App\Actions\Character\GetCharacterAccountCharacters;
+use App\Actions\Character\GetCharacterProfile;
 use App\Enums\Game\AccountLevel;
 use App\Enums\Game\CharacterClass;
 use App\Models\Game\Character;
@@ -21,26 +23,7 @@ new #[Layout('layouts.guest')] class extends Component {
     #[Computed]
     public function character(): ?Character
     {
-        return cache()->remember(
-            "character_{$this->name}",
-            now()->addMinutes(5),
-            function () {
-                return Character::with([
-                    'member:memb___id,AccountLevel',
-                    'member.status:memb___id,ConnectStat,ConnectTM,DisConnectTM',
-                    'guildMember:Name,G_Name,G_Status',
-                    'guildMember.guild:G_Name,G_Mark',
-                    'quest:Name,Quest',
-                ])
-                    ->select([
-                        'Name', 'AccountID', 'cLevel', 'Class', 'ResetCount', 'MapNumber',
-                        'Strength', 'Dexterity', 'Vitality', 'Energy', 'Leadership',
-                        'HofWins', 'EventScore', 'HunterScore'
-                    ])
-                    ->where('Name', $this->name)
-                    ->first();
-            }
-        );
+        return app(GetCharacterProfile::class)->handle($this->name);
     }
 
 
@@ -51,139 +34,28 @@ new #[Layout('layouts.guest')] class extends Component {
             return collect();
         }
 
-        return cache()->remember(
-            "account_characters_{$this->name}",
-            now()->addMinutes(5),
-            function () {
-                return Character::with(['guildMember.guild'])
-                    ->select(['Name', 'AccountID', 'cLevel', 'Class', 'ResetCount'])
-                    ->where('AccountID', $this->character->AccountID)
-                    ->where('Name', '!=', $this->name)
-                    ->get();
-            }
-        );
+        return app(GetCharacterAccountCharacters::class)
+            ->handle($this->character->AccountID, $this->name);
     }
 
 
     #[Computed]
     public function accountLevel(): ?array
     {
-        $level = $this->character->member->AccountLevel;
-
-        if ($level === AccountLevel::Regular) {
-            return null;
-        }
-
-        return [
-            'label' => $this->character->member->AccountLevel->getLabel(),
-            'color' => $this->character->member->AccountLevel->badgeColor(),
-        ];
+        return app(GetCharacterProfile::class)
+            ->getAccountLevelDetails($this->character?->member->AccountLevel);
     }
 }; ?>
 
 <flux:main container>
     <flux:card class="max-w-2xl mx-auto space-y-8">
         @if($this->character)
-            <div>
-                <flux:heading size="lg" class="mb-2">
-                    {{ __('General Information') }}
-                </flux:heading>
-
-                <flux:separator class="mb-8"/>
-
-                <div class="flex items-start justify-start space-x-8">
-                    <div class="min-w-64">
-                        <img src="{{ asset($this->character->Class->getBigImage()) }}" alt="Character Class Image"
-                             class="w-64 h-64 object-cover">
-                    </div>
-
-                    <x-character.details :character="$this->character"/>
-                </div>
-            </div>
-
-            <div>
-                <flux:heading size="lg" class="mb-2">
-                    {{ __('Account Information') }}
-                </flux:heading>
-
-                <flux:separator class="mb-8"/>
-
-                <div class="flex items-center justify-evenly mb-8">
-                    <div class="w-full">
-                        <flux:subheading>{{ __('Last Login') }}</flux:subheading>
-                        <flux:heading>
-                            {{ $this->character->member->status?->lastLogin ?? __('Never')}}
-                        </flux:heading>
-                    </div>
-
-                    <div class="w-full">
-                        <flux:subheading>{{ __('Last Disconnect') }}</flux:subheading>
-                        <flux:heading>
-                            {{ $this->character->member->status?->lastDisconnect ?? __('Never') }}
-                        </flux:heading>
-                    </div>
-
-
-                    <div class="w-full">
-                        <flux:subheading class="mb-2">{{ __('Account Level') }}</flux:subheading>
-                        @if ($this->accountLevel)
-                            <flux:badge icon="fire" size="sm" color="{{ $this->accountLevel['color'] }}">
-                                {{ $this->accountLevel['label'] }}
-                            </flux:badge>
-                        @else
-                            <flux:heading>
-                                {{__('Regular')}}
-                            </flux:heading>
-                        @endif
-                    </div>
-
-                    <div class="w-full">
-                        <flux:subheading class="mb-2">{{ __('Current Status') }}</flux:subheading>
-                        <flux:badge size="sm"
-                                    color="{{ $this->character->member->status?->currentStatus ? 'emerald' : 'rose' }}">
-                            {{ $this->character->member->status?->currentStatus ?? __('Offline') }}
-                        </flux:badge>
-                    </div>
-                </div>
-
-                <flux:table>
-                    <flux:columns>
-                        <flux:column>{{ __('Name') }}</flux:column>
-                        <flux:column>{{ __('Class') }}</flux:column>
-                        <flux:column>{{ __('Level') }}</flux:column>
-                        <flux:column>{{ __('Resets') }}</flux:column>
-                        <flux:column>{{ __('Guild') }}</flux:column>
-                    </flux:columns>
-
-                    <flux:rows>
-                        @foreach($this->accountCharacters as $character)
-                            <flux:row :key="$character->Name">
-                                <flux:cell>
-                                    <flux:link variant="ghost"
-                                               :href="route('character', ['name' => $character->Name])"
-                                               wire:navigate>
-                                        {{ $character->Name }}
-                                    </flux:link>
-                                </flux:cell>
-
-                                <x-rankings.table.cells.character-class :character="$character"/>
-
-                                <flux:cell>
-                                    {{ $character->cLevel }}
-                                </flux:cell>
-
-                                <flux:cell>
-                                    {{ $character->ResetCount }}
-                                </flux:cell>
-
-                                <flux:cell>
-                                    <x-guild-identity :guild-member="$character->guildMember"/>
-                                </flux:cell>
-                            </flux:row>
-                        @endforeach
-                    </flux:rows>
-                </flux:table>
-            </div>
+            <x-character.general-information :character="$this->character"/>
+            <x-character.account-information
+                :character="$this->character"
+                :account-level="$this->accountLevel"
+                :account-characters="$this->accountCharacters"
+            />
         @else
             <flux:text>
                 Character not found or has been deleted.
