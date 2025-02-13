@@ -4,7 +4,7 @@
                       class="md:flex hidden items-center justify-center">
         @foreach($filters->classes() as $class)
             <flux:radio :value="$class['value']"
-                        class="flex flex-col items-center justify-center !gap-2 !flex-none min-w-28">
+                        class="flex flex-col items-center justify-center !gap-2 !flex-none min-w-28 cursor-pointer">
                 <img src="{{ asset($class['image']) }}"
                      alt="{{ $class['label'] }}"
                      class="w-12 rounded-xl">
