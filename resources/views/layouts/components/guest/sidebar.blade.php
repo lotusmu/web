@@ -1,6 +1,6 @@
 <flux:navlist>
     <div class="sm:hidden mb-8">
-        <livewire:connection-selector triggerType="navlist" lazy/>
+        <livewire:connection-selector triggerType="navlist"/>
     </div>
 
     <flux:navlist.item wire:navigate.hover icon="newspaper"

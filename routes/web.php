@@ -25,11 +25,10 @@ Route::prefix('rankings')->group(function () {
         ->name('rankings.archive');
 });
 
-Volt::route('/character/{name}', 'pages.guest.characters.index')
+Volt::route('/character/{name}', 'pages.guest.profile.character')
     ->name('character');
 
-// Guild profile route
-Volt::route('/guild/{gName}', 'pages.guest.guilds.index')
+Volt::route('/guild/{name}', 'pages.guest.profile.guild')
     ->name('guild');
 
 Volt::route('/terms', 'pages.guest.legal.terms')

@@ -10,10 +10,10 @@
     <div class="flex items-start justify-start space-x-8">
         <div class="min-w-64">
             <img src="{{ asset($character->Class->getBigImage()) }}"
-                 alt="Character Class Image"
+                 alt="{{ $character->Class->getLabel() }}"
                  class="w-64 h-64 object-cover">
         </div>
 
-        <x-character.details :character="$character"/>
+        <x-profile.character.details :character="$character"/>
     </div>
 </div>

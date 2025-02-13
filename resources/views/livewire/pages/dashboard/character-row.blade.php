@@ -68,7 +68,13 @@ new #[Layout('layouts.app')] class extends Component {
 ?>
 
 <flux:row>
-    <flux:cell>{{ $this->character->Name }}</flux:cell>
+    <flux:cell>
+        <flux:link variant="ghost"
+                   :href="route('character', ['name' => $this->character->Name])"
+                   wire:navigate>
+            {{ $this->character->Name }}
+        </flux:link>
+    </flux:cell>
 
     <flux:cell>
         <div class="flex items-center gap-3">

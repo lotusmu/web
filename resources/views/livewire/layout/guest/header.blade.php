@@ -87,7 +87,7 @@ new class extends Component {
 
         <flux:navbar class="-mb-px">
             <div class="max-sm:hidden">
-                <livewire:connection-selector lazy/>
+                <livewire:connection-selector/>
             </div>
 
             <flux:button size="sm"

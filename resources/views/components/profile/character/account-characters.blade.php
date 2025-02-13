@@ -21,10 +21,8 @@
                 </flux:cell>
 
                 <x-rankings.table.cells.character-class :character="$character"/>
-
                 <flux:cell>{{ $character->cLevel }}</flux:cell>
                 <flux:cell>{{ $character->ResetCount }}</flux:cell>
-
                 <flux:cell>
                     <x-guild-identity :guild-member="$character->guildMember"/>
                 </flux:cell>
