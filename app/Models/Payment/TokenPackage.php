@@ -15,6 +15,7 @@ class TokenPackage extends Model
         'name',
         'tokens_amount',
         'price',
+        'bonus_rate',
         'is_popular',
     ];
 

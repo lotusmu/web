@@ -56,6 +56,17 @@ new #[Layout('layouts.app')] class extends Component {
             return redirect()->back();
         }
     }
+
+    public function getTokenSummary(TokenPackage $package): string
+    {
+        $text = number_format($package->tokens_amount).' '.__('tokens');
+
+        if ($package->bonus_rate > 0) {
+            $text .= ' · <b>'.$package->bonus_rate.'% '.__('extra').'</b>';
+        }
+
+        return $text;
+    }
 }; ?>
 
 <div class="space-y-6">
@@ -93,7 +104,7 @@ new #[Layout('layouts.app')] class extends Component {
                     </flux:subheading>
                     <flux:heading class="leading-4">€ {{ $package->price }}</flux:heading>
                     <flux:subheading size="sm">
-                        {{ number_format($package->tokens_amount) }} {{__('tokens')}}
+                        {!! $this->getTokenSummary($package) !!}
                     </flux:subheading>
                 </div>
             </flux:radio>

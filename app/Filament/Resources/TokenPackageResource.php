@@ -58,7 +58,7 @@ class TokenPackageResource extends Resource
                 Section::make('Pricing Configuration')
                     ->description('Set the token amount and price for this package.')
                     ->aside()
-                    ->columns(2)
+                    ->columns(3)
                     ->schema([
                         TextInput::make('tokens_amount')
                             ->label('Token Amount')
@@ -66,6 +66,13 @@ class TokenPackageResource extends Resource
                             ->required()
                             ->suffix('Tokens')
                             ->helperText('Number of tokens included in this package.'),
+
+                        TextInput::make('bonus_rate')
+                            ->label('Bonus Rate')
+                            ->numeric()
+                            ->required()
+                            ->prefix('%')
+                            ->helperText('Set the bonus percentage for this token package.'),
 
                         TextInput::make('price')
                             ->label('Package Price')
@@ -86,9 +93,15 @@ class TokenPackageResource extends Resource
                 Tables\Columns\TextColumn::make('tokens_amount')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('bonus_rate')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->sortable(),
+                Tables\Columns\IconColumn::make('is_popular')
+                    ->label('Most Popular Package')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
