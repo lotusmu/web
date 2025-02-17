@@ -80,7 +80,7 @@ new class extends Component {
 
     <div>
         @foreach($this->scores as $score)
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center space-x-2">
                 <div class="flex items-center gap-3">
                     @if($score['image'])
                         <img src="{{ $score['image'] }}"
@@ -98,6 +98,7 @@ new class extends Component {
                         </flux:text>
                     </div>
                 </div>
+
                 <flux:badge size="sm" variant="solid">
                     {{ $score['total_points'] }} {{ __('points') }}
                 </flux:badge>

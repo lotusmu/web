@@ -84,7 +84,7 @@ new class extends Component {
 }; ?>
 
 <section class="isolate">
-    @if($this->bundles()->isNotEmpty() && $this->buffs()->isNotEmpty())
+    @if($this->bundles()->isNotEmpty() || $this->buffs()->isNotEmpty())
         <div class="text-center mb-12 space-y-4">
             <div class="flex justify-center">
                 <div class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">

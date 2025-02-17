@@ -17,39 +17,39 @@
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
 
-                    <flux:cell>
+                    <flux:cell class="max-sm:hidden">
                         <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-md">&nbsp;</div>
                     </flux:cell>
                 </flux:row>
