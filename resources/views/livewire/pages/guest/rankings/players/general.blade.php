@@ -19,7 +19,6 @@ new #[Layout('layouts.guest')] class extends Component {
     use Sortable;
     use HasCharacterRanking;
 
-    #[Reactive]
     public Filters $filters;
 
     #[Computed]
@@ -42,6 +41,8 @@ new #[Layout('layouts.guest')] class extends Component {
 } ?>
 
 <div class="overflow-x-auto relative space-y-8">
+    <x-rankings.filters :filters="$this->filters"/>
+
     <x-rankings.search wire:model.live.debounce="search"/>
 
     <flux:table wire:loading.class="opacity-50">

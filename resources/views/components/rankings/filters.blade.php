@@ -1,9 +1,14 @@
+@props(['filters', 'disabled' => false])
+
 <div>
     <flux:radio.group variant="cards"
                       wire:model.live="filters.class"
-                      class="md:flex hidden items-center justify-center">
+                      :$disabled
+                      class="md:flex hidden items-center justify-center"
+    >
         @foreach($filters->classes() as $class)
             <flux:radio :value="$class['value']"
+                        :wire:key="$class['value']"
                         class="flex flex-col items-center justify-center !gap-2 !flex-none min-w-28 cursor-pointer">
                 <img src="{{ asset($class['image']) }}"
                      alt="{{ $class['label'] }}"
@@ -17,9 +22,13 @@
     </flux:radio.group>
 
     <div class="md:hidden">
-        <flux:select wire:model.live="filters.class" variant="listbox" placeholder="Select class...">
+        <flux:select wire:model.live="filters.class"
+                     variant="listbox"
+                     :$disabled
+                     placeholder="Select class..."
+        >
             @foreach($filters->classes() as $class)
-                <flux:option value="{{ $class['value'] }}">
+                <flux:option :value="$class['value']" :wire:key="$class['value']">
                     <div class="flex items-center gap-2">
                         <img src="{{ asset($class['image']) }}"
                              alt="{{ $class['label'] }}"

@@ -7,8 +7,6 @@ use Livewire\Volt\Component;
 use App\Enums\Utility\RankingScoreType;
 
 new #[Layout('layouts.guest')] class extends Component {
-    public Filters $filters;
-
     #[\Livewire\Attributes\Url]
     public string $tab = 'players';
 
@@ -17,8 +15,6 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function mount()
     {
-        $this->filters->init();
-
         if ( ! in_array($this->tab, ['players', 'guilds'])) {
             $this->tab = 'players';
         }
@@ -75,14 +71,13 @@ new #[Layout('layouts.guest')] class extends Component {
                     </flux:tabs>
                 </div>
 
-                <x-rankings.filters :filters="$this->filters"/>
 
                 <flux:tab.panel name="general">
-                    <livewire:pages.guest.rankings.players.general :filters="$this->filters" lazy/>
+                    <livewire:pages.guest.rankings.players.general lazy/>
                 </flux:tab.panel>
 
                 <flux:tab.panel name="weekly">
-                    <livewire:pages.guest.rankings.players.weekly :filters="$this->filters" lazy/>
+                    <livewire:pages.guest.rankings.players.weekly lazy/>
                 </flux:tab.panel>
             </flux:tab.group>
         </flux:tab.panel>

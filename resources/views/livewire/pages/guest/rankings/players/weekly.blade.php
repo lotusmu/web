@@ -20,7 +20,6 @@ new #[Layout('layouts.guest')] class extends Component {
     use Sortable;
     use HasCharacterRanking;
 
-    #[Reactive]
     public Filters $filters;
 
     #[Computed]
@@ -28,8 +27,6 @@ new #[Layout('layouts.guest')] class extends Component {
     {
         $query = $this->getBaseQuery('weekly');
 
-        $query = $this->applySearch($query);
-        $query = $this->filters->apply($query);
         $query = $this->applySorting($query);
 
         return $query->simplePaginate(10);
@@ -60,7 +57,9 @@ new #[Layout('layouts.guest')] class extends Component {
 } ?>
 
 <div class="overflow-x-auto relative space-y-8">
-    <x-rankings.search wire:model.live.debounce="search"/>
+    <x-rankings.filters :filters="$this->filters" :disabled="true"/>
+
+    <x-rankings.search disabled/>
 
     <flux:table wire:loading.class="opacity-50">
         <x-rankings.characters.weekly.columns
