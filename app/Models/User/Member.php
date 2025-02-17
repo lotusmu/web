@@ -56,6 +56,13 @@ class Member extends Model
         return $user?->hasActiveStealth() ?? false;
     }
 
+    public function hasValidVipSubscription(): bool
+    {
+        $user = User::where('name', $this->memb___id)->first();
+
+        return $user?->hasValidVipSubscription() ?? false;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'name', 'memb___id');

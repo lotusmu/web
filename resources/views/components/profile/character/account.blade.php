@@ -1,3 +1,4 @@
+@php use App\Enums\Game\AccountLevel; @endphp
 @props(['character', 'accountLevel', 'accountCharacters'])
 
 <div class="space-y-8">
@@ -14,7 +15,7 @@
             <div class="space-y-4">
                 <div>
                     <flux:subheading>{{ __('Account Level') }}</flux:subheading>
-                    @if ($accountLevel)
+                    @if ($character->member->hasValidVipSubscription())
                         <flux:badge icon="fire" size="sm" color="{{ $accountLevel['color'] }}" inset="top bottom"
                                     class="mt-2">
                             {{ $accountLevel['label'] }}
