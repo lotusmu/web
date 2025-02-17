@@ -8,37 +8,48 @@
         <flux:separator/>
     </div>
 
-    <div class="flex items-center justify-evenly">
-        <div class="w-full">
-            <flux:subheading>{{ __('Last Login') }}</flux:subheading>
-            <flux:heading>
-                {{ $character->member->status?->lastLogin ?? __('Never')}}
-            </flux:heading>
+    <div
+        class="flex items-start justify-start space-x-8">
+        <div class="flex-1 max-w-64">
+            <div class="space-y-4">
+                <div>
+                    <flux:subheading>{{ __('Account Level') }}</flux:subheading>
+                    @if ($accountLevel)
+                        <flux:badge icon="fire" size="sm" color="{{ $accountLevel['color'] }}" inset="top bottom"
+                                    class="mt-2">
+                            {{ $accountLevel['label'] }}
+                        </flux:badge>
+                    @else
+                        <flux:heading>{{__('Regular')}}</flux:heading>
+                    @endif
+                </div>
+
+                <div>
+                    <flux:subheading>{{ __('Last Login') }}</flux:subheading>
+                    <flux:heading>
+                        {{ $character->member->status?->lastLogin ?? __('Never')}}
+                    </flux:heading>
+                </div>
+            </div>
         </div>
 
-        <div class="w-full">
-            <flux:subheading>{{ __('Last Disconnect') }}</flux:subheading>
-            <flux:heading>
-                {{ $character->member->status?->lastDisconnect ?? __('Never') }}
-            </flux:heading>
-        </div>
+        <div class="flex-1">
+            <div class="space-y-4">
+                <div>
+                    <flux:subheading>{{ __('Current Status') }}</flux:subheading>
+                    <flux:badge size="sm" color="{{ $character->member->status?->ConnectStat ? 'emerald' : 'rose' }}"
+                                class="mt-2">
+                        {{ $character->member->status?->currentStatus ?? __('Offline') }}
+                    </flux:badge>
+                </div>
 
-        <div class="w-full">
-            <flux:subheading class="mb-2">{{ __('Account Level') }}</flux:subheading>
-            @if ($accountLevel)
-                <flux:badge icon="fire" size="sm" color="{{ $accountLevel['color'] }}">
-                    {{ $accountLevel['label'] }}
-                </flux:badge>
-            @else
-                <flux:heading>{{__('Regular')}}</flux:heading>
-            @endif
-        </div>
-
-        <div class="w-full">
-            <flux:subheading class="mb-2">{{ __('Current Status') }}</flux:subheading>
-            <flux:badge size="sm" color="{{ $character->member->status?->ConnectStat ? 'emerald' : 'rose' }}">
-                {{ $character->member->status?->currentStatus ?? __('Offline') }}
-            </flux:badge>
+                <div>
+                    <flux:subheading>{{ __('Last Disconnect') }}</flux:subheading>
+                    <flux:heading>
+                        {{ $character->member->status?->lastDisconnect ?? __('Never') }}
+                    </flux:heading>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 @props([
     'guild' => null,
     'guildMember' => null,
-    'href' => '#'
+    'keepLabel' => false,
 ])
 
 @php
@@ -17,7 +17,7 @@
                  alt="Guild Mark"
                  class="w-6 h-6 shrink-0 rounded border border-zinc-200 dark:border-white/10"
             />
-            <span class="max-sm:hidden">
+            <span @class(['max-sm:hidden' => !$keepLabel])>
                 {{ $guildInstance->G_Name }}
             </span>
         </flux:link>
