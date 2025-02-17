@@ -20,21 +20,7 @@
 <div class="flex gap-2 items-center">
     <flux:icon.check-circle variant="solid" class="text-emerald-500 dark:text-emerald-400"/>
     <flux:heading>
-        {{ __('Off Attack · 8 hours (6 regular)') }}
-    </flux:heading>
-</div>
-
-<div class="flex gap-2 items-center">
-    <flux:icon.check-circle variant="solid" class="text-emerald-500 dark:text-emerald-400"/>
-    <flux:heading>
         {{ __('+10% Bonus Drop') }}
-    </flux:heading>
-</div>
-
-<div class="flex gap-2 items-center">
-    <flux:icon.check-circle variant="solid" class="text-emerald-500 dark:text-emerald-400"/>
-    <flux:heading>
-        {{ __('Off Attack · Obtaining Items') }}
     </flux:heading>
 </div>
 
@@ -48,14 +34,28 @@
 <div class="flex gap-2 items-center">
     <flux:icon.check-circle variant="solid" class="text-emerald-500 dark:text-emerald-400"/>
     <flux:heading>
-        {{ __('Command · /pkclear') }}
+        {{ __('In-game Daily Rewards') }}
     </flux:heading>
 </div>
 
 <div class="flex gap-2 items-center">
     <flux:icon.check-circle variant="solid" class="text-emerald-500 dark:text-emerald-400"/>
     <flux:heading>
-        {{ __('In-game Daily Rewards') }}
+        {{ __('Off Attack · 8 hours (6 regular)') }}
+    </flux:heading>
+</div>
+
+<div class="flex gap-2 items-center">
+    <flux:icon.check-circle variant="solid" class="text-emerald-500 dark:text-emerald-400"/>
+    <flux:heading>
+        {{ __('Off Attack · Obtaining Items') }}
+    </flux:heading>
+</div>
+
+<div class="flex gap-2 items-center">
+    <flux:icon.check-circle variant="solid" class="text-emerald-500 dark:text-emerald-400"/>
+    <flux:heading>
+        {{ __('Command · /pkclear') }}
     </flux:heading>
 </div>
 
