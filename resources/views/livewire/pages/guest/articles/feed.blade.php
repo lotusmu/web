@@ -18,20 +18,25 @@ new class extends Component {
     public function articles(): LengthAwarePaginator|_IH_Article_C|array
     {
         return Article::where('is_published', true)
-                ->where('type', $this->type)
-                ->orderBy('created_at', 'desc')
-                ->paginate(5);
+            ->where('type', $this->type)
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
     }
 }; ?>
 
 <div class="pt-12">
-    @foreach($this->articles as $article)
-        @if(!$loop->first)
-            <flux:separator variant="subtle" class="my-16"/>
-        @endif
+    @if($this->articles->count() > 0)
+        @foreach($this->articles as $article)
+            @if(!$loop->first)
+                <flux:separator variant="subtle" class="my-16"/>
+            @endif
 
-        <livewire:pages.guest.articles.preview :$article :wire:key="$article->id"/>
-    @endforeach
+            <livewire:pages.guest.articles.preview :$article :wire:key="$article->id"/>
+        @endforeach
+    @else
+        <flux:heading>No articles found.</flux:heading>
+        <flux:subheading>There are currently no published articles in this category.</flux:subheading>
+    @endif
 
     <div>
         <flux:pagination :paginator="$this->articles" class="!border-0"/>
