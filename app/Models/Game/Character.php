@@ -6,6 +6,7 @@ use App\Enums\Game\CharacterClass;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Models\Concerns\GameConnection;
+use App\Models\Concerns\HandlesStealthVisibility;
 use App\Models\Game\Ranking\Event;
 use App\Models\Game\Ranking\EventWeekly;
 use App\Models\Game\Ranking\Hunter;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Character extends Model
 {
     use GameConnection;
+    use HandlesStealthVisibility;
     use HasFactory;
 
     protected $table = 'Character';
@@ -114,36 +116,6 @@ class Character extends Model
     {
         return $this->quest?->Quest ?? 0;
     }
-
-    //    public function shouldHideInformation(): bool
-    //    {
-    //        return $this->member->user->hasActiveStealth();
-    //    }
-    //
-    //    public function getAttributeValue($key)
-    //    {
-    //        if ($this->shouldHideInformation() && in_array($key, [
-    //            'cLevel',
-    //            'Strength',
-    //            'Dexterity',
-    //            'Vitality',
-    //            'Energy',
-    //            'Leadership',
-    //            'MapNumber',
-    //            'MapPosX',
-    //            'MapPosY',
-    //            'PkCount',
-    //            'PkLevel',
-    //            'ResetCount',
-    //            'MasterResetCount',
-    //            'Kills',
-    //            'Deads',
-    //        ])) {
-    //            return __('Hidden');
-    //        }
-    //
-    //        return parent::getAttributeValue($key);
-    //    }
 
     public function member(): BelongsTo
     {

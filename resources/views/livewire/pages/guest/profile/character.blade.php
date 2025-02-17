@@ -24,7 +24,7 @@ new #[Layout('layouts.guest')] class extends Component {
     #[Computed]
     public function accountCharacters()
     {
-        if ( ! $this->profile) {
+        if ( ! $this->profile || $this->profile->shouldHideInformation()) {
             return collect();
         }
 

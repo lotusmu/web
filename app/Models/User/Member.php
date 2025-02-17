@@ -49,6 +49,13 @@ class Member extends Model
         'tokens' => 'integer',
     ];
 
+    public function getHasStealthAttribute(): bool
+    {
+        $user = User::where('name', $this->memb___id)->first();
+
+        return $user?->hasActiveStealth() ?? false;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'name', 'memb___id');

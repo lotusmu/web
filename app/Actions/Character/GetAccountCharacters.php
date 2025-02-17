@@ -12,6 +12,7 @@ class GetAccountCharacters
         return Character::query()
             ->select(['Name', 'AccountID', 'cLevel', 'Class', 'ResetCount'])
             ->with([
+                'member:memb___id',
                 'guildMember:Name,G_Name,G_Status,G_Level',
                 'guildMember.guild:G_Name,G_Mark,G_Master',
             ])

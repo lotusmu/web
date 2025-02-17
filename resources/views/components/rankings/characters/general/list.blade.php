@@ -49,7 +49,7 @@
                     :modal-key="$this->getScoreKey($character, RankingScoreType::HUNTERS, $period)"
                 />
 
-                <flux:cell>{{ $character->MapNumber->getLabel() }}</flux:cell>
+                <flux:cell>{{ $character->getDisplayLocation() }}</flux:cell>
             </flux:row>
         @endforeach
     @endif

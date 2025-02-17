@@ -27,7 +27,7 @@
                 <div>
                     <flux:subheading>{{ __('Last Login') }}</flux:subheading>
                     <flux:heading>
-                        {{ $character->member->status?->lastLogin ?? __('Never')}}
+                        {{ $character->getDisplayLastLogin() ?? __('Never')}}
                     </flux:heading>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 <div>
                     <flux:subheading>{{ __('Last Disconnect') }}</flux:subheading>
                     <flux:heading>
-                        {{ $character->member->status?->lastDisconnect ?? __('Never') }}
+                        {{ $character->getDisplayLastDisconnect() ?? __('Never') }}
                     </flux:heading>
                 </div>
             </div>

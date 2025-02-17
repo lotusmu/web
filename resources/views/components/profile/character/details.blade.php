@@ -24,7 +24,7 @@
 
     <x-profile.detail-row
         label="{{ __('Location') }}"
-        :value="$character->MapNumber->getLabel()"
+        :value="$character->getDisplayLocation()"
     />
 
     {{-- Guild Info --}}
@@ -74,28 +74,28 @@
 
     <x-profile.detail-row
         label="{{ __('Strength') }}"
-        :value="number_format($character->Strength)"
+        :value="$character->getDisplayStrength()"
     />
 
     <x-profile.detail-row
         label="{{ __('Agility') }}"
-        :value="number_format($character->Dexterity)"
+        :value="$character->getDisplayDexterity()"
     />
 
     <x-profile.detail-row
         label="{{ __('Vitality') }}"
-        :value="number_format($character->Vitality)"
+        :value="$character->getDisplayVitality()"
     />
 
     <x-profile.detail-row
         label="{{ __('Energy') }}"
-        :value="number_format($character->Energy)"
+        :value="$character->getDisplayEnergy()"
     />
 
     @if($character->Leadership > 0)
         <x-profile.detail-row
             label="{{ __('Command') }}"
-            :value="number_format($character->Leadership)"
+            :value="$character->getDisplayLeadership()"
         />
     @endif
 </div>
