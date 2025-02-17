@@ -1,6 +1,6 @@
 <div class="flex gap-2 items-center">
     <flux:icon.fire variant="solid" class="text-orange-500 dark:text-orange-400"/>
-    <flux:heading>{{ __('Exclusive VIP Arena') }}</flux:heading>
+    <flux:heading>{{ __('Exclusive VIP Arena & Shop') }}</flux:heading>
 </div>
 
 <div class="flex gap-2 items-center">
