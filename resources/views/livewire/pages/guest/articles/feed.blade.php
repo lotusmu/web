@@ -34,8 +34,10 @@ new class extends Component {
             <livewire:pages.guest.articles.preview :$article :wire:key="$article->id"/>
         @endforeach
     @else
-        <flux:heading>No articles found.</flux:heading>
-        <flux:subheading>There are currently no published articles in this category.</flux:subheading>
+        <div>
+            <flux:heading>No articles found.</flux:heading>
+            <flux:subheading>There are currently no published articles in this category.</flux:subheading>
+        </div>
     @endif
 
     <div>

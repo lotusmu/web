@@ -27,11 +27,13 @@ new class extends Component {
 
 
 <section class="flex w-full flex-col lg:flex-row lg:max-w-none max-w-md gap-6 lg:gap-0 mx-auto">
-    @foreach($this->packages as $package)
-        <livewire:pages.guest.catalog.vip.card
-            :$package
-            :is-featured="$package->is_best_value"
-            :wire:key="'package-' . $package->id"
-        />
-    @endforeach
+    @if($this->packages->isNotEmpty())
+        @foreach($this->packages as $package)
+            <livewire:pages.guest.catalog.vip.card
+                :$package
+                :is-featured="$package->is_best_value"
+                :wire:key="'package-' . $package->id"
+            />
+        @endforeach
+    @endif
 </section>
