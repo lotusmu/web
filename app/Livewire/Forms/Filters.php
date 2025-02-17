@@ -12,8 +12,6 @@ class Filters extends Form
     #[Url]
     public FilterCharacterClass $class = FilterCharacterClass::All;
 
-    public function init() {}
-
     public function classes(): Collection
     {
         return collect(FilterCharacterClass::cases())->map(function ($class) {
