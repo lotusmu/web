@@ -5,35 +5,35 @@ use Livewire\Volt\Component;
 new class extends Component {
     public array $winners = [
         [
-            'name'       => 'HEROIN',
+            'name'       => 'Knight',
             'class'      => 'dk',
             'class_name' => 'Dark Knight',
             'color'      => 'red',
             'image'      => 'images/characters/dk.png'
         ],
         [
-            'name'       => '034',
+            'name'       => 'Wizard',
             'class'      => 'dw',
             'class_name' => 'Dark Wizard',
             'color'      => 'blue',
             'image'      => 'images/characters/dw.png'
         ],
         [
-            'name'       => 'WeedQueen',
+            'name'       => 'Elf',
             'class'      => 'fe',
             'class_name' => 'Muse Elf',
             'color'      => 'green',
             'image'      => 'images/characters/fe.png'
         ],
         [
-            'name'       => 'Peyote',
+            'name'       => 'Gladiator',
             'class'      => 'mg',
             'class_name' => 'Magic Gladiator',
             'color'      => 'purple',
             'image'      => 'images/characters/mg.png'
         ],
         [
-            'name'       => 'Conqueror',
+            'name'       => 'Lord',
             'class'      => 'dl',
             'class_name' => 'Dark Lord',
             'color'      => 'yellow',
