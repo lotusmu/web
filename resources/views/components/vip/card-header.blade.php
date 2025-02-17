@@ -10,10 +10,18 @@
 @endphp
 
 <div class="flex items-start w-full">
-    <div class="space-y-4">
+    <div class="space-y-4 w-full">
         <div class="flex items-center gap-1 text-zinc-800 dark:text-white font-medium">
             <flux:icon.fire class="{{ $iconColor }}"/>
             <span>{{ $tier }}</span>
+
+            <flux:spacer/>
+            
+            @if ($isBestValue)
+                <flux:badge icon="fire" color="orange">
+                    {{ __('Best Value · 50% off') }}
+                </flux:badge>
+            @endif
         </div>
 
         <div class="flex gap-2 items-baseline">
@@ -25,12 +33,4 @@
 
         <flux:subheading size="sm" class="!mt-1">{{ __(':duration days', ['duration' => $duration]) }}</flux:subheading>
     </div>
-
-    <flux:spacer/>
-
-    @if ($isBestValue)
-        <flux:badge icon="fire" color="orange">
-            {{ __('Best Value · 50% off') }}
-        </flux:badge>
-    @endif
 </div>
