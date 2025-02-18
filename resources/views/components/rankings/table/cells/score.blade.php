@@ -14,7 +14,7 @@
             </flux:button>
         </flux:modal.trigger>
     @else
-        <flux:button size="sm" variant="ghost" inset="top bottom" icon-trailing="chevron-down">
+        <flux:button size="sm" variant="ghost" inset="top bottom">
             <span>{{ $score }}</span>
         </flux:button>
     @endif
