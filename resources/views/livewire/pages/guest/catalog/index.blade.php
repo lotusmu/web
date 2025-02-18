@@ -7,7 +7,7 @@ new #[Layout('layouts.guest')] class extends Component {
 //
 }; ?>
 
-<flux:main container class="space-y-40">
+<flux:main container class="max-sm:space-y-24 space-y-40 mb-20">
     <x-page-header
         title="Your path, your possibilities"
         kicker="Catalog"
