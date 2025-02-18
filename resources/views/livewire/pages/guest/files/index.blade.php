@@ -37,8 +37,8 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:text>
         </x-info-card>
 
-        <div class="grid grid-cols-3 max-md:grid-cols-1 gap-6">
-            @if($this->downloads()->count() > 0)
+        @if($this->downloads()->count() > 0)
+            <div class="grid grid-cols-3 max-md:grid-cols-1 gap-6">
                 @foreach($this->downloads() as $download)
                     <a href="{{ $download['url'] }}" target="_blank">
                         <flux:card
@@ -58,13 +58,13 @@ new #[Layout('layouts.guest')] class extends Component {
                         </flux:card>
                     </a>
                 @endforeach
-            @else
-                <div>
-                    <flux:heading>No files available.</flux:heading>
-                    <flux:subheading>There are currently no files available for download.</flux:subheading>
-                </div>
-            @endif
-        </div>
+            </div>
+        @else
+            <flux:card class="w-full">
+                <flux:heading>No files available.</flux:heading>
+                <flux:subheading>There are currently no files available for download.</flux:subheading>
+            </flux:card>
+        @endif
 
         <livewire:pages.guest.files.faq/>
     </div>

@@ -43,7 +43,7 @@ new #[Layout('layouts.app')] class extends Component {
     #[Computed]
     public function isVip(): bool
     {
-        return Auth::user()->member->AccountLevel !== AccountLevel::Regular;
+        return Auth::user()->hasValidVipSubscription();
     }
 
     #[Computed]
