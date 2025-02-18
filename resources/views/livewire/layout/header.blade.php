@@ -137,9 +137,11 @@ new class extends Component {
 
             <flux:separator variant="subtle" vertical class="mx-4 max-lg:hidden"/>
 
-            <flux:button variant="subtle" size="sm" icon="shield-exclamation" :tooltip="__('Admin Dashboard')"
-                         href="/admin" target="_blank" class="max-lg:hidden"/>
-
+            @if(auth()->user()->is_admin)
+                <flux:button variant="subtle" size="sm" icon="shield-exclamation" :tooltip="__('Admin Dashboard')"
+                             href="/admin" target="_blank" class="max-lg:hidden"/>
+            @endif
+            
             @if(false)
                 <div class="relative">
                     <flux:button variant="ghost" size="sm" icon="bell"/>
