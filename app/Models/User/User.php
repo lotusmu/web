@@ -23,11 +23,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 use Laravel\Cashier\Billable;
+use Solutionforest\FilamentEmail2fa\Interfaces\RequireTwoFALogin;
+use Solutionforest\FilamentEmail2fa\Trait\HasTwoFALogin;
 
-class User extends Authenticatable implements FilamentUser, HasMember, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, HasMember, MustVerifyEmail, RequireTwoFALogin
 {
     use Billable;
     use HasFactory;
+    use HasTwoFALogin;
     use ManagesResources;
     use Notifiable;
 

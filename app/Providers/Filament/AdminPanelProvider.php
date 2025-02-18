@@ -23,6 +23,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Solutionforest\FilamentEmail2fa\FilamentEmail2faPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-//            ->spa()
+            ->spa()
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
@@ -73,6 +74,7 @@ class AdminPanelProvider extends PanelProvider
                 SpatieLaravelTranslatablePlugin::make()
                     ->defaultLocales(config('locales.available')),
             )
+            ->plugin(FilamentEmail2faPlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -94,7 +96,8 @@ class AdminPanelProvider extends PanelProvider
         parent::register();
         FilamentView::registerRenderHook(
             PanelsRenderHook::BODY_END,
-            fn (): string => Blade::render("@vite('resources/js/app.js')"));
+            fn (): string => Blade::render("@vite('resources/js/app.js')")
+        );
 
         FilamentView::registerRenderHook(
             PanelsRenderHook::GLOBAL_SEARCH_AFTER,
