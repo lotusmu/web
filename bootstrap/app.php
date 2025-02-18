@@ -43,6 +43,11 @@ return Application::configure(basePath: dirname(__DIR__))
             ->runInBackground()
             ->withoutOverlapping();
 
+        $schedule->command('game:clean-event-entries')
+            ->dailyAt('00:00')
+            ->runInBackground()
+            ->withoutOverlapping();
+
         $schedule->command('rankings:process-weekly')
             ->hourly()
             ->runInBackground()
