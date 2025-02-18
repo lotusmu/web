@@ -47,39 +47,41 @@ new class extends Component {
 
             <flux:modal name="upgrade-to-{{ strtolower($this->label) }}"
                         class="min-w-[26rem] space-y-6">
-                <div>
-                    <flux:heading size="lg">{{__('Upgrade to')}} {{ $this->label }}</flux:heading>
+                <form wire:submit="$parent.purchase({{ $this->package->id }})">
 
-                    <flux:subheading>
-                        {{__('You\'re about to upgrade your account to')}} {{ $this->label }}.
-                    </flux:subheading>
-                </div>
+                    <div>
+                        <flux:heading size="lg">{{__('Upgrade to')}} {{ $this->label }}</flux:heading>
 
-                <div>
-                    <flux:text class="flex gap-1">
-                        {{__('Price')}}:
-                        <flux:heading>{{ $this->package->cost }} {{__('tokens')}}</flux:heading>
-                    </flux:text>
-                    <flux:text class="flex gap-1">
-                        {{__('Period')}}:
-                        <flux:heading>{{ $this->package->duration }} {{__('days')}}</flux:heading>
-                    </flux:text>
-                </div>
+                        <flux:subheading>
+                            {{__('You\'re about to upgrade your account to')}} {{ $this->label }}.
+                        </flux:subheading>
+                    </div>
 
-                <div class="flex gap-2">
-                    <flux:spacer/>
+                    <div>
+                        <flux:text class="flex gap-1">
+                            {{__('Price')}}:
+                            <flux:heading>{{ $this->package->cost }} {{__('tokens')}}</flux:heading>
+                        </flux:text>
+                        <flux:text class="flex gap-1">
+                            {{__('Period')}}:
+                            <flux:heading>{{ $this->package->duration }} {{__('days')}}</flux:heading>
+                        </flux:text>
+                    </div>
 
-                    <flux:modal.close>
-                        <flux:button variant="ghost">
-                            {{__('Cancel')}}
+                    <div class="flex gap-2">
+                        <flux:spacer/>
+
+                        <flux:modal.close>
+                            <flux:button variant="ghost">
+                                {{__('Cancel')}}
+                            </flux:button>
+                        </flux:modal.close>
+
+                        <flux:button type="submit" variant="primary">
+                            {{__('Upgrade')}}
                         </flux:button>
-                    </flux:modal.close>
-
-                    <flux:button type="button" variant="primary"
-                                 wire:click="$parent.purchase({{ $this->package->id }})">
-                        {{__('Upgrade')}}
-                    </flux:button>
-                </div>
+                    </div>
+                </form>
             </flux:modal>
         </div>
     </div>

@@ -25,6 +25,8 @@ class UpgradeAccountLevel
         $user->member->AccountExpireDate = now()->addDays($package->duration);
         $user->member->save();
 
+        BackfillDailyRewards::dispatch($user->member->memb___id);
+
         $this->recordActivity($user, $package);
 
         Flux::toast(
