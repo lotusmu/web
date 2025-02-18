@@ -61,6 +61,10 @@
 
                 <flux:menu.separator/>
 
+                <flux:navmenu.item icon="shield-exclamation" href="/admin" target="_blank" class="lg:hidden">
+                    {{ __('Admin Dashboard') }}
+                </flux:navmenu.item>
+
                 <flux:navmenu.item wire:navigate.hover icon="cog-6-tooth"
                                    :href="route('profile')">
                     {{ __('Profile Settings') }}

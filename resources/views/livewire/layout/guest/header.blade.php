@@ -102,6 +102,9 @@ new class extends Component {
             <flux:separator variant="subtle" vertical class="mx-4 max-lg:hidden"/>
 
             @auth
+                <flux:button variant="subtle" size="sm" icon="shield-exclamation" :tooltip="__('Admin Dashboard')"
+                             href="/admin" target="_blank" class="max-lg:hidden"/>
+
                 <flux:navbar.item icon-trailing="chevron-right" :href="route('dashboard')" wire:navigate.hover>
                     {{ __('Dashboard') }}
                 </flux:navbar.item>
