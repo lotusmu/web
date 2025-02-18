@@ -110,7 +110,7 @@
         <flux:accordion.item>
             <flux:accordion.heading>{{ __('What are the server maintenance times?') }}</flux:accordion.heading>
             <flux:accordion.content>
-                {{ __('1. Planned maintenance will be announced on our website and Discord server.') }}
+                {{ __('1. Planned maintenance will be announced on our website and Discord server.') }}<br>
                 {{ __('2. Emergency maintenance will be announced on our Discord.') }}<br>
                 {{ __('3. Check our news channel for server status and maintenance updates.') }}<br>
                 {{ __('4. Maintenance typically lasts 2-4 hours.') }}<br>
