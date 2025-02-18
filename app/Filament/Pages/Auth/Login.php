@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use App\Models\User\User;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -10,19 +11,6 @@ use Illuminate\Validation\ValidationException;
 
 class Login extends BasePage
 {
-    public function mount(): void
-    {
-        parent::mount();
-
-        if (app()->isLocal()) {
-            $this->form->fill([
-                'login' => 'void',
-                'password' => 'password',
-                'remember' => true,
-            ]);
-        }
-    }
-
     public function form(Form $form): Form
     {
         return $form
@@ -56,6 +44,17 @@ class Login extends BasePage
 
     protected function throwFailureValidationException(): never
     {
+        $credentials = $this->getCredentialsFromFormData($this->data);
+
+        // Check if user exists but isn't admin
+        $user = User::where(array_key_first($credentials), array_values($credentials)[0])->first();
+
+        if ($user && ! $user->is_admin) {
+            throw ValidationException::withMessages([
+                'data.login' => 'You do not have permission to access the admin panel.',
+            ]);
+        }
+
         throw ValidationException::withMessages([
             'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
         ]);

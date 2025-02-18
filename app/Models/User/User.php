@@ -13,6 +13,7 @@ use App\Models\Ticket\Ticket;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Flux\Flux;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 use Laravel\Cashier\Billable;
 
-class User extends Authenticatable implements FilamentUser, HasMember
+class User extends Authenticatable implements FilamentUser, HasMember, MustVerifyEmail
 {
     use Billable;
     use HasFactory;
@@ -87,7 +88,7 @@ class User extends Authenticatable implements FilamentUser, HasMember
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; // $this->hasRole('admin');
+        return $this->is_admin;
     }
 
     public function verify(): void
