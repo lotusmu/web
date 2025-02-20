@@ -4,6 +4,7 @@ use App\Actions\Ticket\SubmitReply;
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketReply;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
@@ -17,6 +18,10 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(Ticket $ticket)
     {
+        if ( ! Gate::allows('view', $ticket)) {
+            throw new ModelNotFoundException(__('Ticket not found or you don\'t have permission to view it.'));
+        }
+
         $this->loadTicket($ticket);
     }
 
@@ -41,12 +46,33 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function reopenTicket(): void
     {
+        if ( ! Gate::allows('update', $this->ticket)) {
+            Flux::toast(
+                text: __('You do not have permission to modify to this ticket.'),
+                heading: __('Permission Denied'),
+                variant: 'danger'
+            );
+
+            return;
+        }
+
+
         $this->ticket->reopenTicket();
         $this->loadTicket($this->ticket);
     }
 
     public function markAsResolved(): void
     {
+        if ( ! Gate::allows('update', $this->ticket)) {
+            Flux::toast(
+                text: __('You do not have permission to modify to this ticket.'),
+                heading: __('Permission Denied'),
+                variant: 'danger'
+            );
+
+            return;
+        }
+
         $this->ticket->markAsResolved();
         $this->loadTicket($this->ticket);
     }

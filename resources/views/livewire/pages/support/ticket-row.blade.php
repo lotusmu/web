@@ -3,6 +3,7 @@
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
@@ -11,7 +12,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function mount(Ticket $ticket): void
     {
-        if ($ticket->user_id !== auth()->id()) {
+        if (!Gate::allows('view', $ticket)) {
             throw new ModelNotFoundException(__('Ticket not found or you don\'t have permission to view it.'));
         }
 
@@ -20,11 +21,17 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function reopenTicket(): void
     {
+        if (!Gate::allows('update', $this->ticket)) {
+            return;
+        }
         $this->ticket->reopenTicket();
     }
 
     public function markAsResolved(): void
     {
+        if (!Gate::allows('update', $this->ticket)) {
+            return;
+        }
         $this->ticket->markAsResolved();
     }
 

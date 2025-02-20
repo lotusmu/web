@@ -6,6 +6,7 @@ use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketReply;
 use Flux\Flux;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 
 class SubmitReply
@@ -16,6 +17,16 @@ class SubmitReply
 
     public function handle(Ticket $ticket, int $userId, string $content): ?TicketReply
     {
+        if (! Gate::allows('reply', $ticket)) {
+            Flux::toast(
+                text: __('You do not have permission to reply to this ticket.'),
+                heading: __('Permission Denied'),
+                variant: 'danger'
+            );
+
+            return null;
+        }
+
         $ticket->load(['replies.user']);
 
         if (! $this->ensureIsNotRateLimited($userId)) {
