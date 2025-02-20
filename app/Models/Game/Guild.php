@@ -103,22 +103,25 @@ class Guild extends Model
             'F' => '#ff008c',
         ];
 
-        // Enable alpha blending
+        // Set transparent background first
+        $transparent = imagecolorallocatealpha($image, 0, 0, 0, 127);
+        imagefill($image, 0, 0, $transparent);
 
         imagealphablending($image, true);
         imagesavealpha($image, true);
 
         for ($y = 0; $y < 8; $y++) {
             for ($x = 0; $x < 8; $x++) {
-                $colorKey = $grid[$y][$x];
+                $colorKey = strtoupper($grid[$y][$x]); // Ensure uppercase for hex values
+
+                if ($colorKey === '0') {
+                    continue;
+                }
+
                 $hexColor = $colors[$colorKey] ?? '#ffffff';
+                [$r, $g, $b] = sscanf($hexColor, '#%02x%02x%02x');
+                $color = imagecolorallocate($image, $r, $g, $b);
 
-                // Convert hex to RGB
-
-                $rgb = sscanf($hexColor, '#%02x%02x%02x');
-                $color = imagecolorallocate($image, $rgb[0], $rgb[1], $rgb[2]);
-
-                // Fill the square
                 imagefilledrectangle(
                     $image,
                     $x * $pixelSize,
