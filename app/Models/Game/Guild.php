@@ -88,22 +88,22 @@ class Guild extends Model
         $image = imagecreatetruecolor($size, $size);
 
         $colors = [
-            '0' => '#ffffff',
-            '1' => '#000000',
-            '2' => '#8c8a8d',
-            '3' => '#ffffff',
-            '4' => '#fe0000',
-            '5' => '#ff8a00',
-            '6' => '#ffff00',
-            '7' => '#8cff01',
-            '8' => '#00ff00',
-            '9' => '#01ff8d',
-            'A' => '#00ffff',
-            'B' => '#008aff',
-            'C' => '#0000fe',
-            'D' => '#8c00ff',
-            'E' => '#ff00ff',
-            'F' => '#ff008c',
+            '0' => '#ffffff', // Transparent (skipped in rendering)
+            '1' => '#000000', // Black
+            '2' => '#8c8a8d', // Gray
+            '3' => '#ffffff', // White
+            '4' => '#fe0000', // Pure Red
+            '5' => '#ff8a00', // Orange
+            '6' => '#ffff00', // Yellow
+            '7' => '#8cff01', // Lime Green
+            '8' => '#00ff00', // Pure Green
+            '9' => '#01ff8d', // Spring Green
+            'A' => '#00ffff', // Cyan
+            'B' => '#008aff', // Azure Blue
+            'C' => '#0000fe', // Pure Blue
+            'D' => '#8c00ff', // Purple
+            'E' => '#ff00ff', // Magenta
+            'F' => '#ff008c', // Pink
         ];
 
         // Set transparent background first
