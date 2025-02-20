@@ -152,8 +152,6 @@ class Guild extends Model
                 $disk->delete($file);
             }
         }
-
-        cache()->tags(['guild_marks'])->flush();
     }
 
     public function members(): HasMany
