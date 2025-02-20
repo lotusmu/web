@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Ticket\SubmitReply;
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketReply;
@@ -19,32 +20,22 @@ new #[Layout('layouts.app')] class extends Component {
         $this->loadTicket($ticket);
     }
 
-    public function submitReply()
+    public function submitReply(SubmitReply $action)
     {
-        $this->validate();
-
-        $reply = $this->ticket->replies()->create([
-            'user_id' => auth()->id(),
-            'content' => $this->content,
+        $this->validate([
+            'content' => 'required|string|max:16777215'
         ]);
 
-        if ($reply) {
-            $this->ticket->update(['status' => TicketStatus::IN_PROGRESS]);
-            $this->reset('content');
-            $this->loadTicket($this->ticket);
+        $reply = $action->handle($this->ticket, auth()->id(), $this->content);
 
-            Flux::toast(
-                text: __('Your reply has been successfully added to the ticket.'),
-                heading: __('Success'),
-                variant: 'success'
-            );
-        } else {
-            Flux::toast(
-                text: __('Failed to submit reply. Please try again.'),
-                heading: __('Error'),
-                variant: 'danger'
-            );
-        }
+        $this->reset('content');
+        $this->loadTicket($this->ticket);
+
+        Flux::toast(
+            text: __('Your reply has been successfully added to the ticket.'),
+            heading: __('Success'),
+            variant: 'success'
+        );
     }
 
     public function reopenTicket(): void

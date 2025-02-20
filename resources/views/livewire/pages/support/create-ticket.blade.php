@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Ticket\CreateTicket;
 use App\Enums\Ticket\TicketPriority;
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
@@ -32,10 +33,8 @@ new #[Layout('layouts.app')] class extends Component {
         });
     }
 
-    public function create()
+    public function create(CreateTicket $action)
     {
-        $this->ensureIsNotRateLimited();
-
         $this->validate([
             'title'              => 'required|string|max:255',
             'ticket_category_id' => 'required|exists:ticket_categories,id',
@@ -44,27 +43,13 @@ new #[Layout('layouts.app')] class extends Component {
             'contact_discord'    => 'nullable|string|max:255',
         ]);
 
-        RateLimiter::hit($this->throttleKey());
-
-        $ticket = Ticket::create([
-            'user_id'            => Auth::id(),
+        $ticket = $action->handle([
             'title'              => $this->title,
             'ticket_category_id' => $this->ticket_category_id,
             'priority'           => $this->priority,
             'description'        => $this->description,
             'contact_discord'    => $this->contact_discord,
-            'status'             => TicketStatus::NEW,
-        ]);
-
-        if ( ! $ticket) {
-            Flux::toast(
-                text: __('Failed to create ticket. Please try again.'),
-                heading: __('Error'),
-                variant: 'danger'
-            );
-
-            return;
-        }
+        ], Auth::id());
 
         Flux::toast(
             text: __('Ticket created successfully.'),
@@ -73,27 +58,6 @@ new #[Layout('layouts.app')] class extends Component {
         );
 
         return $this->redirect(route('support'), navigate: true);
-
-    }
-
-    protected function throttleKey(): string
-    {
-        return 'ticket-create:'.auth()->id();
-    }
-
-    protected function ensureIsNotRateLimited(): void
-    {
-        if ( ! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
-            return;
-        }
-
-        $seconds = RateLimiter::availableIn($this->throttleKey());
-
-        throw ValidationException::withMessages([
-            'title' => __('Too many tickets created. Please wait :minutes minutes.', [
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
     }
 }; ?>
 
