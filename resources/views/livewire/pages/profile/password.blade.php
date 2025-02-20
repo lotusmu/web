@@ -23,7 +23,7 @@ new class extends Component {
 
     private function ensureIsNotRateLimited(): bool
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
+        if ( ! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
             return true;
         }
 
@@ -45,7 +45,7 @@ new class extends Component {
      */
     public function updatePassword(): void
     {
-        if (! $this->ensureIsNotRateLimited()) {
+        if ( ! $this->ensureIsNotRateLimited()) {
             return;
         }
 

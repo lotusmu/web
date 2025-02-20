@@ -30,7 +30,7 @@ new class extends Component {
 
     private function ensureIsNotRateLimited(): bool
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
+        if ( ! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
             return true;
         }
 
@@ -52,7 +52,7 @@ new class extends Component {
      */
     public function updateProfileInformation(): void
     {
-        if (! $this->ensureIsNotRateLimited()) {
+        if ( ! $this->ensureIsNotRateLimited()) {
             return;
         }
 
@@ -122,15 +122,15 @@ new class extends Component {
         <flux:input wire:model="email" label="{{('Email')}}"/>
 
         @if (auth()->user() instanceof MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
-            <div>
-                <p class="text-sm mt-2 text-gray-800">
+            <flux:card class="space-y-8">
+                <flux:text class="text-sm mt-2 text-gray-800">
                     {{ __('Your email address is unverified.') }}
+                </flux:text>
 
-                    <flux:button wire:click.prevent="sendVerification" variant="primary">
-                        {{ __('Click here to re-send the verification email.') }}
-                    </flux:button>
-                </p>
-            </div>
+                <flux:button wire:click.prevent="sendVerification" variant="primary">
+                    {{ __('Click here to re-send the verification email.') }}
+                </flux:button>
+            </flux:card>
         @endif
 
         <flux:button type="submit" variant="primary">
