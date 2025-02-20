@@ -5,6 +5,7 @@ use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketCategory;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Validation\ValidationException;
 use LaravelIdea\Helper\App\Models\Ticket\_IH_TicketCategory_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -33,6 +34,8 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function create()
     {
+        $this->ensureIsNotRateLimited();
+
         $this->validate([
             'title'              => 'required|string|max:255',
             'ticket_category_id' => 'required|exists:ticket_categories,id',
@@ -40,6 +43,8 @@ new #[Layout('layouts.app')] class extends Component {
             'description'        => 'required|string|max:16777215',
             'contact_discord'    => 'nullable|string|max:255',
         ]);
+
+        RateLimiter::hit($this->throttleKey());
 
         $ticket = Ticket::create([
             'user_id'            => Auth::id(),
@@ -51,21 +56,44 @@ new #[Layout('layouts.app')] class extends Component {
             'status'             => TicketStatus::NEW,
         ]);
 
-        if ($ticket) {
+        if ( ! $ticket) {
             Flux::toast(
-                text: __('Ticket created successfully.'),
-                heading: __('Success'),
-                variant: 'success'
+                text: __('Failed to create ticket. Please try again.'),
+                heading: __('Error'),
+                variant: 'danger'
             );
 
-            return $this->redirect(route('support'), navigate: true);
+            return;
         }
 
         Flux::toast(
-            text: __('Failed to create ticket. Please try again.'),
-            heading: __('Error'),
-            variant: 'danger'
+            text: __('Ticket created successfully.'),
+            heading: __('Success'),
+            variant: 'success'
         );
+
+        return $this->redirect(route('support'), navigate: true);
+
+    }
+
+    protected function throttleKey(): string
+    {
+        return 'ticket-create:'.auth()->id();
+    }
+
+    protected function ensureIsNotRateLimited(): void
+    {
+        if ( ! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+            return;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'title' => __('Too many tickets created. Please wait :minutes minutes.', [
+                'minutes' => ceil($seconds / 60),
+            ]),
+        ]);
     }
 }; ?>
 
