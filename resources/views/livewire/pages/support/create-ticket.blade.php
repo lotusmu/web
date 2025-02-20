@@ -43,21 +43,23 @@ new #[Layout('layouts.app')] class extends Component {
             'contact_discord'    => 'nullable|string|max:255',
         ]);
 
-        $ticket = $action->handle([
+        if ($ticket = $action->handle([
             'title'              => $this->title,
             'ticket_category_id' => $this->ticket_category_id,
             'priority'           => $this->priority,
             'description'        => $this->description,
             'contact_discord'    => $this->contact_discord,
-        ], Auth::id());
+        ], Auth::id())
+        ) {
 
-        Flux::toast(
-            text: __('Ticket created successfully.'),
-            heading: __('Success'),
-            variant: 'success'
-        );
+            Flux::toast(
+                text: __('Ticket created successfully.'),
+                heading: __('Success'),
+                variant: 'success'
+            );
 
-        return $this->redirect(route('support'), navigate: true);
+            return $this->redirect(route('support'), navigate: true);
+        }
     }
 }; ?>
 

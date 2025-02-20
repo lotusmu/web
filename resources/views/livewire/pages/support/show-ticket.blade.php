@@ -26,16 +26,17 @@ new #[Layout('layouts.app')] class extends Component {
             'content' => 'required|string|max:16777215'
         ]);
 
-        $reply = $action->handle($this->ticket, auth()->id(), $this->content);
+        if ($reply = $action->handle($this->ticket, auth()->id(), $this->content)) {
 
-        $this->reset('content');
-        $this->loadTicket($this->ticket);
+            $this->reset('content');
+            $this->loadTicket($this->ticket);
 
-        Flux::toast(
-            text: __('Your reply has been successfully added to the ticket.'),
-            heading: __('Success'),
-            variant: 'success'
-        );
+            Flux::toast(
+                text: __('Your reply has been successfully added to the ticket.'),
+                heading: __('Success'),
+                variant: 'success'
+            );
+        }
     }
 
     public function reopenTicket(): void

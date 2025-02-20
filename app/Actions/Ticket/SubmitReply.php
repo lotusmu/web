@@ -5,8 +5,8 @@ namespace App\Actions\Ticket;
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketReply;
+use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Validation\ValidationException;
 
 class SubmitReply
 {
@@ -14,11 +14,13 @@ class SubmitReply
 
     private const DECAY_SECONDS = 60;
 
-    public function handle(Ticket $ticket, int $userId, string $content): TicketReply
+    public function handle(Ticket $ticket, int $userId, string $content): ?TicketReply
     {
         $ticket->load(['replies.user']);
 
-        $this->ensureIsNotRateLimited($userId);
+        if (! $this->ensureIsNotRateLimited($userId)) {
+            return null;
+        }
 
         $reply = $ticket->replies()->create([
             'user_id' => $userId,
@@ -37,18 +39,20 @@ class SubmitReply
         return 'ticket-reply:'.$userId;
     }
 
-    private function ensureIsNotRateLimited(int $userId): void
+    private function ensureIsNotRateLimited(int $userId): bool
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS, self::DECAY_SECONDS)) {
-            return;
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS)) {
+            return true;
         }
 
         $seconds = RateLimiter::availableIn($this->throttleKey($userId));
 
-        throw ValidationException::withMessages([
-            'content' => __('Too many replies submitted. Please wait :seconds seconds.', [
-                'seconds' => $seconds,
-            ]),
-        ]);
+        Flux::toast(
+            text: __('Too many replies submitted. Please wait :seconds seconds.', ['seconds' => $seconds]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
     }
 }

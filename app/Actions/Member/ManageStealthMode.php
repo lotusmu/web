@@ -10,10 +10,15 @@ use App\Models\User\User;
 use App\Support\ActivityLog\IdentityProperties;
 use Carbon\Carbon;
 use Flux\Flux;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ManageStealthMode
 {
     use Taxable;
+
+    private const MAX_ATTEMPTS = 10;
+
+    private const DECAY_SECONDS = 60;
 
     public function __construct()
     {
@@ -23,6 +28,10 @@ class ManageStealthMode
 
     public function handle(User $user, string $action = 'enable'): bool
     {
+        if (! $this->ensureIsNotRateLimited($user->id)) {
+            return false;
+        }
+
         if (! $this->validate($user, $action)) {
             return false;
         }
@@ -31,11 +40,35 @@ class ManageStealthMode
             return false;
         }
 
+        RateLimiter::hit($this->throttleKey($user->id));
+
         if ($user->stealth()->exists()) {
             return $this->updateExisting($user, $action);
         }
 
         return $this->enable($user);
+    }
+
+    private function throttleKey(int $userId): string
+    {
+        return 'stealth-mode:'.$userId;
+    }
+
+    private function ensureIsNotRateLimited(int $userId): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS)) {
+            return true;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($userId));
+
+        Flux::toast(
+            text: __('Please wait :seconds seconds before trying again.', ['seconds' => $seconds]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
     }
 
     private function validate(User $user, string $action = 'enable'): bool

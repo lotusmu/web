@@ -4,8 +4,8 @@ namespace App\Actions\Ticket;
 
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
+use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Validation\ValidationException;
 
 class CreateTicket
 {
@@ -13,9 +13,11 @@ class CreateTicket
 
     private const DECAY_SECONDS = 60;
 
-    public function handle(array $data, int $userId): Ticket
+    public function handle(array $data, int $userId): ?Ticket
     {
-        $this->ensureIsNotRateLimited($userId);
+        if (! $this->ensureIsNotRateLimited($userId)) {
+            return null;
+        }
 
         $ticket = Ticket::create([
             'user_id' => $userId,
@@ -37,18 +39,22 @@ class CreateTicket
         return 'ticket-create:'.$userId;
     }
 
-    private function ensureIsNotRateLimited(int $userId): void
+    private function ensureIsNotRateLimited(int $userId): bool
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS)) {
-            return;
+            return true;
         }
 
         $seconds = RateLimiter::availableIn($this->throttleKey($userId));
 
-        throw ValidationException::withMessages([
-            'title' => __('Too many tickets created. Please wait :minutes minutes.', [
+        Flux::toast(
+            text: __('Too many tickets created. Please wait :minutes minutes.', [
                 'minutes' => ceil($seconds / 60),
             ]),
-        ]);
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
     }
 }
