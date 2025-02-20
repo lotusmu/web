@@ -37,7 +37,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 </flux:subheading>
 
                 <div class="mt-10 flex items-center gap-x-6">
-                    <flux:button variant="primary" icon="arrow-down-tray">
+                    <flux:button variant="primary" icon="arrow-down-tray" :href="route('files')" wire:navigate.hover>
                         {{ __('Play for Free') }}
                     </flux:button>
 

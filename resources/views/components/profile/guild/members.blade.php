@@ -22,13 +22,13 @@
             @foreach($guild->members as $member)
                 <flux:row :key="$member->Name">
                     <flux:cell>{{ $loop->iteration }}.</flux:cell>
-                    <flux:cell>
-                        <flux:link variant="ghost"
-                                   :href="route('character', ['name' => $member->Name])"
-                                   wire:navigate.hover>
-                            {{ $member->Name }}
-                        </flux:link>
-                    </flux:cell>
+                    @if($member->character)
+                        <x-rankings.table.cells.character-name :character="$member->character"/>
+                    @else
+                        <flux:cell>
+                            <x-empty-cell/>
+                        </flux:cell>
+                    @endif
 
                     @if($member->character)
                         <x-rankings.table.cells.character-class :character="$member->character"/>

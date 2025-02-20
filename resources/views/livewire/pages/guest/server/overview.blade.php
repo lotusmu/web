@@ -78,7 +78,8 @@ new #[Layout('layouts.guest')] class extends Component {
                                     <flux:cell>{{ __('Experience') }}</flux:cell>
                                     <flux:cell>
                                         x{{ $server->experience_rate }},
-                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system">
+                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system"
+                                                   external>
                                             {{ __('decreases with resets') }}
                                         </flux:link>
                                     </flux:cell>
@@ -88,12 +89,9 @@ new #[Layout('layouts.guest')] class extends Component {
                                     <flux:cell>40%</flux:cell>
                                 </flux:row>
                                 <flux:row>
-                                    <flux:cell>{{ __('Max Resets') }}</flux:cell>
+                                    <flux:cell>{{ __('Clear PK Zen') }}</flux:cell>
                                     <flux:cell>
-                                        {{ $server->max_resets }},
-                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system">
-                                            {{ __('starts at :starting', ['starting' => $server->starting_resets]) }}
-                                        </flux:link>
+                                        {{ __(':zen x Number of Kills', ['zen' => $server->clear_pk_zen]) }}
                                     </flux:cell>
                                 </flux:row>
                             </flux:rows>
@@ -108,13 +106,24 @@ new #[Layout('layouts.guest')] class extends Component {
                         <flux:table>
                             <flux:rows>
                                 <flux:row>
+                                    <flux:cell>{{ __('Max Resets') }}</flux:cell>
+                                    <flux:cell>
+                                        {{ $server->max_resets }},
+                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system"
+                                                   external>
+                                            {{ __('starts at :starting', ['starting' => $server->starting_resets]) }}
+                                        </flux:link>
+                                    </flux:cell>
+                                </flux:row>
+                                <flux:row>
                                     <flux:cell>{{ __('Keep Stats') }}</flux:cell>
                                     <flux:cell>{{ __('No') }}</flux:cell>
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>{{ __('Reset Points') }}</flux:cell>
                                     <flux:cell>
-                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system/">
+                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system/"
+                                                   external>
                                             {{ __('Dynamic') }}
                                         </flux:link>
                                     </flux:cell>
@@ -126,14 +135,8 @@ new #[Layout('layouts.guest')] class extends Component {
                                     </flux:cell>
                                 </flux:row>
                                 <flux:row>
-                                    <flux:cell>{{ __('Clear PK Zen') }}</flux:cell>
-                                    <flux:cell>
-                                        {{ __(':zen x Number of Kills', ['zen' => $server->clear_pk_zen]) }}
-                                    </flux:cell>
-                                </flux:row>
-                                <flux:row>
                                     <flux:cell>{{ __('Stat Points Per Level') }}</flux:cell>
-                                    <flux:cell>{{ __('BK/SM/ME - 5 MG/DL - 7') }}</flux:cell>
+                                    <flux:cell>{{ __('DK/DW/FE - 5 MG/DL - 7') }}</flux:cell>
                                 </flux:row>
                             </flux:rows>
                         </flux:table>
@@ -255,7 +258,7 @@ new #[Layout('layouts.guest')] class extends Component {
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>/readd</flux:cell>
-                                    <flux:cell>{!! __('Re-assign your stats for <b>FREE</b> (available to <b>VIP Players</b> only).') !!}</flux:cell>
+                                    <flux:cell>{!! __('Re-assign your stats.') !!}</flux:cell>
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>/wh</flux:cell>
@@ -263,7 +266,7 @@ new #[Layout('layouts.guest')] class extends Component {
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>/pkclear</flux:cell>
-                                    <flux:cell>{!! __('Clear player kills (available to <b>VIP Players</b> only). Cost - always 10kk Zen') !!}</flux:cell>
+                                    <flux:cell>{!! __('Clear player kills (available to <b>VIP Players</b> only). Cost - always 50M Zen') !!}</flux:cell>
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>/re on</flux:cell>
@@ -308,10 +311,6 @@ new #[Layout('layouts.guest')] class extends Component {
                                 <flux:row>
                                     <flux:cell>/war &lt;guild name&gt;</flux:cell>
                                     <flux:cell>{{ __('Challenge another guild to a Guild War.') }}</flux:cell>
-                                </flux:row>
-                                <flux:row>
-                                    <flux:cell>/soccer &lt;guild name&gt;</flux:cell>
-                                    <flux:cell>{{ __('Challenge another guild to a Battle Soccer.') }}</flux:cell>
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>/king</flux:cell>

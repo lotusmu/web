@@ -10,7 +10,10 @@ class GetGuildProfile
     {
         return Guild::query()
             ->select([
-                'G_Name', 'G_Mark', 'G_Master', 'CS_Wins',
+                'G_Name',
+                'G_Mark',
+                'G_Master',
+                'CS_Wins',
             ])
             ->withCount('members')
             ->withSum('characters', 'ResetCount')
@@ -18,9 +21,9 @@ class GetGuildProfile
             ->withSum('characters', 'HunterScore')
             ->with([
                 'master:Name,AccountID,Class',
-                'master.member:memb___id,AccountLevel',
                 'members' => fn ($query) => $query->orderByDesc('G_Status'),
                 'members.character:Name,AccountID,cLevel,Class,ResetCount',
+                'members.character.member:memb___id,AccountLevel',
             ])
             ->where('G_Name', $name)
             ->first();
