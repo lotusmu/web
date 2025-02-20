@@ -8,10 +8,15 @@ use App\Models\Game\CastleData;
 use App\Models\User\User;
 use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
-use Flux;
+use Flux\Flux;
+use Illuminate\Support\Facades\RateLimiter;
 
 readonly class WithdrawFromCastle
 {
+    private const MAX_ATTEMPTS = 5;
+
+    private const DECAY_SECONDS = 60;
+
     public function __construct(
         private User $user,
         private CastleData $castle,
@@ -20,6 +25,10 @@ readonly class WithdrawFromCastle
 
     public function handle(): bool
     {
+        if (! $this->ensureIsNotRateLimited($this->user->id)) {
+            return false;
+        }
+
         if (! $this->validate()) {
             return false;
         }
@@ -28,10 +37,34 @@ readonly class WithdrawFromCastle
             return false;
         }
 
+        RateLimiter::hit($this->throttleKey($this->user->id));
+
         $this->recordActivity();
         $this->notifySuccess();
 
         return true;
+    }
+
+    private function throttleKey(int $userId): string
+    {
+        return 'castle-withdraw:'.$userId;
+    }
+
+    private function ensureIsNotRateLimited(int $userId): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS)) {
+            return true;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($userId));
+
+        Flux::toast(
+            text: __('Too many withdrawals. Please wait :seconds seconds.', ['seconds' => $seconds]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
     }
 
     private function validate(): bool
