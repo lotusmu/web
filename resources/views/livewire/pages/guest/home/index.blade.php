@@ -28,8 +28,10 @@ new #[Layout('layouts.guest')] class extends Component {
             <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
                 <livewire:pages.guest.home.updates-banner/>
 
-                <flux:heading level="1" size="3xl" class="mt-10">
-                    {{ __('Reimagined. Refined. Revolutionary.') }}
+                <flux:heading level="1" size="3xl" class="mt-10 flex flex-col">
+                    <span>{{ __('Reimagined.') }}</span>
+                    <span>{{ __('Refined.') }}</span>
+                    <span>{{ __('Revolutionary.') }}</span>
                 </flux:heading>
 
                 <flux:subheading size="xl" class="mt-6">
