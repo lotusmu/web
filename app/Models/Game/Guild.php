@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class Guild extends Model
@@ -55,23 +56,40 @@ class Guild extends Model
                 Storage::disk('public')->put($path, $this->generateMarkImage($size));
             }
 
-            return Storage::disk('public')->url($path);
+            return asset("storage/{$path}");
         });
     }
 
     private function getMarkArray(): array
     {
         $mark = bin2hex($this->G_Mark);
-        $grid = [];
 
+        Log::debug('Guild Mark Raw Data', [
+            'guild_name' => $this->G_Name,
+            'raw_binary' => base64_encode($this->G_Mark),
+            'hex_string' => $mark,
+            'length' => strlen($mark),
+        ]);
+
+        $grid = [];
         for ($y = 0; $y < 8; $y++) {
             $row = [];
             for ($x = 0; $x < 8; $x++) {
                 $pos = $y * 8 + $x;
-                $row[] = substr($mark, $pos, 1);
+                $value = substr($mark, $pos, 1);
+                $row[] = $value;
+
+                Log::debug('Grid Cell', [
+                    'x' => $x,
+                    'y' => $y,
+                    'pos' => $pos,
+                    'value' => $value,
+                ]);
             }
             $grid[] = $row;
         }
+
+        Log::debug('Final Grid Structure', ['grid' => $grid]);
 
         return $grid;
     }
@@ -83,7 +101,6 @@ class Guild extends Model
 
         $image = imagecreatetruecolor($size, $size);
 
-        // Color mapping as per original code
         $colors = [
             '0' => '#ffffff',
             '1' => '#000000',
@@ -99,24 +116,32 @@ class Guild extends Model
             'B' => '#008aff',
             'C' => '#0000fe',
             'D' => '#8c00ff',
-            'E' => '#8c00ff',
+            'E' => '#ff00ff',
             'F' => '#ff008c',
         ];
 
-        // Enable alpha blending
+        Log::debug('Color Mapping', ['colors' => $colors]);
+
         imagealphablending($image, true);
         imagesavealpha($image, true);
+
+        $transparent = imagecolorallocatealpha($image, 255, 255, 255, 127);
+        imagefill($image, 0, 0, $transparent);
 
         for ($y = 0; $y < 8; $y++) {
             for ($x = 0; $x < 8; $x++) {
                 $colorKey = $grid[$y][$x];
                 $hexColor = $colors[$colorKey] ?? '#ffffff';
 
-                // Convert hex to RGB
+                Log::debug('Pixel Color', [
+                    'position' => "($x,$y)",
+                    'colorKey' => $colorKey,
+                    'hexColor' => $hexColor,
+                ]);
+
                 $rgb = sscanf($hexColor, '#%02x%02x%02x');
                 $color = imagecolorallocate($image, $rgb[0], $rgb[1], $rgb[2]);
 
-                // Fill the square
                 imagefilledrectangle(
                     $image,
                     $x * $pixelSize,
