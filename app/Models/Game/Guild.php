@@ -95,12 +95,12 @@ class Guild extends Model
             '7' => '#8cff01',
             '8' => '#00ff00',
             '9' => '#01ff8d',
-            'a' => '#00ffff',
-            'b' => '#008aff',
-            'c' => '#0000fe',
-            'd' => '#8c00ff',
-            'e' => '#8c00ff',
-            'f' => '#ff008c',
+            'A' => '#00ffff',
+            'B' => '#008aff',
+            'C' => '#0000fe',
+            'D' => '#8c00ff',
+            'E' => '#8c00ff',
+            'F' => '#ff008c',
         ];
 
         // Enable alpha blending
