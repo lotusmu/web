@@ -99,7 +99,7 @@ class Guild extends Model
             'B' => '#008aff',
             'C' => '#0000fe',
             'D' => '#8c00ff',
-            'E' => '#8c00ff',
+            'E' => '#ff00ff',
             'F' => '#ff008c',
         ];
 
