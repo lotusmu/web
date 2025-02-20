@@ -42,6 +42,8 @@ class Guild extends Model
 
     public function getMarkUrl(int $size = 24): string
     {
+        $size = (int) (round($size / 8) * 8);
+
         if ($size > 256) {
             $size = 24;
         }
@@ -80,7 +82,8 @@ class Guild extends Model
     private function generateMarkImage(int $size): string
     {
         $grid = $this->getMarkArray();
-        $pixelSize = $size / 8;
+
+        $pixelSize = (int) floor($size / 8);  // Force integer pixel size
 
         $image = imagecreatetruecolor($size, $size);
 
