@@ -8,11 +8,16 @@ use App\Enums\Utility\ResourceType;
 use App\Models\Concerns\Taxable;
 use App\Models\User\User;
 use App\Support\ActivityLog\IdentityProperties;
-use Flux;
+use Flux\Flux;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ExchangeResources
 {
     use Taxable;
+
+    private const MAX_ATTEMPTS = 10;
+
+    private const DECAY_SECONDS = 60;
 
     public function __construct()
     {
@@ -22,6 +27,10 @@ class ExchangeResources
 
     public function handle(User $user, int $amount): bool
     {
+        if (! $this->ensureIsNotRateLimited($user->id)) {
+            return false;
+        }
+
         $tax = $this->calculateRate($amount);
         $exchangedAmount = $amount - $tax;
 
@@ -31,10 +40,34 @@ class ExchangeResources
 
         $user->resource(ResourceType::CREDITS)->increment($exchangedAmount);
 
+        RateLimiter::hit($this->throttleKey($user->id));
+
         $this->recordActivity($user, $amount, $tax);
         $this->notifyUser($tax, $amount);
 
         return true;
+    }
+
+    private function throttleKey(int $userId): string
+    {
+        return 'exchange-tokens:'.$userId;
+    }
+
+    private function ensureIsNotRateLimited(int $userId): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS)) {
+            return true;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($userId));
+
+        Flux::toast(
+            text: __('Too many exchanges. Please wait :seconds seconds.', ['seconds' => $seconds]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
     }
 
     public function recordActivity(User $user, int $amount, int $tax): void

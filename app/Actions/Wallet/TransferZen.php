@@ -8,11 +8,16 @@ use App\Models\Game\Character;
 use App\Models\User\User;
 use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
-use Flux;
+use Flux\Flux;
+use Illuminate\Support\Facades\RateLimiter;
 
 class TransferZen
 {
     private const MAX_ZEN = 2000000000; // 2 billion
+
+    private const MAX_ATTEMPTS = 10;
+
+    private const DECAY_SECONDS = 60;
 
     private const WALLET_TO_CHAR = ['wallet', 'character'];
 
@@ -26,12 +31,44 @@ class TransferZen
             return false;
         }
 
-        return match ([$from, $to]) {
+        if (! $this->ensureIsNotRateLimited($user->id)) {
+            return false;
+        }
+
+        $result = match ([$from, $to]) {
             self::WALLET_TO_CHAR => $this->fromWalletToChar($user, $toChar, $amount),
             self::CHAR_TO_WALLET => $this->fromCharToWallet($user, $fromChar, $amount),
             self::CHAR_TO_CHAR => $this->betweenChars($user, $fromChar, $toChar, $amount),
             default => $this->invalidTransfer(),
         };
+
+        if ($result) {
+            RateLimiter::hit($this->throttleKey($user->id));
+        }
+
+        return $result;
+    }
+
+    private function throttleKey(int $userId): string
+    {
+        return 'transfer-zen:'.$userId;
+    }
+
+    private function ensureIsNotRateLimited(int $userId): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS)) {
+            return true;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($userId));
+
+        Flux::toast(
+            text: __('Too many zen transfers. Please wait :seconds seconds.', ['seconds' => $seconds]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
     }
 
     private function fromWalletToChar(User $user, string $charName, int $amount): bool

@@ -9,12 +9,17 @@ use App\Models\Concerns\Taxable;
 use App\Models\User\User;
 use App\Models\Utility\GameServer;
 use App\Support\ActivityLog\IdentityProperties;
-use Flux;
+use Flux\Flux;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 
 class SendResources
 {
     use Taxable;
+
+    private const MAX_ATTEMPTS = 10;
+
+    private const DECAY_SECONDS = 60;
 
     public function __construct()
     {
@@ -24,6 +29,10 @@ class SendResources
 
     public function handle(User $sender, User $recipient, ResourceType $resourceType, int $amount): bool
     {
+        if (! $this->ensureIsNotRateLimited($sender->id)) {
+            return false;
+        }
+
         $taxAmount = $this->calculateRate($amount);
         $totalAmount = $amount + $taxAmount;
 
@@ -39,6 +48,8 @@ class SendResources
         $recipient->resource($resourceType)->increment($amount);
         $this->recordRecipientActivity($sender, $recipient, $resourceType, $amount, $serverName);
 
+        RateLimiter::hit($this->throttleKey($sender->id));
+
         Flux::toast(
             text: __('You\'ve sent :amount :resource to :recipient. Tax paid: :tax :resource', [
                 'amount' => $this->format($amount),
@@ -51,6 +62,28 @@ class SendResources
         );
 
         return true;
+    }
+
+    private function throttleKey(int $userId): string
+    {
+        return 'send-resources:'.$userId;
+    }
+
+    private function ensureIsNotRateLimited(int $userId): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($userId), self::MAX_ATTEMPTS)) {
+            return true;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($userId));
+
+        Flux::toast(
+            text: __('Too many transfers. Please wait :seconds seconds.', ['seconds' => $seconds]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
     }
 
     public function recordSenderActivity(User $sender, User $recipient, ResourceType $resourceType, int $amount, int $taxAmount, string $serverName): void
