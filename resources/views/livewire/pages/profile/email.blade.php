@@ -4,11 +4,15 @@ use App\Models\User\User;
 use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
+    private const MAX_ATTEMPTS = 3;
+    private const DECAY_SECONDS = 300;
+
     public string $email = '';
 
     /**
@@ -19,11 +23,39 @@ new class extends Component {
         $this->email = Auth::user()->email;
     }
 
+    private function throttleKey(): string
+    {
+        return 'update-email:'.Auth::id();
+    }
+
+    private function ensureIsNotRateLimited(): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
+            return true;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        Flux::toast(
+            text: __('Too many email update attempts. Please wait :minutes minutes.', [
+                'minutes' => ceil($seconds / 60),
+            ]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
+    }
+
     /**
      * Update the profile information for the currently authenticated user.
      */
     public function updateProfileInformation(): void
     {
+        if (! $this->ensureIsNotRateLimited()) {
+            return;
+        }
+
         $user = Auth::user();
 
         $validated = $this->validate([
@@ -39,6 +71,8 @@ new class extends Component {
         }
 
         $user->save();
+
+        RateLimiter::hit($this->throttleKey());
 
         activity('auth')
             ->performedOn($user)

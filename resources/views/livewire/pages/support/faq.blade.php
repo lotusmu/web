@@ -12,7 +12,7 @@
         </flux:subheading>
     </div>
 
-    <flux:accordion transition>
+    <flux:accordion transition exclusive>
         <flux:accordion.item>
             <flux:accordion.heading>{{ __('How do I change my account password?') }}</flux:accordion.heading>
             <flux:accordion.content>

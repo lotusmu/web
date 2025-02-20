@@ -3,20 +3,52 @@
 use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
 
 new class extends Component {
+    private const MAX_ATTEMPTS = 3;
+    private const DECAY_SECONDS = 300;
+
     public string $current_password = '';
     public string $password = '';
     public string $password_confirmation = '';
+
+    private function throttleKey(): string
+    {
+        return 'update-password:'.Auth::id();
+    }
+
+    private function ensureIsNotRateLimited(): bool
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
+            return true;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        Flux::toast(
+            text: __('Too many password update attempts. Please wait :minutes minutes.', [
+                'minutes' => ceil($seconds / 60),
+            ]),
+            heading: __('Too Many Attempts'),
+            variant: 'danger'
+        );
+
+        return false;
+    }
 
     /**
      * Update the password for the currently authenticated user.
      */
     public function updatePassword(): void
     {
+        if (! $this->ensureIsNotRateLimited()) {
+            return;
+        }
+
         $user = Auth::user();
 
         try {
@@ -33,6 +65,8 @@ new class extends Component {
         $user->update([
             'password' => $validated['password'],
         ]);
+
+        RateLimiter::hit($this->throttleKey());
 
         $this->reset('current_password', 'password', 'password_confirmation');
 
