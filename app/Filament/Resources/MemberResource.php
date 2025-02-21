@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Game\AccountLevel;
+use App\Enums\Game\BanStatus;
+use App\Filament\Actions\BanTableAction;
 use App\Filament\Resources\MemberResource\Pages;
 use App\Filament\Resources\MemberResource\RelationManagers\CharactersRelationManager;
 use App\Models\User\Member;
@@ -13,6 +15,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
 use Filament\Tables;
@@ -117,6 +120,27 @@ class MemberResource extends Resource
                                     ->required(),
                             ]),
                     ]),
+
+                Section::make('Account Status')
+                    ->description('Manage ban status for this account.')
+                    ->aside()
+                    ->schema([
+                        Select::make('bloc_code')
+                            ->label('Status')
+                            ->enum(BanStatus::class)
+                            ->options(BanStatus::class)
+                            ->default(BanStatus::Active)
+                            ->reactive()
+                            ->required(),
+
+                        DateTimePicker::make('bloc_expire')
+                            ->label('Ban Expires')
+                            ->native(false)
+                            ->helperText('Leave empty for permanent ban.')
+                            ->minDate(now()->addDay())
+                            ->nullable()
+                            ->visible(fn (Get $get) => $get('bloc_code') == 1),
+                    ]),
             ]);
     }
 
@@ -160,9 +184,7 @@ class MemberResource extends Resource
             })
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                //
+                BanTableAction::make(),
             ]);
     }
 

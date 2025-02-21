@@ -3,6 +3,8 @@
 namespace App\Models\User;
 
 use App\Enums\Game\AccountLevel;
+use App\Enums\Game\BanStatus;
+use App\Models\Concerns\IsBannable;
 use App\Models\Concerns\MemberAccessors;
 use App\Models\Game\Character;
 use App\Models\Game\Status;
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Member extends Model
 {
+    use IsBannable;
     use MemberAccessors;
 
     protected $connection = 'gamedb_main';
@@ -37,6 +40,7 @@ class Member extends Model
         'appl_days',
         'mail_chek',
         'bloc_code',
+        'bloc_expire',
         'ctl1_code',
         'AccountLevel',
         'AccountExpireDate',
@@ -47,6 +51,8 @@ class Member extends Model
         'AccountLevel' => AccountLevel::class,
         'AccountExpireDate' => 'datetime',
         'tokens' => 'integer',
+        'bloc_code' => BanStatus::class,
+        'bloc_expire' => 'datetime',
     ];
 
     public function getHasStealthAttribute(): bool

@@ -8,6 +8,7 @@ use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Models\Concerns\GameConnection;
 use App\Models\Concerns\HandlesStealthVisibility;
+use App\Models\Concerns\IsBannable;
 use App\Models\Game\Ranking\Event;
 use App\Models\Game\Ranking\EventWeekly;
 use App\Models\Game\Ranking\Hunter;
@@ -15,7 +16,6 @@ use App\Models\Game\Ranking\HunterWeekly;
 use App\Models\Game\Ranking\Quest;
 use App\Models\User\Member;
 use App\Models\User\User;
-use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +27,7 @@ class Character extends Model
     use GameConnection;
     use HandlesStealthVisibility;
     use HasFactory;
+    use IsBannable;
 
     protected $table = 'Character';
 
@@ -119,44 +120,6 @@ class Character extends Model
     public function getQuestCountAttribute(): int
     {
         return $this->quest?->Quest ?? 0;
-    }
-
-    public function isBanned(): bool
-    {
-        return $this->CtlCode === BanStatus::Banned;
-    }
-
-    public function banPermanently(): void
-    {
-        $this->update([
-            'CtlCode' => BanStatus::Banned,
-            'bloc_expire' => null,
-        ]);
-    }
-
-    public function banUntil(DateTime $expireDate): void
-    {
-        $this->update([
-            'CtlCode' => BanStatus::Banned,
-            'bloc_expire' => $expireDate,
-        ]);
-    }
-
-    public function unban(): void
-    {
-        $this->update([
-            'CtlCode' => BanStatus::Active,
-            'bloc_expire' => null,
-        ]);
-    }
-
-    public function getBanExpirationText(): string
-    {
-        if (! $this->isBanned()) {
-            return 'Not banned';
-        }
-
-        return $this->bloc_expire === null ? 'Permanent' : $this->bloc_expire->format('Y-m-d H:i');
     }
 
     public function member(): BelongsTo
