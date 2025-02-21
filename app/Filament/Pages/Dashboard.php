@@ -3,7 +3,6 @@
 namespace App\Filament\Pages;
 
 use App\Actions\CalculateDateRange;
-use App\Models\User\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -33,7 +32,6 @@ class Dashboard extends DashboardPage
                             'last_7_days' => 'Last 7 Days',
                             'this_month' => 'This Month',
                             'year_to_date' => 'Year to Date',
-                            'all_time' => 'All Time',
                             'custom' => 'Custom',
                         ])
                         ->default('this_month')
@@ -44,17 +42,12 @@ class Dashboard extends DashboardPage
                                 return;
                             }
 
-                            // Get earliest user date for "all_time" period
-                            $firstUserDate = null;
-                            if ($state === 'all_time') {
-                                $firstUserDate = User::orderBy('created_at')->first()?->created_at;
-                                $firstUserDate = $firstUserDate ? $firstUserDate->startOfDay() : null;
-                            }
+                            // Set date range based on selected period using the Action
+                            [$start, $end] = app(CalculateDateRange::class)->handle($state);
 
-                            // Set date range based on selected period
-                            [$start, $end] = app(CalculateDateRange::class)->handle($state, null, null, $firstUserDate);
-                            $set('startDate', $start);
-                            $set('endDate', $end);
+                            // Set dates without triggering further reactivity
+                            $set('startDate', $start, false);
+                            $set('endDate', $end, false);
                         }),
 
                     DatePicker::make('startDate')
@@ -62,13 +55,17 @@ class Dashboard extends DashboardPage
                         ->hint('Select start date')
                         ->reactive()
                         ->native(false)
+                        ->minDate(fn () => Carbon::parse('2023-01-01')) // Minimum date
                         ->afterStateUpdated(function (callable $set, $state, callable $get) {
-                            $set('period', 'custom');
+                            // Only set to custom if the date was changed *by the user*
+                            if ($get('period') !== 'custom') {
+                                $set('period', 'custom');
+                            }
 
                             // If end date exists and is before start date, adjust end date
                             $endDate = $get('endDate');
                             if ($endDate && Carbon::parse($state)->isAfter($endDate)) {
-                                $set('endDate', $state);
+                                $set('endDate', $state, false);
                             }
                         }),
 
@@ -83,7 +80,7 @@ class Dashboard extends DashboardPage
                             // If start date exists and is after end date, adjust start date
                             $startDate = $get('startDate');
                             if ($startDate && Carbon::parse($state)->isBefore($startDate)) {
-                                $set('startDate', $state);
+                                $set('startDate', $state, false);
                             }
                         }),
                 ]),

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class CalculateDateRange
 {
-    public function handle(string $period, ?Carbon $customStartDate = null, ?Carbon $customEndDate = null, ?Carbon $earliestSystemDate = null): array
+    public function handle(string $period, ?Carbon $customStartDate = null, ?Carbon $customEndDate = null): array
     {
         // If custom dates are provided, use them
         if ($period === 'custom' && $customStartDate && $customEndDate) {
@@ -14,7 +14,6 @@ class CalculateDateRange
         }
 
         $now = now();
-        $defaultEarliestDate = $earliestSystemDate ?? Carbon::parse('2025-01-01');
 
         return match ($period) {
             'today' => [$now->copy()->startOfDay(), $now->copy()->endOfDay()],
@@ -23,7 +22,6 @@ class CalculateDateRange
             'last_7_days' => [$now->copy()->subDays(6)->startOfDay(), $now->copy()->endOfDay()],
             'this_month' => [$now->copy()->startOfMonth(), $now->copy()->endOfMonth()],
             'year_to_date' => [$now->copy()->startOfYear(), $now->copy()->endOfDay()],
-            'all_time' => [$defaultEarliestDate, $now->copy()],
             default => [$now->copy()->subMonth(), $now->copy()],
         };
     }
