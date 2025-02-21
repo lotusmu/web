@@ -17,6 +17,7 @@ new #[Layout('layouts.auth')] class extends Component {
     public string $password = '';
     public string $password_confirmation = '';
     public bool $terms = false;
+    public $turnstileResponse = '';
 
 
     /**
@@ -25,11 +26,11 @@ new #[Layout('layouts.auth')] class extends Component {
     public function register(Turnstile $turnstile): void
     {
         $validated = $this->validate([
-            'name'                  => ['required', 'string', 'alpha_num', 'min:4', 'max:10', 'unique:'.User::class],
-            'email'                 => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password'              => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'terms'                 => ['accepted'],
-            'cf-turnstile-response' => app()->environment(['production']) ? ['required', $turnstile] : [],
+            'name'              => ['required', 'string', 'alpha_num', 'min:4', 'max:10', 'unique:'.User::class],
+            'email'             => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password'          => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'terms'             => ['accepted'],
+            'turnstileResponse' => app()->environment(['production']) ? ['required', $turnstile] : [],
         ]);
 
         unset($validated['terms']);
@@ -76,7 +77,7 @@ new #[Layout('layouts.auth')] class extends Component {
         </flux:field>
 
         <flux:field>
-            <x-turnstile/>
+            <x-turnstile wire:model="turnstileResponse"/>
         </flux:field>
 
         <flux:button variant="primary" type="submit">
