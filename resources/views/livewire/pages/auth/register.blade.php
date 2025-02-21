@@ -79,7 +79,9 @@ new #[Layout('layouts.auth')] class extends Component {
             <flux:checkbox wire:model="terms"/>
             <flux:label>
                 {{__('I agree to the ')}}
-                <flux:link href="{{ route('terms') }}" target="_blank">{{ __('terms and conditions') }}</flux:link>
+                <flux:link href="{{ route('terms') }}" target="_blank">{{ __('Terms of Service') }}</flux:link>
+                {{ __(' and ') }}
+                <flux:link href="{{ route('privacy') }}" target="_blank">{{ __('Privacy Policy') }}</flux:link>
             </flux:label>
 
             <flux:error name="terms"/>
