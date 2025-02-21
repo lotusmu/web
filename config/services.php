@@ -48,4 +48,9 @@ return [
         'secret1' => env('PRIME_SECRET1'),
         'secret2' => env('PRIME_SECRET2'),
     ],
+
+    'turnstile' => [
+        'key' => env('TURNSTILE_SITE_KEY'),
+        'secret' => env('TURNSTILE_SECRET_KEY'),
+    ],
 ];

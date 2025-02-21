@@ -5,9 +5,11 @@ use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use RyanChandler\LaravelCloudflareTurnstile\Rules\Turnstile;
 
 new #[Layout('layouts.auth')] class extends Component {
     public string $name = '';
@@ -20,16 +22,18 @@ new #[Layout('layouts.auth')] class extends Component {
     /**
      * Handle an incoming registration request.
      */
-    public function register(): void
+    public function register(Turnstile $turnstile): void
     {
         $validated = $this->validate([
-            'name'     => ['required', 'string', 'alpha_num', 'min:4', 'max:10', 'unique:'.User::class],
-            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'terms'    => ['accepted'],
+            'name'                  => ['required', 'string', 'alpha_num', 'min:4', 'max:10', 'unique:'.User::class],
+            'email'                 => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password'              => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'terms'                 => ['accepted'],
+            'cf-turnstile-response' => app()->environment(['production']) ? ['required', $turnstile] : [],
         ]);
 
         unset($validated['terms']);
+        unset($validated['cf-turnstile-response']);
 
         event(new Registered($user = User::create($validated)));
 
@@ -70,6 +74,8 @@ new #[Layout('layouts.auth')] class extends Component {
                 <flux:link href="{{ route('terms') }}" target="_blank">{{ __('terms and conditions') }}</flux:link>
             </flux:label>
         </flux:field>
+
+        <x-turnstile/>
 
         <flux:button variant="primary" type="submit">
             {{ __('Register') }}

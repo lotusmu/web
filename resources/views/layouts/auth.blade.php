@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('layouts.components.head')
+    @turnstileScripts()
 </head>
 <body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900">
 
