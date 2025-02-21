@@ -7,6 +7,8 @@ use App\Models\Payment\Order;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
 
 class RevenueChart extends ChartWidget
 {
@@ -18,14 +20,14 @@ class RevenueChart extends ChartWidget
 
     protected function getData(): array
     {
-        // Get filters with proper defaults - but DON'T modify them
+        // Get filters with proper defaults
         $period = $this->filters['period'] ?? 'this_month';
 
-        // Get start and end dates as local variables, not modifying filters
+        // Get start and end dates
         $endDateValue = $this->filters['endDate'] ?? null;
         $startDateValue = $this->filters['startDate'] ?? null;
 
-        // Convert to Carbon instances without modifying the original filters
+        // Convert to Carbon instances
         $startDate = $startDateValue instanceof Carbon
             ? clone $startDateValue
             : ($startDateValue ? Carbon::parse($startDateValue) : null);
@@ -34,155 +36,94 @@ class RevenueChart extends ChartWidget
             ? clone $endDateValue
             : ($endDateValue ? Carbon::parse($endDateValue) : null);
 
-        // Use the action to calculate date range
+        // Use the action to calculate date range if needed
         if (! $startDate || ! $endDate) {
             [$startDate, $endDate] = app(CalculateDateRange::class)->handle($period);
         }
 
-        // Create new Carbon instances for comparison to avoid modifying the originals
-        if ((clone $startDate)->gt(clone $endDate)) {
-            [$startDate, $endDate] = [$endDate, $startDate];
-        }
-
-        // Determine appropriate granularity based on date range
+        // Determine appropriate interval based on date range
         $granularity = app(CalculateDateRange::class)->determineDataGranularity($startDate, $endDate);
 
-        // Get appropriate data based on granularity
-        $data = match ($granularity) {
-            'hourly' => $this->getHourlyData($startDate, $endDate),
-            'daily' => $this->getDailyData($startDate, $endDate),
-            'weekly' => $this->getWeeklyData($startDate, $endDate),
-            'monthly' => $this->getMonthlyData($startDate, $endDate),
-        };
+        // Generate trend data based on granularity
+        if ($granularity === 'weekly') {
+            // Create custom weekly data points directly from the database
+            $weeklyData = collect();
+            $currentWeekStart = clone $startDate;
+
+            while ($currentWeekStart->lte($endDate)) {
+                $weekEnd = (clone $currentWeekStart)->addDays(6)->min($endDate);
+
+                // Query orders for this specific week
+                $weeklySum = Order::where('status', 'completed')
+                    ->whereBetween('created_at', [$currentWeekStart, $weekEnd])
+                    ->sum('amount');
+
+                // Create a label for this week
+                $weekLabel = $currentWeekStart->format('M d').' - '.$weekEnd->format('M d');
+
+                // Create a weekly data point
+                $weeklyData->push(new TrendValue(
+                    $weekLabel, // Use the formatted label directly as the date
+                    $weeklySum
+                ));
+
+                $currentWeekStart = (clone $weekEnd)->addDay();
+            }
+
+            $data = $weeklyData;
+        } else {
+            // For other granularities, use the Trend package
+            $query = Order::where('status', 'completed')
+                ->whereBetween('created_at', [$startDate, $endDate]);
+
+            $data = match ($granularity) {
+                'hourly' => Trend::query($query)
+                    ->between($startDate, $endDate)
+                    ->perHour()
+                    ->sum('amount'),
+                'daily' => Trend::query($query)
+                    ->between($startDate, $endDate)
+                    ->perDay()
+                    ->sum('amount'),
+                'monthly' => Trend::query($query)
+                    ->between($startDate, $endDate)
+                    ->perMonth()
+                    ->sum('amount'),
+                default => collect(), // Shouldn't reach here
+            };
+        }
 
         return [
             'datasets' => [
                 [
                     'label' => 'Revenue',
-                    'data' => $data['values'],
+                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                     'backgroundColor' => 'rgba(59, 130, 246, 0.5)',
                     'borderColor' => 'rgb(59, 130, 246)',
                 ],
             ],
-            'labels' => $data['labels'],
+            'labels' => $data->map(fn (TrendValue $value) =>
+                // For weekly, we've already formatted the label in the date field
+            $granularity === 'weekly' ? $value->date : $this->formatLabel($value->date, $granularity)
+            ),
         ];
     }
 
-    protected function getHourlyData($startDate, $endDate): array
+    protected function formatLabel(string $date, string $granularity): string
     {
-        $labels = [];
-        $values = [];
+        $carbonDate = Carbon::parse($date);
 
-        for ($date = clone $startDate; $date->lte($endDate); $date->addHour()) {
-            $labels[] = $date->format('H:i');
-
-            $value = Order::whereBetween('created_at', [$date, (clone $date)->addHour()->subSecond()])
-                ->where('status', 'completed')
-                ->sum('amount');
-
-            $values[] = $value;
-        }
-
-        return [
-            'labels' => $labels,
-            'values' => $values,
-        ];
-    }
-
-    protected function getDailyData($startDate, $endDate): array
-    {
-        $labels = [];
-        $values = [];
-
-        for ($date = clone $startDate; $date->lte($endDate); $date->addDay()) {
-            $labels[] = $date->format('M d');
-
-            $value = Order::whereDate('created_at', $date)
-                ->where('status', 'completed')
-                ->sum('amount');
-
-            $values[] = $value;
-        }
-
-        return [
-            'labels' => $labels,
-            'values' => $values,
-        ];
-    }
-
-    protected function getWeeklyData($startDate, $endDate): array
-    {
-        $labels = [];
-        $values = [];
-
-        $currentDate = clone $startDate;
-        while ($currentDate->lte($endDate)) {
-            $weekEnd = (clone $currentDate)->addDays(6)->min($endDate);
-
-            $labels[] = $currentDate->format('M d').' - '.$weekEnd->format('M d');
-
-            $value = Order::whereBetween('created_at', [$currentDate, $weekEnd->endOfDay()])
-                ->where('status', 'completed')
-                ->sum('amount');
-
-            $values[] = $value;
-
-            $currentDate = (clone $weekEnd)->addDay();
-        }
-
-        return [
-            'labels' => $labels,
-            'values' => $values,
-        ];
-    }
-
-    protected function getMonthlyData($startDate, $endDate): array
-    {
-        $labels = [];
-        $values = [];
-
-        $currentDate = (clone $startDate)->startOfMonth();
-        $endMonth = (clone $endDate)->endOfMonth();
-
-        while ($currentDate->lte($endMonth)) {
-            $monthEnd = (clone $currentDate)->endOfMonth();
-
-            $labels[] = $currentDate->format('M Y');
-
-            $value = Order::whereBetween('created_at', [$currentDate, $monthEnd])
-                ->where('status', 'completed')
-                ->sum('amount');
-
-            $values[] = $value;
-
-            $currentDate = (clone $monthEnd)->addDay();
-        }
-
-        return [
-            'labels' => $labels,
-            'values' => $values,
-        ];
+        return match ($granularity) {
+            'hourly' => $carbonDate->format('H:i'),
+            'daily' => $carbonDate->format('M d'),
+            'monthly' => $carbonDate->format('M Y'),
+            default => $carbonDate->format('M d'),
+        };
     }
 
     protected function getType(): string
     {
         return 'line';
-    }
-
-    protected function getDateRangeForPeriod($period): array
-    {
-        $now = now();
-
-        return match ($period) {
-            'today' => [$now->startOfDay(), $now->clone()->endOfDay()],
-            'yesterday' => [$now->subDay()->startOfDay(), $now->clone()->endOfDay()],
-            'this_week' => [$now->startOfWeek(), $now->clone()->endOfWeek()],
-            'last_7_days' => [$now->subDays(6)->startOfDay(), $now->clone()->endOfDay()],
-            'this_month' => [$now->startOfMonth(), $now->clone()->endOfMonth()],
-            'year_to_date' => [$now->startOfYear(), $now->clone()->endOfDay()],
-            'all_time' => [Carbon::parse('2025-01-01'), $now],
-            default => [$now->subMonth(), $now],
-        };
     }
 
     protected function getOptions(): array

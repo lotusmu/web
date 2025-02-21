@@ -12,6 +12,7 @@
         "ext-gd": "*",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
+        "flowframe/laravel-trend": "^0.3.0",
         "laravel/cashier": "^15.5",
         "laravel/framework": "^11.9",
         "laravel/pail": "^1.2",
