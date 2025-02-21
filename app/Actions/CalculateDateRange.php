@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class CalculateDateRange
 {
-    public function handle(string $period, ?Carbon $customStartDate = null, ?Carbon $customEndDate = null): array
+    public function handle(string $period, ?Carbon $customStartDate = null, ?Carbon $customEndDate = null, ?Carbon $earliestSystemDate = null): array
     {
         // If custom dates are provided, use them
         if ($period === 'custom' && $customStartDate && $customEndDate) {
@@ -14,16 +14,17 @@ class CalculateDateRange
         }
 
         $now = now();
+        $defaultEarliestDate = $earliestSystemDate ?? Carbon::parse('2025-01-01');
 
         return match ($period) {
-            'today' => [$now->clone()->startOfDay(), $now->clone()->endOfDay()],
-            'yesterday' => [$now->clone()->subDay()->startOfDay(), $now->clone()->subDay()->endOfDay()],
-            'this_week' => [$now->clone()->startOfWeek(), $now->clone()->endOfWeek()],
-            'last_7_days' => [$now->clone()->subDays(6)->startOfDay(), $now->clone()->endOfDay()],
-            'this_month' => [$now->clone()->startOfMonth(), $now->clone()->endOfMonth()],
-            'year_to_date' => [$now->clone()->startOfYear(), $now->clone()->endOfDay()],
-            'all_time' => [Carbon::parse('2025-01-01'), $now->clone()],
-            default => [$now->clone()->subMonth(), $now->clone()],
+            'today' => [$now->copy()->startOfDay(), $now->copy()->endOfDay()],
+            'yesterday' => [$now->copy()->subDay()->startOfDay(), $now->copy()->subDay()->endOfDay()],
+            'this_week' => [$now->copy()->startOfWeek(), $now->copy()->endOfWeek()],
+            'last_7_days' => [$now->copy()->subDays(6)->startOfDay(), $now->copy()->endOfDay()],
+            'this_month' => [$now->copy()->startOfMonth(), $now->copy()->endOfMonth()],
+            'year_to_date' => [$now->copy()->startOfYear(), $now->copy()->endOfDay()],
+            'all_time' => [$defaultEarliestDate, $now->copy()],
+            default => [$now->copy()->subMonth(), $now->copy()],
         };
     }
 

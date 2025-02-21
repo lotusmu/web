@@ -44,8 +44,15 @@ class Dashboard extends DashboardPage
                                 return;
                             }
 
-                            // Set date range based on selected period using the Action
-                            [$start, $end] = app(CalculateDateRange::class)->handle($state);
+                            // Get earliest user date for "all_time" period
+                            $firstUserDate = null;
+                            if ($state === 'all_time') {
+                                $firstUserDate = User::orderBy('created_at')->first()?->created_at;
+                                $firstUserDate = $firstUserDate ? $firstUserDate->startOfDay() : null;
+                            }
+
+                            // Set date range based on selected period
+                            [$start, $end] = app(CalculateDateRange::class)->handle($state, null, null, $firstUserDate);
                             $set('startDate', $start);
                             $set('endDate', $end);
                         }),
@@ -64,6 +71,7 @@ class Dashboard extends DashboardPage
                                 $set('endDate', $state);
                             }
                         }),
+
                     DatePicker::make('endDate')
                         ->label('To Date')
                         ->hint('Select end date')
@@ -80,24 +88,5 @@ class Dashboard extends DashboardPage
                         }),
                 ]),
         ]);
-    }
-
-    protected function getDateRangeForPeriod($period): array
-    {
-        $now = now();
-
-        $firstUserDate = User::orderBy('created_at')->first()?->created_at;
-        $earliestDate = $firstUserDate ? $firstUserDate->startOfDay() : Carbon::parse('2025-01-01');
-
-        return match ($period) {
-            'today' => [$now->clone()->startOfDay(), $now->clone()->endOfDay()],
-            'yesterday' => [$now->clone()->subDay()->startOfDay(), $now->clone()->subDay()->endOfDay()],
-            'this_week' => [$now->clone()->startOfWeek(), $now->clone()->endOfWeek()],
-            'last_7_days' => [$now->clone()->subDays(6)->startOfDay(), $now->clone()->endOfDay()],
-            'this_month' => [$now->clone()->startOfMonth(), $now->clone()->endOfMonth()],
-            'year_to_date' => [$now->clone()->startOfYear(), $now->clone()->endOfDay()],
-            'all_time' => [$earliestDate, $now->clone()],
-            default => [$now->clone()->subMonth(), $now->clone()],
-        };
     }
 }
