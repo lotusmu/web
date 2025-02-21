@@ -29,6 +29,10 @@ class SendResources
 
     public function handle(User $sender, User $recipient, ResourceType $resourceType, int $amount): bool
     {
+        if (! $this->canSendResource($sender, $resourceType)) {
+            return false;
+        }
+
         if (! $this->ensureIsNotRateLimited($sender->id)) {
             return false;
         }
@@ -148,5 +152,26 @@ class SendResources
     private function format(int $amount): string
     {
         return number_format($amount);
+    }
+
+    private function canSendResource(User $sender, ResourceType $resourceType): bool
+    {
+        if ($resourceType === ResourceType::TOKENS) {
+            return true;
+        }
+
+        if ($sender->member->isBanned()) {
+            Flux::toast(
+                text: __('You cannot send :resource while your account is banned.', [
+                    'resource' => $resourceType->getLabel(),
+                ]),
+                heading: __('Transfer Blocked'),
+                variant: 'danger',
+            );
+
+            return false;
+        }
+
+        return true;
     }
 }
