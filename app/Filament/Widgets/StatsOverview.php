@@ -22,146 +22,150 @@ class StatsOverview extends BaseWidget
 
     protected static ?int $sort = 0;
 
-    // Inside the getStats() method of StatsOverview class
     public function getStats(): array
     {
-        // Get filters with proper defaults
+        [$startDate, $endDate] = $this->resolveDateRange();
+
+        return [
+            $this->buildRevenueStat($startDate, $endDate),
+            $this->buildUserStat($startDate, $endDate),
+            $this->buildOnlineStat(),
+            $this->buildResourceStat(),
+        ];
+    }
+
+    protected function resolveDateRange(): array
+    {
         $period = $this->filters['period'] ?? 'this_month';
         $startDate = $this->parseDate($this->filters['startDate'] ?? null);
         $endDate = $this->parseDate($this->filters['endDate'] ?? null);
 
-        // Use the action to calculate date range if needed
         if (! $startDate || ! $endDate) {
-            [$startDate, $endDate] = app(CalculateDateRange::class)->handle($period);
+            return app(CalculateDateRange::class)->handle($period);
         }
 
-        // Calculate revenue for the selected period
+        return [$startDate, $endDate];
+    }
+
+    protected function buildRevenueStat(Carbon $start, Carbon $end): Stat
+    {
         $revenue = Order::where('status', OrderStatus::COMPLETED)
-            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereBetween('created_at', [$start, $end])
             ->sum('amount');
 
-        // Format the revenue with currency
-        $formattedRevenue = '€ '.number_format($revenue, 2);
-
-        // Count registered users for the selected period
-        $registeredUsers = User::query()
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->count();
-
-        // Calculate percentage increase from previous period
-        $previousPeriodStart = (clone $startDate)->subDays($startDate->diffInDays($endDate));
-        $previousPeriodEnd = (clone $startDate)->subDay();
-
-        $previousPeriodUsers = User::query()
-            ->whereBetween('created_at', [$previousPeriodStart, $previousPeriodEnd])
-            ->count();
-
-        $userIncrease = $previousPeriodUsers > 0
-            ? round((($registeredUsers - $previousPeriodUsers) / $previousPeriodUsers) * 100, 1)
-            : 0;
-
-        $userIncreaseDescription = $userIncrease >= 0
-            ? "+{$userIncrease}% from previous period"
-            : "{$userIncrease}% from previous period";
-
-        $totalOnline = Status::where('ConnectStat', true)->count();
-
-        // Calculate total resources (Tokens, Credits, Zen)
-        $totalTokens = Member::sum('tokens') * 100;
-        $totalCredits = Wallet::sum('WCoinC') * 100;
-        $totalZen = Wallet::sum('zen');
-
-        // Format numbers for display
-        $formattedTokens = Number::format($totalTokens);
-        $formattedCredits = Number::format($totalCredits);
-        $formattedZen = Number::abbreviate($totalZen, precision: 2);
-
-        return [
-            Stat::make('Revenue', $formattedRevenue)
-                ->description('Total revenue for selected period')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->icon('heroicon-o-banknotes')
-                ->color('success'),
-
-            Stat::make('Registered Users', $registeredUsers)
-                ->description($userIncreaseDescription)
-                ->descriptionIcon($userIncrease >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
-                ->icon('heroicon-o-user-plus')
-                ->color($userIncrease >= 0 ? 'success' : 'danger')
-                ->chart($this->generateUserRegistrationChart($startDate, $endDate)),
-
-            Stat::make('Total Online', $totalOnline)
-                ->description('Currently active users')
-                ->color('info')
-                ->icon('heroicon-o-signal'),
-
-            Stat::make('Total Resources', '')
-                ->icon('heroicon-o-circle-stack')
-                ->description(new HtmlString('
-                    <div class="flex items-start gap-4">
-                        <div>
-                            <div class="text-xs">Tokens</div>
-                            <div class="text-base font-semibold">'.$formattedTokens.'</div>
-                        </div>
-                        <div>
-                            <div class="text-xs">Credits</div>
-                            <div class="text-base font-semibold">'.$formattedCredits.'</div>
-                        </div>
-                        <div>
-                            <div class="text-xs">Zen</div>
-                            <div class="text-base font-semibold">'.$formattedZen.'</div>
-                        </div>
-                    </div>
-                ')),
-        ];
+        return Stat::make('Revenue', '€ '.number_format($revenue, 2))
+            ->description('Total revenue for selected period')
+            ->descriptionIcon('heroicon-m-arrow-trending-up')
+            ->icon('heroicon-o-banknotes')
+            ->color('success');
     }
 
-    protected function generateUserRegistrationChart($startDate, $endDate): array
+    protected function buildUserStat(Carbon $start, Carbon $end): Stat
     {
-        $diffInDays = $startDate->diffInDays($endDate);
+        $currentUsers = User::whereBetween('created_at', [$start, $end])
+            ->count();
+        [$previousUsers, $increase] = $this->calculateUserIncrease($start, $end, $currentUsers);
 
-        if ($diffInDays > 30) {
-            // If range is large, group by week
-            $data = [];
-            $currentDate = clone $startDate;
-
-            while ($currentDate->lte($endDate)) {
-                $weekEnd = (clone $currentDate)->addDays(6)->min($endDate);
-
-                $count = User::query()
-                    ->whereBetween('created_at', [$currentDate, $weekEnd])
-                    ->count();
-
-                $data[] = $count;
-                $currentDate = (clone $weekEnd)->addDay();
-            }
-
-            return $data;
-        } else {
-            // If range is smaller, show daily data
-            $data = [];
-            $currentDate = clone $startDate;
-
-            while ($currentDate->lte($endDate)) {
-                $count = User::query()
-                    ->whereDate('created_at', $currentDate)
-                    ->count();
-
-                $data[] = $count;
-                $currentDate->addDay();
-            }
-
-            return $data;
-        }
+        return Stat::make('Registered Users', $currentUsers)
+            ->description($this->formatIncrease($increase))
+            ->descriptionIcon($this->getTrendIcon($increase))
+            ->icon('heroicon-o-user-plus')
+            ->color($this->getTrendColor($increase))
+            ->chart($this->generateUserRegistrationChart($start, $end));
     }
 
-    protected function parseDate($dateValue)
+    protected function calculateUserIncrease(Carbon $start, Carbon $end, int $current): array
     {
-        // Reuse the same method from RevenueChart
-        if ($dateValue instanceof Carbon) {
-            return clone $dateValue;
+        $previousStart = (clone $start)->subDays($start->diffInDays($end));
+        $previousEnd = (clone $start)->subDay();
+
+        $previousUsers = User::whereBetween('created_at', [$previousStart, $previousEnd])->count();
+        $increase = $previousUsers > 0 ? round((($current - $previousUsers) / $previousUsers) * 100, 1) : 0;
+
+        return [$previousUsers, $increase];
+    }
+
+    protected function buildOnlineStat(): Stat
+    {
+        return Stat::make('Total Online', Status::where('ConnectStat', true)->count())
+            ->description('Currently active users')
+            ->color('info')
+            ->icon('heroicon-o-signal');
+    }
+
+    protected function buildResourceStat(): Stat
+    {
+        $tokens = Number::format(Member::sum('tokens') * 100);
+        $credits = Number::format(Wallet::sum('WCoinC') * 100);
+        $zen = Number::abbreviate(Wallet::sum('zen'), precision: 2);
+
+        return Stat::make('Total Resources', '')
+            ->icon('heroicon-o-circle-stack')
+            ->description(new HtmlString($this->resourceHtml($tokens, $credits, $zen)));
+    }
+
+    protected function resourceHtml(string $tokens, string $credits, string $zen): string
+    {
+        return <<<HTML
+        <div class="flex items-start gap-4">
+            <div><div class="text-xs">Tokens</div><div class="text-base font-semibold">$tokens</div></div>
+            <div><div class="text-xs">Credits</div><div class="text-base font-semibold">$credits</div></div>
+            <div><div class="text-xs">Zen</div><div class="text-base font-semibold">$zen</div></div>
+        </div>
+        HTML;
+    }
+
+    protected function generateUserRegistrationChart(Carbon $start, Carbon $end): array
+    {
+        return $start->diffInDays($end) > 30
+            ? $this->groupByWeek($start, $end)
+            : $this->groupByDay($start, $end);
+    }
+
+    protected function groupByWeek(Carbon $start, Carbon $end): array
+    {
+        $data = [];
+        $current = clone $start;
+
+        while ($current->lte($end)) {
+            $weekEnd = (clone $current)->addDays(6)->min($end);
+            $data[] = User::whereBetween('created_at', [$current, $weekEnd])->count();
+            $current = (clone $weekEnd)->addDay();
         }
 
-        return $dateValue ? Carbon::parse($dateValue) : null;
+        return $data;
+    }
+
+    protected function groupByDay(Carbon $start, Carbon $end): array
+    {
+        $data = [];
+        $current = clone $start;
+
+        while ($current->lte($end)) {
+            $data[] = User::whereDate('created_at', $current)->count();
+            $current->addDay();
+        }
+
+        return $data;
+    }
+
+    protected function formatIncrease(float $increase): string
+    {
+        return sprintf('%s%.1f%% from previous period', $increase >= 0 ? '+' : '', $increase);
+    }
+
+    protected function getTrendIcon(float $increase): string
+    {
+        return $increase >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down';
+    }
+
+    protected function getTrendColor(float $increase): string
+    {
+        return $increase >= 0 ? 'success' : 'danger';
+    }
+
+    protected function parseDate($date): ?Carbon
+    {
+        return $date instanceof Carbon ? clone $date : ($date ? Carbon::parse($date) : null);
     }
 }
