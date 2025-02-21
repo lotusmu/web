@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\User\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -29,6 +30,7 @@ class LoginForm extends Form
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+        $this->checkIfUserIsBanned();
 
         if (! Auth::attempt($this->only(['name', 'password']), $this->remember)) {
             RateLimiter::hit($this->throttleKey());
@@ -68,5 +70,25 @@ class LoginForm extends Form
     protected function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->name).'|'.request()->ip());
+    }
+
+    /**
+     * Check if the user attempting to login is banned.
+     *
+     * @throws ValidationException
+     */
+    protected function checkIfUserIsBanned(): void
+    {
+        $user = User::where('name', $this->name)->first();
+
+        if ($user && $user->is_banned) {
+            $reason = $user->ban_reason
+                ? 'Reason: '.$user->ban_reason
+                : 'Contact administration for more information.';
+
+            throw ValidationException::withMessages([
+                'form.name' => 'Your account has been banned. '.$reason,
+            ]);
+        }
     }
 }

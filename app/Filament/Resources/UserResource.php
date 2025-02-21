@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Actions\User\BanUser;
+use App\Actions\User\UnbanUser;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\MemberRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\TicketsRelationManager;
@@ -99,6 +101,29 @@ class UserResource extends Resource
                             ->visible(fn (Get $get): bool => (bool) $get('change_password'))
                             ->dehydrated(false),
                     ]),
+
+                Section::make('Banned User')
+                    ->aside()
+                    ->description('This user has been banned from the platform.')
+                    ->icon('heroicon-o-lock-closed')
+                    ->visible(fn ($record) => $record && $record->is_banned)
+                    ->schema([
+                        Placeholder::make('banned_at')
+                            ->label('Banned At')
+                            ->content(fn ($record) => $record->banned_at ?
+                                Carbon::parse($record->banned_at)->format('M d, Y H:i:s') :
+                                'Not recorded'),
+
+                        Placeholder::make('ban_duration')
+                            ->label('Ban Duration')
+                            ->content(fn ($record) => $record->banned_at ?
+                                Carbon::parse($record->banned_at)->diffForHumans(null, true) :
+                                'Unknown'),
+
+                        Placeholder::make('ban_reason')
+                            ->label('Ban Reason')
+                            ->content(fn ($record) => $record->ban_reason ?: 'No reason provided'),
+                    ]),
             ]);
     }
 
@@ -169,7 +194,45 @@ class UserResource extends Resource
                         Notification::make()->success()->title('The email was verified successfully!')
                             ->send();
                     }),
+
                 Tables\Actions\EditAction::make(),
+
+                Tables\Actions\Action::make('ban')
+                    ->visible(fn ($record) => ! $record->is_banned)
+                    ->icon('heroicon-o-lock-closed')
+                    ->color('danger')
+                    ->form([
+                        TextInput::make('ban_reason')
+                            ->label('Reason for ban')
+                            ->placeholder('Optional reason'),
+                    ])
+                    ->requiresConfirmation()
+                    ->modalHeading('Ban User')
+                    ->modalDescription('Are you sure you want to ban this user? They will be unable to log in.')
+                    ->action(function (User $record, array $data) {
+                        app(BanUser::class)->handle($record, $data['ban_reason'] ?? null);
+
+                        Notification::make()
+                            ->title('User banned successfully')
+                            ->success()
+                            ->send();
+                    }),
+
+                Tables\Actions\Action::make('unban')
+                    ->visible(fn ($record) => $record->is_banned)
+                    ->icon('heroicon-o-lock-open')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Unban User')
+                    ->modalDescription('Are you sure you want to unban this user?')
+                    ->action(function (User $record) {
+                        app(UnbanUser::class)->handle($record);
+
+                        Notification::make()
+                            ->title('User unbanned successfully')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -50,6 +50,8 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_banned' => 'boolean',
+        'banned_at' => 'datetime',
     ];
 
     public static function boot(): void

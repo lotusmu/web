@@ -22,6 +22,10 @@ class ListUsers extends ListRecords
                 ->modifyQueryUsing(function ($query) {
                     return $query->where('email_verified_at', null);
                 }),
+            'banned' => Tab::make('Banned')
+                ->modifyQueryUsing(function ($query) {
+                    return $query->where('is_banned', true);
+                }),
         ];
     }
 }

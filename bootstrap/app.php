@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
+use App\Http\Middleware\CheckUserBannedMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
 use App\Http\Middleware\EnsureVipOnlyMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
@@ -15,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(CheckUserBannedMiddleware::class);
+
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
             'webhook/paypal',
