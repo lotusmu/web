@@ -16,6 +16,8 @@ class RevenueChart extends ChartWidget
 
     protected static ?string $heading = 'Revenue';
 
+    protected static ?string $pollingInterval = '60s';
+
     protected static ?int $sort = 1;
 
     protected function getData(): array

@@ -20,6 +20,8 @@ class StatsOverview extends BaseWidget
 {
     use InteractsWithPageFilters;
 
+    protected static ?string $pollingInterval = '60s';
+
     protected static ?int $sort = 0;
 
     public function getStats(): array
@@ -95,8 +97,8 @@ class StatsOverview extends BaseWidget
 
     protected function buildResourceStat(): Stat
     {
-        $tokens = Number::format(Member::sum('tokens') * 100);
-        $credits = Number::format(Wallet::sum('WCoinC') * 100);
+        $tokens = Number::format(Member::sum('tokens'));
+        $credits = Number::format(Wallet::sum('WCoinC'));
         $zen = Number::abbreviate(Wallet::sum('zen'), precision: 2);
 
         return Stat::make('Total Resources', '')
