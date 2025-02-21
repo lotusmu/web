@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Game\BanStatus;
 use App\Enums\Game\CharacterClass;
 use App\Enums\Game\GuildMemberStatus;
 use App\Enums\Game\Map;
@@ -11,17 +12,23 @@ use App\Filament\Resources\CharacterResource\Pages;
 use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Game\Character;
 use App\Models\Game\Guild;
+use Carbon\Carbon;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\GlobalSearch\Actions\Action;
+use Filament\Infolists\Components\Actions;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
@@ -203,6 +210,24 @@ class CharacterResource extends Resource
                                                 $set('guild_status', $record->guildMember?->G_Status);
                                             }),
                                     ]),
+                                Tabs\Tab::make('Character Status')
+                                    ->schema([
+                                        Select::make('CtlCode')
+                                            ->label('Status')
+                                            ->enum(BanStatus::class)
+                                            ->options(BanStatus::class)
+                                            ->default(BanStatus::Active)
+                                            ->reactive()
+                                            ->required(),
+
+                                        DateTimePicker::make('bloc_expire')
+                                            ->label('Ban Expires')
+                                            ->native(false)
+                                            ->helperText('Leave empty for permanent ban.')
+                                            ->minDate(now()->addDay())
+                                            ->nullable()
+                                            ->visible(fn (Get $get) => $get('CtlCode') == 1),
+                                    ]),
                             ]),
                     ]),
             ]);
@@ -250,6 +275,60 @@ class CharacterResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\Action::make('banCharacter')
+                    ->label(fn (Character $record): string => $record->isBanned() ? 'Unban' : 'Ban')
+                    ->icon(fn (Character $record): string => $record->isBanned() ? 'heroicon-o-lock-open' : 'heroicon-o-lock-closed')
+                    ->color(fn (Character $record): string => $record->isBanned() ? 'success' : 'danger')
+                    ->form(function (Character $record) {
+                        if ($record->isBanned()) {
+                            return [];
+                        }
+
+                        return [
+                            Toggle::make('permanent_ban')
+                                ->label('Ban Permanently')
+                                ->inline(false)
+                                ->onColor('success')
+                                ->offColor('danger')
+                                ->onIcon('heroicon-s-check')
+                                ->offIcon('heroicon-s-x-mark')
+                                ->default(true)
+                                ->reactive(),
+                            DateTimePicker::make('ban_until')
+                                ->label('Ban Until')
+                                ->required()
+                                ->native(false)
+                                ->minDate(now()->addDay())
+                                ->hidden(fn (Get $get) => $get('permanent_ban')),
+                        ];
+                    })
+                    ->action(function (Character $record, array $data) {
+                        if ($record->isBanned()) {
+                            $record->unban();
+
+                            Notification::make()
+                                ->title("Character {$record->Name} has been unbanned")
+                                ->success()
+                                ->send();
+
+                            return;
+                        }
+
+                        if ($data['permanent_ban'] ?? false) {
+                            $record->banPermanently();
+                            $message = "Character {$record->Name} has been banned permanently";
+                        } else {
+                            $banUntil = Carbon::parse($data['ban_until']);
+                            $record->banUntil($banUntil);
+                            $message = "Character {$record->Name} has been banned until ".$banUntil->format('Y-m-d H:i');
+                        }
+
+                        Notification::make()
+                            ->title($message)
+                            ->success()
+                            ->send();
+                    })
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 //
@@ -324,6 +403,80 @@ class CharacterResource extends Resource
                                     ->label('Guild Position')
                                     ->placeholder('Not a member')
                                     ->badge(),
+                            ]),
+
+                        Fieldset::make('Character Status')
+                            ->columns(1)
+                            ->schema([
+                                TextEntry::make('CtlCode')
+                                    ->label('Status')
+                                    ->formatStateUsing(fn ($state): string => $state->getLabel())
+                                    ->color(fn ($state): string => $state->getColor())
+                                    ->badge(),
+
+                                TextEntry::make('ban_until')
+                                    ->label('Ban Expires')
+                                    ->state(function (Character $record) {
+                                        return $record->bloc_expire === null ? 'Permanent' : $record->bloc_expire->format('Y-m-d H:i');
+                                    })
+                                    ->visible(fn (Character $record): bool => $record->isBanned()),
+
+                                Actions::make([
+                                    Actions\Action::make('banCharacter')
+                                        ->label(fn (Character $record): string => $record->isBanned() ? 'Unban Character' : 'Ban Character')
+                                        ->icon(fn (Character $record): string => $record->isBanned() ? 'heroicon-o-lock-open' : 'heroicon-o-lock-closed')
+                                        ->color(fn (Character $record): string => $record->isBanned() ? 'success' : 'danger')
+                                        ->form(function (Character $record) {
+                                            if ($record->isBanned()) {
+                                                return [];
+                                            }
+
+                                            return [
+                                                Toggle::make('permanent_ban')
+                                                    ->label('Ban Permanently')
+                                                    ->inline(false)
+                                                    ->onColor('success')
+                                                    ->offColor('danger')
+                                                    ->onIcon('heroicon-s-check')
+                                                    ->offIcon('heroicon-s-x-mark')
+                                                    ->default(true)
+                                                    ->reactive(),
+                                                DateTimePicker::make('ban_until')
+                                                    ->label('Ban Until')
+                                                    ->required()
+                                                    ->native(false)
+                                                    ->minDate(now()->addDay())
+                                                    ->hidden(fn (Get $get) => $get('permanent_ban')),
+                                            ];
+                                        })
+                                        ->action(function (Character $record, array $data) {
+                                            if ($record->isBanned()) {
+                                                $record->unban();
+
+                                                Notification::make()
+                                                    ->title("Character {$record->Name} has been unbanned")
+                                                    ->success()
+                                                    ->send();
+
+                                                return;
+                                            }
+
+                                            if ($data['permanent_ban'] ?? false) {
+                                                $record->banPermanently();
+                                                $message = "Character {$record->Name} has been banned permanently";
+                                            } else {
+                                                $banUntil = Carbon::parse($data['ban_until']);
+                                                $record->banUntil($banUntil);
+                                                $message = "Character {$record->Name} has been banned until ".$banUntil->format('Y-m-d H:i');
+                                            }
+
+                                            Notification::make()
+                                                ->title($message)
+                                                ->success()
+                                                ->send();
+                                        })
+                                        ->requiresConfirmation(),
+                                ]),
                             ]),
                     ]),
             ]);

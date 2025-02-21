@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Game;
 
+use App\Enums\Game\BanStatus;
 use App\Enums\Game\CharacterClass;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
@@ -43,7 +44,7 @@ class CharacterFactory extends Factory
             'PkCount' => $this->faker->numberBetween(0, 100),
             'PkLevel' => $this->faker->randomElement(PkLevel::cases()),
             'PkTime' => $this->faker->numberBetween(0, 1000),
-            'CtlCode' => $this->faker->numberBetween(0, 255),
+            'CtlCode' => BanStatus::Active,
             'ResetCount' => $this->faker->numberBetween(0, 100),
             'MasterResetCount' => $this->faker->numberBetween(0, 10),
             'ExtInventory' => $this->faker->numberBetween(0, 1),

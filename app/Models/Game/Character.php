@@ -2,6 +2,7 @@
 
 namespace App\Models\Game;
 
+use App\Enums\Game\BanStatus;
 use App\Enums\Game\CharacterClass;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
@@ -14,6 +15,7 @@ use App\Models\Game\Ranking\HunterWeekly;
 use App\Models\Game\Ranking\Quest;
 use App\Models\User\Member;
 use App\Models\User\User;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -60,6 +62,7 @@ class Character extends Model
         'ExtInventory',
         'Kills',
         'Deads',
+        'bloc_expire',
     ];
 
     protected $casts = [
@@ -78,7 +81,7 @@ class Character extends Model
         'PkCount' => 'integer',
         'PkLevel' => PkLevel::class,
         'PkTime' => 'integer',
-        'CtlCode' => 'integer',
+        'CtlCode' => BanStatus::class,
         'ResetCount' => 'integer',
         'MasterResetCount' => 'integer',
         'Kills' => 'integer',
@@ -88,6 +91,7 @@ class Character extends Model
         'EventScore' => 'integer',
         'EventScoreWeekly' => 'integer',
         'HofWins' => 'integer',
+        'bloc_expire' => 'datetime',
     ];
 
     protected static function getFillableFields(): array
@@ -115,6 +119,44 @@ class Character extends Model
     public function getQuestCountAttribute(): int
     {
         return $this->quest?->Quest ?? 0;
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->CtlCode === BanStatus::Banned;
+    }
+
+    public function banPermanently(): void
+    {
+        $this->update([
+            'CtlCode' => BanStatus::Banned,
+            'bloc_expire' => null,
+        ]);
+    }
+
+    public function banUntil(DateTime $expireDate): void
+    {
+        $this->update([
+            'CtlCode' => BanStatus::Banned,
+            'bloc_expire' => $expireDate,
+        ]);
+    }
+
+    public function unban(): void
+    {
+        $this->update([
+            'CtlCode' => BanStatus::Active,
+            'bloc_expire' => null,
+        ]);
+    }
+
+    public function getBanExpirationText(): string
+    {
+        if (! $this->isBanned()) {
+            return 'Not banned';
+        }
+
+        return $this->bloc_expire === null ? 'Permanent' : $this->bloc_expire->format('Y-m-d H:i');
     }
 
     public function member(): BelongsTo
