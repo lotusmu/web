@@ -101,3 +101,7 @@ new #[Layout('layouts.auth')] class extends Component {
         <flux:link :href="route('login')" wire:navigate>{{__('Log in!')}}</flux:link>
     </flux:subheading>
 </div>
+
+@push('scripts')
+    @turnstileScripts()
+@endpush
