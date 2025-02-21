@@ -34,7 +34,7 @@ new #[Layout('layouts.auth')] class extends Component {
         ]);
 
         unset($validated['terms']);
-        unset($validated['cf-turnstile-response']);
+        unset($validated['turnstileResponse']);
 
         event(new Registered($user = User::create($validated)));
 
@@ -78,6 +78,8 @@ new #[Layout('layouts.auth')] class extends Component {
 
         <flux:field>
             <x-turnstile wire:model="turnstileResponse"/>
+            <flux:error name="turnstileResponse"
+                        message="error!!!"/>
         </flux:field>
 
         <flux:button variant="primary" type="submit">
