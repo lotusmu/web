@@ -25,13 +25,20 @@ new #[Layout('layouts.auth')] class extends Component {
      */
     public function register(Turnstile $turnstile): void
     {
-        $validated = $this->validate([
-            'name'              => ['required', 'string', 'alpha_num', 'min:4', 'max:10', 'unique:'.User::class],
-            'email'             => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password'          => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'terms'             => ['accepted'],
-            'turnstileResponse' => app()->environment(['production']) ? ['required', $turnstile] : [],
-        ]);
+        $validated = $this->validate(
+            [
+                'name'              => ['required', 'string', 'alpha_num', 'min:4', 'max:10', 'unique:'.User::class],
+                'email'             => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'password'          => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+                'terms'             => ['accepted'],
+                'turnstileResponse' => app()->environment(['production']) ? ['required', $turnstile] : [],
+            ],
+            [
+                'terms.accepted'              => 'You must agree to the terms and conditions to continue.',
+                'turnstileResponse.required'  => 'Please complete the CAPTCHA verification.',
+                'turnstileResponse.turnstile' => 'CAPTCHA verification failed. Please try again.',
+            ]
+        );
 
         unset($validated['terms']);
         unset($validated['turnstileResponse']);
@@ -74,6 +81,8 @@ new #[Layout('layouts.auth')] class extends Component {
                 {{__('I agree to the ')}}
                 <flux:link href="{{ route('terms') }}" target="_blank">{{ __('terms and conditions') }}</flux:link>
             </flux:label>
+
+            <flux:error name="terms"/>
         </flux:field>
 
         <flux:field>
