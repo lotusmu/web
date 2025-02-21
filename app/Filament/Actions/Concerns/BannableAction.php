@@ -4,6 +4,7 @@ namespace App\Filament\Actions\Concerns;
 
 use Carbon\Carbon;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
@@ -38,6 +39,10 @@ trait BannableAction
                         ->native(false)
                         ->minDate(now()->addDay())
                         ->hidden(fn (Get $get) => $get('permanent_ban')),
+                    Textarea::make('reason')
+                        ->label('Ban Reason')
+                        ->placeholder('Enter reason for this ban')
+                        ->columnSpanFull(),
                 ];
             })
             ->action(function (Model $record, array $data) {
@@ -56,19 +61,27 @@ trait BannableAction
                     return;
                 }
 
+                $reason = $data['reason'] ?? null;
+
                 if ($data['permanent_ban'] ?? false) {
-                    $record->banPermanently();
+                    $record->banPermanently($reason);
                     $modelType = class_basename($record);
                     $identifierField = $record->getKeyName();
                     $identifier = $record->{$identifierField};
                     $message = "{$modelType} {$identifier} has been banned permanently";
+                    if ($reason) {
+                        $message .= " for: {$reason}";
+                    }
                 } else {
                     $banUntil = Carbon::parse($data['ban_until']);
-                    $record->banUntil($banUntil);
+                    $record->banUntil($banUntil, $reason);
                     $modelType = class_basename($record);
                     $identifierField = $record->getKeyName();
                     $identifier = $record->{$identifierField};
                     $message = "{$modelType} {$identifier} has been banned until ".$banUntil->format('Y-m-d H:i');
+                    if ($reason) {
+                        $message .= " for: {$reason}";
+                    }
                 }
 
                 Notification::make()

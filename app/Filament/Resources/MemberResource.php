@@ -13,6 +13,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -139,7 +140,13 @@ class MemberResource extends Resource
                             ->helperText('Leave empty for permanent ban.')
                             ->minDate(now()->addDay())
                             ->nullable()
-                            ->visible(fn (Get $get) => $get('bloc_code') == 1),
+                            ->visible(fn (Get $get) => $get('bloc_code') == BanStatus::Banned->value),
+
+                        Textarea::make('ban_reason')
+                            ->label('Ban Reason')
+                            ->placeholder('Enter reason for this ban')
+                            ->visible(fn (Get $get) => $get('bloc_code') == BanStatus::Banned->value)
+                            ->maxLength(255),
                     ]),
             ]);
     }

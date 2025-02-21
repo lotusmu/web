@@ -18,6 +18,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -225,7 +226,13 @@ class CharacterResource extends Resource
                                             ->helperText('Leave empty for permanent ban.')
                                             ->minDate(now()->addDay())
                                             ->nullable()
-                                            ->visible(fn (Get $get) => $get('CtlCode') == 1),
+                                            ->visible(fn (Get $get) => $get('CtlCode') == BanStatus::Banned->value),
+
+                                        Textarea::make('ban_reason')
+                                            ->label('Ban Reason')
+                                            ->placeholder('Enter reason for this ban')
+                                            ->visible(fn (Get $get) => $get('CtlCode') == BanStatus::Banned->value)
+                                            ->maxLength(255),
                                     ]),
                             ]),
                     ]),
@@ -365,6 +372,11 @@ class CharacterResource extends Resource
                                     ->state(function (Character $record) {
                                         return $record->bloc_expire === null ? 'Permanent' : $record->bloc_expire->format('Y-m-d H:i');
                                     })
+                                    ->visible(fn (Character $record): bool => $record->isBanned()),
+
+                                TextEntry::make('ban_reason')
+                                    ->label('Ban Reason')
+                                    ->placeholder('No reason provided')
                                     ->visible(fn (Character $record): bool => $record->isBanned()),
 
                                 Actions::make([

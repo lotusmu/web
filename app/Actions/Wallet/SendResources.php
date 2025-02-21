@@ -12,6 +12,7 @@ use App\Support\ActivityLog\IdentityProperties;
 use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\Models\Activity;
 
 class SendResources
 {
@@ -161,10 +162,27 @@ class SendResources
         }
 
         if ($sender->member->isBanned()) {
+            $reason = $sender->member->ban_reason;
+
+            if (! $reason) {
+                $banActivity = Activity::where('log_name', 'ban')
+                    ->where('properties->subject_name', $sender->name)
+                    ->latest()
+                    ->first();
+
+                $reason = $banActivity?->properties['reason'] ?? null;
+            }
+
+            $banMessage = __('You cannot send :resource while your account is banned.', [
+                'resource' => $resourceType->getLabel(),
+            ]);
+
+            if ($reason) {
+                $banMessage .= ' '.__('Reason: :reason', ['reason' => $reason]);
+            }
+
             Flux::toast(
-                text: __('You cannot send :resource while your account is banned.', [
-                    'resource' => $resourceType->getLabel(),
-                ]),
+                text: $banMessage,
                 heading: __('Transfer Blocked'),
                 variant: 'danger',
             );

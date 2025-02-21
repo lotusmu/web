@@ -53,7 +53,7 @@ trait IsBannable
         return $this->{$field} === BanStatus::Banned;
     }
 
-    public function banPermanently(): void
+    public function banPermanently(?string $reason = null): void
     {
         $statusField = $this->getStatusField();
         $expiryField = $this->getExpiryField();
@@ -61,24 +61,25 @@ trait IsBannable
         $this->update([
             $statusField => BanStatus::Banned,
             $expiryField => null,
+            'ban_reason' => $reason,
         ]);
 
         $modelType = $this->getModelTypeForLogging();
         $subjectName = $this->getSubjectNameForLogging();
 
-        // Log using a simple description to avoid model binding issues
         activity('ban')
             ->withProperties([
                 'action' => 'permanent_ban',
                 'ban_type' => 'permanent',
                 'model_type' => $modelType,
                 'subject_name' => $subjectName,
+                'reason' => $reason,
                 ...IdentityProperties::capture(),
             ])
-            ->log(":causer.name permanently banned {$modelType} {$subjectName}");
+            ->log(":causer.name permanently banned {$modelType} {$subjectName}".($reason ? " for: {$reason}" : ''));
     }
 
-    public function banUntil(DateTime $expireDate): void
+    public function banUntil(DateTime $expireDate, ?string $reason = null): void
     {
         $statusField = $this->getStatusField();
         $expiryField = $this->getExpiryField();
@@ -86,13 +87,13 @@ trait IsBannable
         $this->update([
             $statusField => BanStatus::Banned,
             $expiryField => $expireDate,
+            'ban_reason' => $reason,
         ]);
 
         $modelType = $this->getModelTypeForLogging();
         $subjectName = $this->getSubjectNameForLogging();
         $formattedExpiry = $expireDate->format('M d Y, H:i');
 
-        // Log the temporary ban action
         activity('ban')
             ->withProperties([
                 'action' => 'temporary_ban',
@@ -100,9 +101,10 @@ trait IsBannable
                 'expires_at' => $formattedExpiry,
                 'model_type' => $modelType,
                 'subject_name' => $subjectName,
+                'reason' => $reason,
                 ...IdentityProperties::capture(),
             ])
-            ->log(":causer.name banned {$modelType} {$subjectName} until {$formattedExpiry}");
+            ->log(":causer.name banned {$modelType} {$subjectName} until {$formattedExpiry}".($reason ? " for: {$reason}" : ''));
     }
 
     public function unban(): void
@@ -113,12 +115,12 @@ trait IsBannable
         $this->update([
             $statusField => BanStatus::Active,
             $expiryField => null,
+            'ban_reason' => null,
         ]);
 
         $modelType = $this->getModelTypeForLogging();
         $subjectName = $this->getSubjectNameForLogging();
 
-        // Log the unban action
         activity('ban')
             ->withProperties([
                 'action' => 'unban',
@@ -136,7 +138,13 @@ trait IsBannable
         }
 
         $expiryField = $this->getExpiryField();
+        $expiryText = $this->{$expiryField} === null ? 'Permanent' : $this->{$expiryField}->format('Y-m-d H:i');
 
-        return $this->{$expiryField} === null ? 'Permanent' : $this->{$expiryField}->format('Y-m-d H:i');
+        return $expiryText;
+    }
+
+    public function getBanReasonText(): ?string
+    {
+        return $this->ban_reason;
     }
 }

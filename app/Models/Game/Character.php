@@ -58,6 +58,7 @@ class Character extends Model
         'PkLevel',
         'PkTime',
         'CtlCode',
+        'ban_reason',
         'ResetCount',
         'MasterResetCount',
         'ExtInventory',

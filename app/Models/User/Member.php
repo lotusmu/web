@@ -41,6 +41,7 @@ class Member extends Model
         'mail_chek',
         'bloc_code',
         'bloc_expire',
+        'ban_reason',
         'ctl1_code',
         'AccountLevel',
         'AccountExpireDate',
