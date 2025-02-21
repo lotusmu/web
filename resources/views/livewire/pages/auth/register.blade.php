@@ -75,7 +75,9 @@ new #[Layout('layouts.auth')] class extends Component {
             </flux:label>
         </flux:field>
 
-        <x-turnstile/>
+        <flux:field>
+            <x-turnstile/>
+        </flux:field>
 
         <flux:button variant="primary" type="submit">
             {{ __('Register') }}
