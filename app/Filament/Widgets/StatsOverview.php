@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Number;
 
 class StatsOverview extends BaseWidget
@@ -66,8 +67,8 @@ class StatsOverview extends BaseWidget
         $totalOnline = Status::where('ConnectStat', true)->count();
 
         // Calculate total resources (Tokens, Credits, Zen)
-        $totalTokens = Member::sum('tokens');
-        $totalCredits = Wallet::sum('WCoinC');
+        $totalTokens = Member::sum('tokens') * 100;
+        $totalCredits = Wallet::sum('WCoinC') * 100;
         $totalZen = Wallet::sum('zen');
 
         // Format numbers for display
@@ -92,14 +93,26 @@ class StatsOverview extends BaseWidget
             Stat::make('Total Online', $totalOnline)
                 ->description('Currently active users')
                 ->color('info')
-                ->icon('heroicon-s-signal'),
+                ->icon('heroicon-o-signal'),
 
             Stat::make('Total Resources', '')
-                ->description("Tokens: {$formattedTokens} | Credits: {$formattedCredits} | Zen: {$formattedZen}")
-                ->extraAttributes([
-                    'class' => 'cursor-pointer',
-                ])
-                ->icon('heroicon-o-circle-stack'),
+                ->icon('heroicon-o-circle-stack')
+                ->description(new HtmlString('
+                    <div class="flex items-start gap-4">
+                        <div>
+                            <div class="text-xs">Tokens</div>
+                            <div class="text-base font-semibold">'.$formattedTokens.'</div>
+                        </div>
+                        <div>
+                            <div class="text-xs">Credits</div>
+                            <div class="text-base font-semibold">'.$formattedCredits.'</div>
+                        </div>
+                        <div>
+                            <div class="text-xs">Zen</div>
+                            <div class="text-base font-semibold">'.$formattedZen.'</div>
+                        </div>
+                    </div>
+                ')),
         ];
     }
 
