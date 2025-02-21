@@ -78,8 +78,8 @@ new #[Layout('layouts.auth')] class extends Component {
 
         <flux:field>
             <x-turnstile wire:model="turnstileResponse"/>
-            <flux:error name="turnstileResponse"
-                        message="error!!!"/>
+
+            <flux:error name="turnstileResponse"/>
         </flux:field>
 
         <flux:button variant="primary" type="submit">
