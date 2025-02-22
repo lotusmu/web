@@ -18,7 +18,7 @@
     <img
         src="{{ asset('/images/beams/hero-dark.png') }}"
         alt="Dark background beams"
-        class="hidden dark:block h-full w-full bg-bottom bg-no-repeat max-xl:object-cover [mask-image:linear-gradient(to_top,transparent_0%,white_20%)]"
+        class="hidden dark:block opacity-70 h-full w-full bg-bottom bg-no-repeat max-xl:object-cover [mask-image:linear-gradient(to_top,transparent_0%,white_20%)]"
         loading="eager"
         fetchpriority="high"
         decoding="async">

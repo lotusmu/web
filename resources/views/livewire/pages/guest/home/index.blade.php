@@ -268,7 +268,7 @@ new #[Layout('layouts.guest')] class extends Component {
                         <x-slot:media>
                             <x-browser-frame
                                 video="{{ asset('videos/mu.mp4') }}"
-                                poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                                poster="{{ asset('images/auth/image.jpg') }}"
                             />
                         </x-slot:media>
                     </x-feature-split>
@@ -284,7 +284,7 @@ new #[Layout('layouts.guest')] class extends Component {
                         <x-slot:media>
                             <x-browser-frame
                                 video="{{ asset('videos/example.mp4') }}"
-                                poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                                poster="{{ asset('images/auth/image.jpg') }}"
                             />
                         </x-slot:media>
                     </x-feature-split>
@@ -300,8 +300,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
                         <x-slot:media>
                             <x-browser-frame
-                                video="{{ asset('videos/auth-video.mp4') }}"
-                                poster="{{ asset('images/auth/auth-dark.jpg') }}"
+                                video="{{ asset('videos/auth.mp4') }}"
+                                poster="{{ asset('images/auth/image.jpg') }}"
                             />
                         </x-slot:media>
                     </x-feature-split>
@@ -371,11 +371,17 @@ new #[Layout('layouts.guest')] class extends Component {
                     </flux:subheading>
                 </x-feature-highlight>
 
-                <img
-                    src="{{ asset('images/shop.png') }}"
-                    alt="App screenshot"
-                    class="relative max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem] ml-auto"
-                >
+                <picture>
+                    <source
+                        srcset="{{ asset('images/catalog/catalog.webp') }}"
+                        type="image/webp">
+                    <img
+                        src="{{ asset('images/catalog/catalog.png') }}"
+                        alt="Fantasy shop stall with magical potions"
+                        class="relative max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem] ml-auto"
+                        loading="lazy"
+                        decoding="async">
+                </picture>
             </div>
         </div>
     </section>

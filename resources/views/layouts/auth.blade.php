@@ -24,11 +24,24 @@
 
 
     <div class="flex-1 p-4 max-lg:hidden">
-        <div class="text-white relative rounded-lg h-full w-full flex flex-col items-start justify-end p-16"
-             style="background-image: url({{asset('images/auth/auth-dark.jpg')}});
-                    background-size: cover;
-                    background-position: 25%;
-                    background-repeat: no-repeat;">
+        <div
+            class="relative rounded-lg h-full w-full flex flex-col items-start justify-end p-16 text-white overflow-hidden">
+
+            <picture class="absolute inset-0 h-full w-full -z-10">
+                <source
+                    srcset="{{ asset('images/auth/image.avif') }}"
+                    type="image/avif">
+                <source
+                    srcset="{{ asset('images/auth/image.webp') }}"
+                    type="image/webp">
+                <img
+                    src="{{ asset('images/auth/image.jpg') }}"
+                    alt="Nighttime torii gate scene"
+                    class="h-full w-full object-cover"
+                    style="object-position: 25%;"
+                    loading="lazy"
+                    decoding="async">
+            </picture>
 
             <div class="flex gap-2 mb-4">
                 <svg class="shrink-0 [:where(&amp;)]:size-6" data-flux-icon="" xmlns="http://www.w3.org/2000/svg"

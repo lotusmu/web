@@ -90,14 +90,14 @@ enum FilterCharacterClass: string
     public function getImagePath(): string
     {
         return match ($this) {
-            self::All => 'images/character_classes/avatar.jpg',
-            self::Knights => 'images/character_classes/dk.jpg',
-            self::Wizards => 'images/character_classes/dw.jpg',
-            self::Elves => 'images/character_classes/elf.jpg',
-            self::Gladiators => 'images/character_classes/mg.jpg',
-            self::Lords => 'images/character_classes/dl.jpg',
-            //            self::Summoners => 'images/character_classes/sum.jpg',
-            //            self::Fighters => 'images/character_classes/rf.jpg',
+            self::All => 'images/characters/avatars/avatar.jpg',
+            self::Knights => 'images/characters/avatars/dk.jpg',
+            self::Wizards => 'images/characters/avatars/dw.jpg',
+            self::Elves => 'images/characters/avatars/elf.jpg',
+            self::Gladiators => 'images/characters/avatars/mg.jpg',
+            self::Lords => 'images/characters/avatars/dl.jpg',
+            //            self::Summoners => 'images/characters/avatars/sum.jpg',
+            //            self::Fighters => 'images/characters/avatars/rf.jpg',
         };
     }
 }

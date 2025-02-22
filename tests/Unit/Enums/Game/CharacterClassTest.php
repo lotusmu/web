@@ -121,24 +121,24 @@ it('returns the correct image path for each class group', function () {
     ];
 
     foreach ($wizardClasses as $class) {
-        expect($class->getImagePath())->toBe('images/character_classes/dw.jpg');
+        expect($class->getImagePath())->toBe('images/characters/avatars/dw.jpg');
     }
     foreach ($knightClasses as $class) {
-        expect($class->getImagePath())->toBe('images/character_classes/dk.jpg');
+        expect($class->getImagePath())->toBe('images/characters/avatars/dk.jpg');
     }
     foreach ($elfClasses as $class) {
-        expect($class->getImagePath())->toBe('images/character_classes/elf.jpg');
+        expect($class->getImagePath())->toBe('images/characters/avatars/elf.jpg');
     }
     foreach ($gladiatorClasses as $class) {
-        expect($class->getImagePath())->toBe('images/character_classes/mg.jpg');
+        expect($class->getImagePath())->toBe('images/characters/avatars/mg.jpg');
     }
     foreach ($lordClasses as $class) {
-        expect($class->getImagePath())->toBe('images/character_classes/dl.jpg');
+        expect($class->getImagePath())->toBe('images/characters/avatars/dl.jpg');
     }
     foreach ($summonerClasses as $class) {
-        expect($class->getImagePath())->toBe('images/character_classes/sum.jpg');
+        expect($class->getImagePath())->toBe('images/characters/avatars/sum.jpg');
     }
     foreach ($fighterClasses as $class) {
-        expect($class->getImagePath())->toBe('images/character_classes/rf.jpg');
+        expect($class->getImagePath())->toBe('images/characters/avatars/rf.jpg');
     }
 });

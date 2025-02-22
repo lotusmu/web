@@ -77,13 +77,13 @@ enum CharacterClass: int implements HasLabel
     public function getImagePath(): string
     {
         return match ($this) {
-            self::DarkWizard, self::SoulMaster, self::GrandMaster, self::GrandMaster2, self::SoulWizard => 'images/character_classes/dw.jpg',
-            self::DarkKnight, self::BladeKnight, self::BladeMaster, self::BladeMaster2, self::DragonKnight => 'images/character_classes/dk.jpg',
-            self::FairyElf, self::MuseElf, self::HighElf, self::HighElf2, self::NobleElves => 'images/character_classes/elf.jpg',
-            self::MagicGladiator, self::DuelMaster, self::DuelMaster2, self::MagicKnight, self::MagicKnight2 => 'images/character_classes/mg.jpg',
-            self::DarkLord, self::LordEmperor, self::LordEmperor2, self::EmpireRoad, self::EmpireRoad2 => 'images/character_classes/dl.jpg',
-            self::Summoner, self::BloodySummoner, self::DimensionMaster, self::DimensionMaster2, self::DimensionSummoner, self::DimensionSummoner2 => 'images/character_classes/sum.jpg',
-            self::RageFighter, self::FistMaster, self::FistMaster2, self::FistBlazer, self::FistBlazer2 => 'images/character_classes/rf.jpg',
+            self::DarkWizard, self::SoulMaster, self::GrandMaster, self::GrandMaster2, self::SoulWizard => 'images/characters/avatars/dw.jpg',
+            self::DarkKnight, self::BladeKnight, self::BladeMaster, self::BladeMaster2, self::DragonKnight => 'images/characters/avatars/dk.jpg',
+            self::FairyElf, self::MuseElf, self::HighElf, self::HighElf2, self::NobleElves => 'images/characters/avatars/elf.jpg',
+            self::MagicGladiator, self::DuelMaster, self::DuelMaster2, self::MagicKnight, self::MagicKnight2 => 'images/characters/avatars/mg.jpg',
+            self::DarkLord, self::LordEmperor, self::LordEmperor2, self::EmpireRoad, self::EmpireRoad2 => 'images/characters/avatars/dl.jpg',
+            self::Summoner, self::BloodySummoner, self::DimensionMaster, self::DimensionMaster2, self::DimensionSummoner, self::DimensionSummoner2 => 'images/characters/avatars/sum.jpg',
+            self::RageFighter, self::FistMaster, self::FistMaster2, self::FistBlazer, self::FistBlazer2 => 'images/characters/avatars/rf.jpg',
         };
     }
 
@@ -95,8 +95,8 @@ enum CharacterClass: int implements HasLabel
             self::FairyElf, self::MuseElf, self::HighElf, self::HighElf2, self::NobleElves => 'images/characters/fe.png',
             self::MagicGladiator, self::DuelMaster, self::DuelMaster2, self::MagicKnight, self::MagicKnight2 => 'images/characters/mg.png',
             self::DarkLord, self::LordEmperor, self::LordEmperor2, self::EmpireRoad, self::EmpireRoad2 => 'images/characters/dl.png',
-            self::Summoner, self::BloodySummoner, self::DimensionMaster, self::DimensionMaster2, self::DimensionSummoner, self::DimensionSummoner2 => 'images/character_classes/sum.jpg',
-            self::RageFighter, self::FistMaster, self::FistMaster2, self::FistBlazer, self::FistBlazer2 => 'images/character_classes/rf.jpg',
+            self::Summoner, self::BloodySummoner, self::DimensionMaster, self::DimensionMaster2, self::DimensionSummoner, self::DimensionSummoner2 => 'images/characters/avatars/sum.jpg',
+            self::RageFighter, self::FistMaster, self::FistMaster2, self::FistBlazer, self::FistBlazer2 => 'images/characters/avatars/rf.jpg',
         };
     }
 }
