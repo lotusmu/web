@@ -22,7 +22,7 @@ new #[Layout('layouts.guest')] class extends Component {
 <div class="space-y-40">
     <!-- Hero section -->
     <section class="relative isolate overflow-hidden">
-        <x-grid-pattern position="top_left" :border-top="false"/>
+        <x-sections.grid-pattern position="top_left" :border-top="false"/>
 
         <div class="mx-auto max-w-7xl px-6 pt-10 lg:flex lg:px-8 lg:pt-40">
             <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
@@ -86,6 +86,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:heading size="xl" level="2" class="z-0">
                 {{ __('Latest News') }}
             </flux:heading>
+            
             <flux:link variant="subtle" :href="route('articles')" wire:navigate class="flex items-center gap-2 z-0">
                 {{ __('View All') }}
                 <flux:icon.arrow-right variant="micro"/>
@@ -102,7 +103,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <!-- Features -->
     <section class="relative isolate mt-32 px-6 pt-32 sm:mt-56 sm:pt-40 lg:px-8">
-        <x-grid-pattern position="top_right"/>
+        <x-sections.grid-pattern position="top_right"/>
 
         {{-- Dark theme beams --}}
         <div
@@ -132,13 +133,9 @@ new #[Layout('layouts.guest')] class extends Component {
         <div class="mx-auto max-w-3xl">
             <!-- Header Section -->
             <div class="text-center mb-12 space-y-6">
-                <div class="flex justify-center">
-                    <div class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
-                        <flux:icon.squares-plus class="h-6 w-6 text-[var(--color-compliment-content)]"/>
-                    </div>
-                </div>
+                <x-sections.header-icon name="squares-plus"/>
 
-                <p class="text-[var(--color-compliment-content)] !mt-3">Features</p>
+                <x-sections.kicker :text="__('Features')"/>
 
                 <flux:heading size="2xl" level="2">
                     Ancient powers reimagined for modern gameplay.
@@ -150,11 +147,10 @@ new #[Layout('layouts.guest')] class extends Component {
                     that made the game legendary.
                 </flux:text>
 
-                <flux:link href="https://wiki.lotusmu.org" variant="ghost" :accent="false" external
-                           class="!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2">
-                    {{ __('Learn more') }}
-                    <flux:icon.arrow-long-right variant="micro"/>
-                </flux:link>
+                <x-sections.link
+                    href="https://wiki.lotusmu.org" external
+                    text="{{ __('Learn more') }}"
+                />
             </div>
 
             <flux:tab.group>
@@ -223,13 +219,9 @@ new #[Layout('layouts.guest')] class extends Component {
     <section class="relative isolate">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-12 space-y-6">
-                <div class="flex justify-center">
-                    <div class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">
-                        <flux:icon.film class="h-6 w-6 text-[var(--color-compliment-content)]"/>
-                    </div>
-                </div>
+                <x-sections.header-icon name="film"/>
 
-                <p class="text-[var(--color-compliment-content)] !mt-3">More Features</p>
+                <x-sections.kicker :text="__('More Features')"/>
 
                 <flux:heading size="2xl" level="2" class="max-w-3xl mx-auto">
                     Ancient powers reimagined for modern gameplay.
@@ -241,11 +233,10 @@ new #[Layout('layouts.guest')] class extends Component {
                     that made the game legendary.
                 </flux:text>
 
-                <flux:link href="https://wiki.lotusmu.org" variant="ghost" :accent="false" external
-                           class="!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2">
-                    {{ __('Learn more') }}
-                    <flux:icon.arrow-long-right variant="micro"/>
-                </flux:link>
+                <x-sections.link
+                    href="https://wiki.lotusmu.org" external
+                    text="{{ __('Learn more') }}"
+                />
             </div>
 
             <flux:tab.group class="mt-10">
@@ -256,7 +247,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 </flux:tabs>
 
                 <div class="absolute w-full overflow-visible left-0 h-[30rem] mt-8 xl:mt-16">
-                    <x-grid-pattern position="top_left"/>
+                    <x-sections.grid-pattern position="top_left"/>
                 </div>
 
                 <flux:tab.panel name="tab10">
@@ -308,25 +299,17 @@ new #[Layout('layouts.guest')] class extends Component {
                 </flux:tab.panel>
             </flux:tab.group>
         </div>
-
-
     </section>
 
     <!-- Catalog -->
     <section class="relative isolate overflow-hidden">
         <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
+
             {{-- texts --}}
             <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-12">
-                {{--                <div class="flex justify-start">--}}
-                {{--                    <div--}}
-                {{--                        class="rounded-full bg-[color-mix(in_oklab,_var(--color-compliment),_transparent_90%)] p-3">--}}
-                {{--                        <flux:icon.building-storefront class="h-6 w-6 text-[var(--color-compliment-content)]"/>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
+                <x-sections.header-icon name="building-storefront" position="start"/>
 
-                <p class="text-[var(--color-compliment-content)] mt-3">
-                    {{ __('Catalog') }}
-                </p>
+                <x-sections.kicker :text="__('Catalog')"/>
 
                 <flux:heading size="2xl" level="2" class="mt-6">
                     {{ __('Your path, your possibilities.') }}
@@ -338,11 +321,10 @@ new #[Layout('layouts.guest')] class extends Component {
                 </flux:text>
 
                 <div class="mt-10">
-                    <flux:link variant="ghost" :accent="false" :href="route('catalog')" wire:navigate
-                               class="!text-[var(--color-compliment-content)] inline-flex items-center gap-2">
-                        {{ __('Browse Offerings') }}
-                        <flux:icon.arrow-long-right variant="micro"/>
-                    </flux:link>
+                    <x-sections.link
+                        :href="route('catalog')" wire:navigate.hover
+                        text="{{ __('Browse Offerings') }}"
+                    />
                 </div>
             </div>
 
@@ -389,7 +371,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <!-- CTA section -->
     <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
-        <x-grid-pattern position="top_right"/>
+        <x-sections.grid-pattern position="top_right"/>
 
         <picture class="absolute inset-0 h-full w-full -z-20">
             <source
@@ -440,6 +422,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <flux:button variant="primary" :href="route('register')">
                     {{ __('Register Now') }}
                 </flux:button>
+
                 <flux:button variant="ghost" icon-trailing="arrow-long-right"
                              href="{{ config('social.links.discord') }}" target="_blank">
                     {{ __('Join Discord') }}
