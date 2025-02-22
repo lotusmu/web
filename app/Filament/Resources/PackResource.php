@@ -143,6 +143,7 @@ class PackResource extends Resource
                         ->schema([
                             Toggle::make('has_additional')
                                 ->label('Additional Bonus Badge')
+                                ->default(true)
                                 ->inline(false)
                                 ->helperText('Toggle additional bonus badge.')
                                 ->live(),

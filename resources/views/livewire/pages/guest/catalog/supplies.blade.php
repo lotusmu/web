@@ -72,12 +72,12 @@ new class extends Component {
                         <div
                             class="grid max-sm:justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16">
                             @foreach($this->supplies->get($category->value, []) as $supply)
-                                <div class="flex items-start gap-2">
+                                <div class="flex items-start gap-2 h-full">
                                     <img src="{{ asset($supply['image']) }}"
                                          alt="{{ $supply['name'] }} image preview"
                                          class="w-8 h-8 object-contain">
 
-                                    <div class="flex flex-col space-y-2 min-h-24">
+                                    <div class="flex flex-col space-y-2 min-h-24 h-full w-full">
                                         <flux:heading>
                                             {{ $supply['name'] }}
                                         </flux:heading>
