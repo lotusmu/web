@@ -51,12 +51,28 @@
 
         <flux:tab.group>
             <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0 sm:justify-center">
-                <flux:tab name="tab1" :accent="false">Tab Name</flux:tab>
-                <flux:tab name="tab2" :accent="false">Tab Name</flux:tab>
-                <flux:tab name="tab3" :accent="false">Tab Name</flux:tab>
+                <flux:tab name="monsters" :accent="false" icon="skull">
+                    {{ __('Special Monsters') }}
+                </flux:tab>
+
+                <flux:tab name="helper" :accent="false" icon="bot">
+                    {{ __('Helper') }}
+                </flux:tab>
+
+                <flux:tab name="farm" :accent="false" icon="mountain">
+                    {{ __('Farm Areas') }}
+                </flux:tab>
+
+                <flux:tab name="rewards" :accent="false" icon="gift">
+                    {{ __('Daily Rewards') }}
+                </flux:tab>
+
+                <flux:tab name="locations" :accent="false" icon="map-pinned">
+                    {{ __('Key Locations') }}
+                </flux:tab>
             </flux:tabs>
 
-            <flux:tab.panel name="tab1">
+            <flux:tab.panel name="monsters">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Visual Demo -->
                     <div class="bg-white/5 rounded-lg p-6 space-y-4">
@@ -73,7 +89,8 @@
                     </flux:card>
                 </div>
             </flux:tab.panel>
-            <flux:tab.panel name="tab2">
+
+            <flux:tab.panel name="helper">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Visual Demo -->
                     <div class="bg-white/5 rounded-lg p-6 space-y-4">
@@ -90,7 +107,44 @@
                     </flux:card>
                 </div>
             </flux:tab.panel>
-            <flux:tab.panel name="tab3">
+            
+            <flux:tab.panel name="farm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Visual Demo -->
+                    <div class="bg-white/5 rounded-lg p-6 space-y-4">
+                        <div class="w-80 h-8 bg-white/10 rounded"></div>
+                        <div class="w-72 h-8 bg-white/10 rounded"></div>
+                        <div class="w-64 h-8 bg-white/10 rounded"></div>
+                        <div class="w-56 h-8 bg-white/10 rounded"></div>
+                        <div class="w-48 h-8 bg-white/10 rounded"></div>
+                    </div>
+
+                    <!-- Code Preview -->
+                    <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
+                        Tab 3
+                    </flux:card>
+                </div>
+            </flux:tab.panel>
+
+            <flux:tab.panel name="rewards">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Visual Demo -->
+                    <div class="bg-white/5 rounded-lg p-6 space-y-4">
+                        <div class="w-80 h-8 bg-white/10 rounded"></div>
+                        <div class="w-72 h-8 bg-white/10 rounded"></div>
+                        <div class="w-64 h-8 bg-white/10 rounded"></div>
+                        <div class="w-56 h-8 bg-white/10 rounded"></div>
+                        <div class="w-48 h-8 bg-white/10 rounded"></div>
+                    </div>
+
+                    <!-- Code Preview -->
+                    <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
+                        Tab 3
+                    </flux:card>
+                </div>
+            </flux:tab.panel>
+
+            <flux:tab.panel name="locations">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Visual Demo -->
                     <div class="bg-white/5 rounded-lg p-6 space-y-4">

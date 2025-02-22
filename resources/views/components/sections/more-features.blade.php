@@ -23,16 +23,36 @@
 
         <flux:tab.group class="mt-10">
             <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0 sm:justify-center">
-                <flux:tab name="tab10" :accent="false" icon="swords">Evolving Items</flux:tab>
-                <flux:tab name="tab20" :accent="false" icon="scroll">Progressive Quests</flux:tab>
-                <flux:tab name="tab30" :accent="false" icon="sparkles">Crafting System</flux:tab>
+                <flux:tab name="wiki" :accent="false" icon="book-open">
+                    {{ __('Wiki') }}
+                </flux:tab>
+
+                <flux:tab name="items" :accent="false" icon="swords">
+                    {{ __('Evolving Items') }}
+                </flux:tab>
+
+                <flux:tab name="quests" :accent="false" icon="scroll">
+                    {{ __('Progressive Quests') }}
+                </flux:tab>
+
+                <flux:tab name="crafting" :accent="false" icon="sparkles">
+                    {{ __('Crafting System') }}
+                </flux:tab>
+
+                <flux:tab name="events" :accent="false" icon="award">
+                    {{ __('Elite Events') }}
+                </flux:tab>
+
+                <flux:tab name="pets" :accent="false" icon="paw-print">
+                    {{ __('Pet Collection') }}
+                </flux:tab>
             </flux:tabs>
 
             <div class="absolute w-full overflow-visible left-0 h-[30rem] mt-8 xl:mt-16">
                 <x-sections.grid-pattern position="top_left"/>
             </div>
 
-            <flux:tab.panel name="tab10">
+            <flux:tab.panel name="wiki">
                 <x-feature-split>
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit...
@@ -47,7 +67,22 @@
                 </x-feature-split>
             </flux:tab.panel>
 
-            <flux:tab.panel name="tab20">
+            <flux:tab.panel name="items">
+                <x-feature-split>
+                    <x-slot:text>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-browser-frame
+                            video="{{ asset('videos/mu.mp4') }}"
+                            poster="{{ asset('images/auth/image.jpg') }}"
+                        />
+                    </x-slot:media>
+                </x-feature-split>
+            </flux:tab.panel>
+
+            <flux:tab.panel name="quests">
                 <x-feature-split>
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
@@ -62,8 +97,42 @@
                     </x-slot:media>
                 </x-feature-split>
             </flux:tab.panel>
+            
+            <flux:tab.panel name="crafting">
+                <x-feature-split>
+                    <x-slot:text>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
+                        consectetur adipisicing elit. Ipsam, minima? Lorem ipsum dolor sit amet, consectetur
+                        adipisicing elit. Consectetur, minus.
+                    </x-slot:text>
 
-            <flux:tab.panel name="tab30">
+                    <x-slot:media>
+                        <x-browser-frame
+                            video="{{ asset('videos/auth.mp4') }}"
+                            poster="{{ asset('images/auth/image.jpg') }}"
+                        />
+                    </x-slot:media>
+                </x-feature-split>
+            </flux:tab.panel>
+
+            <flux:tab.panel name="events">
+                <x-feature-split>
+                    <x-slot:text>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
+                        consectetur adipisicing elit. Ipsam, minima? Lorem ipsum dolor sit amet, consectetur
+                        adipisicing elit. Consectetur, minus.
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-browser-frame
+                            video="{{ asset('videos/auth.mp4') }}"
+                            poster="{{ asset('images/auth/image.jpg') }}"
+                        />
+                    </x-slot:media>
+                </x-feature-split>
+            </flux:tab.panel>
+
+            <flux:tab.panel name="pets">
                 <x-feature-split>
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
