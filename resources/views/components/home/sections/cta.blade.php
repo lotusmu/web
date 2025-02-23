@@ -1,5 +1,5 @@
 <section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
-    <x-sections.grid-pattern position="top_right"/>
+    <x-home.grid-pattern position="top_right"/>
 
     <picture class="absolute inset-0 h-full w-full -z-20">
         <source

@@ -2,26 +2,25 @@
     <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
 
         {{-- texts --}}
-        <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-12">
-            <x-sections.header-icon name="building-storefront" position="start"/>
+        <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-12 space-y-8">
+            <x-home.header-icon name="building-storefront" position="start"/>
 
-            <x-sections.kicker :text="__('Catalog')"/>
+            <x-home.kicker>
+                {{ __('Catalog') }}
+            </x-home.kicker>
 
-            <flux:heading size="2xl" level="2" class="mt-6">
+            <x-home.heading>
                 {{ __('Your path, your possibilities.') }}
-            </flux:heading>
+            </x-home.heading>
 
-            <flux:text size="lg" class="mt-6 leading-8">
+            <x-home.text>
                 {{ __ ('Explore our selection of convenience features and enhancements designed to complement your gameplay
                 experience. See detailed information about everything available in the game.')}}
-            </flux:text>
+            </x-home.text>
 
-            <div class="mt-10">
-                <x-sections.link
-                    :href="route('catalog')" wire:navigate.hover
-                    text="{{ __('Browse Offerings') }}"
-                />
-            </div>
+            <x-home.link :href="route('catalog')" wire:navigate.hover>
+                {{ __('Browse Offerings') }}
+            </x-home.link>
         </div>
 
         {{-- image with floating boxes --}}

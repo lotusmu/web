@@ -20,15 +20,15 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <div class="space-y-40">
-    <x-sections.hero/>
+    <x-home.sections.hero/>
 
-    <x-sections.news :articles="$this->articles"/>
+    <x-home.sections.news :articles="$this->articles"/>
 
-    <x-sections.features/>
+    <x-home.sections.features/>
 
-    <x-sections.more-features/>
+    <x-home.sections.more-features/>
 
-    <x-sections.catalog/>
+    <x-home.sections.catalog/>
 
-    <x-sections.cta/>
+    <x-home.sections.cta/>
 </div>

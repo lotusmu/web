@@ -1,24 +1,25 @@
 <section class="relative isolate">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <div class="text-center mb-12 space-y-6">
-            <x-sections.header-icon name="film"/>
+        <div class="text-center mb-12 space-y-8">
+            <x-home.header-icon name="film"/>
 
-            <x-sections.kicker :text="__('More Features')"/>
+            <x-home.kicker>
+                {{ __('More Features') }}
+            </x-home.kicker>
 
-            <flux:heading size="2xl" level="2" class="max-w-3xl mx-auto">
-                Ancient powers reimagined for modern gameplay.
-            </flux:heading>
+            <x-home.heading class="max-w-3xl mx-auto">
+                {{ __('Ancient powers reimagined for modern gameplay.') }}
+            </x-home.heading>
 
-            <flux:text size="lg" class="mx-auto max-w-2xl leading-8">
-                Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
+            <x-home.text class="mx-auto max-w-2xl">
+                {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
                 Every feature is carefully crafted to enhance gameplay without compromising the core experience
-                that made the game legendary.
-            </flux:text>
+                that made the game legendary.') }}
+            </x-home.text>
 
-            <x-sections.link
-                href="https://wiki.lotusmu.org" external
-                text="{{ __('Learn more') }}"
-            />
+            <x-home.link href="https://wiki.lotusmu.org" external>
+                {{ __('Learn more') }}
+            </x-home.link>
         </div>
 
         <flux:tab.group class="mt-10">
@@ -49,7 +50,7 @@
             </flux:tabs>
 
             <div class="absolute w-full overflow-visible left-0 h-[30rem] mt-8 xl:mt-16">
-                <x-sections.grid-pattern position="top_left"/>
+                <x-home.grid-pattern position="top_left"/>
             </div>
 
             <flux:tab.panel name="wiki">
@@ -97,7 +98,7 @@
                     </x-slot:media>
                 </x-feature-split>
             </flux:tab.panel>
-            
+
             <flux:tab.panel name="crafting">
                 <x-feature-split>
                     <x-slot:text>

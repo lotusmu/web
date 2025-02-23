@@ -1,6 +1,5 @@
 @props([
     'href',
-    'text',
     'external' => false,
 ])
 
@@ -11,6 +10,6 @@
     :external="$external"
     {{ $attributes->merge(['class' => '!text-[var(--color-compliment-content)] mt-6 inline-flex items-center gap-2']) }}
 >
-    {{ $text }}
+    {{ $slot }}
     <flux:icon.arrow-long-right variant="micro"/>
 </flux:link>

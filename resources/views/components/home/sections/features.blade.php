@@ -1,5 +1,5 @@
 <section class="relative isolate mt-32 px-6 pt-32 sm:mt-56 sm:pt-40 lg:px-8">
-    <x-sections.grid-pattern position="top_right"/>
+    <x-home.grid-pattern position="top_right"/>
 
     {{-- Dark theme beams --}}
     <div
@@ -28,25 +28,26 @@
     <!-- Content -->
     <div class="mx-auto max-w-3xl">
         <!-- Header Section -->
-        <div class="text-center mb-12 space-y-6">
-            <x-sections.header-icon name="squares-plus"/>
+        <div class="text-center mb-12 space-y-8">
+            <x-home.header-icon name="squares-plus"/>
 
-            <x-sections.kicker :text="__('Features')"/>
+            <x-home.kicker>
+                {{ __('Features') }}
+            </x-home.kicker>
 
-            <flux:heading size="2xl" level="2">
-                Ancient powers reimagined for modern gameplay.
-            </flux:heading>
+            <x-home.heading>
+                {{ __('Ancient powers reimagined for modern gameplay.') }}
+            </x-home.heading>
 
-            <flux:text size="lg" class="mx-auto max-w-2xl leading-8">
-                Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
+            <x-home.text class="mx-auto max-w-2xl">
+                {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
                 Every feature is carefully crafted to enhance gameplay without compromising the core experience
-                that made the game legendary.
-            </flux:text>
+                that made the game legendary.') }}
+            </x-home.text>
 
-            <x-sections.link
-                href="https://wiki.lotusmu.org" external
-                text="{{ __('Learn more') }}"
-            />
+            <x-home.link href="https://wiki.lotusmu.org" external>
+                {{ __('Learn more') }}
+            </x-home.link>
         </div>
 
         <flux:tab.group>
@@ -107,7 +108,7 @@
                     </flux:card>
                 </div>
             </flux:tab.panel>
-            
+
             <flux:tab.panel name="farm">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Visual Demo -->

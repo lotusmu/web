@@ -1,5 +1,5 @@
 <section class="relative isolate overflow-hidden">
-    <x-sections.grid-pattern position="top_left" :border-top="false"/>
+    <x-home.grid-pattern position="top_left" :border-top="false"/>
 
     <div class="mx-auto max-w-7xl px-6 pt-10 lg:flex lg:px-8 lg:pt-40">
         <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
