@@ -1,8 +1,8 @@
 <section class="relative isolate overflow-hidden">
     <x-home.grid-pattern position="top_left" :border-top="false"/>
 
-    <div class="mx-auto max-w-7xl px-6 pt-10 lg:flex lg:px-8 lg:pt-40">
-        <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
+    <x-home.wrapper class="lg:flex pt-10 lg:pt-40">
+        <div class="max-w-2xl lg:max-w-xl flex-shrink-0 lg:pt-8">
             <livewire:pages.guest.home.updates-banner/>
 
             <flux:heading level="1" size="3xl" class="mt-10 flex flex-col">
@@ -54,5 +54,5 @@
                      decoding="async">
             </picture>
         </div>
-    </div>
+    </x-home.wrapper>
 </section>

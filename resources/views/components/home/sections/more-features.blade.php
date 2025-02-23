@@ -1,5 +1,5 @@
 <section class="relative isolate">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <x-home.wrapper>
         <div class="text-center mb-12 space-y-8">
             <x-home.header-icon name="film"/>
 
@@ -7,11 +7,11 @@
                 {{ __('More Features') }}
             </x-home.kicker>
 
-            <x-home.heading class="max-w-3xl mx-auto">
+            <x-home.heading>
                 {{ __('Ancient powers reimagined for modern gameplay.') }}
             </x-home.heading>
 
-            <x-home.text class="mx-auto max-w-2xl">
+            <x-home.text>
                 {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
                 Every feature is carefully crafted to enhance gameplay without compromising the core experience
                 that made the game legendary.') }}
@@ -23,7 +23,7 @@
         </div>
 
         <flux:tab.group class="mt-10">
-            <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0 sm:justify-center">
+            <flux:tabs variant="pills" class="flex overflow-auto lg:justify-center">
                 <flux:tab name="wiki" :accent="false" icon="book-open">
                     {{ __('Wiki') }}
                 </flux:tab>
@@ -150,5 +150,5 @@
                 </x-feature-split>
             </flux:tab.panel>
         </flux:tab.group>
-    </div>
+    </x-home.wrapper>
 </section>

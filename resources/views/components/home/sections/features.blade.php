@@ -1,4 +1,4 @@
-<section class="relative isolate mt-32 px-6 pt-32 sm:mt-56 sm:pt-40 lg:px-8">
+<section class="relative isolate mt-32 pt-32 sm:mt-56 sm:pt-40">
     <x-home.grid-pattern position="top_right"/>
 
     {{-- Dark theme beams --}}
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Content -->
-    <div class="mx-auto max-w-3xl">
+    <x-home.wrapper>
         <!-- Header Section -->
         <div class="text-center mb-12 space-y-8">
             <x-home.header-icon name="squares-plus"/>
@@ -39,7 +39,7 @@
                 {{ __('Ancient powers reimagined for modern gameplay.') }}
             </x-home.heading>
 
-            <x-home.text class="mx-auto max-w-2xl">
+            <x-home.text>
                 {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
                 Every feature is carefully crafted to enhance gameplay without compromising the core experience
                 that made the game legendary.') }}
@@ -51,7 +51,7 @@
         </div>
 
         <flux:tab.group>
-            <flux:tabs variant="pills" class="flex overflow-auto sm:mx-0 sm:justify-center">
+            <flux:tabs variant="pills" class="flex overflow-auto md:justify-center">
                 <flux:tab name="monsters" :accent="false" icon="skull">
                     {{ __('Special Monsters') }}
                 </flux:tab>
@@ -163,5 +163,5 @@
                 </div>
             </flux:tab.panel>
         </flux:tab.group>
-    </div>
+    </x-home.wrapper>
 </section>

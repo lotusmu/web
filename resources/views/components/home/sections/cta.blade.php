@@ -1,4 +1,4 @@
-<section class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
+<section class="relative isolate mt-32 py-32 sm:mt-56 sm:py-40">
     <x-home.grid-pattern position="top_right"/>
 
     <picture class="absolute inset-0 h-full w-full -z-20">
@@ -35,26 +35,28 @@
             decoding="async">
     </picture>
 
-    <div class="mx-auto max-w-2xl text-center space-y-6">
-        <flux:heading level="2" size="2xl">
-            {{ __('Build your dream character.') }}
-        </flux:heading>
+    <x-home.wrapper>
+        <div class="text-center space-y-8">
+            <x-home.heading>
+                {{ __('Build your dream character.') }}
+            </x-home.heading>
 
-        <flux:text size="lg" class="mx-auto max-w-2xl leading-8">
-            {{ __('Join the Lotus Mu Community as Mu Online enters a new era of gameplay. Experience our signature
-            progressive item system, rich quest system, and an innovative crafting system that rewards
-            creativity.') }}
-        </flux:text>
+            <x-home.text>
+                {{ __('Join the Lotus Mu Community as Mu Online enters a new era of gameplay. Experience our signature
+                progressive item system, rich quest system, and an innovative crafting system that rewards
+                creativity.') }}
+            </x-home.text>
 
-        <div class="flex items-center justify-center gap-x-6 !mt-12">
-            <flux:button variant="primary" :href="route('register')">
-                {{ __('Register Now') }}
-            </flux:button>
+            <div class="flex items-center justify-center gap-x-6 !mt-12">
+                <flux:button variant="primary" :href="route('register')">
+                    {{ __('Register Now') }}
+                </flux:button>
 
-            <flux:button variant="ghost" icon-trailing="arrow-long-right"
-                         href="{{ config('social.links.discord') }}" target="_blank">
-                {{ __('Join Discord') }}
-            </flux:button>
+                <flux:button variant="ghost" icon-trailing="arrow-long-right"
+                             href="{{ config('social.links.discord') }}" target="_blank">
+                    {{ __('Join Discord') }}
+                </flux:button>
+            </div>
         </div>
-    </div>
+    </x-home.wrapper>
 </section>

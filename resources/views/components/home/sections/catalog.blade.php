@@ -1,9 +1,8 @@
 <section class="relative isolate overflow-hidden">
-    <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
-
-        {{-- texts --}}
-        <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-12 space-y-8">
-            <x-home.header-icon name="building-storefront" position="start"/>
+    <x-home.wrapper class="lg:flex">
+        <div class="flex-shrink-0 max-w-2xl lg:max-w-xl mx-auto lg:mx-0 lg:pt-12 space-y-8">
+            <x-home.header-icon name="building-storefront"
+                                position="start"/>
 
             <x-home.kicker>
                 {{ __('Catalog') }}
@@ -23,7 +22,6 @@
             </x-home.link>
         </div>
 
-        {{-- image with floating boxes --}}
         <div class="relative w-full justify-end ml-12 lg:ml-0 -z-10">
             <x-feature-highlight
                 class="absolute top-4 max-lg:top-10 right-4 max-xl:right-12 z-[2]">
@@ -60,5 +58,5 @@
                     decoding="async">
             </picture>
         </div>
-    </div>
+    </x-home.wrapper>
 </section>
