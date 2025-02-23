@@ -5,9 +5,6 @@
 
 <picture>
     <source
-        srcset="{{ asset($src . '.avif') }}"
-        type="image/avif">
-    <source
         srcset="{{ asset($src . '.webp') }}"
         type="image/webp">
     <img
