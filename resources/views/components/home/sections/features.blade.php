@@ -82,8 +82,8 @@
 
                         <div class="space-y-2">
                             <flux:text>
-                                {{  __('We have plenty of special monsters scattered throughout the realm - from weak to strong,
-                                each rewarding in its own way. Find them roaming our carefully crafted farm spots, or face
+                                {{  __('Plenty of special monsters scattered throughout the realm - from weak to strong,
+                                each rewarding in its own way. Find them roaming our carefully crafted farm areas, or face
                                 the most formidable ones in the citadel.') }}
                             </flux:text>
 
