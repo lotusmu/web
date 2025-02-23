@@ -28,5 +28,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <x-sections.more-features/>
 
+    <x-sections.catalog/>
+
     <x-sections.cta/>
 </div>
