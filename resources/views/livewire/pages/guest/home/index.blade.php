@@ -24,9 +24,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <x-home.sections.news :articles="$this->articles"/>
 
-    <x-home.sections.features/>
+    <x-home.sections.essentials/>
 
-    <x-home.sections.more-features/>
+    <x-home.sections.beyond-basics/>
 
     <x-home.sections.catalog/>
 
