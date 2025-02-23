@@ -104,7 +104,8 @@
                     </x-slot:text>
 
                     <x-slot:media>
-                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                        <x-home.feature-picture src="images/essentials/special-monsters"
+                                                alt="Special monsters poster image"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
@@ -142,7 +143,7 @@
                     </x-slot:text>
 
                     <x-slot:media>
-                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                        <x-home.feature-picture src="images/essentials/mu-helper" alt="Mu Helper dialog in-game"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
@@ -185,7 +186,8 @@
                     </x-slot:text>
 
                     <x-slot:media>
-                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                        <x-home.feature-picture src="images/essentials/farm-areas"
+                                                alt="Farm areas in Lotus Mu including Ashkavor and Icewrack"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
@@ -213,7 +215,8 @@
                     </x-slot:text>
 
                     <x-slot:media>
-                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                        <x-home.feature-picture src="images/essentials/daily-rewards"
+                                                alt="Daily rewards in-game screen"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
@@ -264,7 +267,8 @@
                     </x-slot:text>
 
                     <x-slot:media>
-                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                        <x-home.feature-picture src="images/essentials/key-locations"
+                                                alt="Key locations image in Lotus Mu including Yoskreth, The Citadel and VIP Arena"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
