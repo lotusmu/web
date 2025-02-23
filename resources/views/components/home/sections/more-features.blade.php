@@ -54,7 +54,7 @@
             </div>
 
             <flux:tab.panel name="wiki">
-                <x-feature-split>
+                <x-home.feature-split type="video">
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit...
                     </x-slot:text>
@@ -65,11 +65,11 @@
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
-                </x-feature-split>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="items">
-                <x-feature-split>
+                <x-home.feature-split type="video">
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit...
                     </x-slot:text>
@@ -80,11 +80,11 @@
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
-                </x-feature-split>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="quests">
-                <x-feature-split>
+                <x-home.feature-split type="video">
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
                         consectetur adipisicing elit. Ipsam, minima?
@@ -96,11 +96,11 @@
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
-                </x-feature-split>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="crafting">
-                <x-feature-split>
+                <x-home.feature-split type="video">
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
                         consectetur adipisicing elit. Ipsam, minima? Lorem ipsum dolor sit amet, consectetur
@@ -113,11 +113,11 @@
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
-                </x-feature-split>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="events">
-                <x-feature-split>
+                <x-home.feature-split type="video">
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
                         consectetur adipisicing elit. Ipsam, minima? Lorem ipsum dolor sit amet, consectetur
@@ -130,11 +130,11 @@
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
-                </x-feature-split>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="pets">
-                <x-feature-split>
+                <x-home.feature-split type="video">
                     <x-slot:text>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit... Lorem ipsum dolor sit amet,
                         consectetur adipisicing elit. Ipsam, minima? Lorem ipsum dolor sit amet, consectetur
@@ -147,7 +147,7 @@
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
-                </x-feature-split>
+                </x-home.feature-split>
             </flux:tab.panel>
         </flux:tab.group>
     </x-home.wrapper>

@@ -74,93 +74,199 @@
             </flux:tabs>
 
             <flux:tab.panel name="monsters">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Visual Demo -->
-                    <div class="bg-white/5 rounded-lg p-6 space-y-4">
-                        <div class="w-80 h-8 bg-white/10 rounded"></div>
-                        <div class="w-72 h-8 bg-white/10 rounded"></div>
-                        <div class="w-64 h-8 bg-white/10 rounded"></div>
-                        <div class="w-56 h-8 bg-white/10 rounded"></div>
-                        <div class="w-48 h-8 bg-white/10 rounded"></div>
-                    </div>
+                <x-home.feature-split type="image">
+                    <x-slot:text>
+                        <flux:heading size="lg">
+                            {{ __('Special Monsters') }}
+                        </flux:heading>
 
-                    <!-- Code Preview -->
-                    <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
-                        Tab 1
-                    </flux:card>
-                </div>
+                        <div class="space-y-2">
+                            <flux:text>
+                                {{  __('We have plenty of special monsters scattered throughout the realm - from weak to strong,
+                                each rewarding in its own way. Find them roaming our carefully crafted farm spots, or face
+                                the most formidable ones in the citadel.') }}
+                            </flux:text>
+
+                            <flux:text>{{ _('Learn more in') }}
+                                <flux:link variant="ghost"
+                                           href="https://wiki.lotusmu.org/category/special-monsters"
+                                           external>
+                                    {{ __('our wiki') }}
+                                </flux:link>
+                                {{ __('or track your next prey in the') }}
+                                <flux:link variant="ghost"
+                                           :href="route('schedule')"
+                                           wire:navigate.hover>
+                                    {{ __('event schedule.') }}
+                                </flux:link>
+                            </flux:text>
+                        </div>
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                    </x-slot:media>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="helper">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Visual Demo -->
-                    <div class="bg-white/5 rounded-lg p-6 space-y-4">
-                        <div class="w-80 h-8 bg-white/10 rounded"></div>
-                        <div class="w-72 h-8 bg-white/10 rounded"></div>
-                        <div class="w-64 h-8 bg-white/10 rounded"></div>
-                        <div class="w-56 h-8 bg-white/10 rounded"></div>
-                        <div class="w-48 h-8 bg-white/10 rounded"></div>
-                    </div>
+                <x-home.feature-split type="image">
+                    <x-slot:text>
+                        <flux:heading size="lg">
+                            {{ __('Helper') }}
+                        </flux:heading>
 
-                    <!-- Code Preview -->
-                    <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
-                        Tab 2
-                    </flux:card>
-                </div>
+                        <div class="space-y-2">
+                            <flux:text>
+                                {{  __('A powerful assistance system that makes your gaming experience smooth and efficient.') }}
+                            </flux:text>
+
+                            <flux:text>
+                                {{  __('Keep farming even with your game minimized or closed - our helper takes care of your character while you\'re away.') }}
+                            </flux:text>
+
+                            <flux:text>{{ _('Learn how to pilot the') }}
+                                <flux:link variant="ghost"
+                                           href="https://wiki.lotusmu.org/client-features/mu-helper"
+                                           external>
+                                    {{ __('mu helper') }}
+                                </flux:link>
+                                {{ __('and how to make use of the') }}
+                                <flux:link variant="ghost"
+                                           href="https://wiki.lotusmu.org/client-features/mu-helper/#off-helper"
+                                           external>
+                                    {{ __('off helper.') }}
+                                </flux:link>
+                            </flux:text>
+                        </div>
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                    </x-slot:media>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="farm">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Visual Demo -->
-                    <div class="bg-white/5 rounded-lg p-6 space-y-4">
-                        <div class="w-80 h-8 bg-white/10 rounded"></div>
-                        <div class="w-72 h-8 bg-white/10 rounded"></div>
-                        <div class="w-64 h-8 bg-white/10 rounded"></div>
-                        <div class="w-56 h-8 bg-white/10 rounded"></div>
-                        <div class="w-48 h-8 bg-white/10 rounded"></div>
-                    </div>
+                <x-home.feature-split type="image">
+                    <x-slot:text>
+                        <flux:heading size="lg">
+                            {{ __('Farm Areas') }}
+                        </flux:heading>
 
-                    <!-- Code Preview -->
-                    <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
-                        Tab 3
-                    </flux:card>
-                </div>
+                        <div class="space-y-2">
+                            <flux:text>
+                                {{  __('We have two designated farming maps:') }}
+                            </flux:text>
+
+                            <flux:text>
+                                <ul class="list-disc ml-8">
+                                    <li>
+                                        <flux:link variant="ghost"
+                                                   href="https://wiki.lotusmu.org/maps/icewrack"
+                                                   external>
+                                            {{ __('Icewrack') }}
+                                        </flux:link>
+                                    </li>
+                                    <li>
+                                        <flux:link variant="ghost"
+                                                   href="https://wiki.lotusmu.org/maps/ashkavor"
+                                                   external>
+                                            {{ __('Ashkavor') }}
+                                        </flux:link>
+                                    </li>
+                                </ul>
+                            </flux:text>
+
+                            <flux:text>
+                                {{  __('These areas are home to special monsters with valuable loot. Visit them regularly to make the most of your farming runs.') }}
+                            </flux:text>
+                        </div>
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                    </x-slot:media>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="rewards">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Visual Demo -->
-                    <div class="bg-white/5 rounded-lg p-6 space-y-4">
-                        <div class="w-80 h-8 bg-white/10 rounded"></div>
-                        <div class="w-72 h-8 bg-white/10 rounded"></div>
-                        <div class="w-64 h-8 bg-white/10 rounded"></div>
-                        <div class="w-56 h-8 bg-white/10 rounded"></div>
-                        <div class="w-48 h-8 bg-white/10 rounded"></div>
-                    </div>
+                <x-home.feature-split type="image">
+                    <x-slot:text>
+                        <flux:heading size="lg">
+                            {{ __('Daily Rewards') }}
+                        </flux:heading>
 
-                    <!-- Code Preview -->
-                    <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
-                        Tab 3
-                    </flux:card>
-                </div>
+                        <div class="space-y-2">
+                            <flux:text>
+                                {{  __('Day after day, you can grab rewards to complement your gameplay - jewels, mysterious item bags... you name it - all at your fingertips.') }}
+                            </flux:text>
+
+                            <flux:text>{{ _('Are you curious?') }}
+                                <flux:link variant="ghost"
+                                           href="https://wiki.lotusmu.org/gameplay-systems/daily-reward"
+                                           external>
+                                    {{ __('Learn more!') }}
+                                </flux:link>
+                            </flux:text>
+                        </div>
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                    </x-slot:media>
+                </x-home.feature-split>
             </flux:tab.panel>
 
             <flux:tab.panel name="locations">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Visual Demo -->
-                    <div class="bg-white/5 rounded-lg p-6 space-y-4">
-                        <div class="w-80 h-8 bg-white/10 rounded"></div>
-                        <div class="w-72 h-8 bg-white/10 rounded"></div>
-                        <div class="w-64 h-8 bg-white/10 rounded"></div>
-                        <div class="w-56 h-8 bg-white/10 rounded"></div>
-                        <div class="w-48 h-8 bg-white/10 rounded"></div>
-                    </div>
+                <x-home.feature-split type="image">
+                    <x-slot:text>
+                        <flux:heading size="lg">
+                            {{ __('Key Locations') }}
+                        </flux:heading>
 
-                    <!-- Code Preview -->
-                    <flux:card class="!bg-zinc-900/50 !border-white/10 !p-4">
-                        Tab 3
-                    </flux:card>
-                </div>
+                        <div class="space-y-2">
+                            <flux:text>
+                                {{  __('There are key locations in the realm of Lotus MU - they are the cornerstones of everything, and you\'ll visit them often.') }}
+                            </flux:text>
+
+                            <flux:text>
+                                <ul class="list-disc ml-8">
+                                    <li>
+                                        <flux:link variant="ghost"
+                                                   href="https://wiki.lotusmu.org/maps/yoskreth"
+                                                   external>
+                                            {{ __('Yoskreth') }}
+                                        </flux:link>
+                                        {{ __('– the capital city of Lotus Mu.') }}
+                                    </li>
+                                    <li>
+                                        <flux:link variant="ghost"
+                                                   href="https://wiki.lotusmu.org/maps/the-citadel"
+                                                   external>
+                                            {{ __('The Citadel') }}
+                                        </flux:link>
+                                        {{ __('– exclusive battleground zone.') }}
+
+                                    </li>
+                                    <li>
+                                        <flux:link variant="ghost"
+                                                   href="https://wiki.lotusmu.org/maps/vip-arena"
+                                                   external>
+                                            {{ __('VIP Arena') }}
+                                        </flux:link>
+                                        {{ __('– leveling zone for our VIP Members.') }}
+
+                                    </li>
+                                </ul>
+                            </flux:text>
+                        </div>
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-home.feature-picture src="images/auth/image" alt="Special monsters poster image"/>
+                    </x-slot:media>
+                </x-home.feature-split>
             </flux:tab.panel>
         </flux:tab.group>
     </x-home.wrapper>
