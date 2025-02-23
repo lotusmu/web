@@ -1,20 +1,18 @@
 <section class="relative isolate">
     <x-home.wrapper>
         <div class="text-center mb-12 space-y-8">
-            <x-home.header-icon name="film"/>
+            <x-home.header-icon name="square-3-stack-3d"/>
 
             <x-home.kicker>
-                {{ __('More Features') }}
+                {{ __('Beyond Basics') }}
             </x-home.kicker>
 
             <x-home.heading>
-                {{ __('Ancient powers reimagined for modern gameplay.') }}
+                {{ __('Depth beyond the basics.') }}
             </x-home.heading>
 
             <x-home.text>
-                {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
-                Every feature is carefully crafted to enhance gameplay without compromising the core experience
-                that made the game legendary.') }}
+                {{ __('Each feature in Lotus MU is crafted with purpose and depth. These aren\'t just additions - they\'re game-changing mechanics that create a richer, more rewarding journey through the realm.') }}
             </x-home.text>
 
             <x-home.link href="https://wiki.lotusmu.org" external>

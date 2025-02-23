@@ -29,10 +29,10 @@
     <x-home.wrapper>
         <!-- Header Section -->
         <div class="text-center mb-12 space-y-8">
-            <x-home.header-icon name="squares-plus"/>
+            <x-home.header-icon name="atom"/>
 
             <x-home.kicker>
-                {{ __('Features') }}
+                {{ __('Essentials') }}
             </x-home.kicker>
 
             <x-home.heading>
@@ -46,7 +46,7 @@
             </x-home.text>
 
             <x-home.link href="https://wiki.lotusmu.org" external>
-                {{ __('Learn more') }}
+                {{ __('Master the Basics') }}
             </x-home.link>
         </div>
 
