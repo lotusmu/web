@@ -52,16 +52,12 @@
 
         <flux:tab.group>
             <flux:tabs variant="pills" class="flex overflow-auto md:justify-center">
-                <flux:tab name="monsters" :accent="false" icon="skull">
-                    {{ __('Special Monsters') }}
-                </flux:tab>
-
-                <flux:tab name="helper" :accent="false" icon="bot">
-                    {{ __('Helper') }}
-                </flux:tab>
-
                 <flux:tab name="farm" :accent="false" icon="mountain">
                     {{ __('Farm Areas') }}
+                </flux:tab>
+
+                <flux:tab name="monsters" :accent="false" icon="skull">
+                    {{ __('Special Monsters') }}
                 </flux:tab>
 
                 <flux:tab name="rewards" :accent="false" icon="gift">
@@ -71,82 +67,12 @@
                 <flux:tab name="locations" :accent="false" icon="map-pinned">
                     {{ __('Key Locations') }}
                 </flux:tab>
+
+
+                <flux:tab name="helper" :accent="false" icon="bot">
+                    {{ __('Helper') }}
+                </flux:tab>
             </flux:tabs>
-
-            <flux:tab.panel name="monsters">
-                <x-home.feature-split type="image">
-                    <x-slot:text>
-                        <flux:heading size="lg">
-                            {{ __('Special Monsters') }}
-                        </flux:heading>
-
-                        <div class="space-y-2">
-                            <flux:text>
-                                {{  __('Plenty of special monsters scattered throughout the realm - from weak to strong,
-                                each rewarding in its own way. Find them roaming our carefully crafted farm areas, or face
-                                the most formidable ones in the citadel.') }}
-                            </flux:text>
-
-                            <flux:text>{{ _('Learn more in') }}
-                                <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/category/special-monsters"
-                                           external>
-                                    {{ __('our wiki') }}
-                                </flux:link>
-                                {{ __('or track your next prey in the') }}
-                                <flux:link variant="ghost"
-                                           :href="route('schedule')"
-                                           wire:navigate.hover>
-                                    {{ __('event schedule.') }}
-                                </flux:link>
-                            </flux:text>
-                        </div>
-                    </x-slot:text>
-
-                    <x-slot:media>
-                        <x-home.feature-picture src="images/essentials/special-monsters"
-                                                alt="Special monsters poster image"/>
-                    </x-slot:media>
-                </x-home.feature-split>
-            </flux:tab.panel>
-
-            <flux:tab.panel name="helper">
-                <x-home.feature-split type="image">
-                    <x-slot:text>
-                        <flux:heading size="lg">
-                            {{ __('Helper') }}
-                        </flux:heading>
-
-                        <div class="space-y-2">
-                            <flux:text>
-                                {{  __('A powerful assistance system that makes your gaming experience smooth and efficient.') }}
-                            </flux:text>
-
-                            <flux:text>
-                                {{  __('Keep farming even with your game minimized or closed - our helper takes care of your character while you\'re away.') }}
-                            </flux:text>
-
-                            <flux:text>{{ _('Learn how to pilot the') }}
-                                <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/client-features/mu-helper"
-                                           external>
-                                    {{ __('mu helper') }}
-                                </flux:link>
-                                {{ __('and how to make use of the') }}
-                                <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/client-features/mu-helper/#off-helper"
-                                           external>
-                                    {{ __('off helper.') }}
-                                </flux:link>
-                            </flux:text>
-                        </div>
-                    </x-slot:text>
-
-                    <x-slot:media>
-                        <x-home.feature-picture src="images/essentials/mu-helper" alt="Mu Helper dialog in-game"/>
-                    </x-slot:media>
-                </x-home.feature-split>
-            </flux:tab.panel>
 
             <flux:tab.panel name="farm">
                 <x-home.feature-split type="image">
@@ -188,6 +114,43 @@
                     <x-slot:media>
                         <x-home.feature-picture src="images/essentials/farm-areas"
                                                 alt="Farm areas in Lotus Mu including Ashkavor and Icewrack"/>
+                    </x-slot:media>
+                </x-home.feature-split>
+            </flux:tab.panel>
+
+            <flux:tab.panel name="monsters">
+                <x-home.feature-split type="image">
+                    <x-slot:text>
+                        <flux:heading size="lg">
+                            {{ __('Special Monsters') }}
+                        </flux:heading>
+
+                        <div class="space-y-2">
+                            <flux:text>
+                                {{  __('Plenty of special monsters scattered throughout the realm - from weak to strong,
+                                each rewarding in its own way. Find them roaming our carefully crafted farm areas, or face
+                                the most formidable ones in the citadel.') }}
+                            </flux:text>
+
+                            <flux:text>{{ _('Learn more in') }}
+                                <flux:link variant="ghost"
+                                           href="https://wiki.lotusmu.org/category/special-monsters"
+                                           external>
+                                    {{ __('our wiki') }}
+                                </flux:link>
+                                {{ __('or track your next prey in the') }}
+                                <flux:link variant="ghost"
+                                           :href="route('schedule')"
+                                           wire:navigate.hover>
+                                    {{ __('event schedule.') }}
+                                </flux:link>
+                            </flux:text>
+                        </div>
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-home.feature-picture src="images/essentials/special-monsters"
+                                                alt="Special monsters poster image"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
@@ -269,6 +232,44 @@
                     <x-slot:media>
                         <x-home.feature-picture src="images/essentials/key-locations"
                                                 alt="Key locations image in Lotus Mu including Yoskreth, The Citadel and VIP Arena"/>
+                    </x-slot:media>
+                </x-home.feature-split>
+            </flux:tab.panel>
+
+            <flux:tab.panel name="helper">
+                <x-home.feature-split type="image">
+                    <x-slot:text>
+                        <flux:heading size="lg">
+                            {{ __('Helper') }}
+                        </flux:heading>
+
+                        <div class="space-y-2">
+                            <flux:text>
+                                {{  __('A powerful assistance system that makes your gaming experience smooth and efficient.') }}
+                            </flux:text>
+
+                            <flux:text>
+                                {{  __('Keep farming even with your game minimized or closed - our helper takes care of your character while you\'re away.') }}
+                            </flux:text>
+
+                            <flux:text>{{ _('Learn how to pilot the') }}
+                                <flux:link variant="ghost"
+                                           href="https://wiki.lotusmu.org/client-features/mu-helper"
+                                           external>
+                                    {{ __('mu helper') }}
+                                </flux:link>
+                                {{ __('and how to make use of the') }}
+                                <flux:link variant="ghost"
+                                           href="https://wiki.lotusmu.org/client-features/mu-helper/#off-helper"
+                                           external>
+                                    {{ __('off helper.') }}
+                                </flux:link>
+                            </flux:text>
+                        </div>
+                    </x-slot:text>
+
+                    <x-slot:media>
+                        <x-home.feature-picture src="images/essentials/mu-helper" alt="Mu Helper dialog in-game"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
