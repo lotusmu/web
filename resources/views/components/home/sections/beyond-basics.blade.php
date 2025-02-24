@@ -81,8 +81,8 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/mu.mp4') }}"
-                            poster="{{ asset('images/auth/image.jpg') }}"
+                            video="videos/wiki"
+                            poster="{{ asset('videos/posters/wiki.jpg') }}"
                         />
                     </x-slot:media>
                 </x-home.feature-split>
