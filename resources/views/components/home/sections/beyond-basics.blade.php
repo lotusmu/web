@@ -1,6 +1,6 @@
 <section class="relative isolate">
     <x-home.wrapper>
-        <div class="text-center mb-12 space-y-8">
+        <div class="mb-12 space-y-8">
             <x-home.header-icon name="square-3-stack-3d"/>
 
             <x-home.kicker>
@@ -12,7 +12,7 @@
             </x-home.heading>
 
             <x-home.text>
-                {{ __('Each feature in Lotus MU is crafted with purpose and depth. These aren\'t just additions - they\'re game-changing mechanics that create a richer, more rewarding journey through the realm.') }}
+                {{ __('Each feature in Lotus Mu is crafted with purpose and depth. These aren\'t just additions - they\'re game-changing mechanics that create a richer, more rewarding journey through the realm.') }}
             </x-home.text>
 
             <x-home.link href="https://wiki.lotusmu.org" external>
@@ -21,7 +21,7 @@
         </div>
 
         <flux:tab.group class="mt-10">
-            <flux:tabs variant="pills" class="flex overflow-auto lg:justify-center">
+            <flux:tabs variant="pills" class="flex overflow-auto">
                 <flux:tab name="wiki" :accent="false" icon="book-open">
                     {{ __('Wiki') }}
                 </flux:tab>
@@ -140,7 +140,7 @@
                             </flux:text>
 
                             <flux:text class="font-bold">
-                                {{ __('In Lotus MU, they absolutely do!') }}
+                                {{ __('In Lotus Mu, they absolutely do!') }}
                             </flux:text>
 
                             <flux:text>

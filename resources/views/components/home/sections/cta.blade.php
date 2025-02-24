@@ -37,11 +37,11 @@
 
     <x-home.wrapper>
         <div class="text-center space-y-8">
-            <x-home.heading>
+            <x-home.heading class="mx-auto">
                 {{ __('Build your dream character.') }}
             </x-home.heading>
 
-            <x-home.text>
+            <x-home.text class="mx-auto">
                 {{ __('Join the Lotus Mu Community as Mu Online enters a new era of gameplay. Experience our signature
                 progressive item system, rich quest system, and an innovative crafting system that rewards
                 creativity.') }}

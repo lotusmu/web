@@ -1,15 +1,9 @@
 @props([
     'name',
-    'position' => 'center',
 ])
 
 @php
     $classes = Flux::classes()
-        ->add(match ($position) {
-            'start' => 'justify-start',
-            'center' => 'justify-center',
-            'end' => 'justify-end',
-        })
         ->add('flex')
         ;
 @endphp

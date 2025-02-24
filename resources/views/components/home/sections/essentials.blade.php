@@ -1,4 +1,4 @@
-<section class="relative isolate mt-32 pt-32 sm:mt-56 sm:pt-40">
+<section class="relative isolate mt-32 pt-32">
     <x-home.grid-pattern position="top_right"/>
 
     {{-- Dark theme beams --}}
@@ -28,7 +28,7 @@
     <!-- Content -->
     <x-home.wrapper>
         <!-- Header Section -->
-        <div class="text-center mb-12 space-y-8">
+        <div class="mb-12 space-y-8">
             <x-home.header-icon name="atom"/>
 
             <x-home.kicker>
@@ -51,7 +51,7 @@
         </div>
 
         <flux:tab.group>
-            <flux:tabs variant="pills" class="flex overflow-auto md:justify-center">
+            <flux:tabs variant="pills" class="flex overflow-auto">
                 <flux:tab name="farm" :accent="false" icon="mountain">
                     {{ __('Farm Areas') }}
                 </flux:tab>
@@ -193,7 +193,7 @@
 
                         <div class="space-y-2">
                             <flux:text>
-                                {{  __('There are key locations in the realm of Lotus MU - they are the cornerstones of everything, and you\'ll visit them often.') }}
+                                {{  __('There are key locations in the realm of Lotus Mu - they are the cornerstones of everything, and you\'ll visit them often.') }}
                             </flux:text>
 
                             <flux:text>
