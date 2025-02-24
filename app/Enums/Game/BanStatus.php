@@ -10,12 +10,14 @@ enum BanStatus: int implements HasColor, HasIcon, HasLabel
 {
     case Active = 0;
     case Banned = 1;
+    case GM = 32;
 
     public function getLabel(): string
     {
         return match ($this) {
             self::Active => 'Active',
             self::Banned => 'Banned',
+            self::GM => 'Game Master',
         };
     }
 
@@ -24,6 +26,7 @@ enum BanStatus: int implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::Active => 'success',
             self::Banned => 'danger',
+            self::Banned => 'primary',
         };
     }
 
@@ -32,6 +35,7 @@ enum BanStatus: int implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::Active => 'heroicon-o-check-circle',
             self::Banned => 'heroicon-o-lock-closed',
+            self::Banned => 'heroicon-o-user',
         };
     }
 }
