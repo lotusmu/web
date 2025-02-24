@@ -46,11 +46,6 @@
                 </flux:subheading>
             </x-feature-highlight>
 
-            {{--            <picture>--}}
-            {{--                <source srcset="{{ asset('images/catalog/catalog.webp') }}" type="image/webp">--}}
-            {{--                <img src="{{ asset('images/catalog/catalog.png') }}" alt="Fantasy shop stall"--}}
-            {{--                     class="relative max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem] ml-auto">--}}
-            {{--            </picture>--}}
             <picture>
                 <source
                     srcset="{{ asset('images/catalog/catalog.webp') }}"
@@ -59,7 +54,7 @@
                     src="{{ asset('images/catalog/catalog.png') }}"
                     alt="Fantasy shop stall with magical potions"
                     class="relative max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem] ml-auto"
-                    loading="lazy"
+                    {{--                    loading="lazy"--}}
                     decoding="async">
             </picture>
         </div>
