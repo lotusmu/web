@@ -54,7 +54,6 @@
                     src="{{ asset('images/catalog/catalog.png') }}"
                     alt="Fantasy shop stall with magical potions"
                     class="relative max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem] ml-auto"
-                    {{--                    loading="lazy"--}}
                     decoding="async">
             </picture>
         </div>
