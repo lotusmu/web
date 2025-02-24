@@ -34,6 +34,11 @@ new #[Layout('layouts.guest')] class extends Component {
         return $query->simplePaginate(10);
     }
 
+    public function updatedFilters(): void
+    {
+        $this->resetPage();
+    }
+
     public function placeholder()
     {
         return view('livewire.pages.guest.rankings.placeholders.table');
