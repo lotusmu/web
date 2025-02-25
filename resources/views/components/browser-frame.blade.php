@@ -22,7 +22,6 @@
                         <video
                             class="h-full w-full object-cover"
                             preload="none"
-                            loading="lazy"
                             autoplay
                             muted
                             loop
