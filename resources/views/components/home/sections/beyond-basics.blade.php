@@ -120,7 +120,7 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/mu.mp4') }}"
+                            video="{{ asset('videos/mu') }}"
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
@@ -159,8 +159,8 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/example.mp4') }}"
-                            poster="{{ asset('images/auth/image.jpg') }}"
+                            video="{{ asset('videos/quests') }}"
+                            poster="{{ asset('images/posters/quests') }}"
                         />
                     </x-slot:media>
                 </x-home.feature-split>
@@ -198,7 +198,7 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/auth.mp4') }}"
+                            video="{{ asset('videos/auth') }}"
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
@@ -239,7 +239,7 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/auth.mp4') }}"
+                            video="{{ asset('videos/auth') }}"
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
@@ -278,7 +278,7 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/auth.mp4') }}"
+                            video="{{ asset('videos/auth') }}"
                             poster="{{ asset('images/auth/image.jpg') }}"
                         />
                     </x-slot:media>
