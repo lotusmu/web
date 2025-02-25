@@ -144,7 +144,7 @@
                             </flux:text>
 
                             <flux:text>
-                                {{ __('From hunting spiders to challenging mighty dragons, our quest system grows with you. Each completed quest rewards you with valuable items and points - making your character stronger every step of the way.') }}
+                                {{ __('From hunting spiders to challenging mighty monsters, our quest system grows with you. Each completed quest rewards you with valuable items and points - making your character stronger every step of the way.') }}
                             </flux:text>
 
                             <flux:text>{{ _('Ready to start your journey?') }}
