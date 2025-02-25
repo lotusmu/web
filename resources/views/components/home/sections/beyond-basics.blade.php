@@ -97,7 +97,7 @@
 
                         <div class="space-y-2">
                             <flux:text>
-                                {{  __('Think Venom Mist should be more powerful than the Pad set?') }}
+                                {{  __('Think Dark Knight should be more powerful than the Leather set?') }}
                             </flux:text>
 
                             <flux:text class="font-bold">
@@ -120,8 +120,8 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/mu') }}"
-                            poster="{{ asset('images/auth/image.jpg') }}"
+                            video="{{ asset('videos/items') }}"
+                            poster="{{ asset('videos/posters/items.jpg') }}"
                         />
                     </x-slot:media>
                 </x-home.feature-split>
@@ -198,8 +198,8 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/auth') }}"
-                            poster="{{ asset('images/auth/image.jpg') }}"
+                            video="{{ asset('videos/crafting') }}"
+                            poster="{{ asset('videos/posters/crafting.jpg') }}"
                         />
                     </x-slot:media>
                 </x-home.feature-split>
@@ -239,8 +239,8 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/auth') }}"
-                            poster="{{ asset('images/auth/image.jpg') }}"
+                            video="{{ asset('videos/events') }}"
+                            poster="{{ asset('videos/posters/events.jpg') }}"
                         />
                     </x-slot:media>
                 </x-home.feature-split>
@@ -278,8 +278,8 @@
 
                     <x-slot:media>
                         <x-browser-frame
-                            video="{{ asset('videos/auth') }}"
-                            poster="{{ asset('images/auth/image.jpg') }}"
+                            video="{{ asset('videos/pets') }}"
+                            poster="{{ asset('videos/posters/pets.jpg') }}"
                         />
                     </x-slot:media>
                 </x-home.feature-split>
