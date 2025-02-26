@@ -165,7 +165,7 @@
                 </flux:text>
 
                 <div class="flex space-x-6 ">
-                    <a href="{{ config('social.links.facebook') }}"
+                    <a href="{{ config('social.links.facebook') }}" target="_blank"
                        class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
                         <span class="sr-only">Facebook</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -174,7 +174,7 @@
                                   clip-rule="evenodd"/>
                         </svg>
                     </a>
-                    <a href="{{ config('social.links.youtube') }}"
+                    <a href="{{ config('social.links.youtube') }}" target="_blank"
                        class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
                         <span class="sr-only">YouTube</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -183,7 +183,7 @@
                                   clip-rule="evenodd"/>
                         </svg>
                     </a>
-                    <a href="{{ config('social.links.discord') }}"
+                    <a href="{{ config('social.links.discord') }}" target="_blank"
                        class="text-zinc-500 dark:hover:text-zinc-400 hover:text-zinc-600">
                         <span class="sr-only">Discord</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
