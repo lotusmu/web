@@ -2,6 +2,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+<meta property="og:image" content="{{ asset('images/social-card.jpg') }}"/>
+<meta property="og:title" content="{{ config('app.name') }}"/>
+<meta property="og:description"
+      content="Lotus Mu - Reimagined. Refined. Revolutionar. MU Online server with soul. Thoughtfully crafted, not copy-pasted. Join this fantasy MMORPG experience today."/>
+<meta property="og:url" content="{{ url()->current() }}"/>
+<meta property="og:type" content="website"/>
+
 <title>{{ config('app.name', 'Home') }}</title>
 
 <!-- Fonts -->
