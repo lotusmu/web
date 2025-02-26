@@ -74,6 +74,8 @@
                 {{ __('5. Check if your antivirus is blocking the game, as some antivirus software may incorrectly flag it as suspicious (false positive).') }}
                 <br>
                 {{ __('6. Update your DirectX and graphics drivers.') }} <br>
+                {{ __('7. Make sure that the path to your game client does not include cyrilic words (i.e. C:\Игри\Lotus Mu') }}
+                <br>
             </flux:accordion.content>
         </flux:accordion.item>
 
