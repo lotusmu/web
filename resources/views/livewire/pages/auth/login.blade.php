@@ -39,6 +39,8 @@ new #[Layout('layouts.auth')] class extends Component {
                 </flux:link>
             </flux:label>
             <flux:input viewable wire:model="form.password" type="password" placeholder="Your password"/>
+
+            <flux:error name="form.password" />
         </flux:field>
 
         <flux:field>
