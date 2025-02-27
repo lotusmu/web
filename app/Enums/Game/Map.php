@@ -79,6 +79,7 @@ enum Map: int implements HasLabel
     case Ultoria = 84;
     case Ashkavor = 85;
     case Dungeon2 = 86;
+    case Citadel = 87;
     case Icewrack = 89;
     case Yoskreth = 90;
     case EventSquare = 91;
@@ -191,6 +192,7 @@ enum Map: int implements HasLabel
             self::Ultoria => 'Ultoria',
             self::Ashkavor => 'Ashkavor',
             self::Dungeon2 => 'Dungeon 2',
+            self::Citadel => 'The Citadel',
             self::Icewrack => 'Icewrack',
             self::Yoskreth => 'Yoskreth',
             self::EventSquare => 'Event Square',
