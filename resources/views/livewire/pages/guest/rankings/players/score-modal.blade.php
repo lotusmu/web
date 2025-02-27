@@ -28,7 +28,7 @@ new class extends Component {
                 'count_label'  => $schema['count_label'],
                 'image'        => $this->getImagePath($score),
             ])
-            ->sortByDesc('total_points');
+            ->sortByDesc($score->TotalPoints);
     }
 
     protected function getImagePath($score): ?string
