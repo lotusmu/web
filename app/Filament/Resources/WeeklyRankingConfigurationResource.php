@@ -47,7 +47,7 @@ class WeeklyRankingConfigurationResource extends Resource
                         ->required()
                         ->native(false)
                         ->firstDayOfWeek(1)
-                        ->helperText('When should the weekly ranking system start processing?'),
+                        ->helperText('This date marks when the weekly ranking system begins tracking scores. The first reset will occur on the first configured reset day after this date. Set this to a date before or equal to when you want rankings to start.'),
 
                     Select::make('reset_day_of_week')
                         ->label('Reset Day')
@@ -62,21 +62,22 @@ class WeeklyRankingConfigurationResource extends Resource
                         ])
                         ->native(false)
                         ->required()
-                        ->helperText('On which day should the rankings reset?'),
+                        ->helperText('Select the day when rankings should reset weekly. System will process rankings after the specified reset time on this day.'),
 
                     TimePicker::make('reset_time')
                         ->label('Reset Time')
                         ->required()
                         ->seconds(false)
+                        ->minutesStep(60)
                         ->native(false)
                         ->format('H:i')
                         ->displayFormat('H:i')
-                        ->helperText('At what time should the rankings reset?'),
+                        ->helperText('Set the hour when rankings should reset (must be a full hour like 22:00, 23:00). The system processes resets hourly, so only full hours will work reliably.'),
 
                     Toggle::make('is_enabled')
                         ->label('Enable Weekly Rankings')
                         ->inline(false)
-                        ->helperText('Toggle the weekly ranking system on/off.'),
+                        ->helperText('Enable or disable the weekly ranking system. When enabled, rankings will process automatically at the specified day and time.'),
                 ]),
         ]);
     }
