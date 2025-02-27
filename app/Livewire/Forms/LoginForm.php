@@ -17,7 +17,7 @@ class LoginForm extends Form
         'required' => 'The username field is required.',
         'string' => 'The username must be a string.',
         'max' => 'The username must not exceed :max characters.',
-        'alpha_num' => 'The username field must only contain letters and numbers.'
+        'alpha_num' => 'The username field must only contain letters and numbers.',
     ])]
     public string $name = '';
 
