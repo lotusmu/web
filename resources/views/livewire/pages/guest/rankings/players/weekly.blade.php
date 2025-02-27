@@ -22,6 +22,11 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public Filters $filters;
 
+    public function mount()
+    {
+        $this->sortBy = 'weekly-event-score';
+    }
+
     #[Computed]
     public function characters()
     {

@@ -21,8 +21,6 @@ trait Sortable
         'guild-hunt-score' => 'characters_sum_hunter_score',
     ];
 
-    private const VALID_DIRECTIONS = ['asc', 'desc'];
-
     private const GUILD_SORTS = [
         'members',
         'total-resets',
@@ -50,9 +48,7 @@ trait Sortable
             $this->sortBy = $this->getDefaultSort();
         }
 
-        if (! in_array($this->sortDirection, self::VALID_DIRECTIONS)) {
-            $this->sortDirection = 'desc';
-        }
+        $this->sortDirection = 'desc';
     }
 
     public function sort($column): void
@@ -61,12 +57,8 @@ trait Sortable
 
         $urlColumn = array_flip(self::SORT_MAP)[$column] ?? $column;
 
-        if ($this->sortBy === $urlColumn) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $urlColumn;
-            $this->sortDirection = 'desc';
-        }
+        $this->sortBy = $urlColumn;
+        $this->sortDirection = 'desc';
     }
 
     protected function sortCharacters($query)
