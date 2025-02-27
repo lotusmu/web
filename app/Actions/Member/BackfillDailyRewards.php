@@ -16,7 +16,8 @@ class BackfillDailyRewards
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        protected string $accountId
+        protected string $accountId,
+        protected ?string $serverName = null
     ) {}
 
     public function handle(): void
@@ -27,6 +28,7 @@ class BackfillDailyRewards
             if ($now->day === 1) {
                 Log::info('Skipping backfill for first day of month', [
                     'account_id' => $this->accountId,
+                    'server' => $this->serverName,
                 ]);
 
                 return;
@@ -46,6 +48,7 @@ class BackfillDailyRewards
                 Log::info('No missing days to backfill', [
                     'account_id' => $this->accountId,
                     'month' => $currentMonth,
+                    'server' => $this->serverName,
                 ]);
 
                 return;
@@ -64,14 +67,16 @@ class BackfillDailyRewards
                     'account_id' => $this->accountId,
                     'month' => $currentMonth,
                     'days_count' => count($missingDays),
+                    'server' => $this->serverName,
                 ])
-                ->log('Backfilled daily rewards for :properties.days_count days');
+                ->log('Backfilled daily rewards for :properties.days_count days on :properties.server');
 
         } catch (Exception $e) {
             Log::error('Failed to backfill daily rewards', [
                 'account_id' => $this->accountId,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
+                'server' => $this->serverName,
             ]);
 
             throw $e;
