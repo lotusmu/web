@@ -41,7 +41,7 @@ class CastlePrizeResource extends Resource
                             ->options(GameServer::where('is_active', true)
                                 ->pluck('name', 'id'))
                             ->required()
-                            ->helperText('Select the game server for this prize pool.'),
+                            ->helperText('Select the game server where this prize pool will be active. Only active servers are shown.'),
 
                         Toggle::make('is_active')
                             ->label('Prize Pool Status')
@@ -49,7 +49,7 @@ class CastlePrizeResource extends Resource
                             ->columnSpanFull()
                             ->inline(false)
                             ->default(true)
-                            ->helperText('Toggle to activate or deactivate the prize pool distribution.'),
+                            ->helperText('Enable to activate prize distribution or disable to pause all distributions. Must be active for scheduled distributions to occur.'),
                     ]),
                 Section::make('Distribution Settings')
                     ->description('Set up the total prize pool amount, distribution period, and schedule for weekly credits distribution to castle siege winning guild members.')
@@ -61,7 +61,7 @@ class CastlePrizeResource extends Resource
                             ->required()
                             ->numeric()
                             ->minValue(1)
-                            ->helperText('Total amount of credits to be distributed over the period.')
+                            ->helperText('The total amount of credits to be distributed. This will be divided evenly across the specified number of weeks.')
                             ->suffix('Credits')
                             ->live(),
 
@@ -71,7 +71,7 @@ class CastlePrizeResource extends Resource
                             ->numeric()
                             ->minValue(1)
                             ->suffix('Weeks')
-                            ->helperText('Number of weeks over which the prize pool will be distributed.')
+                            ->helperText('The number of weeks during which the prize pool will be distributed. Each Sunday at 22:00, eligible guild members will receive their share.')
                             ->live()
                             ->afterStateUpdated(function ($state, $get, $set) {
                                 if ($state && $get('total_prize_pool')) {
@@ -83,7 +83,7 @@ class CastlePrizeResource extends Resource
                             ->label('Weekly Distribution')
                             ->disabled()
                             ->suffix('Credits')
-                            ->helperText('Amount of credits to be distributed each week.')
+                            ->helperText('Calculated amount of credits distributed each week (Total Prize Pool ÷ Distribution Weeks). This is the total divided among all eligible guild members.')
                             ->dehydrated(false)
                             ->columnSpanFull()
                             ->formatStateUsing(function ($state, $record) {
@@ -98,7 +98,7 @@ class CastlePrizeResource extends Resource
                             ->label('Distribution Cycle Start Date')
                             ->required()
                             ->native(false)
-                            ->helperText('Date of the first distribution. Subsequent distributions will occur weekly at the same time.')
+                            ->helperText('The start date of the distribution cycle. The first distribution will occur on the Sunday of this week at 22:00.')
                             ->columnSpan(fn ($record) => $record ? 1 : 2)
                             ->beforeStateDehydrated(fn ($state) => Carbon::parse($state)->startOfWeek()),
 
@@ -106,7 +106,7 @@ class CastlePrizeResource extends Resource
                             ->label('Distribution Cycle End Date')
                             ->required()
                             ->native(false)
-                            ->helperText('Date marking the end of the distributions. Ensure this is after the start date.')
+                            ->helperText('The end date of the distribution cycle. The final distribution will occur on the Sunday before this date at 22:00.')
                             ->visible(fn ($livewire) => $livewire instanceof EditRecord)
                             ->disabled(fn ($record) => Carbon::now()->greaterThan($record->period_ends_at))
                             ->beforeStateDehydrated(fn ($state) => Carbon::parse($state)->endOfWeek())
