@@ -1,5 +1,10 @@
 <?php
 
+use App\Console\Commands\CleanEventEntriesCommand;
+use App\Console\Commands\CleanupGuildMarksCommand;
+use App\Console\Commands\DistributeCastleSiegePrizesCommand;
+use App\Console\Commands\ExpireOrdersCommand;
+use App\Console\Commands\ProcessWeeklyRankingsCommand;
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
 use App\Http\Middleware\CheckUserBannedMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
@@ -31,27 +36,29 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command('orders:expire')
+        $schedule->command(ExpireOrdersCommand::class)
             ->everyMinute()
             ->runInBackground()
             ->withoutOverlapping();
 
-        $schedule->command('guild:cleanup-marks')
+        $schedule->command(CleanupGuildMarksCommand::class)
             ->daily()
             ->runInBackground()
             ->withoutOverlapping();
 
-        $schedule->command('castle:distribute-prizes')
-            ->daily()
+        $schedule->command(DistributeCastleSiegePrizesCommand::class)
+            ->weekly()
+            ->fridays()
+            ->at('18:30')
             ->runInBackground()
             ->withoutOverlapping();
 
-        $schedule->command('game:clean-event-entries')
+        $schedule->command(CleanEventEntriesCommand::class)
             ->dailyAt('00:00')
             ->runInBackground()
             ->withoutOverlapping();
 
-        $schedule->command('rankings:process-weekly')
+        $schedule->command(ProcessWeeklyRankingsCommand::class)
             ->hourly()
             ->runInBackground()
             ->withoutOverlapping();
