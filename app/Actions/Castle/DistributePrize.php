@@ -10,7 +10,6 @@ use App\Models\User\User;
 use App\Models\Utility\CastlePrize;
 use App\Models\Utility\CastlePrizeDistribution;
 use App\Models\Utility\GameServer;
-use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Support\Collection;
 
 readonly class DistributePrize
@@ -95,7 +94,6 @@ readonly class DistributePrize
             'amount' => number_format($amount),
             'balance' => number_format($balance),
             'connection' => $serverName,
-            ...IdentityProperties::capture(),
         ];
 
         activity('castle_siege')
