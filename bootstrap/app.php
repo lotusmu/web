@@ -55,6 +55,10 @@ return Application::configure(basePath: dirname(__DIR__))
             ->hourly()
             ->runInBackground()
             ->withoutOverlapping();
+
+        $schedule->command('log:info "Scheduler is running at '.now().'"')
+            ->everyMinute()
+            ->appendOutputTo(storage_path('logs/scheduler-test.log'));
         //        $schedule->command('orders:cleanup')
         //            ->quarterly()
         //            ->runInBackground()
