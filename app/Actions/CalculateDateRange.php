@@ -18,10 +18,14 @@ class CalculateDateRange
         return match ($period) {
             'today' => [$now->copy()->startOfDay(), $now->copy()->endOfDay()],
             'yesterday' => [$now->copy()->subDay()->startOfDay(), $now->copy()->subDay()->endOfDay()],
-            'this_week' => [$now->copy()->startOfWeek(), $now->copy()->endOfWeek()],
             'last_7_days' => [$now->copy()->subDays(6)->startOfDay(), $now->copy()->endOfDay()],
-            'this_month' => [$now->copy()->startOfMonth(), $now->copy()->endOfMonth()],
+            'last_4_weeks' => [$now->copy()->subWeeks(4)->startOfDay(), $now->copy()->endOfDay()],
+            'last_3_months' => [$now->copy()->subMonths(3)->startOfDay(), $now->copy()->endOfDay()],
+            'last_12_months' => [$now->copy()->subMonths(12)->startOfDay(), $now->copy()->endOfDay()],
+            'month_to_date' => [$now->copy()->startOfMonth(), $now->copy()->endOfDay()],
+            'quarter_to_date' => [$now->copy()->startOfQuarter(), $now->copy()->endOfDay()],
             'year_to_date' => [$now->copy()->startOfYear(), $now->copy()->endOfDay()],
+            'all_time' => [Carbon::parse('2023-01-01'), $now->copy()->endOfDay()],
             default => [$now->copy()->subMonth(), $now->copy()],
         };
     }

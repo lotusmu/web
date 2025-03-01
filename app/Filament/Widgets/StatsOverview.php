@@ -38,7 +38,7 @@ class StatsOverview extends BaseWidget
 
     protected function resolveDateRange(): array
     {
-        $period = $this->filters['period'] ?? 'this_month';
+        $period = $this->filters['period'] ?? 'last_7_days';
         $startDate = $this->parseDate($this->filters['startDate'] ?? null);
         $endDate = $this->parseDate($this->filters['endDate'] ?? null);
 

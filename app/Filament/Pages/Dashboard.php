@@ -28,13 +28,17 @@ class Dashboard extends DashboardPage
                         ->options([
                             'today' => 'Today',
                             'yesterday' => 'Yesterday',
-                            'this_week' => 'This Week',
-                            'last_7_days' => 'Last 7 Days',
-                            'this_month' => 'This Month',
-                            'year_to_date' => 'Year to Date',
+                            'last_7_days' => 'Last 7 days',
+                            'last_4_weeks' => 'Last 4 weeks',
+                            'last_3_months' => 'Last 3 months',
+                            'last_12_months' => 'Last 12 months',
+                            'month_to_date' => 'Month to date',
+                            'quarter_to_date' => 'Quarter to date',
+                            'year_to_date' => 'Year to date',
+                            'all_time' => 'All time',
                             'custom' => 'Custom',
                         ])
-                        ->default('this_month')
+                        ->default('last_7_days')
                         ->native(false)
                         ->reactive()
                         ->afterStateUpdated(function ($state, callable $set) {
