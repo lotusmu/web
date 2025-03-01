@@ -141,4 +141,24 @@ class RegisteredUsersChart extends ChartWidget
             ],
         ];
     }
+
+    public function getDescription(): ?string
+    {
+        $period = $this->filters['period'] ?? 'last_7_days';
+        $periodLabel = match ($period) {
+            'today' => 'today',
+            'yesterday' => 'yesterday',
+            'last_7_days' => 'in the last 7 days',
+            'last_4_weeks' => 'in the last 4 weeks',
+            'last_3_months' => 'in the last 3 months',
+            'last_12_months' => 'in the last 12 months',
+            'month_to_date' => 'this month',
+            'quarter_to_date' => 'this quarter',
+            'year_to_date' => 'this year',
+            'all_time' => 'all time',
+            default => 'in the selected period',
+        };
+
+        return "New user registrations {$periodLabel}";
+    }
 }
