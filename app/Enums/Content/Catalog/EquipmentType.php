@@ -10,6 +10,7 @@ enum EquipmentType: string implements HasLabel
     case ITEM_SET = 'item_set';
     case ACCESSORY = 'accessory';
     case CONSUMABLE = 'consumable';
+    case WINGS = 'wings';
 
     public function getLabel(): string
     {
@@ -17,7 +18,8 @@ enum EquipmentType: string implements HasLabel
             self::WEAPON => 'Weapon',
             self::ITEM_SET => 'Item Set',
             self::ACCESSORY => 'Accessory',
-            self::CONSUMABLE => 'Consumable'
+            self::CONSUMABLE => 'Consumable',
+            self::WINGS => 'Wings'
         };
     }
 
@@ -27,7 +29,8 @@ enum EquipmentType: string implements HasLabel
             self::WEAPON => 'sword',
             self::ITEM_SET => 'shield',
             self::ACCESSORY => 'ribbon',
-            self::CONSUMABLE => 'beaker'
+            self::CONSUMABLE => 'beaker',
+            self::WINGS => 'wing'
         };
     }
 }
