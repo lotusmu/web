@@ -45,6 +45,12 @@ class VipUsersChart extends ChartWidget
 
         // Prepare colors for each VIP level
         $colors = [
+            AccountLevel::Bronze->value => 'rgb(180, 83, 9, 0.5)',    // Bronze color
+            AccountLevel::Silver->value => 'rgb(148, 163, 184, 0.5)', // Silver color
+            AccountLevel::Gold->value => 'rgb(234, 179, 8, 0.5)',     // Gold color
+        ];
+
+        $borderColors = [
             AccountLevel::Bronze->value => 'rgb(180, 83, 9)',    // Bronze color
             AccountLevel::Silver->value => 'rgb(148, 163, 184)', // Silver color
             AccountLevel::Gold->value => 'rgb(234, 179, 8)',     // Gold color
@@ -54,6 +60,7 @@ class VipUsersChart extends ChartWidget
         $labels = $accountLevelData->pluck('level_label')->toArray();
         $counts = $accountLevelData->pluck('count')->toArray();
         $backgroundColors = $accountLevelData->pluck('level')->map(fn ($level) => $colors[$level])->toArray();
+        $backgroundBorderColors = $accountLevelData->pluck('level')->map(fn ($level) => $borderColors[$level])->toArray();
 
         return [
             'datasets' => [
@@ -61,6 +68,9 @@ class VipUsersChart extends ChartWidget
                     'label' => 'VIP Users',
                     'data' => $counts,
                     'backgroundColor' => $backgroundColors,
+                    'borderColor' => $backgroundBorderColors,
+                    'borderWidth' => '2',
+                    'borderRadius' => '10',
                 ],
             ],
             'labels' => $labels,
