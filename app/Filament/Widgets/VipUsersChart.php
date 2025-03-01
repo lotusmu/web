@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets;
 
-use App\Actions\CalculateDateRange;
 use App\Enums\Game\AccountLevel;
 use App\Models\User\Member;
 use App\Models\User\User;
@@ -27,21 +26,11 @@ class VipUsersChart extends ChartWidget
 
     protected function getData(): array
     {
-        // Get filters with proper defaults
-        $period = $this->filters['period'] ?? 'last_7_days';
-        $startDate = $this->parseDate($this->filters['startDate'] ?? null);
-        $endDate = $this->parseDate($this->filters['endDate'] ?? null);
+        // Calculate VIP percentage for all users
+        $this->calculateVipPercentage();
 
-        // Use the action to calculate date range if needed
-        if (! $startDate || ! $endDate) {
-            [$startDate, $endDate] = app(CalculateDateRange::class)->handle($period);
-        }
-
-        // Calculate VIP percentage
-        $this->calculateVipPercentage($startDate, $endDate);
-
-        // Get only VIP users distribution data (excluding Regular)
-        $accountLevelData = $this->getVipDistribution($startDate, $endDate);
+        // Get VIP users distribution data (excluding Regular)
+        $accountLevelData = $this->getVipDistribution();
 
         // Prepare colors for each VIP level
         $colors = [
@@ -77,11 +66,11 @@ class VipUsersChart extends ChartWidget
         ];
     }
 
-    protected function calculateVipPercentage($startDate, $endDate): void
+    protected function calculateVipPercentage(): void
     {
         try {
-            // Get total user count in date range
-            $totalUsers = User::whereBetween('created_at', [$startDate, $endDate])->count();
+            // Get total user count
+            $totalUsers = User::count();
 
             if ($totalUsers === 0) {
                 $this->vipPercentage = 0;
@@ -89,15 +78,10 @@ class VipUsersChart extends ChartWidget
                 return;
             }
 
-            // Get user IDs created within the date range
-            $userIds = User::whereBetween('created_at', [$startDate, $endDate])
-                ->pluck('name')
-                ->toArray();
-
-            // Get VIP member count
+            // Get VIP member count (active VIP subscriptions only)
             $vipCount = Member::on('gamedb_main')
-                ->whereIn('memb___id', $userIds)
                 ->where('AccountLevel', '!=', AccountLevel::Regular)
+                ->where('AccountExpireDate', '>=', now())
                 ->count();
 
             // Calculate percentage
@@ -109,23 +93,13 @@ class VipUsersChart extends ChartWidget
         }
     }
 
-    protected function getVipDistribution($startDate, $endDate)
+    protected function getVipDistribution()
     {
         try {
-            // Get user IDs created within the date range
-            $userIds = User::whereBetween('created_at', [$startDate, $endDate])
-                ->pluck('name')
-                ->toArray();
-
-            if (empty($userIds)) {
-                // Handle case where no users were created in this period
-                return $this->getVipLevelsWithZeros();
-            }
-
-            // Get only VIP members from the game database that match these users
+            // Get all active VIP members without date filtering
             $vipMembers = Member::on('gamedb_main')
-                ->whereIn('memb___id', $userIds)
                 ->where('AccountLevel', '!=', AccountLevel::Regular)
+                ->where('AccountExpireDate', '>=', now())
                 ->get(['memb___id', 'AccountLevel']);
 
             // Count members by account level
