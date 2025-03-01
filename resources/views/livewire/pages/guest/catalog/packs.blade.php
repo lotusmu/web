@@ -98,7 +98,8 @@ new class extends Component {
                                             @if($pack->tier === $tier)
                                                 <div
                                                     class="flex max-md:flex-col max-md:items-center max-md:space-y-8 w-full h-full ">
-                                                    <figure class="overflow-hidden max-w-xs w-full text-center">
+                                                    <figure
+                                                        class="overflow-hidden max-w-xs w-full text-center">
                                                         <img src="{{ asset($pack->image_path) }}"
                                                              alt="Image preview of the item set which is included in this starter pack"
                                                              class="max-w-[65%] mx-auto p-8 border-t-[3px] border-r-[3px] border-l-[3px] border-zinc-200 dark:border-white/30"/>
@@ -114,6 +115,11 @@ new class extends Component {
                                                                 {{ $pack->tier->getLabel() }}
                                                             </flux:text>
                                                         </figcaption>
+
+                                                        <div class="mt-6">
+                                                            <x-resource-badge :value="$pack->price"
+                                                                              :resource="$pack->resource"/>
+                                                        </div>
                                                     </figure>
 
                                                     <div class="flex flex-col space-y-6 w-full h-full">
@@ -193,13 +199,6 @@ new class extends Component {
                                                                     @endif
                                                                 @endforeach
                                                             </div>
-                                                        </div>
-
-                                                        <flux:spacer/>
-
-                                                        <div>
-                                                            <x-resource-badge :value="$pack->price"
-                                                                              :resource="$pack->resource"/>
                                                         </div>
                                                     </div>
                                                 </div>
