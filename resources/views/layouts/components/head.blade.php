@@ -22,6 +22,20 @@
 <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FQ4QV8M1J"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-9FQ4QV8M1J');
+</script>
+
 <!-- Scripts -->
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxStyles
