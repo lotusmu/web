@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 class ScheduledEventService
 {
-    public function getUpcomingEvents(int $limit = 10): Collection
+    public function getUpcomingEvents(int $limit = 50): Collection
     {
         return ScheduledEvent::active()
             ->orderBy('sort_order')
