@@ -58,7 +58,7 @@ class MemberResource extends Resource
                 Section::make('User Details')
                     ->description('User Details can be changed from User Logins.')
                     ->aside()
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         Placeholder::make('memb___id')
                             ->label('Username')
@@ -66,9 +66,6 @@ class MemberResource extends Resource
                         Placeholder::make('mail_addr')
                             ->label('Email')
                             ->content(fn ($record) => $record->mail_addr),
-                        Placeholder::make('memb__pwd')
-                            ->label('Password')
-                            ->content(fn ($record) => $record->memb__pwd),
                     ]),
                 Section::make('Account Level')
                     ->description('Change the account level and its expiration date.')
