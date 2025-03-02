@@ -37,13 +37,17 @@ class UpdateBanner extends Model
         });
 
         static::saved(function ($model) {
-            if ($model->type !== UpdateBannerType::ANNOUNCEMENT) {
+            if ($model->type === UpdateBannerType::ANNOUNCEMENT) {
+                cache()->forget("banner_type_{$model->type->value}");
+            } else {
                 cache()->forget('active_updates_banner');
             }
         });
 
         static::deleted(function ($model) {
-            if ($model->type !== UpdateBannerType::ANNOUNCEMENT) {
+            if ($model->type === UpdateBannerType::ANNOUNCEMENT) {
+                cache()->forget("banner_type_{$model->type->value}");
+            } else {
                 cache()->forget('active_updates_banner');
             }
         });

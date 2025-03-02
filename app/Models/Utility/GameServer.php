@@ -26,6 +26,11 @@ class GameServer extends Model
         'reset_zen',
         'clear_pk_zen',
         'online_multiplier',
+        'launch_date',
+    ];
+
+    protected $casts = [
+        'launch_date' => 'datetime',
     ];
 
     public function getServerName(): string

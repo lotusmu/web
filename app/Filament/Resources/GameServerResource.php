@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\GameServerResource\Pages;
 use App\Models\Utility\GameServer;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -43,6 +44,12 @@ class GameServerResource extends Resource
                             ->options(self::getDbConnectionOptions())
                             ->required()
                             ->helperText('Select the database connection for this server.'),
+
+                        DateTimePicker::make('launch_date')
+                            ->label('Launch Date')
+                            ->native(false)
+                            ->helperText('Set the server launch date for countdown')
+                            ->nullable(),
 
                         Toggle::make('is_active')
                             ->label('Server Status')

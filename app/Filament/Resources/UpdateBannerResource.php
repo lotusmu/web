@@ -38,7 +38,11 @@ class UpdateBannerResource extends Resource
                 ->schema([
                     Select::make('type')
                         ->label('Banner Type')
-                        ->options(UpdateBannerType::class)
+                        ->options(function () {
+                            return collect(UpdateBannerType::cases())
+                                ->filter(fn ($type) => $type !== UpdateBannerType::LAUNCHING)
+                                ->mapWithKeys(fn ($type) => [$type->value => $type->getLabel()]);
+                        })
                         ->required()
                         ->native(false)
                         ->helperText('Select the type of update banner to display.'),
