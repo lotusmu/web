@@ -80,7 +80,8 @@ new class extends Component {
     @if($this->banner)
         <div class="mt-24 sm:mt-32 lg:mt-16">
             @if($this->banner->url)
-                <a href="{{ $this->banner->url }}" wire:navigate.hover class="inline-flex space-x-6 group">
+                <a href="{{ $this->banner->url }}" wire:navigate.hover
+                   class="flex flex-wrap gap-3 sm:gap-6 items-center group">
                     <flux:badge variant="pill"
                                 :color="$this->banner->type->color()"
                                 :icon="$this->banner->type->icon()"
@@ -93,7 +94,7 @@ new class extends Component {
                     </flux:text>
                 </a>
             @else
-                <div class="inline-flex space-x-6">
+                <div class="flex flex-wrap gap-3 sm:gap-6 items-center">
                     <flux:badge variant="pill"
                                 :color="$this->banner->type->color()"
                                 :icon="$this->banner->type->icon()"
@@ -110,7 +111,7 @@ new class extends Component {
         <div
             x-data="{{ $this->getCountdownData() }}"
             x-init="updateCountdown(); setInterval(() => updateCountdown(), 1000)"
-            class="mt-24 sm:mt-32 lg:mt-16 inline-flex space-x-6"
+            class="mt-24 sm:mt-32 lg:mt-16 flex flex-wrap gap-3 sm:gap-6 items-center"
         >
             <flux:badge variant="pill"
                         :color="UpdateBannerType::LAUNCHING->color()"
@@ -119,18 +120,21 @@ new class extends Component {
                 <span x-text="isPastLaunch ? 'Now Live!' : '{{ UpdateBannerType::LAUNCHING->getLabel() }}'"></span>
             </flux:badge>
 
-            <flux:text class="flex items-center">
+            <flux:text class="flex flex-wrap items-center">
                 <template x-if="isPastLaunch">
                     <span>{{ $this->launchServer->name }} {{ __('has launched!') }}</span>
                 </template>
                 <template x-if="!isPastLaunch">
-                <span class="flex items-center">
-                    <span class="mr-1">{{ $this->launchServer->name }} {{__('launching in')}}:</span>
-                    <span class="font-semibold" x-text="days"></span>d
-                    <span class="font-semibold ml-1" x-text="hours"></span>h
-                    <span class="font-semibold ml-1" x-text="minutes"></span>m
-                    <span class="font-semibold ml-1" x-text="seconds"></span>s
-                </span>
+                    <div class="flex flex-wrap items-center">
+                        <span
+                            class="mr-1 whitespace-normal sm:whitespace-nowrap">{{ $this->launchServer->name }} {{__('launching in')}}:</span>
+                        <div class="flex flex-nowrap">
+                            <span class="font-semibold" x-text="days"></span>d
+                            <span class="font-semibold ml-1" x-text="hours"></span>h
+                            <span class="font-semibold ml-1" x-text="minutes"></span>m
+                            <span class="font-semibold ml-1" x-text="seconds"></span>s
+                        </div>
+                    </div>
                 </template>
             </flux:text>
         </div>
