@@ -78,7 +78,7 @@ new class extends Component {
 
 <div>
     @if($this->banner)
-        <div class="mt-24 sm:mt-32 lg:mt-16">
+        <div class="mt-0 sm:mt-32 lg:mt-16">
             @if($this->banner->url)
                 <a href="{{ $this->banner->url }}" wire:navigate.hover
                    class="flex flex-wrap gap-3 sm:gap-6 items-center group">
@@ -111,7 +111,7 @@ new class extends Component {
         <div
             x-data="{{ $this->getCountdownData() }}"
             x-init="updateCountdown(); setInterval(() => updateCountdown(), 1000)"
-            class="mt-24 sm:mt-32 lg:mt-16 flex flex-wrap gap-3 sm:gap-6 items-center"
+            class="mt-0 sm:mt-32 lg:mt-16 flex flex-wrap gap-3 sm:gap-6 items-center"
         >
             <flux:badge variant="pill"
                         :color="UpdateBannerType::LAUNCHING->color()"
