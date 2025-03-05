@@ -14,6 +14,11 @@ class RecentOrdersTable extends BaseWidget
 
     protected static ?string $heading = 'Recent Orders';
 
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 6,
+    ];
+
     public function table(Table $table): Table
     {
         return $table

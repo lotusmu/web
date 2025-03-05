@@ -15,6 +15,11 @@ class TopCustomersTable extends BaseWidget
 
     protected static ?string $heading = 'Top Customers';
 
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 6,
+    ];
+
     public function table(Table $table): Table
     {
         return $table

@@ -22,11 +22,14 @@ class ConversionRateChart extends ChartWidget
 
     protected static ?int $sort = 4;
 
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 4,
+    ];
+
     protected ?float $conversionRate = null;
 
     protected ?float $avgDaysToFirstPurchase = null;
-
-    protected static ?string $maxHeight = '200px';
 
     protected function getData(): array
     {

@@ -15,6 +15,14 @@ class Dashboard extends DashboardPage
 {
     use HasFiltersForm;
 
+    public function getColumns(): int|string|array
+    {
+        return [
+            'default' => 1,
+            'md' => 12,
+        ];
+    }
+
     public function filtersForm(Form $form): Form
     {
         return $form->schema([

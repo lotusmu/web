@@ -24,6 +24,8 @@ class StatsOverview extends BaseWidget
 
     protected static ?int $sort = 0;
 
+    protected int|string|array $columnSpan = 'full';
+
     public function getStats(): array
     {
         [$startDate, $endDate] = $this->resolveDateRange();

@@ -21,7 +21,10 @@ class VipUsersChart extends ChartWidget
 
     protected static ?int $sort = 3;
 
-    protected static ?string $maxHeight = '200px';
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 4,
+    ];
 
     // Store the VIP percentage to display in the chart description
     protected ?float $vipPercentage = null;
@@ -178,10 +181,10 @@ class VipUsersChart extends ChartWidget
     public function getDescription(): ?string
     {
         if ($this->vipPercentage !== null) {
-            return "{$this->vipPercentage}% of users have VIP status";
+            return "{$this->vipPercentage}% of users have VIP status • Active members by package";
         }
 
-        return 'Distribution of VIP users by level';
+        return 'Distribution of VIP users by level • Showing active subscriptions';
     }
 
     protected function getType(): string

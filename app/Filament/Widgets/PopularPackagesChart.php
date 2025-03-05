@@ -13,6 +13,11 @@ class PopularPackagesChart extends ChartWidget
 
     protected static ?int $sort = 5;
 
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 4,
+    ];
+
     protected function getData(): array
     {
         // Get package sales data
@@ -66,7 +71,7 @@ class PopularPackagesChart extends ChartWidget
 
     public function getDescription(): ?string
     {
-        return 'Top packages by number of completed orders';
+        return 'Packages by number of completed orders • Customer preference analysis';
     }
 
     protected function getType(): string

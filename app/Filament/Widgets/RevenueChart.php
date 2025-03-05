@@ -22,6 +22,11 @@ class RevenueChart extends ChartWidget
 
     protected static ?string $maxHeight = '150px';
 
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 6,
+    ];
+
     protected function getData(): array
     {
         // Get filters with proper defaults
