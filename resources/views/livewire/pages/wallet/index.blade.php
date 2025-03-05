@@ -9,7 +9,7 @@ new #[Layout('layouts.app')] class extends Component {
 }; ?>
 
 <div class="space-y-8">
-    <livewire:pages.wallet.card/>
+    <livewire:pages.dashboard.card/>
 
     <flux:tab.group variant="flush">
         <flux:tabs wire:model="tab" class="max-sm:hidden">

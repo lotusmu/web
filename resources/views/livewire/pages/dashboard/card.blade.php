@@ -5,10 +5,11 @@ use App\Models\Game\Character;
 use App\Models\User\User;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 use App\Enums\Game\CharacterClass;
 
-new #[Layout('layouts.app')] class extends Component {
+new class extends Component {
     public User $user;
 
     public function mount(): void
@@ -38,6 +39,13 @@ new #[Layout('layouts.app')] class extends Component {
             'label' => $this->user->member->AccountLevel->getLabel(),
             'color' => $this->user->member->AccountLevel->badgeColor(),
         ];
+    }
+
+
+    #[On('resourcesUpdated')]
+    public function onResourcesUpdated(): void
+    {
+        $this->user->refresh();
     }
 } ?>
 
