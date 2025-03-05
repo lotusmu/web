@@ -30,6 +30,7 @@
         :logo_light="asset('images/brand/lotusmu-logotype.svg')"
         :logo_dark="asset('images/brand/lotusmu-logotype-white.svg')"
         size="sm"
+        class="px-3"
     />
 
     @include('layouts.components.sidebar')
