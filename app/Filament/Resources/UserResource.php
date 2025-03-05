@@ -175,6 +175,7 @@ class UserResource extends Resource
                             );
                     }),
             ])
+            ->defaultSort('created_at', 'DESC')
             ->persistFiltersInSession()
             ->filtersTriggerAction(function ($action) {
                 return $action->button()->label('Filters');
