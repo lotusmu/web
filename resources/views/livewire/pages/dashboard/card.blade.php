@@ -41,57 +41,52 @@ new #[Layout('layouts.app')] class extends Component {
     }
 } ?>
 
-<flux:card class="flex max-sm:flex-col justify-evenly max-sm:gap-4 gap-2 text-center">
-    <div class="flex-1 min-w-0">
-        <flux:subheading>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <!-- Tokens Card -->
+    <flux:card class="!p-4">
+        <flux:subheading size="sm">
             {{__('Tokens')}}
         </flux:subheading>
-        <flux:heading size="xl">
+        <flux:heading size="lg">
             {{ $this->resources->tokens }}
         </flux:heading>
-    </div>
+    </flux:card>
 
-    <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
-    <flux:separator variant="subtle" class="max-sm:block hidden"/>
-
-    <div class="flex-1 min-w-0">
-        <flux:subheading>
+    <!-- Credits Card -->
+    <flux:card class="!p-4">
+        <flux:subheading size="sm">
             {{__('Credits')}}
         </flux:subheading>
-        <flux:heading size="xl">
+        <flux:heading size="lg">
             {{ $this->resources->credits }}
         </flux:heading>
-    </div>
+    </flux:card>
 
-    <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
-    <flux:separator variant="subtle" class="max-sm:block hidden"/>
-
-    <div class="flex-1 min-w-0">
-        <flux:subheading>
+    <!-- Zen Card -->
+    <flux:card class="!p-4">
+        <flux:subheading size="sm">
             {{__('Zen')}}
         </flux:subheading>
-        <flux:heading size="xl">
+        <flux:heading size="lg">
             {{ $this->resources->zen }}
         </flux:heading>
-    </div>
+    </flux:card>
 
-    <flux:separator vertical variant="subtle" class="sm:block hidden -my-6"/>
-    <flux:separator variant="subtle" class="max-sm:block hidden"/>
-
-    <div class="flex-1 min-w-0">
-        <flux:subheading>
+    <!-- Account Level Card -->
+    <flux:card class="!p-4">
+        <flux:subheading size="sm">
             {{__('Account Level')}}
         </flux:subheading>
 
         @if ($this->accountLevel)
-            <flux:badge icon="fire" size="lg" color="{{ $this->accountLevel['color'] }}" class="mt-2">
+            <flux:badge icon="fire" size="sm" color="{{ $this->accountLevel['color'] }}" class="mt-2">
                 {{ $this->accountLevel['label'] }}
             </flux:badge>
         @else
-            <flux:heading size="xl">
+            <flux:heading size="lg">
                 {{__('Regular')}}
             </flux:heading>
         @endif
-    </div>
-</flux:card>
+    </flux:card>
+</div>
 

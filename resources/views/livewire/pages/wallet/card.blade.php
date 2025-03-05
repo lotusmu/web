@@ -22,7 +22,7 @@ new class extends Component {
             'zen'     => $this->user->zen->format(),
         ];
     }
-    
+
     #[On('resourcesUpdated')]
     public function onResourcesUpdated(): void
     {
@@ -30,30 +30,30 @@ new class extends Component {
     }
 } ?>
 
-<div class="grid sm:grid-cols-3 gap-6 max-sm:text-center max-sm:gap-2">
-    <flux:card>
-        <flux:subheading>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+    <flux:card class="max-sm:col-span-2 !p-4">
+        <flux:subheading size="sm">
             {{__('Tokens')}}
         </flux:subheading>
-        <flux:heading size="xl">
+        <flux:heading size="lg">
             {{ $this->resources->tokens }}
         </flux:heading>
     </flux:card>
 
-    <flux:card>
-        <flux:subheading>
+    <flux:card class="!p-4">
+        <flux:subheading size="sm">
             {{__('Credits')}}
         </flux:subheading>
-        <flux:heading size="xl">
+        <flux:heading size="lg">
             {{ $this->resources->credits }}
         </flux:heading>
     </flux:card>
 
-    <flux:card>
-        <flux:subheading>
+    <flux:card class="!p-4">
+        <flux:subheading size="sm">
             {{__('Zen')}}
         </flux:subheading>
-        <flux:heading size="xl">
+        <flux:heading size="lg">
             {{ $this->resources->zen }}
         </flux:heading>
     </flux:card>
