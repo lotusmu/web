@@ -72,8 +72,7 @@ class StatsOverview extends BaseWidget
             ->description($this->formatIncrease($increase))
             ->descriptionIcon($this->getTrendIcon($increase))
             ->icon('heroicon-o-user-plus')
-            ->color($this->getTrendColor($increase))
-            ->chart($this->generateUserRegistrationChart($start, $end));
+            ->color($this->getTrendColor($increase));
     }
 
     protected function calculateUserIncrease(Carbon $start, Carbon $end, int $current): array
@@ -115,13 +114,6 @@ class StatsOverview extends BaseWidget
             <div><div class="text-xs">Zen</div><div class="text-base font-semibold">$zen</div></div>
         </div>
         HTML;
-    }
-
-    protected function generateUserRegistrationChart(Carbon $start, Carbon $end): array
-    {
-        return $start->diffInDays($end) > 30
-            ? $this->groupByWeek($start, $end)
-            : $this->groupByDay($start, $end);
     }
 
     protected function groupByWeek(Carbon $start, Carbon $end): array

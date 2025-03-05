@@ -26,6 +26,8 @@ class ConversionRateChart extends ChartWidget
 
     protected ?float $avgDaysToFirstPurchase = null;
 
+    protected static ?string $maxHeight = '200px';
+
     protected function getData(): array
     {
         // Calculate conversion stats for all users regardless of date range

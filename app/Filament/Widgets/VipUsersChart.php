@@ -21,6 +21,8 @@ class VipUsersChart extends ChartWidget
 
     protected static ?int $sort = 3;
 
+    protected static ?string $maxHeight = '200px';
+
     // Store the VIP percentage to display in the chart description
     protected ?float $vipPercentage = null;
 

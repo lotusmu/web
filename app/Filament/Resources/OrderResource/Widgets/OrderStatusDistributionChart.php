@@ -13,9 +13,9 @@ class OrderStatusDistributionChart extends ChartWidget
 
     protected static ?string $pollingInterval = null;
 
-    protected static ?string $maxHeight = '200px';
-
     protected static ?string $heading = 'Order Distribution by Status';
+
+    protected static ?string $maxHeight = '150px';
 
     protected function getTablePage(): string
     {

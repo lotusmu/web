@@ -18,7 +18,9 @@ class RegisteredUsersChart extends ChartWidget
 
     protected static ?string $pollingInterval = '60s';
 
-    protected static ?int $sort = 2; // After RevenueChart, which has sort 1
+    protected static ?int $sort = 2;
+
+    protected static ?string $maxHeight = '150px';
 
     protected function getData(): array
     {

@@ -20,6 +20,8 @@ class RevenueChart extends ChartWidget
 
     protected static ?int $sort = 1;
 
+    protected static ?string $maxHeight = '150px';
+
     protected function getData(): array
     {
         // Get filters with proper defaults

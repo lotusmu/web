@@ -19,7 +19,6 @@ class Dashboard extends DashboardPage
     {
         return $form->schema([
             Section::make('Dashboard Filters')
-                ->description('Select a time period to filter dashboard data')
                 ->icon('heroicon-o-calendar')
                 ->columns(3)
                 ->schema([
