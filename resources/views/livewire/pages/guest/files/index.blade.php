@@ -38,11 +38,11 @@ new #[Layout('layouts.guest')] class extends Component {
         </x-info-card>
 
         @if($this->downloads()->count() > 0)
-            <div class="grid grid-cols-3 max-md:grid-cols-1 gap-6">
+            <div class="grid grid-cols-4 max-lg:grid-cols-2 max-md:grid-cols-1 gap-6">
                 @foreach($this->downloads() as $download)
                     <a href="{{ $download['url'] }}" target="_blank">
                         <flux:card
-                            class="flex flex-1 items-center gap-4 w-full hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors group">
+                            class="flex flex-1 items-center gap-4 w-full hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors group">
                             <x-dynamic-component
                                 :component="$download['icon']"
                                 class="w-8 h-8"
