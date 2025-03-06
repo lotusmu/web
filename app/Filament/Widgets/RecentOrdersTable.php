@@ -40,7 +40,7 @@ class RecentOrdersTable extends BaseWidget
                 TextColumn::make('status')
                     ->badge(),
                 TextColumn::make('created_at')
-                    ->dateTime('M j, Y H:i'),
+                    ->dateTime('M j, H:i'),
             ])
             ->defaultSort('created_at', 'desc')
             ->paginated([5]);
