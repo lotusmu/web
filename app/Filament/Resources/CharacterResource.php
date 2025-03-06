@@ -11,6 +11,8 @@ use App\Filament\Actions\BanInfolistAction;
 use App\Filament\Actions\BanTableAction;
 use App\Filament\Infolists\Components\Entry\CharacterClassEntry;
 use App\Filament\Resources\CharacterResource\Pages;
+use App\Filament\Resources\CharacterResource\Widgets\CharacterQuestDistributionChart;
+use App\Filament\Resources\CharacterResource\Widgets\CharacterResetsDistributionChart;
 use App\Filament\Tables\Columns\CharacterClassColumn;
 use App\Models\Game\Character;
 use App\Models\Game\Guild;
@@ -391,6 +393,14 @@ class CharacterResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            CharacterResetsDistributionChart::class,
+            CharacterQuestDistributionChart::class,
         ];
     }
 
