@@ -38,8 +38,6 @@ class TopCustomersTable extends BaseWidget
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     ->iconPosition(IconPosition::After)
                     ->url(fn ($record) => route('filament.admin.resources.members.edit', ['record' => $record->name])),
-                TextColumn::make('email')
-                    ->label('Email'),
                 TextColumn::make('total_spent')
                     ->money('eur')
                     ->label('Total Spent'),
