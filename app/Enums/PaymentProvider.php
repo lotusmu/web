@@ -17,7 +17,7 @@ enum PaymentProvider: string implements HasColor, HasLabel
         return match ($this) {
             self::STRIPE => 'Stripe',
             self::PAYPAL => 'PayPal',
-            self::PRIME => 'PrimePayments',
+            self::PRIME => 'Prime',
         };
     }
 
