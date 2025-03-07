@@ -23,9 +23,9 @@ new #[Layout('layouts.app')] class extends Component {
 
     <flux:tab.group variant="flush" class="mt-8">
         <flux:tabs wire:model="tab">
-            <flux:tab name="email" icon="envelope">Email</flux:tab>
-            <flux:tab name="password" icon="lock-closed">Password</flux:tab>
-            <flux:tab name="appearance" icon="swatch">Appearance</flux:tab>
+            <flux:tab name="email" icon="envelope">{{__('Email')}}</flux:tab>
+            <flux:tab name="password" icon="lock-closed">{{__('Password')}}</flux:tab>
+            <flux:tab name="appearance" icon="swatch">{{__('Appearance')}}</flux:tab>
         </flux:tabs>
 
         <flux:tab.panel name="email">
