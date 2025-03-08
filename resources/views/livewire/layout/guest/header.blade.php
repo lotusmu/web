@@ -107,6 +107,8 @@ new class extends Component {
                                  href="/admin" target="_blank" class="max-lg:hidden"/>
                 @endif
 
+                <livewire:locale-selector/>
+
                 <flux:navbar.item icon-trailing="chevron-right" :href="route('dashboard')" wire:navigate.hover>
                     {{ __('Dashboard') }}
                 </flux:navbar.item>

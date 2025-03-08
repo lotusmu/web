@@ -846,5 +846,7 @@
     "On Hold": "Задержанные",
     "Update your account's profile email address.": "Обновите адрес электронной почты профиля учетной записи.",
     "Your password": "Ваш пароль",
-    "Optional": "Необязательный"
+    "Language has been changed successfully.": "Язык успешно изменен.",
+    "Language Changed": "Язык изменен",
+    "Change language": "Изменить язык"
 }

@@ -14,9 +14,8 @@ return [
 
     'available' => [
         'en',
+        'bg',
         'ru',
-        'es',
-        'pt',
     ],
 
     'default' => 'en',

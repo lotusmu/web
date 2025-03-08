@@ -9,6 +9,7 @@ use App\Http\Middleware\CheckArticlePublishedMiddleware;
 use App\Http\Middleware\CheckUserBannedMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
 use App\Http\Middleware\EnsureVipOnlyMiddleware;
+use App\Http\Middleware\LocaleMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,7 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->web(CheckUserBannedMiddleware::class);
+        $middleware->web([
+            CheckUserBannedMiddleware::class,
+            LocaleMiddleware::class,
+        ]);
 
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
