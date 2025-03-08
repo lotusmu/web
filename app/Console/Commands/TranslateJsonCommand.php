@@ -60,7 +60,7 @@ class TranslateJsonCommand extends Command
         foreach ($chunks as $chunk) {
             // Translate the chunk based on selected API
             if ($api === 'deepl') {
-                $translated = $this->translateWithDeepL($chunk, $target);
+                $translated = $this->translateWithDeepL($chunk, $target, $source);
             } else {
                 $this->error("API not supported: {$api}");
 
@@ -89,7 +89,7 @@ class TranslateJsonCommand extends Command
         return 0;
     }
 
-    protected function translateWithDeepL(array $strings, string $targetLang)
+    protected function translateWithDeepL(array $strings, string $targetLang, string $sourceLang = 'EN')
     {
         // Replace with your DeepL API key
         $apiKey = env('DEEPL_API_KEY');
@@ -109,6 +109,7 @@ class TranslateJsonCommand extends Command
         ])->post('https://api.deepl.com/v2/translate', [
             'text' => $values,
             'target_lang' => strtoupper($targetLang),
+            'source_lang' => strtoupper($sourceLang),
         ]);
 
         if ($response->successful()) {

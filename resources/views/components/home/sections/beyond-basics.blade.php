@@ -12,7 +12,7 @@
             </x-home.heading>
 
             <x-home.text>
-                {{ __('Each feature in Lotus Mu is crafted with purpose and depth. These aren\'t just additions - they\'re game-changing mechanics that create a richer, more rewarding journey through the realm.') }}
+                {{ __("Each feature in Lotus Mu is crafted with purpose and depth. These aren't just additions - they're game-changing mechanics that create a richer, more rewarding journey through the realm.") }}
             </x-home.text>
 
             <x-home.link href="https://wiki.lotusmu.org" external>
@@ -108,7 +108,7 @@
                                 {{ __('In modern MU Online, having the same excellent options across all items doesn\'t make sense - that\'s why our excellent options scale with item tiers - stronger items, better bonuses.') }}
                             </flux:text>
 
-                            <flux:text>{{ _('Want to see how it works?') }}
+                            <flux:text>{{ __('Want to see how it works?') }}
                                 <flux:link variant="ghost"
                                            href="https://wiki.lotusmu.org/items/exc-items"
                                            external>
@@ -147,7 +147,7 @@
                                 {{ __('From hunting spiders to challenging mighty monsters, our quest system grows with you. Each completed quest rewards you with valuable items and points - making your character stronger every step of the way.') }}
                             </flux:text>
 
-                            <flux:text>{{ _('Ready to start your journey?') }}
+                            <flux:text>{{ __('Ready to start your journey?') }}
                                 <flux:link variant="ghost"
                                            href="https://wiki.lotusmu.org/gameplay-systems/quest-system"
                                            external>
@@ -186,7 +186,7 @@
                                 {{ __('From unique pet crafting to reimagined classic recipes, our system aligns perfectly with modern MU gameplay - multiple resets, active farming, and exciting rewards.') }}
                             </flux:text>
 
-                            <flux:text>{{ _('Curious about crafting?') }}
+                            <flux:text>{{ __('Curious about crafting?') }}
                                 <flux:link variant="ghost"
                                            href="https://wiki.lotusmu.org/category/crafting"
                                            external>
@@ -221,7 +221,7 @@
                                 {{ __('Top performers in our weekly rankings receive special rewards for their dedication.') }}
                             </flux:text>
 
-                            <flux:text>{{ _('Want the full schedule?') }}
+                            <flux:text>{{ __('Want the full schedule?') }}
                                 <flux:link variant="ghost"
                                            :href="route('schedule')"
                                            wire:navigate.hover>
@@ -266,11 +266,11 @@
                                 {{ __('From the mighty Warhorse to the fearsome Ice Dragon, each class has its own unique set of companions. With three power tiers and class-specific bonuses, these pets aren\'t just for show.') }}
                             </flux:text>
 
-                            <flux:text>{{ _('Curious about their powers?') }}
+                            <flux:text>{{ __('Curious about their powers?') }}
                                 <flux:link variant="ghost"
                                            href="https://wiki.lotusmu.org/items/pets"
                                            external>
-                                    {{ __('Meet the pets!') }}
+                                    {{ __('Meet them!') }}
                                 </flux:link>
                             </flux:text>
                         </div>

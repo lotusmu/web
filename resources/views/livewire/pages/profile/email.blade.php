@@ -119,7 +119,7 @@ new class extends Component {
     </header>
 
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
-        <flux:input wire:model="email" label="{{('Email')}}"/>
+        <flux:input wire:model="email" label="{{__('Email')}}"/>
 
         @if (auth()->user() instanceof MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
             <flux:card class="space-y-8">

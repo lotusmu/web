@@ -51,7 +51,7 @@ new class extends Component {
             </p>
 
             <flux:heading size="2xl" level="2" class="max-w-3xl mx-auto">
-                {{ __('Adventure Supplies.') }}
+                {{ __('Adventure Supplies') }}
             </flux:heading>
 
             <flux:subheading class="mx-auto max-w-2xl leading-8">

@@ -20,8 +20,8 @@ enum TicketStatus: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::NEW => __('New'),
-            self::IN_PROGRESS => '__(In Progress)',
-            self::ON_HOLD => '__(On Hold)',
+            self::IN_PROGRESS => __('In Progress'),
+            self::ON_HOLD => __('On Hold'),
             self::PENDING => __('Pending'),
             self::RESOLVED => __('Resolved'),
             self::CLOSED => __('Closed'),

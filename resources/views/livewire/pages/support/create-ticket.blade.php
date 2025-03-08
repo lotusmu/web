@@ -87,7 +87,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <form wire:submit="create" class="space-y-6">
 
-        <flux:input wire:model="title" label="Title"/>
+        <flux:input wire:model="title" label="{{__('Title')}}"/>
 
         <div class="flex items-center gap-6 max-sm:flex-col">
             <flux:select wire:model="ticket_category_id" variant="listbox" placeholder="{{__('Choose category...')}}">
@@ -106,7 +106,7 @@ new #[Layout('layouts.app')] class extends Component {
             </flux:select>
         </div>
 
-        <flux:editor wire:model="description" label="Description"
+        <flux:editor wire:model="description" label="{{__('Description')}}"
                      toolbar="bold italic underline | bullet ordered highlight | link ~ undo redo"/>
 
         <flux:field>

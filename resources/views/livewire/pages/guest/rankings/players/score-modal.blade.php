@@ -117,7 +117,7 @@ new class extends Component {
             </flux:heading>
 
             <flux:badge size="sm" variant="solid">
-                {{ $this->totalScore }} points
+                {{ $this->totalScore }} {{__('points')}}
             </flux:badge>
         </div>
     </div>

@@ -40,9 +40,7 @@
             </x-home.heading>
 
             <x-home.text>
-                {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula.
-                Every feature is carefully crafted to enhance gameplay without compromising the core experience
-                that made the game legendary.') }}
+                {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula. Every feature is carefully crafted to enhance gameplay without compromising the core experience that made the game legendary.') }}
             </x-home.text>
 
             <x-home.link href="https://wiki.lotusmu.org" external>
@@ -127,12 +125,10 @@
 
                         <div class="space-y-2">
                             <flux:text>
-                                {{  __('Plenty of special monsters scattered throughout the realm - from weak to strong,
-                                each rewarding in its own way. Find them roaming our carefully crafted farm areas, or face
-                                the most formidable ones in the citadel.') }}
+                                {{  __('Plenty of special monsters scattered throughout the realm - from weak to strong, each rewarding in its own way. Find them roaming our carefully crafted farm areas, or face the most formidable ones in the citadel.') }}
                             </flux:text>
 
-                            <flux:text>{{ _('Learn more in') }}
+                            <flux:text>{{ __('Learn more in') }}
                                 <flux:link variant="ghost"
                                            href="https://wiki.lotusmu.org/category/special-monsters"
                                            external>
@@ -167,7 +163,7 @@
                                 {{  __('Day after day, you can grab rewards to complement your gameplay - jewels, mysterious item bags... you name it - all at your fingertips.') }}
                             </flux:text>
 
-                            <flux:text>{{ _('Are you curious?') }}
+                            <flux:text>{{ __('Are you curious?') }}
                                 <flux:link variant="ghost"
                                            href="https://wiki.lotusmu.org/gameplay-systems/daily-reward"
                                            external>
@@ -193,7 +189,7 @@
 
                         <div class="space-y-2">
                             <flux:text>
-                                {{  __('There are key locations in the realm of Lotus Mu - they are the cornerstones of everything, and you\'ll visit them often.') }}
+                                {{  __("There are key locations in the realm of Lotus Mu - they are the cornerstones of everything, and you'll visit them often.") }}
                             </flux:text>
 
                             <flux:text>
@@ -249,10 +245,10 @@
                             </flux:text>
 
                             <flux:text>
-                                {{  __('Keep farming even with your game minimized or closed - our helper takes care of your character while you\'re away.') }}
+                                {{  __("Keep farming even with your game minimized or closed - our helper takes care of your character while you're away.") }}
                             </flux:text>
 
-                            <flux:text>{{ _('Learn how to pilot the') }}
+                            <flux:text>{{ __('Learn how to pilot the') }}
                                 <flux:link variant="ghost"
                                            href="https://wiki.lotusmu.org/client-features/mu-helper"
                                            external>

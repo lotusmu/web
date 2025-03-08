@@ -18,12 +18,12 @@ enum FilterCharacterClass: string
     public function getLabel(): string
     {
         return match ($this) {
-            self::All => 'All',
-            self::Knights => 'Knights',
-            self::Wizards => 'Wizards',
-            self::Elves => 'Elves',
-            self::Gladiators => 'Gladiators',
-            self::Lords => 'Lords',
+            self::All => __('All'),
+            self::Knights => __('Knights'),
+            self::Wizards => __('Wizards'),
+            self::Elves => __('Elves'),
+            self::Gladiators => __('Gladiators'),
+            self::Lords => __('Lords'),
             //            self::Summoners => 'Summoners',
             //            self::Fighters => 'Fighters',
         };

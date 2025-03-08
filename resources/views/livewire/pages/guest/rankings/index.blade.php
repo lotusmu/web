@@ -61,7 +61,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:tab.group>
                 <div class="flex justify-center">
-                    <flux:tabs variant="segmented" class="w-full max-w-xs mb-8" wire:model="type">
+                    <flux:tabs variant="segmented" class="w-full max-w-sm mb-8" wire:model="type">
                         <flux:tab name="general">
                             {{ __('General') }}
                         </flux:tab>

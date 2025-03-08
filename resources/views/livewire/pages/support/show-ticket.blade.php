@@ -212,7 +212,7 @@ new #[Layout('layouts.app')] class extends Component {
         @if(!in_array($ticket->status, [TicketStatus::RESOLVED, TicketStatus::CLOSED]))
             <div>
                 <form wire:submit="submitReply" class="space-y-4">
-                    <flux:editor wire:model="content" label="Reply"
+                    <flux:editor wire:model="content" label="{{__('Reply')}}"
                                  toolbar="bold italic underline | bullet ordered highlight | link ~ undo redo"/>
 
                     <div class="flex">

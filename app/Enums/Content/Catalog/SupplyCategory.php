@@ -15,9 +15,9 @@ enum SupplyCategory: string implements HasColor, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::CONSUMABLES => 'Consumables',
-            self::SCROLLS_AND_ORBS => 'Scrolls & Orbs',
-            self::PETS_AND_WINGS => 'Pets & Wings'
+            self::CONSUMABLES => __('Consumables'),
+            self::SCROLLS_AND_ORBS => __('Scrolls & Orbs'),
+            self::PETS_AND_WINGS => __('Pets & Wings')
         };
     }
 

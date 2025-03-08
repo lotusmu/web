@@ -29,20 +29,22 @@ new #[Layout('layouts.auth')] class extends Component {
             [
                 'name'              => ['required', 'string', 'alpha_num', 'min:4', 'max:10', 'unique:'.User::class],
                 'email'             => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-                'password'          => ['required', 'string', 'confirmed', 'min:6', 'max:10', Rules\Password::defaults()],
+                'password'          => [
+                    'required', 'string', 'confirmed', 'min:6', 'max:10', Rules\Password::defaults()
+                ],
                 'terms'             => ['accepted'],
                 'turnstileResponse' => app()->environment(['production']) ? ['required', $turnstile] : [],
             ],
             [
-                'name.required'  => 'The username field is required.',
-                'name.string'    => 'The username must be a string.',
-                'name.alpha_num' => 'The username field must only contain letters and numbers.',
-                'name.min'       => 'The username must be at least :min characters.',
-                'name.max'       => 'The username must not exceed :max characters.',
-                'name.unique'    => 'This username is already taken.',
-                'terms.accepted'              => 'You must agree to the terms and conditions to continue.',
-                'turnstileResponse.required'  => 'Please complete the CAPTCHA verification.',
-                'turnstileResponse.turnstile' => 'CAPTCHA verification failed. Please try again.',
+                'name.required'               => __('The username field is required.'),
+                'name.string'                 => __('The username must be a string.'),
+                'name.alpha_num'              => __('The username field must only contain letters and numbers.'),
+                'name.min'                    => __('The username must be at least :min characters.'),
+                'name.max'                    => __('The username must not exceed :max characters.'),
+                'name.unique'                 => __('This username is already taken.'),
+                'terms.accepted'              => __('You must agree to the terms and conditions to continue.'),
+                'turnstileResponse.required'  => __('Please complete the CAPTCHA verification.'),
+                'turnstileResponse.turnstile' => __('CAPTCHA verification failed. Please try again.'),
             ]
         );
 

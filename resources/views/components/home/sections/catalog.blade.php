@@ -13,8 +13,7 @@
             </x-home.heading>
 
             <x-home.text>
-                {{ __ ('Explore our selection of convenience features and enhancements designed to complement your gameplay
-                experience. See detailed information about everything available in the game.')}}
+                {{ __ ('Explore our selection of convenience features and enhancements designed to complement your gameplay experience. See detailed information about everything available in the game.')}}
             </x-home.text>
 
             <x-home.link :href="route('catalog')" wire:navigate.hover>

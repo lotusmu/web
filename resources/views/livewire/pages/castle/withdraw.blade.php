@@ -90,7 +90,7 @@ new class extends Component {
         <flux:input
             x-model="amount"
             wire:model="amount"
-            label="Amount"
+            label="{{__('Amount')}}"
             type="number"
             x-bind:disabled="withdrawType !== 'custom'"
             :min="1"

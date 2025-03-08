@@ -101,8 +101,7 @@ new class extends Component {
             </flux:heading>
 
             <flux:subheading class="mx-auto max-w-2xl leading-8">
-                {{ __('Ancient powers adapted for modern battles. Enhance your gameplay with carefully balanced buffs that
-                respect the core experience.') }}
+                {{ __('Ancient powers adapted for modern battles. Enhance your gameplay with carefully balanced buffs that respect the core experience.') }}
             </flux:subheading>
         </div>
 

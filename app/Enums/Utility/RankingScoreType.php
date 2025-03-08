@@ -17,7 +17,7 @@ enum RankingScoreType: string
 
     public function scoreTitle(RankingPeriodType $scope): string
     {
-        return __("{$scope->label()} {$this->label()} Score");
+        return __("{$scope->label()}  ").__('Score');
     }
 
     public function rulesHeading(): string

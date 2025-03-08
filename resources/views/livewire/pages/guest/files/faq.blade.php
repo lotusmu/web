@@ -74,7 +74,7 @@
                 {{ __('5. Check if your antivirus is blocking the game, as some antivirus software may incorrectly flag it as suspicious (false positive).') }}
                 <br>
                 {{ __('6. Update your DirectX and graphics drivers.') }} <br>
-                {{ __('7. Make sure that the path to your game client does not include cyrilic words (i.e. C:Lotus Mu') }}
+                {{ __("7. Make sure that the path to your game client does not include cyrilic words (i.e. C:\Игри\Lotus Mu).") }}
                 <br>
             </flux:accordion.content>
         </flux:accordion.item>
@@ -134,7 +134,7 @@
                     {{ __('registration page') }}
                 </flux:link>
                 {{ __('.') }}
-                {{ __('Make sure to use ause const Игри\Lotus; valid email address as it will be needed for account verification and recovery.') }}
+                {{ __('Make sure to use a valid email address as it will be needed for account verification and recovery.') }}
             </flux:accordion.content>
         </flux:accordion.item>
 
