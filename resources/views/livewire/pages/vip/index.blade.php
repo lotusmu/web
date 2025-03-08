@@ -78,7 +78,7 @@ new #[Layout('layouts.app')] class extends Component {
                     {{__('Current Tier')}}
                 </flux:heading>
                 <flux:subheading>
-                    Active until {{ $this->accountLevel['expireDate']->format('F d, Y H:i') }}
+                    {{__('Active until')}} {{ $this->accountLevel['expireDate']->format('F d, Y H:i') }}
                 </flux:subheading>
             </div>
 
@@ -104,16 +104,16 @@ new #[Layout('layouts.app')] class extends Component {
 
     <flux:modal name="extend-subscription" class="md:w-96 space-y-6">
         <div>
-            <flux:heading size="lg">Extend Your Subscription</flux:heading>
-            <flux:subheading>Choose a package to extend your VIP.</flux:subheading>
+            <flux:heading size="lg">{{__('Extend Your Subscription')}}</flux:heading>
+            <flux:subheading>{{__('Choose a package to extend your VIP.')}}</flux:subheading>
         </div>
 
         <form wire:submit="extend" class="space-y-6">
             <flux:radio.group wire:model="packageId" variant="cards" class="flex flex-col">
                 @foreach($this->packages as $package)
                     <flux:radio value="{{$package->id}}"
-                                label="{{$package->duration}} days"
-                                description="{{ $package->cost }} tokens"
+                                label="{{$package->duration}} {{__('days')}}"
+                                description="{{ $package->cost }} {{__('tokens')}}"
                     />
                 @endforeach
             </flux:radio.group>
@@ -122,10 +122,10 @@ new #[Layout('layouts.app')] class extends Component {
                 <flux:spacer/>
 
                 <flux:modal.close>
-                    <flux:button variant="ghost">Cancel</flux:button>
+                    <flux:button variant="ghost">{{__('Cancel')}}</flux:button>
                 </flux:modal.close>
 
-                <flux:button type="submit" variant="primary">Extend</flux:button>
+                <flux:button type="submit" variant="primary">{{__('Extend')}}</flux:button>
             </div>
         </form>
     </flux:modal>

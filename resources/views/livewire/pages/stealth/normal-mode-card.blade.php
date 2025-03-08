@@ -1,8 +1,8 @@
 @php
     $disadvantages = [
-        'Character stats are visible to everyone',
-        'Players can track your location',
-        'Account information is public',
+        __('Character stats are visible to everyone'),
+        __('Players can track your location'),
+        __('Account information is public'),
     ];
 @endphp
 

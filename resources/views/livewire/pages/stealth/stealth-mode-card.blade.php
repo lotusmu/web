@@ -1,8 +1,8 @@
 @php
     $advantages = [
-        'Keep your character stats private',
-        'Hide your location from other players',
-        'Full account information privacy'
+        __('Keep your character stats private'),
+        __('Hide your location from other players'),
+        __('Full account information privacy')
     ];
 @endphp
 

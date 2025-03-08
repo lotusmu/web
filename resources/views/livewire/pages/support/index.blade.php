@@ -16,7 +16,7 @@ new #[Layout('layouts.app')] class extends Component {
         return Ticket::where('user_id', auth()->id())
             ->with('category')
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->simplePaginate(5);
     }
 }; ?>
 

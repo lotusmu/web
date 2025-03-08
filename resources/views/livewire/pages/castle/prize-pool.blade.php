@@ -51,7 +51,7 @@ new class extends Component {
                     0
                 @endif
                 <span>
-                        <flux:text size="sm">credits</flux:text>
+                        <flux:text size="sm">{{__('Credits')}}</flux:text>
                     </span>
             </flux:heading>
             <flux:subheading>
@@ -70,7 +70,7 @@ new class extends Component {
                     0
                 @endif
                 <span>
-                        <flux:text size="sm">credits</flux:text>
+                        <flux:text size="sm">{{__('Credits')}}</flux:text>
                     </span>
             </flux:heading>
             <flux:subheading>
@@ -87,7 +87,7 @@ new class extends Component {
                 @if($prize = $this->getPrizePool())
                     {{ $this->getTimeUntilNextDistribution() }}
                 @else
-                    Distributed
+                    {{__('Distributed')}}
                 @endif
             </flux:heading>
             <flux:subheading>

@@ -79,7 +79,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     <flux:radio.group
         wire:model="selectedPackage"
-        label="Choose Your Package"
+        label="{{__('Choose Your Package')}}"
         variant="cards"
         class="grid grid-cols-2 max-sm:grid-cols-1">
 
@@ -114,7 +114,7 @@ new #[Layout('layouts.app')] class extends Component {
         @endforeach
     </flux:radio.group>
 
-    <flux:radio.group label="Payment method" variant="cards" :indicator="false"
+    <flux:radio.group label="{{__('Payment method')}}" variant="cards" :indicator="false"
                       class="grid grid-cols-1 sm:grid-cols-2" wire:model="paymentMethod">
         <flux:radio value="stripe" class="flex">
             <div class="flex flex-1 items-center gap-4 w-full">
@@ -124,8 +124,7 @@ new #[Layout('layouts.app')] class extends Component {
                         Stripe
                     </flux:heading>
                     <flux:subheading>
-                        Fast and secure card processing
-
+                        {{__('Fast and secure card processing')}}
                     </flux:subheading>
                 </div>
             </div>
@@ -141,7 +140,7 @@ new #[Layout('layouts.app')] class extends Component {
                         PayPal
                     </flux:heading>
                     <flux:subheading>
-                        Safe digital payments worldwide
+                        {{__('Safe digital payments worldwide')}}
                     </flux:subheading>
                 </div>
             </div>
@@ -157,7 +156,7 @@ new #[Layout('layouts.app')] class extends Component {
                         PrimePayments
                     </flux:heading>
                     <flux:subheading>
-                        Full support for Russia, Belarus, sanctioned regions + all major cryptocurrencies
+                        {{__('Full support for Russia, Belarus, sanctioned regions + all major cryptocurrencies')}}
                     </flux:subheading>
                 </div>
             </div>

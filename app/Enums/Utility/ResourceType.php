@@ -13,8 +13,8 @@ enum ResourceType: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::TOKENS => 'Tokens',
-            self::CREDITS => 'Credits',
+            self::TOKENS => __('Tokens'),
+            self::CREDITS => __('Credits'),
             self::ZEN => 'Zen',
         };
     }

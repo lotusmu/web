@@ -83,13 +83,13 @@ enum RankingScoreType: string
                 'name_field' => 'MonsterName',
                 'count_field' => 'KillCount',
                 'points_field' => 'PointsPerKill',
-                'count_label' => 'kills',
+                'count_label' => __('kills'),
             ],
             self::EVENTS => [
                 'name_field' => 'EventName',
                 'count_field' => 'WinCount',
                 'points_field' => 'PointsPerWin',
-                'count_label' => 'wins',
+                'count_label' => __('wins'),
             ]
         };
     }

@@ -19,12 +19,12 @@ enum UpdateBannerType: string implements HasColor, HasIcon, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::LATEST => 'Latest Updates',
-            self::NEW => 'New Feature',
-            self::IMPORTANT => 'Important',
-            self::MAINTENANCE => 'Maintenance',
-            self::ANNOUNCEMENT => 'Top Banner Announcement',
-            self::LAUNCHING => 'Launching Soon',
+            self::LATEST => __('Latest Updates'),
+            self::NEW => __('New Feature'),
+            self::IMPORTANT => __('Important'),
+            self::MAINTENANCE => __('Maintenance'),
+            self::ANNOUNCEMENT => __('Top Banner Announcement'),
+            self::LAUNCHING => __('Launching Soon'),
         };
     }
 

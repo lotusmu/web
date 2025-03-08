@@ -13,9 +13,9 @@ enum BuffDuration: int implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::WEEK => '7 days',
-            self::TWO_WEEKS => '14 days',
-            self::MONTH => '30 days',
+            self::WEEK => __('7 days'),
+            self::TWO_WEEKS => __('14 days'),
+            self::MONTH => __('30 days'),
         };
     }
 }

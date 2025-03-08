@@ -161,7 +161,7 @@
                 <flux:text size="sm" class="leading-5 mt-0">
                     &copy; {{ date("Y") }} {{__('Lotus Mu')}}
                     ·
-                    <flux:link variant="subtle" href="{{ route('terms') }}">Terms of Service</flux:link>
+                    <flux:link variant="subtle" href="{{ route('terms') }}">{{__('Terms of Service')}}</flux:link>
                 </flux:text>
 
                 <div class="flex space-x-6 ">

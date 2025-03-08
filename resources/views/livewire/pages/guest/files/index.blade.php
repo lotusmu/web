@@ -23,9 +23,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <flux:main container>
     <x-page-header
-        title="Begin your journey"
-        kicker="Files"
-        description="Ready to start your adventure? Download our game client and join the world of Lotus Mu."
+        :title="__('Begin your journey')"
+        :kicker="__('Files')"
+        :description="__('Ready to start your adventure? Download our game client and join the world of Lotus Mu.')"
     />
 
     <div class="space-y-6">

@@ -94,7 +94,7 @@ new class extends Component {
             type="number"
             x-bind:disabled="withdrawType !== 'custom'"
             :min="1"
-            placeholder="Enter amount to withdraw"
+            placeholder="{{__('Enter amount to withdraw')}}"
             x-bind:value="withdrawType !== 'custom' ? calculateAmount() : amount"
         />
 

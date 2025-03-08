@@ -31,9 +31,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <flux:main container>
     <x-page-header
-        title="Time Your Adventures"
-        kicker="Schedule"
-        description="Stay ahead with real-time tracking of events and invasions across the realm."
+        :title="__('Time Your Adventures')"
+        :kicker="__('Schedule')"
+        :description="__('Stay ahead with real-time tracking of events and invasions across the realm.')"
     />
 
     <flux:tab.group class="max-w-2xl mx-auto">

@@ -16,7 +16,7 @@ new #[Layout('layouts.app')] class extends Component {
     {
         return Activity::forSubject(Auth::user())
             ->latest()
-            ->paginate(10);
+            ->simplePaginate(10);
     }
 
     public function setBadgeColor($activity): string

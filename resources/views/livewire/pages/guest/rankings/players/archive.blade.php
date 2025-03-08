@@ -39,9 +39,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <flux:main container>
     <x-page-header
-        title="Who's on top?"
-        kicker="Rankings"
-        description="The numbers don't lie — players and guilds ranked by their achievements."
+        :title="__('Who\'s on top?')"
+        :kicker="__('Rankings')"
+        :description="__('The numbers don\'t lie — players and guilds ranked by their achievements.')"
     />
 
     <flux:card class="max-w-xl space-y-12 mx-auto">
@@ -56,8 +56,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <flux:tab.group>
             <flux:tabs variant="segmented" wire:model.live="tab" class="w-full">
-                <flux:tab name="{{ RankingScoreType::EVENTS->value }}">Events Archive</flux:tab>
-                <flux:tab name="{{ RankingScoreType::HUNTERS->value }}">Hunt Archive</flux:tab>
+                <flux:tab name="{{ RankingScoreType::EVENTS->value }}">{{__('Events Archive')}}</flux:tab>
+                <flux:tab name="{{ RankingScoreType::HUNTERS->value }}">{{__('Hunt Archive')}}</flux:tab>
             </flux:tabs>
 
             @foreach(RankingScoreType::cases() as $scoreType)

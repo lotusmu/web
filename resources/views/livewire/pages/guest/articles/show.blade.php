@@ -17,9 +17,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 space-y-12">
     <x-page-header
-        title="What's new around here?"
-        kicker="News"
-        description="Succinct and informative updates about Lotus Mu."
+        :title="__('What\'s new around here?')"
+        :kicker="__('News')"
+        :description="__('Succinct and informative updates about Lotus Mu.')"
     />
 
     <flux:link variant="subtle" icon="arrow-left"

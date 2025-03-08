@@ -35,8 +35,8 @@ new class extends Component {
         @endforeach
     @else
         <div>
-            <flux:heading>No articles found.</flux:heading>
-            <flux:subheading>There are currently no published articles in this category.</flux:subheading>
+            <flux:heading>{{__('No articles found.')}}</flux:heading>
+            <flux:subheading>{{__('There are currently no published articles in this category.')}}</flux:subheading>
         </div>
     @endif
 

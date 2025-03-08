@@ -15,9 +15,9 @@ enum PackTier: int implements HasColor, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::TIER_1 => 'Tier 1',
-            self::TIER_2 => 'Tier 2',
-            self::TIER_3 => 'Tier 3',
+            self::TIER_1 => __('Tier 1'),
+            self::TIER_2 => __('Tier 2'),
+            self::TIER_3 => __('Tier 3'),
         };
     }
 

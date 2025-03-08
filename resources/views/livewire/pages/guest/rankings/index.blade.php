@@ -27,9 +27,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <flux:main container>
     <x-page-header
-        title="Who's on top?"
-        kicker="Rankings"
-        description="The numbers don’t lie — players and guilds ranked by their achievements."
+        :title="__('Who\'s on top?')"
+        :kicker="__('Rankings')"
+        :description="__('The numbers don’t lie — players and guilds ranked by their achievements.')"
     />
 
     <flux:modal name="events-scoring" variant="flyout" position="right">

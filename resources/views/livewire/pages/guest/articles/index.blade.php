@@ -16,15 +16,15 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <flux:main container>
     <x-page-header
-        title="What's new around here?"
-        kicker="News"
-        description="Succinct and informative updates about Lotus Mu."
+        :title="__('What\'s new around here?')"
+        :kicker="__('News')"
+        :description="__('Succinct and informative updates about Lotus Mu.')"
     />
 
     <flux:tab.group>
         <flux:tabs wire:model="tab" class="max-lg:mx-auto max-lg:max-w-[40rem]">
-            <flux:tab name="news">News</flux:tab>
-            <flux:tab name="updates">Updates</flux:tab>
+            <flux:tab name="news">{{__('News')}}</flux:tab>
+            <flux:tab name="updates">{{__('Updates')}}</flux:tab>
         </flux:tabs>
 
         <flux:tab.panel name="news">
