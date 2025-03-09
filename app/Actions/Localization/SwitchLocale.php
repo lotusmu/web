@@ -3,6 +3,7 @@
 namespace App\Actions\Localization;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class SwitchLocale
@@ -19,6 +20,7 @@ class SwitchLocale
         }
 
         Session::put('locale', $locale);
+        Cookie::queue('locale', $locale, 60 * 24 * 30); // 30 days
 
         App::setLocale($locale);
 
