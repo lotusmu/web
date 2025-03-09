@@ -1,10 +1,10 @@
 <?php
 
 use App\Actions\Localization\SwitchLocale;
+use Illuminate\Contracts\View\View;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    // Default values assigned directly to properties
     public string $locale;
     public array $availableLocales = [];
     public string $triggerType = 'navbar'; // Options: 'navlist', 'navbar', 'navmenu'
@@ -20,8 +20,26 @@ new class extends Component {
         $this->localeFlags      = config('locales.flags', []);
     }
 
-    public function setLocale(SwitchLocale $action, string $newLocale): void
+    public function setLocale(string $newLocale, ?SwitchLocale $action = null): void
     {
+        $action = $action ?? app(SwitchLocale::class);
+
+        // Skip if locale hasn't changed
+        if ($this->locale === $newLocale) {
+            return;
+        }
+
+        // Validate locale against available options
+        if ( ! in_array($newLocale, $this->availableLocales, true)) {
+            Flux::toast(
+                text: __('Invalid language selected.'),
+                heading: __('Error'),
+                variant: 'danger'
+            );
+
+            return;
+        }
+
         $result = $action->handle(
             locale: $newLocale,
             referrer: request()->header('Referer')
@@ -58,13 +76,13 @@ new class extends Component {
 
             @case('navlist')
                 <flux:navlist.item icon="language" icon-trailing="chevron-down">
-                    {{ $localeNames[$locale] }}
+                    {{ $localeNames[$locale] ?? $locale }}
                 </flux:navlist.item>
                 @break
 
             @case('navmenu')
                 <flux:navmenu.item icon="language">
-                    {{ $localeNames[$locale] }}
+                    {{ $localeNames[$locale] ?? $locale }}
                 </flux:navmenu.item>
                 @break
         @endswitch
@@ -80,12 +98,11 @@ new class extends Component {
                     >
                         <div class="flex items-center justify-between w-full">
                             <span class="flex items-center gap-2">
-                                @if(isset($localeFlags[$availableLocale]))
-                                    <img src="{{ asset($localeFlags[$availableLocale]) }}"
-                                         alt="{{ $localeNames[$availableLocale] ?? '' }} flag"
-                                         class="w-4 h-4 rounded-full border border-zinc-200 dark:border-white/10">
-                                @endif
-                                <span>{{ $localeNames[$availableLocale] }}</span>
+                                <img
+                                    src="{{ asset($localeFlags[$availableLocale] ?? config('locales.fallback.flag')) }}"
+                                    alt="{{ $localeNames[$availableLocale] ?? $availableLocale }} flag"
+                                    class="w-4 h-4 rounded-full border border-zinc-200 dark:border-white/10">
+                                <span>{{ $localeNames[$availableLocale] ?? $availableLocale }}</span>
                             </span>
                         </div>
                     </flux:menu.radio>

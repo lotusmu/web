@@ -12,13 +12,14 @@ return [
     |
     */
 
-    'available' => [
+    'available' => array_filter([
         'en',
-        'bg',
         'ru',
-    ],
+        // Only include Bulgarian in local environment
+        ...(env('APP_ENV') === 'local' ? ['bg'] : []),
+    ]),
 
-    'default' => 'en',
+    'default' => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +42,8 @@ return [
     | Language Flag Images
     |--------------------------------------------------------------------------
     |
-    | Paths to flag images for each supported language
+    | Paths to flag images for each supported language.
+    | Make sure all paths are relative to the public directory.
     |
     */
 
@@ -49,5 +51,19 @@ return [
         'en' => '/images/flags/1x1/gb.svg',
         'bg' => '/images/flags/1x1/bg.svg',
         'ru' => '/images/flags/1x1/ru.svg',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fallback Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure fallback behavior for locales and assets.
+    |
+    */
+
+    'fallback' => [
+        'locale' => 'en',
+        'flag' => '/images/flags/1x1/placeholder.svg',
     ],
 ];
