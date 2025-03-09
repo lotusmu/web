@@ -13,10 +13,13 @@ return [
     */
 
     'available' => array_filter([
-        'en',
-        'ru',
         // Only include Bulgarian in local environment
         ...(env('APP_ENV') === 'local' ? ['bg'] : []),
+        'en',
+        'ru',
+        'ro',
+        'es',
+        'pt',
     ]),
 
     'default' => env('APP_LOCALE', 'en'),
@@ -32,9 +35,12 @@ return [
     */
 
     'native_names' => [
-        'en' => 'English',
         'bg' => 'Български',
+        'en' => 'English',
         'ru' => 'Русский',
+        'es' => 'Español',
+        'pt' => 'Português',
+        'ro' => 'Română',
     ],
 
     /*
@@ -48,9 +54,12 @@ return [
     */
 
     'flags' => [
-        'en' => '/images/flags/1x1/gb.svg',
         'bg' => '/images/flags/1x1/bg.svg',
+        'en' => '/images/flags/1x1/gb.svg',
         'ru' => '/images/flags/1x1/ru.svg',
+        'es' => '/images/flags/1x1/es.svg',
+        'pt' => '/images/flags/1x1/pt.svg',
+        'ro' => '/images/flags/1x1/ro.svg',
     ],
 
     /*
