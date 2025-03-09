@@ -95,6 +95,7 @@ new class extends Component {
                         wire:key="{{ $availableLocale }}"
                         wire:click="setLocale('{{ $availableLocale }}')"
                         :checked="$locale === $availableLocale"
+                        class="cursor-pointer"
                     >
                         <div class="flex items-center justify-between w-full">
                             <span class="flex items-center gap-2">
