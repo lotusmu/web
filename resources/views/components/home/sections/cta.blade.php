@@ -45,7 +45,7 @@
                 {{ __('Join the Lotus Mu Community as Mu Online enters a new era of gameplay. Experience our signature progressive item system, rich quest system, and an innovative crafting system that rewards creativity.') }}
             </x-home.text>
 
-            <div class="flex items-center justify-center gap-x-6 !mt-12">
+            <div class="flex max-sm:flex-col-reverse items-center justify-center gap-x-6 max-sm:gap-y-6 !mt-12">
                 <flux:button variant="primary" :href="route('register')">
                     {{ __('Register Now') }}
                 </flux:button>

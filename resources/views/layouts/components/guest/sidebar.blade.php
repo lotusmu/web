@@ -61,19 +61,23 @@
 
                 <flux:menu.separator/>
 
-                @if(auth()->user()->is_admin)
-                    <flux:navmenu.item icon="shield-exclamation" href="/admin" target="_blank" class="lg:hidden">
-                        {{ __('Admin Dashboard') }}
-                    </flux:navmenu.item>
-                @endif
+                <livewire:locale-selector triggerType="navmenu"/>
 
                 <flux:navmenu.item wire:navigate.hover icon="cog-6-tooth"
                                    :href="route('profile')">
                     {{ __('Profile Settings') }}
                 </flux:navmenu.item>
 
+                <flux:menu.separator/>
+
                 <livewire:logout-button/>
             </flux:navmenu>
         </flux:dropdown>
     @endauth
+
+    @guest
+        <div class="lg:hidden">
+            <livewire:locale-selector triggerType="navlist"/>
+        </div>
+    @endguest
 </flux:navlist>
