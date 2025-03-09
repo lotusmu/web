@@ -36,12 +36,6 @@ new #[Layout('layouts.auth')] class extends Component {
                 'turnstileResponse' => app()->environment(['production']) ? ['required', $turnstile] : [],
             ],
             [
-                'name.required'               => __('The username field is required.'),
-                'name.string'                 => __('The username must be a string.'),
-                'name.alpha_num'              => __('The username field must only contain letters and numbers.'),
-                'name.min'                    => __('The username must be at least :min characters.'),
-                'name.max'                    => __('The username must not exceed :max characters.'),
-                'name.unique'                 => __('This username is already taken.'),
                 'terms.accepted'              => __('You must agree to the terms and conditions to continue.'),
                 'turnstileResponse.required'  => __('Please complete the CAPTCHA verification.'),
                 'turnstileResponse.turnstile' => __('CAPTCHA verification failed. Please try again.'),

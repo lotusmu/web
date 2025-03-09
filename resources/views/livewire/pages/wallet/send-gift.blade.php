@@ -116,6 +116,8 @@ new class extends Component {
             @endforeach
         </flux:select>
 
+        <flux:error name="resourceType"/>
+
         <div x-data="{
                 amount: $wire.entangle('amount'),
                 taxRate: {{ $this->taxRate }},

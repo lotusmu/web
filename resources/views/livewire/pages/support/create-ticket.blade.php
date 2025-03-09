@@ -90,20 +90,30 @@ new #[Layout('layouts.app')] class extends Component {
         <flux:input wire:model="title" label="{{__('Title')}}"/>
 
         <div class="flex items-center gap-6 max-sm:flex-col">
-            <flux:select wire:model="ticket_category_id" variant="listbox" placeholder="{{__('Choose category...')}}">
-                @foreach($this->categories as $category)
-                    <flux:option value="{{ $category->id }}">{{ $category->name }}</flux:option>
-                @endforeach
-            </flux:select>
+            <div class="flex-1 w-full">
+                <flux:select wire:model="ticket_category_id" variant="listbox"
+                             placeholder="{{__('Choose category...')}}">
+                    @foreach($this->categories as $category)
+                        <flux:option value="{{ $category->id }}">{{ $category->name }}</flux:option>
+                    @endforeach
+                </flux:select>
 
-            <flux:select wire:model="priority" variant="listbox"
-                         placeholder="{{__('Choose priority...')}}">
-                @foreach(TicketPriority::cases() as $priority)
-                    <flux:option :value="$priority->value">
-                        {{ $priority->getLabel() }}
-                    </flux:option>
-                @endforeach
-            </flux:select>
+                <flux:error name="ticket_category_id"/>
+            </div>
+
+            <div class="flex-1 w-full">
+                <flux:select wire:model="priority" variant="listbox"
+                             placeholder="{{__('Choose priority...')}}">
+                    @foreach(TicketPriority::cases() as $priority)
+                        <flux:option :value="$priority->value">
+                            {{ $priority->getLabel() }}
+                        </flux:option>
+                    @endforeach
+                </flux:select>
+
+                <flux:error name="priority"/>
+            </div>
+
         </div>
 
         <flux:editor wire:model="description" label="{{__('Description')}}"

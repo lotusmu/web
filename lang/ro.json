@@ -76,7 +76,7 @@
     "A new verification link has been sent to your email address.": "O nouă legătură de verificare a fost trimisă la adresa dvs. de e-mail.",
     "A peek at the server basics": "O privire la elementele de bază ale serverului",
     "A powerful assistance system that makes your gaming experience smooth and efficient.": "Un sistem de suport puternic care vă face experiența de joc lină și eficientă.",
-    "A server with soul. Thoughtfully crafted, not copy-pasted.": "Server cu suflet. Realizat cu gândul, nu copiat.",
+    "A server with soul. Thoughtfully crafted, not copy-pasted.": "Un server cu suflet. Creat cu atenție, nu copiat-lipit.",
     "Accept responsibility for all activities under your account": "vă asumați responsabilitatea pentru toate activitățile din contul dvs.",
     "Acceptance of Terms": "Acceptarea termenilor",
     "Access your personal data": "Accesul la datele dumneavoastră cu caracter personal",
@@ -536,7 +536,7 @@
     "Registration": "Înregistrare",
     "Registration and Account Security": "Înregistrarea și securitatea contului",
     "Regular": "Regular",
-    "Reimagined.": "Reconsiderat.",
+    "Reimagined.": "Reimaginat.",
     "Remaining Prize Pool": "Fondul de premiere rămas",
     "Remember me": "Amintește-ți de mine",
     "Reopen Ticket": "Redeschiderea cererii",
@@ -848,5 +848,6 @@
     "Your password": "Parola dvs.",
     "Language has been changed successfully.": "Limba a fost schimbată cu succes.",
     "Language Changed": "Limba a fost modificată",
-    "Change language": "Schimbarea limbii"
+    "Change language": "Schimbarea limbii",
+    "You must agree to the terms and conditions to continue.": "Trebuie să fiți de acord cu termenii și condițiile pentru a continua."
 }

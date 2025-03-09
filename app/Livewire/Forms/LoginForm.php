@@ -13,12 +13,7 @@ use Livewire\Form;
 
 class LoginForm extends Form
 {
-    #[Validate('required|string|max:10|alpha_num', message: [
-        'required' => 'The username field is required.',
-        'string' => 'The username must be a string.',
-        'max' => 'The username must not exceed :max characters.',
-        'alpha_num' => 'The username field must only contain letters and numbers.',
-    ])]
+    #[Validate('required|string|min:4|max:10|alpha_num')]
     public string $name = '';
 
     #[Validate('required|string|max:10')]

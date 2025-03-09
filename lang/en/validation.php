@@ -189,6 +189,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'username',
+        'ticket_category_id' => 'category',
+        'contact_discord' => 'discord',
+        'resourceType' => 'resource type',
+    ],
 
 ];
