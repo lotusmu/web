@@ -5,6 +5,9 @@
 @endphp
 
 <flux:cell class="flex items-center space-x-2">
+
+    <x-rankings.table.cells.online-status :status="$character->member->status?->ConnectStat"/>
+
     <flux:link variant="ghost"
                :href="route('character', ['name' => $character->Name])"
                wire:navigate>

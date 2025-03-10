@@ -37,6 +37,7 @@ class GetCharactersRanking
     {
         $relations = [
             'member:memb___id,AccountLevel',
+            'member.status:memb___id,ConnectStat',
             'guildMember.guild',
         ];
 
