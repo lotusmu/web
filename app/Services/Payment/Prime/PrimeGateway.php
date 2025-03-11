@@ -153,9 +153,15 @@ class PrimeGateway extends BasePaymentGateway
         }
     }
 
-    public function verifyWebhookSignature(array $data, array $headers): bool
+    public function verifyWebhookSignature(string $payload, array $headers): bool
     {
         try {
+            parse_str($payload, $data);
+            
+            if (empty($data)) {
+                $data = json_decode($payload, true) ?? [];
+            }
+            
             $expectedSign = match ($data['action'] ?? '') {
                 self::EVENT_PAYMENT_SUCCESS => md5(
                     config('services.prime.secret2') .
@@ -172,12 +178,10 @@ class PrimeGateway extends BasePaymentGateway
                 ),
                 default => null
             };
-
+    
             return $expectedSign && $expectedSign === ($data['sign'] ?? '');
-
         } catch (Exception $e) {
             $this->logError($e, 'verifyWebhookSignature');
-
             return false;
         }
     }

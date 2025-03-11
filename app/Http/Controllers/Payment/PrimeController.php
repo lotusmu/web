@@ -57,7 +57,7 @@ class PrimeController extends BasePaymentController
     public function webhook(Request $request): Response
     {
         try {
-            if (!$this->getGateway()->verifyWebhookSignature($request->post(), $request->headers->all())) {
+            if (!$this->getGateway()->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
                 $this->logError('webhook', new Exception('Signature verification failed'), [
                     'headers' => $request->headers->all(),
                 ]);
@@ -65,13 +65,13 @@ class PrimeController extends BasePaymentController
                 return response('ERROR', 400);
             }
     
-            $this->getGateway()->handleWebhook($request->post());
+            parse_str($request->getContent(), $data);
+            $this->getGateway()->handleWebhook($data);
     
             return response('OK');
-    
         } catch (Exception $e) {
             $this->logError('webhook', $e, [
-                'payload' => $request->post(),
+                'payload' => $request->all(),
             ]);
     
             return response('ERROR', 500);
