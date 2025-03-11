@@ -7,6 +7,7 @@ use App\Console\Commands\ExpireOrdersCommand;
 use App\Console\Commands\ProcessWeeklyRankingsCommand;
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
 use App\Http\Middleware\CheckUserBannedMiddleware;
+use App\Http\Middleware\ValidPrimeWebhookIpMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
 use App\Http\Middleware\EnsureVipOnlyMiddleware;
 use App\Http\Middleware\LocaleMiddleware;
@@ -37,6 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'vip.only' => EnsureVipOnlyMiddleware::class,
             'non.vip.only' => EnsureNonVipOnlyMiddleware::class,
             'article.published' => CheckArticlePublishedMiddleware::class,
+            'valid-prime-webhook-ip' => ValidPrimeWebhookIpMiddleware::class
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
