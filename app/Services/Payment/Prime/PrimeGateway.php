@@ -139,9 +139,9 @@ class PrimeGateway extends BasePaymentGateway
     {
         try {
             $webhookId = $payload['orderID'] ?? '';
-
+    
             return $this->processWebhookWithLock($webhookId, function () use ($payload) {
-                return match ($payload['action']) {
+                return match ($payload['action'] ?? '') {
                     self::EVENT_PAYMENT_SUCCESS => $this->handlePaymentSuccess($payload),
                     self::EVENT_PAYMENT_CANCEL => $this->handlePaymentCancel($payload),
                     default => null,
@@ -153,23 +153,21 @@ class PrimeGateway extends BasePaymentGateway
         }
     }
 
-    public function verifyWebhookSignature(string $payload, array $headers): bool
+    public function verifyWebhookSignature(array $data, array $headers): bool
     {
         try {
-            $data = json_decode($payload, true);
-
-            $expectedSign = match ($data['action']) {
+            $expectedSign = match ($data['action'] ?? '') {
                 self::EVENT_PAYMENT_SUCCESS => md5(
-                    config('services.prime.secret2').
-                    $data['orderID'].
-                    $data['payWay'].
-                    $data['innerID'].
-                    $data['sum'].
+                    config('services.prime.secret2') .
+                    $data['orderID'] .
+                    $data['payWay'] .
+                    $data['innerID'] .
+                    $data['sum'] .
                     $data['webmaster_profit']
                 ),
                 self::EVENT_PAYMENT_CANCEL => md5(
-                    config('services.prime.secret2').
-                    $data['orderID'].
+                    config('services.prime.secret2') .
+                    $data['orderID'] .
                     $data['innerID']
                 ),
                 default => null
