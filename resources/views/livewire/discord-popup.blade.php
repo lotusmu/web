@@ -6,79 +6,92 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Livewire\Volt\Component;
 
+
 new class extends Component {
-    public bool $show = false;
     public bool $neverShowAgain = false;
 
     public function mount()
     {
         $action     = new HandleDiscordInvitePopup();
-        $this->show = $action->handle(Auth::user());
+        $shouldShow = $action->handle(Auth::user());
+
+
+        if ($shouldShow) {
+            $this->dispatch('show-discord-modal');
+        }
     }
 
-    public function join()
+    public function joinDiscord()
     {
         $action = new HandleDiscordInvitePopup();
         $action->recordResponse(true, $this->neverShowAgain, Auth::user());
-        $this->show = false;
-
-        return redirect()->away(config('social.links.discord'));
     }
 
-    public function decline(): void
+    public function declineDiscord()
     {
         $action = new HandleDiscordInvitePopup();
         $action->recordResponse(false, $this->neverShowAgain, Auth::user());
-        $this->show = false;
-    }
-
-    public function close(): void
-    {
-        $action = new HandleDiscordInvitePopup();
-        $action->recordResponse(false, $this->neverShowAgain, Auth::user());
-        $this->show = false;
     }
 }
 
 ?>
 
 <div>
-    @if($show)
-        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-xl max-w-md mx-auto p-6">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-bold text-gray-900">Join Our Discord Community!</h2>
-                    <button wire:click="close" class="text-gray-400 hover:text-gray-500">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
+    <flux:modal name="discord-invitation" :dismissible="false" @close="declineDiscord">
+        <div class="space-y-6">
+            <div class="flex items-start space-x-8">
+                <div class="flex justify-center max-w-20">
+                    <img src="{{ asset('images/discord.png') }}" alt="Discord Brand Logo in a 3D image">
+                </div>
+                <div>
+                    <flux:heading size="lg">
+                        Join Our Discord Community!
+                    </flux:heading>
+
+                    <flux:subheading>
+                        Connect with our community, get help, and stay updated with the latest
+                        announcements!
+                    </flux:subheading>
+                </div>
+            </div>
+
+            <div class="flex max-sm:flex-col-reverse items-center gap-2">
+                <div class="max-sm:w-full">
+                    <flux:checkbox wire:model="neverShowAgain" label="Don't show this again"/>
                 </div>
 
-                <div class="mt-4">
-                    <p class="text-gray-600">
-                        Connect with our community, get help, and stay updated with the latest announcements!
-                    </p>
+                <flux:spacer/>
 
-                    <div class="mt-6 flex flex-col space-y-3">
-                        <button wire:click="join"
-                                class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                            Join Discord Server
-                        </button>
+                <div class="max-sm:w-full">
+                    <flux:modal.close>
+                        <flux:button variant="ghost" wire:click="declineDiscord"
+                                     class="w-full">
+                            I'll do it later
+                        </flux:button>
+                    </flux:modal.close>
+                </div>
 
-                        <button wire:click="decline" class="text-gray-700 px-4 py-2 rounded-md hover:bg-gray-100">
-                            Maybe Later
-                        </button>
-
-                        <label class="flex items-center mt-3">
-                            <input type="checkbox" wire:model="neverShowAgain"
-                                   class="rounded border-gray-300 text-indigo-600">
-                            <span class="ml-2 text-sm text-gray-600">Don't show this again</span>
-                        </label>
-                    </div>
+                <div class="max-sm:w-full">
+                    <flux:button variant="primary"
+                                 external
+                                 icon-trailing="arrow-long-right"
+                                 :href="config('social.links.discord')"
+                                 wire:click="joinDiscord"
+                                 class="w-full">
+                        Join Discord
+                    </flux:button>
                 </div>
             </div>
         </div>
-    @endif
+    </flux:modal>
 </div>
+
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('show-discord-modal', () => {
+            setTimeout(() => {
+                Flux.modal('discord-invitation').show()
+            }, 300);
+        });
+    });
+</script>
