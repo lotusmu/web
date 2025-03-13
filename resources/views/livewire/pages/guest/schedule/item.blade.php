@@ -4,74 +4,80 @@ use App\Models\Content\ScheduledEvent;
 use Livewire\Volt\Component;
 use App\Enums\Game\ScheduledEventType;
 
-
 new class extends Component {
     public $event;
     public $highlightThreshold = 300;
 }; ?>
 
-
 <div
     x-data="{
-    countdown: '',
-    nextOccurrence: '',
-    nextEndTime: '',
-    totalSeconds: 0,
-    isHighlighted: false,
-    isActive: {{ $event['is_active'] ? 'true' : 'false' }},
-    isCurrentlyRunning: false,
-    highlightThreshold: {{ $highlightThreshold }},
-    highlightStyle: {
-        color: '#00AAAA',
-        fontWeight: 'bold'
-    },
+        countdown: '',
+        nextOccurrence: '',
+        nextEndTime: '',
+        totalSeconds: 0,
+        isHighlighted: false,
+        isActive: {{ $event['is_active'] ? 'true' : 'false' }},
+        isCurrentlyRunning: false,
+        highlightThreshold: {{ $highlightThreshold }},
+        highlightStyle: {
+            color: '#00AAAA',
+            fontWeight: 'bold'
+        },
 
-    calculateNextOccurrence(startTime, recurrenceType, schedule, intervalMinutes) {
-        const now = new Date();
-        let nextOccurrence = null;
+        calculateNextOccurrence(startTime, recurrenceType, schedule, intervalMinutes) {
+            const now = new Date();
+            let nextOccurrence = null;
 
-        if (recurrenceType === 'weekly' || recurrenceType === 'daily') {
-            schedule.forEach(item => {
-                let [hours, minutes] = item.time.split(':').map(Number);
-                let itemDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+            if (recurrenceType === 'weekly' || recurrenceType === 'daily') {
+                schedule.forEach(item => {
+                    let [hours, minutes] = item.time.split(':').map(Number);
+                    let itemDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
 
-                if (recurrenceType === 'weekly') {
-                    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-                    const dayDiff = (days.indexOf(item.day) - itemDate.getDay() + 7) % 7;
-                    itemDate.setDate(itemDate.getDate() + dayDiff);
-                }
+                    if (recurrenceType === 'weekly') {
+                        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                        const dayDiff = (days.indexOf(item.day) - itemDate.getDay() + 7) % 7;
+                        itemDate.setDate(itemDate.getDate() + dayDiff);
+                    }
 
-                while (itemDate <= now) {
-                    itemDate.setDate(itemDate.getDate() + (recurrenceType === 'weekly' ? 7 : 1));
-                }
+                    while (itemDate <= now) {
+                        itemDate.setDate(itemDate.getDate() + (recurrenceType === 'weekly' ? 7 : 1));
+                    }
 
-                if (!nextOccurrence || itemDate < nextOccurrence) {
-                    nextOccurrence = itemDate;
-                }
+                    if (!nextOccurrence || itemDate < nextOccurrence) {
+                        nextOccurrence = itemDate;
+                    }
+                });
+            } else if (recurrenceType === 'interval') {
+                let start = new Date(startTime);
+                const minutesSinceStart = (now - start) / 60000;
+                const intervalsPassed = Math.floor(minutesSinceStart / intervalMinutes);
+                nextOccurrence = new Date(start.getTime() + (intervalsPassed + 1) * intervalMinutes * 60000);
+            }
+
+            return nextOccurrence || new Date(startTime);
+        },
+
+        formatDateTime(date) {
+            return date.toLocaleString('en-US', {
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', hour12: false
             });
-        } else if (recurrenceType === 'interval') {
-            let start = new Date(startTime);
-            const minutesSinceStart = (now - start) / 60000;
-            const intervalsPassed = Math.floor(minutesSinceStart / intervalMinutes);
-            nextOccurrence = new Date(start.getTime() + (intervalsPassed + 1) * intervalMinutes * 60000);
-        }
+        },
 
-        return nextOccurrence || new Date(startTime);
-    },
+        formatCountdown(milliseconds) {
+            const hours = Math.floor(milliseconds / 3600000);
+            const minutes = Math.floor((milliseconds % 3600000) / 60000);
+            const seconds = Math.floor((milliseconds % 60000) / 1000);
+            return `${hours}h ${minutes}m ${seconds}s`;
+        },
 
-    calculateCountdown() {
-        if (!this.isActive) {
-            this.countdown = '';
-            this.isHighlighted = false;
-            return;
-        }
+        checkCurrentlyRunning() {
+            const now = new Date();
+            const isEventType = '{{ $event['type']->value }}' === 'event';
+            const hasDuration = {{ $event['duration_minutes'] ?? 0 }} > 0;
 
-        const now = new Date();
-        const isEventType = '{{ $event['type']->value }}' === 'event';
-        const hasDuration = {{ $event['duration_minutes'] ?? 0 }} > 0;
+            if (!isEventType || !hasDuration) return false;
 
-        // First check if today has an event that should be active now
-        if (isEventType && hasDuration) {
             // Check today's scheduled occurrence
             const today = new Date();
             const schedule = JSON.parse('{{ json_encode($event['schedule']) }}');
@@ -87,125 +93,109 @@ new class extends Component {
                     if (now >= eventStart && now < eventEnd) {
                         this.isCurrentlyRunning = true;
                         this.isHighlighted = true;
-                        this.nextOccurrence = eventStart.toLocaleString('en-US', {
-                            year: 'numeric', month: '2-digit', day: '2-digit',
-                            hour: '2-digit', minute: '2-digit', hour12: false
-                        });
-                        this.nextEndTime = eventEnd.toLocaleString('en-US', {
-                            year: 'numeric', month: '2-digit', day: '2-digit',
-                            hour: '2-digit', minute: '2-digit', hour12: false
-                        });
+                        this.nextOccurrence = this.formatDateTime(eventStart);
+                        this.nextEndTime = this.formatDateTime(eventEnd);
                         this.countdown = '{{ __('Active now') }}';
 
-                        console.log('Event IS ACTIVE!', {
-                            now: now.toISOString(),
-                            eventStart: eventStart.toISOString(),
-                            eventEnd: eventEnd.toISOString()
-                        });
-
-                        return;
+                        return true;
                     }
                 }
             }
-        }
 
-        const schedule = JSON.parse('{{ json_encode($event['schedule']) }}');
-        let start = this.calculateNextOccurrence(
-            '{{ $event['start_time']->toIso8601String() }}',
-            '{{ $event['recurrence_type'] }}',
-            schedule,
-            {{ $event['interval_minutes'] ?? 0 }}
-        );
+            return false;
+        },
 
-        this.nextOccurrence = start.toLocaleString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        });
+        checkEventRunningPastStartTime(startTime) {
+            const now = new Date();
+            const isEventType = '{{ $event['type']->value }}' === 'event';
+            const hasDuration = {{ $event['duration_minutes'] ?? 0 }} > 0;
+            const diff = startTime.getTime() - now.getTime();
 
-        let diff = start.getTime() - now.getTime();
-        this.totalSeconds = Math.floor(diff / 1000);
+            if (isEventType && hasDuration && diff <= 0) {
+                const durationMs = {{ $event['duration_minutes'] ?? 0 }} * 60 * 1000;
+                const endTime = new Date(startTime.getTime() + durationMs);
 
-        // Simple check - if diff is negative (start time has passed) but within duration window
-        if (isEventType && hasDuration && diff <= 0) {
-            const durationMs = {{ $event['duration_minutes'] ?? 0 }} * 60 * 1000;
-            const endTime = new Date(start.getTime() + durationMs);
+                this.nextEndTime = this.formatDateTime(endTime);
 
-            // Format the end time for display
-            this.nextEndTime = endTime.toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            });
-
-            // If current time is before the end time, event is running
-            if (now < endTime) {
-                this.isCurrentlyRunning = true;
-                this.isHighlighted = true;
-                this.countdown = '{{ __('Active now') }}';
-
-                console.log('Event IS active:', {
-                    now: now.toISOString(),
-                    start: start.toISOString(),
-                    end: endTime.toISOString(),
-                    diff: diff,
-                    isEventType: isEventType,
-                    hasDuration: hasDuration
-                });
-
-                return;
+                if (now < endTime) {
+                    this.isCurrentlyRunning = true;
+                    this.isHighlighted = true;
+                    this.countdown = '{{ __('Active now') }}';
+                    return true;
+                }
             }
-        }
 
-        // If we're here, event is not currently running
-        this.isCurrentlyRunning = false;
-        this.isHighlighted = this.totalSeconds <= this.highlightThreshold && this.totalSeconds > 0;
+            return false;
+        },
 
-        if (diff > 0) {
-            // Future event - show countdown
-            const hours = Math.floor(diff / 3600000);
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
-            this.countdown = `${hours}h ${minutes}m ${seconds}s`;
-        } else {
-            // Past event - find next occurrence
-            const pastStart = new Date(start);
+        handleFutureEvent(diff) {
+            this.isCurrentlyRunning = false;
+            this.isHighlighted = this.totalSeconds <= this.highlightThreshold && this.totalSeconds > 0;
+            this.countdown = this.formatCountdown(diff);
+        },
+
+        handlePastEvent(startDate) {
+            const now = new Date();
+            const pastStart = new Date(startDate);
             const recurrence = '{{ $event['recurrence_type'] }}';
+            let nextStart = new Date(pastStart);
 
             // Calculate next occurrence based on recurrence type
             if (recurrence === 'daily') {
-                start.setDate(start.getDate() + 1);
+                nextStart.setDate(nextStart.getDate() + 1);
             } else if (recurrence === 'weekly') {
-                start.setDate(start.getDate() + 7);
+                nextStart.setDate(nextStart.getDate() + 7);
             } else if (recurrence === 'interval') {
                 const intervalMin = {{ $event['interval_minutes'] ?? 60 }};
-                start = new Date(pastStart.getTime() + intervalMin * 60000);
+                nextStart = new Date(pastStart.getTime() + intervalMin * 60000);
             }
 
             // Recalculate with the next occurrence
-            diff = start.getTime() - now.getTime();
+            const diff = nextStart.getTime() - now.getTime();
             this.totalSeconds = Math.floor(diff / 1000);
-            this.nextOccurrence = start.toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            });
+            this.nextOccurrence = this.formatDateTime(nextStart);
+            this.countdown = this.formatCountdown(diff);
+        },
 
-            const hours = Math.floor(diff / 3600000);
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
-            this.countdown = `${hours}h ${minutes}m ${seconds}s`;
+        calculateCountdown() {
+            if (!this.isActive) {
+                this.countdown = '';
+                this.isHighlighted = false;
+                return;
+            }
+
+            // First check if event is currently running
+            if (this.checkCurrentlyRunning()) {
+                return;
+            }
+
+            // Calculate next occurrence
+            const schedule = JSON.parse('{{ json_encode($event['schedule']) }}');
+            let start = this.calculateNextOccurrence(
+                '{{ $event['start_time']->toIso8601String() }}',
+                '{{ $event['recurrence_type'] }}',
+                schedule,
+                {{ $event['interval_minutes'] ?? 0 }}
+            );
+
+            this.nextOccurrence = this.formatDateTime(start);
+
+            const now = new Date();
+            let diff = start.getTime() - now.getTime();
+            this.totalSeconds = Math.floor(diff / 1000);
+
+            // Check if event is running past its start time
+            if (this.checkEventRunningPastStartTime(start)) {
+                return;
+            }
+
+            // Handle countdown for future or past events
+            if (diff > 0) {
+                this.handleFutureEvent(diff);
+            } else {
+                this.handlePastEvent(start);
+            }
         }
-    }
     }"
     x-init="calculateCountdown(); setInterval(() => calculateCountdown(), 1000);"
     x-bind:class="{ 'pulse': isHighlighted }"
