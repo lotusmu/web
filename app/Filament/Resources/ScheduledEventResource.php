@@ -89,7 +89,7 @@ class ScheduledEventResource extends Resource
                                     ->default(true)
                                     ->required()
                                     ->inline(false)
-                                    ->helperText('Toggle to activate or deactivate the event in the schedule.'),
+                                    ->helperText('Inactive events will still appear in the schedule but will be shown as "Coming soon" without countdown timers.'),
                             ]),
                         Group::make()
                             ->schema([
