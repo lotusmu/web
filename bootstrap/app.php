@@ -10,6 +10,7 @@ use App\Http\Middleware\CheckUserBannedMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
 use App\Http\Middleware\EnsureVipOnlyMiddleware;
 use App\Http\Middleware\LocaleMiddleware;
+use App\Http\Middleware\TrackPageViewsMiddleware;
 use App\Http\Middleware\ValidPrimeWebhookIpMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web([
             CheckUserBannedMiddleware::class,
             LocaleMiddleware::class,
+            TrackPageViewsMiddleware::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [
