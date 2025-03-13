@@ -41,23 +41,22 @@ new class extends Component {
         <div class="space-y-6">
             <div class="flex items-start space-x-8">
                 <div class="flex justify-center max-w-20">
-                    <img src="{{ asset('images/discord.png') }}" alt="Discord Brand Logo in a 3D image">
+                    <img src="{{ asset('images/discord.png') }}" alt="{{ __('Discord Brand Logo in a 3D image') }}">
                 </div>
                 <div>
                     <flux:heading size="lg">
-                        Join Our Discord Community!
+                        {{ __('Join Our Discord Community!') }}
                     </flux:heading>
 
                     <flux:subheading>
-                        Connect with our community, get help, and stay updated with the latest
-                        announcements!
+                        {{ __('Connect with our community, get help, and stay updated with the latest announcements!') }}
                     </flux:subheading>
                 </div>
             </div>
 
             <div class="flex max-sm:flex-col-reverse items-center gap-2">
                 <div class="max-sm:w-full">
-                    <flux:checkbox wire:model="neverShowAgain" label="Don't show this again"/>
+                    <flux:checkbox wire:model="neverShowAgain" label="{{ __('Don\'t show this again') }}"/>
                 </div>
 
                 <flux:spacer/>
@@ -66,7 +65,7 @@ new class extends Component {
                     <flux:modal.close>
                         <flux:button variant="ghost" wire:click="declineDiscord"
                                      class="w-full">
-                            I'll do it later
+                            {{ __("I'll do it later") }}
                         </flux:button>
                     </flux:modal.close>
                 </div>
@@ -78,7 +77,7 @@ new class extends Component {
                                  :href="config('social.links.discord')"
                                  wire:click="joinDiscord"
                                  class="w-full">
-                        Join Discord
+                        {{ __('Join Discord') }}
                     </flux:button>
                 </div>
             </div>
