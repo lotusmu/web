@@ -35,6 +35,7 @@ class ScheduledEventService
             'sort_order' => $event->sort_order,
             'schedule' => $event->schedule,
             'is_active' => $event->is_active,
+            'duration_minutes' => $event->duration_minutes ?? 0,
         ];
     }
 }

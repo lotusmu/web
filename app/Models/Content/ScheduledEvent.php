@@ -20,6 +20,7 @@ class ScheduledEvent extends Model
         'interval_minutes',
         'is_active',
         'sort_order',
+        'duration_minutes',
     ];
 
     protected $casts = [
@@ -28,6 +29,7 @@ class ScheduledEvent extends Model
         'interval_minutes' => 'integer',
         'is_active' => 'boolean',
         'sort_order' => 'integer',
+        'duration_minutes' => 'integer',
     ];
 
     protected static function boot(): void

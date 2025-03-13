@@ -43,6 +43,7 @@ class ScheduledEventResource extends Resource
                                 Select::make('type')
                                     ->options(ScheduledEventType::class)
                                     ->enum(ScheduledEventType::class)
+                                    ->reactive()
                                     ->required(),
                                 Select::make('recurrence_type')
                                     ->options([
@@ -69,6 +70,16 @@ class ScheduledEventResource extends Resource
                                     ->visible(fn (callable $get) => $get('recurrence_type') === 'interval')
                                     ->required(fn (callable $get) => $get('recurrence_type') === 'interval')
                                     ->minValue(fn (callable $get) => $get('recurrence_type') === 'interval' ? 1 : null),
+
+                                TextInput::make('duration_minutes')
+                                    ->label('Event Duration (minutes)')
+                                    ->type('number')
+                                    ->helperText('How long the event is active after it starts')
+                                    ->visible(fn (callable $get) => $get('type') === ScheduledEventType::EVENT->value)
+                                    ->required(fn (callable $get) => $get('type') === ScheduledEventType::EVENT->value)
+                                    ->minValue(1)
+                                    ->default(15),
+
                                 Toggle::make('is_active')
                                     ->label('Event Status')
                                     ->onColor('success')
