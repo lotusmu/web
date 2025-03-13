@@ -139,7 +139,7 @@ class PrimeGateway extends BasePaymentGateway
     {
         try {
             $webhookId = $payload['orderID'] ?? '';
-    
+
             return $this->processWebhookWithLock($webhookId, function () use ($payload) {
                 return match ($payload['action'] ?? '') {
                     self::EVENT_PAYMENT_SUCCESS => $this->handlePaymentSuccess($payload),
@@ -157,31 +157,32 @@ class PrimeGateway extends BasePaymentGateway
     {
         try {
             parse_str($payload, $data);
-            
+
             if (empty($data)) {
                 $data = json_decode($payload, true) ?? [];
             }
-            
+
             $expectedSign = match ($data['action'] ?? '') {
                 self::EVENT_PAYMENT_SUCCESS => md5(
-                    config('services.prime.secret2') .
-                    $data['orderID'] .
-                    $data['payWay'] .
-                    $data['innerID'] .
-                    $data['sum'] .
+                    config('services.prime.secret2').
+                    $data['orderID'].
+                    $data['payWay'].
+                    $data['innerID'].
+                    $data['sum'].
                     $data['webmaster_profit']
                 ),
                 self::EVENT_PAYMENT_CANCEL => md5(
-                    config('services.prime.secret2') .
-                    $data['orderID'] .
+                    config('services.prime.secret2').
+                    $data['orderID'].
                     $data['innerID']
                 ),
                 default => null
             };
-    
+
             return $expectedSign && $expectedSign === ($data['sign'] ?? '');
         } catch (Exception $e) {
             $this->logError($e, 'verifyWebhookSignature');
+
             return false;
         }
     }

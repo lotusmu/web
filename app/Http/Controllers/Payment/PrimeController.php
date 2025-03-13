@@ -9,7 +9,6 @@ use App\Enums\PaymentProvider;
 use App\Models\Payment\Order;
 use App\Services\Payment\PaymentGatewayFactory;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -57,23 +56,23 @@ class PrimeController extends BasePaymentController
     public function webhook(Request $request): Response
     {
         try {
-            if (!$this->getGateway()->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
+            if (! $this->getGateway()->verifyWebhookSignature($request->getContent(), $request->headers->all())) {
                 $this->logError('webhook', new Exception('Signature verification failed'), [
                     'headers' => $request->headers->all(),
                 ]);
-    
+
                 return response('ERROR', 400);
             }
-    
+
             parse_str($request->getContent(), $data);
             $this->getGateway()->handleWebhook($data);
-    
+
             return response('OK');
         } catch (Exception $e) {
             $this->logError('webhook', $e, [
                 'payload' => $request->all(),
             ]);
-    
+
             return response('ERROR', 500);
         }
     }

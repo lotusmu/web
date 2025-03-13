@@ -96,7 +96,7 @@ new #[Layout('layouts.app')] class extends Component {
 
         <flux:modal
             :name="$user->hasActiveStealth() ? 'extend' : 'enable'"
-            class="min-w-[26rem] space-y-6"
+            class="sm:min-w-[26rem] space-y-6"
         >
             <div>
                 <flux:heading size="lg">
