@@ -17,6 +17,7 @@ new class extends Component {
         nextOccurrence: '',
         totalSeconds: 0,
         isHighlighted: false,
+        isActive: {{ $event['is_active'] ? 'true' : 'false' }},
         highlightThreshold: {{ $highlightThreshold }},
         highlightStyle: {
             color: '#00AAAA',
@@ -56,6 +57,12 @@ new class extends Component {
         },
 
         calculateCountdown() {
+            if (!this.isActive) {
+                this.countdown = '';
+                this.isHighlighted = false;
+                return;
+            }
+
             const now = new Date();
             const schedule = JSON.parse('{{ json_encode($event['schedule']) }}');
             let start = this.calculateNextOccurrence(
@@ -94,10 +101,10 @@ new class extends Component {
     <div class="flex items-center justify-between">
         <flux:text>
             {{ __('Scheduled for:') }}
-            <span x-text="nextOccurrence"></span>
+            <span x-text="isActive ? nextOccurrence : '{{ __('Coming soon') }}'"></span>
         </flux:text>
 
-        <flux:text x-text="countdown"
+        <flux:text x-text="isActive ? countdown : ''"
                    x-bind:style="isHighlighted ? highlightStyle : {}">
         </flux:text>
     </div>

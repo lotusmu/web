@@ -10,7 +10,7 @@ class ScheduledEventService
 {
     public function getUpcomingEvents(int $limit = 50): Collection
     {
-        return ScheduledEvent::active()
+        return ScheduledEvent::query()
             ->orderBy('sort_order')
             ->get()
             ->map(function ($event) {
@@ -34,6 +34,7 @@ class ScheduledEventService
             'interval_minutes' => $event->interval_minutes,
             'sort_order' => $event->sort_order,
             'schedule' => $event->schedule,
+            'is_active' => $event->is_active,
         ];
     }
 }
