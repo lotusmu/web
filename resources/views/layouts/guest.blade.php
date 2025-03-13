@@ -45,6 +45,7 @@
 </picture>
 
 <livewire:layout.guest.header/>
+<livewire:discord-popup/>
 
 <main class="flex-1">
     {{ $slot }}

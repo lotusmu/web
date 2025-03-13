@@ -48,6 +48,7 @@
     </div>
 </flux:main>
 
+<livewire:discord-popup/>
 
 @persist('toast')
 <flux:toast/>
