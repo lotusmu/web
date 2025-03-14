@@ -34,7 +34,7 @@
         <div class="grid grid-cols-3 gap-4">
             <flux:text>{{ __('Guild') }}</flux:text>
             <div class="col-span-2 text-sm">
-                <x-guild-identity :guild-member="$character->guildMember" :keep-label="true"/>
+                <x-guild-identity :guild-member="$character->guildMember"/>
             </div>
         </div>
 
