@@ -77,7 +77,7 @@ class ScheduledEventResource extends Resource
                                     ->helperText('How long the event is active after it starts')
                                     ->visible(fn (callable $get) => $get('type') === ScheduledEventType::EVENT->value)
                                     ->required(fn (callable $get) => $get('type') === ScheduledEventType::EVENT->value)
-                                    ->minValue(1)
+                                    ->minValue(0)
                                     ->default(15),
 
                                 Toggle::make('is_active')
@@ -111,6 +111,7 @@ class ScheduledEventResource extends Resource
                                             }),
                                         TimePicker::make('time')
                                             ->seconds(false)
+                                            ->native(false)
                                             ->timezone('Europe/Sofia')
                                             ->required(),
                                     ])

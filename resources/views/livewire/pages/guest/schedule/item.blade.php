@@ -80,6 +80,7 @@ new class extends Component {
             const now = new Date();
             const isEventType = '{{ $event['type']->value }}' === 'event';
             const hasDuration = {{ $event['duration_minutes'] ?? 0 }} > 0;
+            const recurrenceType = '{{ $event['recurrence_type'] }}';
 
             if (!isEventType || !hasDuration) return false;
 
@@ -90,6 +91,19 @@ new class extends Component {
             // Process schedule items for today
             for (const item of schedule) {
                 if (item && item.time) {
+                    // For weekly events, check if today is the correct day
+                    if (recurrenceType === 'weekly' && item.day) {
+                        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                        const jsDay = today.getDay();
+                        const customDayIndex = jsDay === 0 ? 6 : jsDay - 1; // Convert JS day to custom day index
+                        const todayDayName = days[customDayIndex];
+
+                        // Skip if today is not the scheduled day
+                        if (todayDayName !== item.day) {
+                            continue;
+                        }
+                    }
+
                     const [hours, minutes] = item.time.split(':').map(Number);
                     const eventStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
                     const eventEnd = new Date(eventStart.getTime() + ({{ $event['duration_minutes'] ?? 0 }} * 60 * 1000));
