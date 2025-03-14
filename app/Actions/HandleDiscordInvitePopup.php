@@ -49,7 +49,7 @@ class HandleDiscordInvitePopup
         $pageViews = (int) Cookie::get(self::COOKIE_PAGE_VIEWS, 0);
         $firstVisit = (int) Cookie::get(self::COOKIE_FIRST_VISIT, 0);
 
-        if ($pageViews >= 2 && $firstVisit > 0 && (time() - $firstVisit) >= 5) {
+        if ($pageViews >= 5 && $firstVisit > 0 && (time() - $firstVisit) >= 120) {
             return true;
         }
 
