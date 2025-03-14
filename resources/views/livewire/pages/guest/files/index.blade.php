@@ -38,7 +38,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </x-info-card>
 
         @if($this->downloads()->count() > 0)
-            <div class="grid grid-cols-4 max-lg:grid-cols-2 max-md:grid-cols-1 gap-6">
+            <div class="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-6">
                 @foreach($this->downloads() as $download)
                     <a href="{{ $download['url'] }}" target="_blank">
                         <flux:card
