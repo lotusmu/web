@@ -2,8 +2,8 @@
 
 namespace App\Models\Game;
 
-use App\Enums\Game\BanStatus;
 use App\Enums\Game\CharacterClass;
+use App\Enums\Game\CharacterStatus;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
 use App\Models\Concerns\GameConnection;
@@ -83,7 +83,7 @@ class Character extends Model
         'PkCount' => 'integer',
         'PkLevel' => PkLevel::class,
         'PkTime' => 'integer',
-        'CtlCode' => BanStatus::class,
+        'CtlCode' => CharacterStatus::class,
         'ResetCount' => 'integer',
         'MasterResetCount' => 'integer',
         'Kills' => 'integer',

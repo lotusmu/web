@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Game\BanStatus;
 use App\Enums\Game\CharacterClass;
+use App\Enums\Game\CharacterStatus;
 use App\Enums\Game\GuildMemberStatus;
 use App\Enums\Game\Map;
 use App\Enums\Game\PkLevel;
@@ -216,9 +216,9 @@ class CharacterResource extends Resource
                                     ->schema([
                                         Select::make('CtlCode')
                                             ->label('Status')
-                                            ->enum(BanStatus::class)
-                                            ->options(BanStatus::class)
-                                            ->default(BanStatus::Active)
+                                            ->enum(CharacterStatus::class)
+                                            ->options(CharacterStatus::class)
+                                            ->default(CharacterStatus::Active)
                                             ->reactive()
                                             ->required(),
 
@@ -228,12 +228,12 @@ class CharacterResource extends Resource
                                             ->helperText('Leave empty for permanent ban.')
                                             ->minDate(now()->addDay())
                                             ->nullable()
-                                            ->visible(fn (Get $get) => $get('CtlCode') == BanStatus::Banned->value),
+                                            ->visible(fn (Get $get) => $get('CtlCode') == CharacterStatus::Banned->value),
 
                                         Textarea::make('ban_reason')
                                             ->label('Ban Reason')
                                             ->placeholder('Enter reason for this ban')
-                                            ->visible(fn (Get $get) => $get('CtlCode') == BanStatus::Banned->value)
+                                            ->visible(fn (Get $get) => $get('CtlCode') == CharacterStatus::Banned->value)
                                             ->maxLength(255),
                                     ]),
                             ]),

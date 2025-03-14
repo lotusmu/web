@@ -3,7 +3,7 @@
 namespace App\Models\User;
 
 use App\Enums\Game\AccountLevel;
-use App\Enums\Game\BanStatus;
+use App\Enums\Game\CharacterStatus;
 use App\Models\Concerns\IsBannable;
 use App\Models\Concerns\MemberAccessors;
 use App\Models\Game\Character;
@@ -52,7 +52,7 @@ class Member extends Model
         'AccountLevel' => AccountLevel::class,
         'AccountExpireDate' => 'datetime',
         'tokens' => 'integer',
-        'bloc_code' => BanStatus::class,
+        'bloc_code' => CharacterStatus::class,
         'bloc_expire' => 'datetime',
     ];
 

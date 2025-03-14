@@ -2,7 +2,7 @@
 
 namespace App\Models\Concerns;
 
-use App\Enums\Game\BanStatus;
+use App\Enums\Game\CharacterStatus;
 use App\Support\ActivityLog\IdentityProperties;
 use DateTime;
 
@@ -50,7 +50,7 @@ trait IsBannable
     {
         $field = $this->getStatusField();
 
-        return $this->{$field} === BanStatus::Banned;
+        return $this->{$field} === CharacterStatus::Banned;
     }
 
     public function banPermanently(?string $reason = null): void
@@ -59,7 +59,7 @@ trait IsBannable
         $expiryField = $this->getExpiryField();
 
         $this->update([
-            $statusField => BanStatus::Banned,
+            $statusField => CharacterStatus::Banned,
             $expiryField => null,
             'ban_reason' => $reason,
         ]);
@@ -85,7 +85,7 @@ trait IsBannable
         $expiryField = $this->getExpiryField();
 
         $this->update([
-            $statusField => BanStatus::Banned,
+            $statusField => CharacterStatus::Banned,
             $expiryField => $expireDate,
             'ban_reason' => $reason,
         ]);
@@ -113,7 +113,7 @@ trait IsBannable
         $expiryField = $this->getExpiryField();
 
         $this->update([
-            $statusField => BanStatus::Active,
+            $statusField => CharacterStatus::Active,
             $expiryField => null,
             'ban_reason' => null,
         ]);

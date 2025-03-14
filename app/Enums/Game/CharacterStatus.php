@@ -6,7 +6,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum BanStatus: int implements HasColor, HasIcon, HasLabel
+enum CharacterStatus: int implements HasColor, HasIcon, HasLabel
 {
     case Active = 0;
     case Banned = 1;

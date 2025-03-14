@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Game\AccountLevel;
-use App\Enums\Game\BanStatus;
+use App\Enums\Game\CharacterStatus;
 use App\Filament\Actions\BanTableAction;
 use App\Filament\Resources\MemberResource\Pages;
 use App\Filament\Resources\MemberResource\RelationManagers\CharactersRelationManager;
@@ -125,9 +125,9 @@ class MemberResource extends Resource
                     ->schema([
                         Select::make('bloc_code')
                             ->label('Status')
-                            ->enum(BanStatus::class)
-                            ->options(BanStatus::class)
-                            ->default(BanStatus::Active)
+                            ->enum(CharacterStatus::class)
+                            ->options(CharacterStatus::class)
+                            ->default(CharacterStatus::Active)
                             ->reactive()
                             ->required(),
 
@@ -137,12 +137,12 @@ class MemberResource extends Resource
                             ->helperText('Leave empty for permanent ban.')
                             ->minDate(now()->addDay())
                             ->nullable()
-                            ->visible(fn (Get $get) => $get('bloc_code') == BanStatus::Banned->value),
+                            ->visible(fn (Get $get) => $get('bloc_code') == CharacterStatus::Banned->value),
 
                         Textarea::make('ban_reason')
                             ->label('Ban Reason')
                             ->placeholder('Enter reason for this ban')
-                            ->visible(fn (Get $get) => $get('bloc_code') == BanStatus::Banned->value)
+                            ->visible(fn (Get $get) => $get('bloc_code') == CharacterStatus::Banned->value)
                             ->maxLength(255),
                     ]),
             ]);
