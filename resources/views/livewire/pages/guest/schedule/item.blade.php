@@ -34,7 +34,7 @@ new class extends Component {
                     let itemDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
 
                     if (recurrenceType === 'weekly') {
-                        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
                         const dayDiff = (days.indexOf(item.day) - itemDate.getDay() + 7) % 7;
                         itemDate.setDate(itemDate.getDate() + dayDiff);
                     }
