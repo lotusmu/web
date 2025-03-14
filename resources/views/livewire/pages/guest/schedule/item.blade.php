@@ -34,8 +34,13 @@ new class extends Component {
                     let itemDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
 
                     if (recurrenceType === 'weekly') {
-                        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-                        const dayDiff = (days.indexOf(item.day) - itemDate.getDay() + 7) % 7;
+                        // Define days with Monday as first day (index 0)
+                        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                        // Adjust for JavaScript's getDay() (0=Sunday, 1=Monday)
+                        const jsDay = itemDate.getDay();
+                        // Convert JS day to your custom day index (making Monday index 0)
+                        const customDayIndex = jsDay === 0 ? 6 : jsDay - 1;
+                        const dayDiff = (days.indexOf(item.day) - customDayIndex + 7) % 7;
                         itemDate.setDate(itemDate.getDate() + dayDiff);
                     }
 
