@@ -50,8 +50,10 @@ class RegisteredUsersChart extends ChartWidget
                 [
                     'label' => 'Registered Users',
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
-                    'backgroundColor' => 'rgba(139, 92, 246, 0.5)', // Purple color (different from Revenue)
+                    'backgroundColor' => 'rgba(139, 92, 246, 0.5)',
                     'borderColor' => 'rgb(139, 92, 246)',
+                    'fill' => true,
+                    'tension' => 0.4,
                 ],
             ],
             'labels' => $data->map(fn (TrendValue $value) => $granularity === 'weekly' ? $value->date : $this->formatLabel($value->date, $granularity)
@@ -144,6 +146,17 @@ class RegisteredUsersChart extends ChartWidget
             'plugins' => [
                 'legend' => [
                     'display' => false,
+                ],
+            ],
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'min' => 0,
+                ],
+            ],
+            'elements' => [
+                'line' => [
+                    'tension' => 0.4,
                 ],
             ],
         ];

@@ -52,6 +52,8 @@ class RevenueChart extends ChartWidget
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                     'backgroundColor' => 'rgba(59, 130, 246, 0.5)',
                     'borderColor' => 'rgb(59, 130, 246)',
+                    'fill' => true,
+                    'tension' => 0.4,
                 ],
             ],
             'labels' => $data->map(fn (TrendValue $value) => $granularity === 'weekly' ? $value->date : $this->formatLabel($value->date, $granularity)
@@ -146,6 +148,17 @@ class RevenueChart extends ChartWidget
             'plugins' => [
                 'legend' => [
                     'display' => false,
+                ],
+            ],
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'min' => 0,
+                ],
+            ],
+            'elements' => [
+                'line' => [
+                    'tension' => 0.4,
                 ],
             ],
         ];
