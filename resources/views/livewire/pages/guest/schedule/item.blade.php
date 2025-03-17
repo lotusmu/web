@@ -83,34 +83,52 @@ new class extends Component {
         checkCurrentlyRunning() {
             const now = new Date();
             const isEventType = '{{ $event['type']->value }}' === 'event';
-            const hasDuration = {{ $event['duration_minutes'] ?? 0 }} > 0;
+            const durationMinutes = {{ $event['duration_minutes'] ?? 0 }};
+
+            if (!isEventType || durationMinutes <= 0) return false;
+
+            // Calculate how many days back we need to check based on duration
+            const durationInMs = durationMinutes * 60 * 1000;
+            const daysToCheck = Math.ceil(durationInMs / (24 * 60 * 60 * 1000));
             const recurrenceType = '{{ $event['recurrence_type'] }}';
-
-            if (!isEventType || !hasDuration) return false;
-
-            // Check today's scheduled occurrence
-            const today = new Date();
             const schedule = JSON.parse('{{ json_encode($event['schedule']) }}');
 
-            // Process schedule items for today
-            for (const item of schedule) {
-                if (item && item.time) {
-                    // For weekly events, check if today is the correct day
+            // For interval type, handle it specially
+            if (recurrenceType === 'interval') {
+                return this.checkIntervalCurrentlyRunning();
+            }
+
+            // Check for each potential start day (today and previous days based on duration)
+            for (let dayOffset = 0; dayOffset < daysToCheck; dayOffset++) {
+                const checkDay = new Date(now);
+                checkDay.setDate(checkDay.getDate() - dayOffset);
+
+                // Process schedule items for the day we're checking
+                for (const item of schedule) {
+                    if (!item || !item.time) continue;
+
+                    // For weekly events, check if the day is correct
                     if (recurrenceType === 'weekly' && item.day) {
                         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                        const jsDay = today.getDay();
+                        const jsDay = checkDay.getDay();
                         const customDayIndex = jsDay === 0 ? 6 : jsDay - 1; // Convert JS day to custom day index
-                        const todayDayName = days[customDayIndex];
+                        const checkDayName = days[customDayIndex];
 
-                        // Skip if today is not the scheduled day
-                        if (todayDayName !== item.day) {
+                        // Skip if the day we're checking is not the scheduled day
+                        if (checkDayName !== item.day) {
                             continue;
                         }
                     }
 
                     const [hours, minutes] = item.time.split(':').map(Number);
-                    const eventStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
-                    const eventEnd = new Date(eventStart.getTime() + ({{ $event['duration_minutes'] ?? 0 }} * 60 * 1000));
+                    const eventStart = new Date(
+                        checkDay.getFullYear(),
+                        checkDay.getMonth(),
+                        checkDay.getDate(),
+                        hours,
+                        minutes
+                    );
+                    const eventEnd = new Date(eventStart.getTime() + durationInMs);
 
                     // If current time is between event start and end, it's active
                     if (now >= eventStart && now < eventEnd) {
@@ -119,10 +137,41 @@ new class extends Component {
                         this.nextOccurrence = this.formatDateTime(eventStart);
                         this.nextEndTime = this.formatDateTime(eventEnd);
                         this.countdown = '{{ __('Active now') }}';
-
                         return true;
                     }
                 }
+            }
+
+            return false;
+        },
+
+        // Separate method for interval recurrence type
+        checkIntervalCurrentlyRunning() {
+            const now = new Date();
+            const intervalMinutes = {{ $event['interval_minutes'] ?? 60 }};
+            const durationMinutes = {{ $event['duration_minutes'] ?? 0 }};
+            const initialStartTime = new Date('{{ $event['start_time']->toIso8601String() }}');
+
+            // Calculate milliseconds for interval and duration
+            const intervalMs = intervalMinutes * 60 * 1000;
+            const durationMs = durationMinutes * 60 * 1000;
+
+            // Calculate time elapsed since the initial start
+            const msSinceStart = now.getTime() - initialStartTime.getTime();
+
+            // Find the most recent interval start time
+            const intervalsPassed = Math.floor(msSinceStart / intervalMs);
+            const lastIntervalStart = new Date(initialStartTime.getTime() + (intervalsPassed * intervalMs));
+            const nextIntervalEnd = new Date(lastIntervalStart.getTime() + durationMs);
+
+            // Check if now is within the duration window of the most recent interval
+            if (now >= lastIntervalStart && now < nextIntervalEnd) {
+                this.isCurrentlyRunning = true;
+                this.isHighlighted = true;
+                this.nextOccurrence = this.formatDateTime(lastIntervalStart);
+                this.nextEndTime = this.formatDateTime(nextIntervalEnd);
+                this.countdown = '{{ __('Active now') }}';
+                return true;
             }
 
             return false;
@@ -132,19 +181,47 @@ new class extends Component {
             const now = new Date();
             const isEventType = '{{ $event['type']->value }}' === 'event';
             const hasDuration = {{ $event['duration_minutes'] ?? 0 }} > 0;
-            const diff = startTime.getTime() - now.getTime();
+            const recurrenceType = '{{ $event['recurrence_type'] }}';
 
-            if (isEventType && hasDuration && diff <= 0) {
+            if (isEventType && hasDuration) {
                 const durationMs = {{ $event['duration_minutes'] ?? 0 }} * 60 * 1000;
-                const endTime = new Date(startTime.getTime() + durationMs);
 
-                this.nextEndTime = this.formatDateTime(endTime);
+                if (recurrenceType === 'interval') {
+                    // For interval type, we need to find the most recent occurrence
+                    const intervalMinutes = {{ $event['interval_minutes'] ?? 60 }};
+                    const intervalMs = intervalMinutes * 60 * 1000;
+                    const initialStart = new Date('{{ $event['start_time']->toIso8601String() }}');
 
-                if (now < endTime) {
-                    this.isCurrentlyRunning = true;
-                    this.isHighlighted = true;
-                    this.countdown = '{{ __('Active now') }}';
-                    return true;
+                    // Find how many intervals have passed
+                    const msSinceInitial = now.getTime() - initialStart.getTime();
+                    const intervalsPassed = Math.floor(msSinceInitial / intervalMs);
+
+                    // Find the most recent start time
+                    const lastStart = new Date(initialStart.getTime() + (intervalsPassed * intervalMs));
+                    const nextEnd = new Date(lastStart.getTime() + durationMs);
+
+                    if (now >= lastStart && now < nextEnd) {
+                        this.isCurrentlyRunning = true;
+                        this.isHighlighted = true;
+                        this.nextOccurrence = this.formatDateTime(lastStart);
+                        this.nextEndTime = this.formatDateTime(nextEnd);
+                        this.countdown = '{{ __('Active now') }}';
+                        return true;
+                    }
+                } else {
+                    // Original code for other recurrence types
+                    const diff = startTime.getTime() - now.getTime();
+                    if (diff <= 0) {
+                        const endTime = new Date(startTime.getTime() + durationMs);
+                        this.nextEndTime = this.formatDateTime(endTime);
+
+                        if (now < endTime) {
+                            this.isCurrentlyRunning = true;
+                            this.isHighlighted = true;
+                            this.countdown = '{{ __('Active now') }}';
+                            return true;
+                        }
+                    }
                 }
             }
 
