@@ -73,10 +73,17 @@ new class extends Component {
             },
 
             formatCountdown(milliseconds) {
-                const hours = Math.floor(milliseconds / 3600000);
+                const totalHours = Math.floor(milliseconds / 3600000);
+                const days = Math.floor(totalHours / 24);
+                const hours = totalHours % 24;
                 const minutes = Math.floor((milliseconds % 3600000) / 60000);
                 const seconds = Math.floor((milliseconds % 60000) / 1000);
-                return `${hours}h ${minutes}m ${seconds}s`;
+
+                if (totalHours < 24) {
+                    return `${hours}h ${minutes}m ${seconds}s`;
+                } else {
+                    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                }
             },
 
             // Day conversion helpers
