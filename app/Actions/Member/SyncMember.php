@@ -72,4 +72,37 @@ class SyncMember
 
         return $updates;
     }
+
+    public function createWithPassword(User $user, string $password): void
+    {
+        DB::transaction(function () use ($user, $password) {
+            $member = Member::firstOrNew(['memb___id' => $user->name]);
+
+            if (! $member->exists) {
+                $member->fill([
+                    'memb_name' => $user->name,
+                    'mail_addr' => $user->email,
+                    'memb__pwd' => $password, // Use the provided password directly
+                    'sno__numb' => 1111111111111,
+                    'appl_days' => 0,
+                    'mail_chek' => 0,
+                    'bloc_code' => 0,
+                    'ctl1_code' => 0,
+                    'AccountLevel' => 0,
+                    'AccountExpireDate' => now(),
+                    'tokens' => 0,
+                ])->save();
+
+                Wallet::create([
+                    'AccountID' => $user->name,
+                    'WCoinC' => 0,
+                    'zen' => 0,
+                ]);
+
+                // Update user flag
+                $user->member_created = true;
+                $user->saveQuietly(); // Save without triggering events
+            }
+        });
+    }
 }

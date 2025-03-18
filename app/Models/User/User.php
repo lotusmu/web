@@ -40,6 +40,7 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
         'name',
         'email',
         'password',
+        'member_created',
     ];
 
     protected $hidden = [
@@ -52,19 +53,27 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
         'password' => 'hashed',
         'is_banned' => 'boolean',
         'banned_at' => 'datetime',
+        'member_created' => 'boolean',
     ];
 
     public static function boot(): void
     {
         parent::boot();
 
-        static::created(static::syncMember(...));
-        static::updated(static::syncMember(...));
-    }
+        static::created(function (User $user) {
+            if ($user->getRawPassword()) {
+                TemporaryPassword::updateOrCreate(
+                    ['user_id' => $user->id],
+                    ['password' => $user->getRawPassword()]
+                );
+            }
+        });
 
-    protected static function syncMember(User $user): void
-    {
-        app(SyncMember::class)->handle($user);
+        static::updated(function (User $user) {
+            if ($user->member_created) {
+                app(SyncMember::class)->handle($user);
+            }
+        });
     }
 
     public function setPasswordAttribute(string $value): void
