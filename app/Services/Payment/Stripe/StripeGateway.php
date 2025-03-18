@@ -42,7 +42,6 @@ class StripeGateway extends BasePaymentGateway
                 'success_url' => route('checkout.success').'?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('checkout.cancel', ['order' => $order->id]),
                 'mode' => 'payment',
-                'payment_method_types' => ['paypal', 'card'],
                 'metadata' => [
                     'order_id' => $order->id,
                     'package_id' => $package->id,
