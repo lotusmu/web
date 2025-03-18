@@ -10,9 +10,11 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class RecentOrdersTable extends BaseWidget
 {
-    protected static ?int $sort = 6;
-
     protected static ?string $heading = 'Recent Orders';
+
+    protected static ?string $pollingInterval = '60s';
+
+    protected static ?int $sort = 6;
 
     protected int|string|array $columnSpan = [
         'default' => 'full',

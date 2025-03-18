@@ -11,6 +11,8 @@ class PopularPackagesChart extends ChartWidget
 {
     protected static ?string $heading = 'Popular Packages';
 
+    protected static ?string $pollingInterval = '60s';
+
     protected static ?int $sort = 5;
 
     protected int|string|array $columnSpan = [

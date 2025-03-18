@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class TopCustomersTable extends BaseWidget
 {
+    protected static ?string $heading = 'Top Customers';
+
     protected static ?int $sort = 7;
 
-    protected static ?string $heading = 'Top Customers';
+    protected static ?string $pollingInterval = '60s';
 
     protected int|string|array $columnSpan = [
         'default' => 'full',
