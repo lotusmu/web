@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Actions\Member\SyncMember;
+use App\Actions\Member\CreateMemberOnEmailVerification;
 use App\Http\Controllers\Controller;
-use App\Models\User\TemporaryPassword;
 use App\Support\ActivityLog\IdentityProperties;
+use Exception;
+use Flux\Flux;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class VerifyEmailController extends Controller
 {
+    public function __construct(
+        private readonly CreateMemberOnEmailVerification $createMember
+    ) {}
+
     /**
      * Mark the authenticated user's email address as verified.
      */
@@ -28,41 +32,28 @@ class VerifyEmailController extends Controller
         if ($user->markEmailAsVerified()) {
             event(new Verified($user));
 
-            // Create Member account if not already created
-            if (! $user->member_created) {
-                // Get the stored password
-                $tempPassword = TemporaryPassword::where('user_id', $user->id)->first();
+            try {
+                $this->createMember->handle($user);
 
-                if ($tempPassword) {
-                    // Directly create Member with the stored password
-                    $syncMember = app(SyncMember::class);
-                    $syncMember->createWithPassword($user, $tempPassword->password);
+                activity('auth')
+                    ->performedOn($user)
+                    ->withProperties([
+                        ...IdentityProperties::capture(),
+                    ])
+                    ->log('Email address verified by user.');
 
-                    // Clean up
-                    $tempPassword->delete();
-                } else {
-                    // If no temporary password found, create a random one for both systems
-                    $newPassword = Str::random(10);
+            } catch (Exception $e) {
+                Log::error('Email verified but member creation failed', [
+                    'user_id' => $user->id,
+                    'error' => $e->getMessage(),
+                ]);
 
-                    // Update user password
-                    $user->forceFill([
-                        'password' => Hash::make($newPassword),
-                    ])->saveQuietly();
-
-                    // Create Member with this password
-                    $syncMember = app(SyncMember::class);
-                    $syncMember->createWithPassword($user, $newPassword);
-
-                    // You might want to notify the user about this password reset
-                }
+                Flux::toast(
+                    text: __('Your email was verified, but there was an issue with your account setup. Please contact support.'),
+                    heading: __('Account Setup Issue'),
+                    variant: 'warning'
+                );
             }
-
-            activity('auth')
-                ->performedOn($user)
-                ->withProperties([
-                    ...IdentityProperties::capture(),
-                ])
-                ->log('Email address verified by user.');
         }
 
         return redirect()->intended(route('dashboard', absolute: false).'?verified=1');

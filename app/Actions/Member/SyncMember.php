@@ -19,17 +19,36 @@ class SyncMember
             if (! empty($updates)) {
                 $member->fill($updates)->save();
 
-                if (! $member->wasRecentlyCreated) {
-                    return;
-                }
-
-                Wallet::create([
-                    'AccountID' => $user->name,
-                    'WCoinC' => 0,
-                    'zen' => 0,
-                ]);
+                $this->createWalletIfNeeded($user, $member);
             }
         });
+    }
+
+    public function createWithPassword(User $user, string $password): void
+    {
+        DB::transaction(function () use ($user, $password) {
+            $member = Member::firstOrNew(['memb___id' => $user->name]);
+
+            if (! $member->exists) {
+                $data = $this->getBaseMemberData($user);
+                $data['memb__pwd'] = $password; // Use the provided password directly
+
+                $member->fill($data)->save();
+
+                $this->createWalletIfNeeded($user, $member);
+            }
+        });
+    }
+
+    private function createWalletIfNeeded(User $user, Member $member): void
+    {
+        if ($member->wasRecentlyCreated) {
+            Wallet::create([
+                'AccountID' => $user->name,
+                'WCoinC' => 0,
+                'zen' => 0,
+            ]);
+        }
     }
 
     private function getUpdates(User $user, Member $member): array
@@ -41,12 +60,11 @@ class SyncMember
         return $this->getExistingMemberUpdates($user);
     }
 
-    private function getNewMemberData(User $user): array
+    private function getBaseMemberData(User $user): array
     {
         return [
             'memb_name' => $user->name,
             'mail_addr' => $user->email,
-            'memb__pwd' => $user->getRawPassword(),
             'sno__numb' => 1111111111111,
             'appl_days' => 0,
             'mail_chek' => 0,
@@ -56,6 +74,14 @@ class SyncMember
             'AccountExpireDate' => now(),
             'tokens' => 0,
         ];
+    }
+
+    private function getNewMemberData(User $user): array
+    {
+        $data = $this->getBaseMemberData($user);
+        $data['memb__pwd'] = $user->getRawPassword();
+
+        return $data;
     }
 
     private function getExistingMemberUpdates(User $user): array
@@ -71,38 +97,5 @@ class SyncMember
         }
 
         return $updates;
-    }
-
-    public function createWithPassword(User $user, string $password): void
-    {
-        DB::transaction(function () use ($user, $password) {
-            $member = Member::firstOrNew(['memb___id' => $user->name]);
-
-            if (! $member->exists) {
-                $member->fill([
-                    'memb_name' => $user->name,
-                    'mail_addr' => $user->email,
-                    'memb__pwd' => $password, // Use the provided password directly
-                    'sno__numb' => 1111111111111,
-                    'appl_days' => 0,
-                    'mail_chek' => 0,
-                    'bloc_code' => 0,
-                    'ctl1_code' => 0,
-                    'AccountLevel' => 0,
-                    'AccountExpireDate' => now(),
-                    'tokens' => 0,
-                ])->save();
-
-                Wallet::create([
-                    'AccountID' => $user->name,
-                    'WCoinC' => 0,
-                    'zen' => 0,
-                ]);
-
-                // Update user flag
-                $user->member_created = true;
-                $user->saveQuietly(); // Save without triggering events
-            }
-        });
     }
 }
