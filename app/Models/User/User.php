@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Actions\Member\CreateMemberOnEmailVerification;
 use App\Actions\Member\SyncMember;
 use App\Enums\Game\AccountLevel;
 use App\Enums\Game\GuildMemberStatus;
@@ -109,7 +110,11 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
     {
         $this->email_verified_at = Carbon::now();
 
-        $this->save();
+        $this->saveQuietly();
+
+        if (! $this->member_created) {
+            app(CreateMemberOnEmailVerification::class)->handle($this);
+        }
 
         activity('auth')
             ->performedOn($this)
