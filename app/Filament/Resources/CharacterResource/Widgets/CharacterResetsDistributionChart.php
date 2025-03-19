@@ -18,7 +18,6 @@ class CharacterResetsDistributionChart extends ChartWidget
     {
         // Define reset ranges
         $ranges = [
-            '0' => [0, 0],
             '1-2' => [1, 2],
             '3-5' => [3, 5],
             '6-10' => [6, 10],

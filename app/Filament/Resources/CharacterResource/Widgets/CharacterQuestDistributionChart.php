@@ -18,8 +18,7 @@ class CharacterQuestDistributionChart extends ChartWidget
     {
         // Define quest ranges
         $ranges = [
-            '0' => [0, 0],
-            '1-25' => [1, 25],
+            '2-25' => [2, 25],
             '26-50' => [26, 50],
             '51-75' => [51, 75],
             '76-100' => [76, 100],
