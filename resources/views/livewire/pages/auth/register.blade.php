@@ -75,8 +75,13 @@ new #[Layout('layouts.auth')] class extends Component {
 
     <form wire:submit="register" class="flex flex-col gap-6">
         <flux:input wire:model="name" label="{{__('Username')}}"/>
-        <flux:input wire:model="email" label="{{__('Email')}}"/>
+
+        <flux:input wire:model="email"
+                    label="{{__('Email')}}"
+                    description="{{__('Email verification required to play.')}}"/>
+
         <flux:input viewable wire:model="password" type="password" label="{{__('Password')}}"/>
+        
         <flux:input viewable wire:model="password_confirmation" type="password" label="{{__('Confirm Password')}}"/>
 
         <flux:field variant="inline">

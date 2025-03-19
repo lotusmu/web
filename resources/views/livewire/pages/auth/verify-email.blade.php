@@ -58,4 +58,10 @@ new #[Layout('layouts.auth')] class extends Component {
             {{ __('Log Out') }}
         </flux:button>
     </div>
+
+    <x-info-card color="red" icon="exclamation-triangle" class="!items-start">
+        <flux:text>
+            {{ __('Unverified accounts will be automatically deleted after 48 hours and cannot access the game until verified.') }}
+        </flux:text>
+    </x-info-card>
 </div>

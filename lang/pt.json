@@ -541,7 +541,7 @@
     "Remember me": "Lembrar-se de mim",
     "Reopen Ticket": "Reabertura do pedido",
     "Request deletion of your data": "Pedido de eliminação dos seus dados",
-    "Resend Verification Email": "Reenviar a mensagem de correio eletrónico de verificação",
+    "Resend Verification Email": "Reenviar o correio eletrónico",
     "Reset Password": "Recuperação da palavra-passe",
     "Reset Points": "Pontos para Resetti",
     "Reset System": "Sistema Resetti",
@@ -857,5 +857,7 @@
     "Join Our Discord Community!": "Junte-se à nossa comunidade do Discord!",
     "Connect with our community, get help, and stay updated with the latest announcements!": "Conecte-se com nossa comunidade, obtenha ajuda e fique atualizado com os últimos anúncios!",
     "Don't show this again": "Não mostrar isso novamente",
-    "I'll do it later": "Farei isso mais tarde"
+    "I'll do it later": "Farei isso mais tarde",
+    "Unverified accounts will be automatically deleted after 48 hours and cannot access the game until verified.": "Contas não verificadas serão automaticamente excluídas após 48 horas e não poderão acessar o jogo até serem verificadas.",
+    "Email verification required to play.": "Verificação de email necessária para jogar."
 }

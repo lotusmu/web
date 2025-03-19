@@ -541,7 +541,7 @@
     "Remember me": "Запомни ме",
     "Reopen Ticket": "Повторно отваряне на заявката",
     "Request deletion of your data": "Искане за изтриване на вашите данни",
-    "Resend Verification Email": "Повторно изпращане на имейл за проверка",
+    "Resend Verification Email": "Повторно изпращане",
     "Reset Password": "Възстановяване на паролата",
     "Reset Points": "Точки за Ресети",
     "Reset System": "Ресети система",
@@ -857,5 +857,7 @@
     "Join Our Discord Community!": "Присъединете се към нашата Discord общност!",
     "Connect with our community, get help, and stay updated with the latest announcements!": "Свържете се с нашата общност, получете помощ и бъдете в крак с последните съобщения!",
     "Don't show this again": "Не показвай отново",
-    "I'll do it later": "Ще го направя по-късно"
+    "I'll do it later": "Ще го направя по-късно",
+    "Unverified accounts will be automatically deleted after 48 hours and cannot access the game until verified.": "Непотвърдените профили ще бъдат автоматично изтрити след 48 часа и няма да имат достъп до играта, докато не бъдат потвърдени.",
+    "Email verification required to play.": "За да играете, е необходима проверка на имейла."
 }

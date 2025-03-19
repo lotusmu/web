@@ -541,7 +541,7 @@
     "Remember me": "Помни меня",
     "Reopen Ticket": "Повторное открытый запрос",
     "Request deletion of your data": "Запрос на удаление ваших данных",
-    "Resend Verification Email": "Повторная отправка сообщения электронной почты для проверки",
+    "Resend Verification Email": "Повторная отправка",
     "Reset Password": "Восстановление пароля",
     "Reset Points": "Очки для Ресет",
     "Reset System": "Система Ресет",
@@ -857,5 +857,7 @@
     "Join Our Discord Community!": "Присоединяйтесь к нашему сообществу Discord!",
     "Connect with our community, get help, and stay updated with the latest announcements!": "Общайтесь с нашим сообществом, получайте помощь и будьте в курсе последних объявлений!",
     "Don't show this again": "Больше не показывать",
-    "I'll do it later": "Я сделаю это позже"
+    "I'll do it later": "Я сделаю это позже",
+    "Unverified accounts will be automatically deleted after 48 hours and cannot access the game until verified.": "Неподтвержденные аккаунты будут автоматически удалены через 48 часов и не смогут получить доступ к игре до подтверждения.",
+    "Email verification required to play.": "Для игры требуется подтверждение электронной почты."
 }
