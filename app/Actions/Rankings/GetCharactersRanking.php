@@ -2,7 +2,6 @@
 
 namespace App\Actions\Rankings;
 
-use App\Enums\Game\CharacterStatus;
 use App\Models\Game\Character;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -21,8 +20,8 @@ class GetCharactersRanking
     {
         return Character::query()
             ->select($this->getFields($type))
-            ->with($this->getRelations())
-            ->whereNot('CtlCode', CharacterStatus::GM);
+            ->with($this->getRelations());
+        //            ->whereNot('CtlCode', CharacterStatus::GM);
     }
 
     protected function getFields(string $type): array

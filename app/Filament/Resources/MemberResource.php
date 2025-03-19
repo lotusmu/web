@@ -154,7 +154,6 @@ class MemberResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('memb___id')
                     ->label('Username')
-                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mail_addr')
                     ->label('Email')
@@ -182,6 +181,7 @@ class MemberResource extends Resource
                     ->placeholder('All Levels')
                     ->multiple(),
             ])
+            ->defaultSort('tokens', 'desc')
             ->persistFiltersInSession()
             ->filtersTriggerAction(function ($action) {
                 return $action->button()->label('Filters');
