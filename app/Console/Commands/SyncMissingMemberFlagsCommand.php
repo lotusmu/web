@@ -11,19 +11,18 @@ class SyncMissingMemberFlagsCommand extends Command
 {
     protected $signature = 'app:sync-missing-member-flags';
 
-    protected $description = 'Set member_created flag for all verified users with existing members';
+    protected $description = 'Set member_created flag for all verified users';
 
     public function handle(): int
     {
         $this->info('Starting to sync missing member flags...');
 
-        // Get all verified users without member_created flag BUT with existing members
+        // Get all verified users without member_created flag
         $users = User::whereNotNull('email_verified_at')
             ->where('member_created', false)
-            ->whereHas('member') // Only users who already have a member record
             ->get();
 
-        $this->info("Found {$users->count()} verified users with members but without member_created flag");
+        $this->info("Found {$users->count()} verified users without member_created flag");
 
         $bar = $this->output->createProgressBar($users->count());
         $bar->start();
