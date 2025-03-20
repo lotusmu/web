@@ -97,10 +97,6 @@ new #[Layout('layouts.auth')] class extends Component {
         </flux:field>
 
         <flux:field>
-            <flux:label>
-                {{__("Let us know you're human")}}
-            </flux:label>
-
             <x-turnstile wire:model="turnstileResponse"
                          data-size="flexible"
             />
