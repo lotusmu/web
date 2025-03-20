@@ -81,7 +81,7 @@ new #[Layout('layouts.auth')] class extends Component {
                     description="{{__('Email verification required to play.')}}"/>
 
         <flux:input viewable wire:model="password" type="password" label="{{__('Password')}}"/>
-        
+
         <flux:input viewable wire:model="password_confirmation" type="password" label="{{__('Confirm Password')}}"/>
 
         <flux:field variant="inline">
@@ -97,7 +97,13 @@ new #[Layout('layouts.auth')] class extends Component {
         </flux:field>
 
         <flux:field>
-            <x-turnstile wire:model="turnstileResponse"/>
+            <flux:label>
+                {{__("Let us know you're human")}}
+            </flux:label>
+
+            <x-turnstile wire:model="turnstileResponse"
+                         data-size="flexible"
+            />
 
             <flux:error name="turnstileResponse"/>
         </flux:field>
