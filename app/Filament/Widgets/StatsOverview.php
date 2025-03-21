@@ -98,9 +98,11 @@ class StatsOverview extends BaseWidget
 
     protected function buildResourceStat(): Stat
     {
-        $tokens = Number::format(Member::sum('tokens'));
-        $credits = Number::format(Wallet::sum('WCoinC'));
-        $zen = Number::abbreviate(Wallet::sum('zen'), precision: 2);
+        $excludedAccounts = ['kodovoime', 'void'];
+
+        $tokens = Number::format(Member::query()->whereNotIn('memb___id', $excludedAccounts)->sum('tokens'));
+        $credits = Number::format(Wallet::query()->whereNotIn('AccountID', $excludedAccounts)->sum('WCoinC'));
+        $zen = Number::abbreviate(Wallet::query()->whereNotIn('AccountID', $excludedAccounts)->sum('zen'), precision: 2);
 
         return Stat::make('Total Resources', '')
             ->icon('heroicon-o-circle-stack')
