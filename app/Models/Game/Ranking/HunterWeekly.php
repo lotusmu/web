@@ -4,7 +4,6 @@ namespace App\Models\Game\Ranking;
 
 use App\Models\Concerns\GameConnection;
 use App\Models\Game\Character;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -27,7 +26,6 @@ class HunterWeekly extends Model
         'PointsPerKill',
         'TotalPoints',
         'LastUpdated',
-        'WeekNumber',
     ];
 
     protected $casts = [
@@ -36,19 +34,11 @@ class HunterWeekly extends Model
         'PointsPerKill' => 'integer',
         'TotalPoints' => 'integer',
         'LastUpdated' => 'datetime',
-        'WeekNumber' => 'integer',
     ];
 
     public function monster(): BelongsTo
     {
         return $this->belongsTo(MonsterSetting::class, 'MonsterName', 'MonsterName');
-    }
-
-    public function scopeCurrentWeek($query)
-    {
-        $currentWeek = Carbon::now()->format('oW');
-
-        return $query->where('WeekNumber', $currentWeek);
     }
 
     public function character(): BelongsTo

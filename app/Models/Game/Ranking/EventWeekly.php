@@ -4,7 +4,6 @@ namespace App\Models\Game\Ranking;
 
 use App\Models\Concerns\GameConnection;
 use App\Models\Game\Character;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -25,7 +24,6 @@ class EventWeekly extends Model
         'PointsPerWin',
         'WinCount',
         'TotalPoints',
-        'WeekNumber',
         'LastUpdated',
     ];
 
@@ -34,7 +32,6 @@ class EventWeekly extends Model
         'PointsPerWin' => 'integer',
         'WinCount' => 'integer',
         'TotalPoints' => 'integer',
-        'WeekNumber' => 'integer',
         'LastUpdated' => 'datetime',
     ];
 
@@ -46,13 +43,6 @@ class EventWeekly extends Model
     public function event(): BelongsTo
     {
         return $this->belongsTo(EventSetting::class, 'EventID', 'EventID');
-    }
-
-    public function scopeCurrentWeek($query)
-    {
-        $currentWeek = Carbon::now()->format('oW');
-
-        return $query->where('WeekNumber', $currentWeek);
     }
 
     public function getUser()
