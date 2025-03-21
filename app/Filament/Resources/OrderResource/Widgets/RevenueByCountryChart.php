@@ -44,7 +44,9 @@ class RevenueByCountryChart extends ChartWidget
             ->groupBy('country')
             ->pluck('total_revenue', 'country');
 
-        $countries = $revenueByCountry->keys();
+        $countries = $revenueByCountry->keys()->filter(function ($code) {
+            return ! empty($code) && $code !== 'null' && strlen($code) === 2;
+        });
         $labels = $countries->map(fn ($code) => Countries::getName($code))->toArray();
 
         $colors = $countries->map(fn ($code) => $this->generateColorFromCode($code))->toArray();
