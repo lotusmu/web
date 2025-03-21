@@ -58,4 +58,21 @@ class Article extends Model
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
     }
+
+    public function getFallbackLocale(): string
+    {
+        return 'en';
+    }
+
+    public function scopeAvailableInLocale($query, ?string $locale = null)
+    {
+        $locale = $locale ?: app()->getLocale();
+        $availableLocales = [$locale];
+
+        if ($locale !== 'en') {
+            $availableLocales[] = 'en';
+        }
+
+        return $query->whereLocales('title', $availableLocales);
+    }
 }

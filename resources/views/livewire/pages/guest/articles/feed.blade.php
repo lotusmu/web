@@ -17,7 +17,8 @@ new class extends Component {
     #[Computed]
     public function articles(): LengthAwarePaginator|_IH_Article_C|array
     {
-        return Article::where('is_published', true)
+        return Article::availableInLocale()
+            ->where('is_published', true)
             ->where('type', $this->type)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
