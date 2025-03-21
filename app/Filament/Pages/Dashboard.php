@@ -66,7 +66,7 @@ class Dashboard extends DashboardPage
                         ->hint('Select start date')
                         ->reactive()
                         ->native(false)
-                        ->minDate(fn () => Carbon::parse('2023-01-01')) // Minimum date
+                        ->minDate(fn () => Carbon::parse('2025-01-01')) // Minimum date
                         ->afterStateUpdated(function (callable $set, $state, callable $get) {
                             // Only set to custom if the date was changed *by the user*
                             if ($get('period') !== 'custom') {

@@ -25,7 +25,7 @@ class CalculateDateRange
             'month_to_date' => [$now->copy()->startOfMonth(), $now->copy()->endOfDay()],
             'quarter_to_date' => [$now->copy()->startOfQuarter(), $now->copy()->endOfDay()],
             'year_to_date' => [$now->copy()->startOfYear(), $now->copy()->endOfDay()],
-            'all_time' => [Carbon::parse('2023-01-01'), $now->copy()->endOfDay()],
+            'all_time' => [Carbon::parse('2025-01-01'), $now->copy()->endOfDay()],
             default => [$now->copy()->subMonth(), $now->copy()],
         };
     }
