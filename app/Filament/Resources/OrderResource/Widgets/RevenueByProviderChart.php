@@ -14,7 +14,7 @@ class RevenueByProviderChart extends ChartWidget
 
     protected static ?string $pollingInterval = null;
 
-    protected static ?string $maxHeight = '200px';
+    protected static ?string $maxHeight = '150px';
 
     protected static ?string $heading = 'Revenue by Payment Provider';
 
@@ -83,7 +83,7 @@ class RevenueByProviderChart extends ChartWidget
 
     public function getDescription(): ?string
     {
-        return 'Total revenue breakdown by payment method.';
+        return 'Total revenue by payment method.';
     }
 
     protected function getType(): string

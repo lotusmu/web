@@ -14,7 +14,7 @@ class RevenueByCountryChart extends ChartWidget
 
     protected static ?string $pollingInterval = null;
 
-    protected static ?string $maxHeight = '200px';
+    protected static ?string $maxHeight = '150px';
 
     protected static ?string $heading = 'Revenue by Country';
 

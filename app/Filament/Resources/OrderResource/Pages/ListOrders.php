@@ -5,9 +5,9 @@ namespace App\Filament\Resources\OrderResource\Pages;
 use App\Enums\OrderStatus;
 use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
-use App\Filament\Resources\OrderResource\Widgets\OrderStatusDistributionChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
+use App\Filament\Resources\OrderResource\Widgets\TokensOverTimeChart;
 use App\Models\Payment\Order;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
@@ -25,13 +25,13 @@ class ListOrders extends ListRecords
             OrderStatsWidget::class,
             RevenueByProviderChart::class,
             RevenueByCountryChart::class,
-            OrderStatusDistributionChart::class,
+            TokensOverTimeChart::class,
         ];
     }
 
     public function getHeaderWidgetsColumns(): int|array
     {
-        return 3;
+        return 4;
     }
 
     public function getTabs(): array

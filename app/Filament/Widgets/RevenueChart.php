@@ -149,6 +149,10 @@ class RevenueChart extends ChartWidget
                 'legend' => [
                     'display' => false,
                 ],
+                'tooltip' => [
+                    'mode' => 'index',
+                    'intersect' => false,
+                ],
             ],
             'scales' => [
                 'y' => [

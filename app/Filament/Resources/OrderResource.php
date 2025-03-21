@@ -6,9 +6,9 @@ use App\Enums\PaymentProvider;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers\StatusHistoryRelationManager;
 use App\Filament\Resources\OrderResource\Widgets\OrderStatsWidget;
-use App\Filament\Resources\OrderResource\Widgets\OrderStatusDistributionChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByCountryChart;
 use App\Filament\Resources\OrderResource\Widgets\RevenueByProviderChart;
+use App\Filament\Resources\OrderResource\Widgets\TokensOverTimeChart;
 use App\Models\Payment\Order;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -162,7 +162,7 @@ class OrderResource extends Resource
             OrderStatsWidget::class,
             RevenueByProviderChart::class,
             RevenueByCountryChart::class,
-            OrderStatusDistributionChart::class,
+            TokensOverTimeChart::class,
         ];
     }
 
