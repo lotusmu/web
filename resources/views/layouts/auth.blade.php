@@ -9,7 +9,7 @@
 
 <flux:main class="flex min-h-screen !p-0">
     <div class="flex-1 flex justify-center items-center">
-        <div class="w-80 max-w-80 space-y-6">
+        <div class="w-80 max-w-80 space-y-6 my-12">
             <div class="flex justify-center">
                 <x-brand
                     :logo_light="asset('images/brand/lotusmu-logotype.svg')"
