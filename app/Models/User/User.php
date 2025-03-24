@@ -185,4 +185,9 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
     {
         return $this->hasOne(UserDiscordPopupPreference::class);
     }
+
+    public function referralSurvey(): HasOne
+    {
+        return $this->hasOne(ReferralSurvey::class);
+    }
 }
