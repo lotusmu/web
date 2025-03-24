@@ -45,7 +45,9 @@
 </picture>
 
 <livewire:layout.guest.header/>
+
 <livewire:discord-popup/>
+<livewire:referral-survey-popup/>
 
 <main class="flex-1">
     {{ $slot }}
