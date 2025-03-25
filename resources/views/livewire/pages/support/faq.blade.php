@@ -73,6 +73,25 @@
         </flux:accordion.item>
 
         <flux:accordion.item>
+            <flux:accordion.heading>{{ __('Why is my game performance low/laggy?') }}</flux:accordion.heading>
+            <flux:accordion.content>
+                {{ __('1. Update your graphics drivers to the latest version.') }}<br>
+                {{ __('2. Lower in-game graphics settings.') }}<br>
+                {{ __('3. Close unnecessary background applications.') }}<br>
+                {{ __('4. Check your internet connection stability.') }}<br>
+                {{ __('5. Verify your PC meets the minimum system requirements.') }}<br><br>
+
+                {{ __('If you cannot find a solution to your game performance issues here, please') }}
+                {{ __('take a look at our advice in') }}
+                <flux:link
+                    href="https://wiki.lotusmu.org/client-features/options-menu/#what-to-do-if-your-game-performance-is-lowlaggy"
+                    external>
+                    {{ __('this article.') }}
+                </flux:link>
+            </flux:accordion.content>
+        </flux:accordion.item>
+
+        <flux:accordion.item>
             <flux:accordion.heading>{{ __('How do I delete my account?') }}</flux:accordion.heading>
             <flux:accordion.content>
                 {{ __('1. Submit an account deletion request.') }}<br>
