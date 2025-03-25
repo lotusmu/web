@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web([
             CheckUserBannedMiddleware::class,
-            //            LocaleMiddleware::class,
+            LocaleMiddleware::class,
             TrackPageViewsMiddleware::class,
             ReferralSurveyMiddleware::class,
         ]);
