@@ -23,6 +23,16 @@ enum MMOTopSite: string implements HasColor, HasLabel
         };
     }
 
+    public function shortLabel(): string
+    {
+        return match ($this) {
+            self::MMOAnons => __('MMO Anons'),
+            self::MMOTopRu => __('MMO Top Ru'),
+            self::ServeraMU => __('Servera Mu'),
+            self::Other => __('Other'),
+        };
+    }
+
     public function getColor(): string|array|null
     {
         return match ($this) {

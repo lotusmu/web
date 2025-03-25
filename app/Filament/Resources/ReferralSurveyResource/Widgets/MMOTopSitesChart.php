@@ -28,7 +28,7 @@ class MMOTopSitesChart extends ChartWidget
             ->get();
 
         $labels = $sites->map(function ($site) {
-            return MMOTopSite::from($site->site_value)->getLabel();
+            return MMOTopSite::from($site->site_value)->shortLabel();
         })->toArray();
 
         $counts = $sites->pluck('count')->toArray();

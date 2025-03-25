@@ -27,7 +27,7 @@ class ReferralSourcesChart extends ChartWidget
             ->get();
 
         $labels = $sources->map(function ($source) {
-            return ReferralSource::from($source->source_value)->getLabel();
+            return ReferralSource::from($source->source_value)->shortLabel();
         })->toArray();
 
         $counts = $sources->pluck('count')->toArray();

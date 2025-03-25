@@ -29,6 +29,19 @@ enum ReferralSource: string implements HasColor, HasLabel
         };
     }
 
+    public function shortLabel(): string
+    {
+        return match ($this) {
+            self::Google => __('Google'),
+            self::Friend => __('Friend'),
+            self::Facebook => __('Facebook'),
+            self::YouTube => __('YouTube'),
+            self::MMOTopSite => __('MMO Site'),
+            self::MUOnlineForum => __('Forum'),
+            self::Other => __('Other'),
+        };
+    }
+
     public function getColor(): string|array|null
     {
         return match ($this) {
