@@ -73,12 +73,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->runInBackground()
             ->withoutOverlapping();
 
-        //        $schedule->command('app:cleanup-unverified-users --force')
-        //            ->daily()
-        //            ->at('03:00')
-        //            ->runInBackground()
-        //            ->withoutOverlapping()
-        //            ->appendOutputTo(storage_path('logs/cleanup-unverified-users.log'));
+        $schedule->command('app:cleanup-unverified-users --force')
+            ->daily()
+            ->at('03:00')
+            ->runInBackground()
+            ->withoutOverlapping()
+            ->appendOutputTo(storage_path('logs/cleanup-unverified-users.log'));
 
         //        $schedule->command('orders:cleanup')
         //            ->quarterly()
