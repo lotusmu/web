@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReferralSurveyResource\Pages;
+use App\Filament\Resources\ReferralSurveyResource\Widgets\MMOTopSitesChart;
 use App\Filament\Resources\ReferralSurveyResource\Widgets\ReferralSourcesChart;
 use App\Filament\Resources\ReferralSurveyResource\Widgets\SurveyStatsWidget;
 use App\Models\User\ReferralSurvey;
@@ -57,13 +58,25 @@ class ReferralSurveyResource extends Resource
                     ->toggleable(),
 
                 Tables\Columns\IconColumn::make('completed')
-                    ->label('Completed')
-                    ->boolean()
-                    ->sortable(),
-
-                Tables\Columns\IconColumn::make('dismissed')
-                    ->label('Dismissed')
-                    ->boolean()
+                    ->label('Status')
+                    ->icon(function ($record) {
+                        if ($record->completed) {
+                            return 'heroicon-o-check-circle';
+                        } elseif ($record->dismissed) {
+                            return 'heroicon-o-x-circle';
+                        } else {
+                            return 'heroicon-o-clock';
+                        }
+                    })
+                    ->color(function ($record) {
+                        if ($record->completed) {
+                            return 'success';
+                        } elseif ($record->dismissed) {
+                            return 'danger';
+                        } else {
+                            return 'gray';
+                        }
+                    })
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('shown_at')
@@ -94,6 +107,7 @@ class ReferralSurveyResource extends Resource
         return [
             SurveyStatsWidget::class,
             ReferralSourcesChart::class,
+            MMOTopSitesChart::class,
         ];
     }
 

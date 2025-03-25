@@ -13,7 +13,7 @@ class ReferralSourcesChart extends ChartWidget
 
     protected static ?string $maxHeight = '250px';
 
-    protected int|string|array $columnSpan = 'full';
+    protected int|string|array $columnSpan = '50%';
 
     protected function getData(): array
     {

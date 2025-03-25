@@ -19,6 +19,7 @@ class ListReferralSurveys extends ListRecords
         return [
             SurveyStatsWidget::class,
             ReferralSourcesChart::class,
+            ReferralSurveyResource\Widgets\MMOTopSitesChart::class,
         ];
     }
 }
