@@ -26,8 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web([
             CheckUserBannedMiddleware::class,
             LocaleMiddleware::class,
-            //            TrackPageViewsMiddleware::class,
-            //            ReferralSurveyMiddleware::class,
+            TrackPageViewsMiddleware::class,
+            ReferralSurveyMiddleware::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [
