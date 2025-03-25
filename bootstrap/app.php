@@ -10,7 +10,6 @@ use App\Http\Middleware\CheckUserBannedMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
 use App\Http\Middleware\EnsureVipOnlyMiddleware;
 use App\Http\Middleware\LocaleMiddleware;
-use App\Http\Middleware\ReferralSurveyMiddleware;
 use App\Http\Middleware\TrackPageViewsMiddleware;
 use App\Http\Middleware\ValidPrimeWebhookIpMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
@@ -29,7 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             CheckUserBannedMiddleware::class,
             LocaleMiddleware::class,
             TrackPageViewsMiddleware::class,
-            ReferralSurveyMiddleware::class,
+            //            ReferralSurveyMiddleware::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [
