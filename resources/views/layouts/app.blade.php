@@ -48,8 +48,8 @@
     </div>
 </flux:main>
 
-<livewire:discord-popup/>
-<livewire:referral-survey-popup/>
+{{--<livewire:discord-popup/>--}}
+{{--<livewire:referral-survey-popup/>--}}
 
 @persist('toast')
 <flux:toast/>
