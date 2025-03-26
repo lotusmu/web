@@ -86,7 +86,6 @@ new class extends Component {
 <script>
     document.addEventListener('livewire:initialized', () => {
         Livewire.on('show-discord-modal', () => {
-            // Slight random delay between 500-700ms
             const randomDelay = 500 + Math.floor(Math.random() * 200);
             setTimeout(() => {
                 Flux.modal('discord-invitation').show()
