@@ -26,11 +26,18 @@ new class extends Component {
     public function updateServer($newServerId, $referer = null): void
     {
         try {
+            if ( ! is_numeric($newServerId)) {
+                throw new InvalidArgumentException('Invalid server ID format');
+            }
+
+            $server = GameServer::where('id', $newServerId)
+                ->where('is_active', true)
+                ->firstOrFail();
+
             $this->selectedServerId = $newServerId;
-            $server                 = GameServer::findOrFail($newServerId);
 
             app(SwitchGameServer::class)->execute($newServerId);
-
+            
             $this->sendNotification($server);
 
             $this->redirect($referer ?? request()->header('Referer'), navigate: true);
