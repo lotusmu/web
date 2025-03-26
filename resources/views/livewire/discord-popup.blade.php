@@ -10,26 +10,24 @@ use Livewire\Volt\Component;
 new class extends Component {
     public bool $neverShowAgain = false;
 
-    public function mount()
+    public function mount(HandleDiscordInvitePopup $action)
     {
-        $action     = new HandleDiscordInvitePopup();
-        $shouldShow = $action->handle(Auth::user());
-
+        $shouldShow = $action->shouldShow(Auth::user());
 
         if ($shouldShow) {
             $this->dispatch('show-discord-modal');
         }
     }
 
-    public function joinDiscord()
+    public function joinDiscord(HandleDiscordInvitePopup $action)
     {
-        $action = new HandleDiscordInvitePopup();
         $action->recordResponse(true, $this->neverShowAgain, Auth::user());
+
+        Flux::modal('discord-invitation')->close();
     }
 
-    public function declineDiscord()
+    public function declineDiscord(HandleDiscordInvitePopup $action)
     {
-        $action = new HandleDiscordInvitePopup();
         $action->recordResponse(false, $this->neverShowAgain, Auth::user());
     }
 }
@@ -72,7 +70,7 @@ new class extends Component {
 
                 <div class="max-sm:w-full">
                     <flux:button variant="primary"
-                                 external
+                                 target="_blank"
                                  icon-trailing="arrow-long-right"
                                  :href="config('social.links.discord')"
                                  wire:click="joinDiscord"
@@ -88,9 +86,11 @@ new class extends Component {
 <script>
     document.addEventListener('livewire:initialized', () => {
         Livewire.on('show-discord-modal', () => {
+            // Slight random delay between 500-700ms
+            const randomDelay = 500 + Math.floor(Math.random() * 200);
             setTimeout(() => {
                 Flux.modal('discord-invitation').show()
-            }, 300);
+            }, randomDelay);
         });
     });
 </script>
