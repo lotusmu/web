@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Models\User\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class HandleReferralSurvey
 {
@@ -11,44 +12,7 @@ class HandleReferralSurvey
 
     private const CACHE_TTL = 86400; // 24 hours
 
-    /**
-     * Determine if the survey should be shown to the user.
-     */
-    public function shouldShowSurvey(?User $user = null): bool
-    {
-        if (! $user) {
-            return false;
-        }
-
-        // Check cache first to avoid DB query
-        $cacheKey = self::CACHE_KEY_PREFIX.$user->id;
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
-        }
-
-        // Check if user meets time requirement
-        $daysSinceRegistration = $user->created_at->diffInDays(now());
-        if ($daysSinceRegistration < 1) {
-            Cache::put($cacheKey, false, self::CACHE_TTL);
-
-            return false;
-        }
-
-        // Get survey record (with efficient query)
-        $survey = $user->referralSurvey()->select(['completed', 'dismissed'])->first();
-
-        // Don't show if completed or dismissed
-        if ($survey && ($survey->completed || $survey->dismissed)) {
-            Cache::put($cacheKey, false, self::CACHE_TTL);
-
-            return false;
-        }
-
-        // Show the survey
-        Cache::put($cacheKey, true, self::CACHE_TTL);
-
-        return true;
-    }
+    private const MIN_ACCOUNT_AGE_DAYS = 1;
 
     /**
      * Record a response to the survey.
@@ -76,26 +40,55 @@ class HandleReferralSurvey
             ]
         );
 
-        // Update cache - survey should no longer show
-        Cache::put(self::CACHE_KEY_PREFIX.$user->id, false, self::CACHE_TTL);
+        $this->clearSurveyCache($user);
     }
 
     /**
-     * Mark that the survey has been shown to the user.
+     * Check if survey should be shown and mark as shown in one atomic operation.
      */
-    public function markAsShown(User $user): void
+    public function checkAndMarkShown(User $user): bool
     {
-        $survey = $user->referralSurvey()->first();
-
-        if (! $survey) {
-            // Create a new record if one doesn't exist
-            $user->referralSurvey()->create([
-                'shown_at' => now(),
-            ]);
-        } else {
-            // Update existing record
-            $survey->shown_at = now();
-            $survey->save();
+        if (! $user) {
+            return false;
         }
+
+        $cacheKey = self::CACHE_KEY_PREFIX.$user->id;
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        }
+
+        return DB::transaction(function () use ($user, $cacheKey) {
+            $daysSinceRegistration = $user->created_at->diffInDays(now());
+            if ($daysSinceRegistration < self::MIN_ACCOUNT_AGE_DAYS) {
+                Cache::put($cacheKey, false, self::CACHE_TTL);
+
+                return false;
+            }
+
+            $survey = $user->referralSurvey()
+                ->select(['id', 'completed', 'dismissed'])
+                ->lockForUpdate()
+                ->first();
+
+            if ($survey && ($survey->completed || $survey->dismissed)) {
+                Cache::put($cacheKey, false, self::CACHE_TTL);
+
+                return false;
+            }
+
+            $user->referralSurvey()->updateOrCreate(
+                ['user_id' => $user->id],
+                ['shown_at' => now()]
+            );
+
+            Cache::put($cacheKey, true, self::CACHE_TTL);
+
+            return true;
+        });
+    }
+
+    private function clearSurveyCache(User $user): void
+    {
+        Cache::forget(self::CACHE_KEY_PREFIX.$user->id);
     }
 }

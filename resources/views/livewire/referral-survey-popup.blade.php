@@ -17,6 +17,7 @@ new class extends Component {
     public ?string $mmoTopSite = null;
     public ?string $muOnlineForum = null;
     public ?string $customSource = null;
+    public bool $hasCheckedSurvey = false;
 
     protected function rules(): array
     {
@@ -57,10 +58,30 @@ new class extends Component {
         ];
     }
 
-    public function mount(): void
+    public function mount(HandleReferralSurvey $action): void
     {
-        if (Session::pull('show_referral_survey', false)) {
-            $this->dispatch('show-referral-survey-modal');
+        if ( ! Auth::check()) {
+            return;
+        }
+
+        if ( ! $this->hasCheckedSurvey) {
+            $this->hasCheckedSurvey = true;
+
+            if (Session::has('show_referral_survey')) {
+                $shouldShow = Session::get('show_referral_survey');
+
+                if ($shouldShow) {
+                    $this->dispatch('show-referral-survey-modal');
+                }
+
+                return;
+            }
+
+            $shouldShow = $action->checkAndMarkShown(Auth::user());
+
+            if ($shouldShow) {
+                $this->dispatch('show-referral-survey-modal');
+            }
         }
     }
 

@@ -44,10 +44,13 @@
         decoding="async">
 </picture>
 
-<livewire:layout.guest.header/>
-
 <livewire:discord-popup/>
-<livewire:referral-survey-popup/>
+
+@auth()
+    <livewire:referral-survey-popup/>
+@endauth
+
+<livewire:layout.guest.header/>
 
 <main class="flex-1">
     {{ $slot }}

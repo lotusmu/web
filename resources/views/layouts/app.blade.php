@@ -20,6 +20,13 @@
     </div>
 </div>
 
+
+<livewire:discord-popup/>
+
+@auth
+    <livewire:referral-survey-popup/>
+@endauth
+
 <livewire:layout.header/>
 
 <flux:sidebar stashable sticky
@@ -47,9 +54,6 @@
         </div>
     </div>
 </flux:main>
-
-<livewire:discord-popup/>
-<livewire:referral-survey-popup/>
 
 @persist('toast')
 <flux:toast/>
