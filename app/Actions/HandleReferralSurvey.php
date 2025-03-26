@@ -53,8 +53,10 @@ class HandleReferralSurvey
         }
 
         $cacheKey = self::CACHE_KEY_PREFIX.$user->id;
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
+        $cachedValue = Cache::get($cacheKey);
+
+        if ($cachedValue !== null) {
+            return $cachedValue;
         }
 
         return DB::transaction(function () use ($user, $cacheKey) {
