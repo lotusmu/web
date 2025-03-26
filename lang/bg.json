@@ -884,5 +884,22 @@
     "Other Forum": "Друг форум",
     "If you cannot find a solution to your game performance issues here, please": "Ако не можете да намерите решение на проблемите с производителността на играта тук, моля",
     "take a look at our advice in": "разгледайте нашите съвети в",
-    "this article.": "тази статия."
+    "this article.": "тази статия.",
+    "Combat Settings": "Настройки за бой",
+    "Initial Percentage": "Начален процент",
+    "Agility Requirement": "Изискване за Agility",
+    "Energy Requirement": "Изискване за Energy",
+    "Maximum Percentage": "Максимален процент",
+    "Damage Multiplier": "Множител на щетите",
+    "Vitality Requirement": "Изискване за жизненост",
+    "Damage Reduction": "Намаляване на щетите",
+    "Knights Only": "Само за рицари",
+    "Duration": "Продължителност",
+    "seconds": "секунди",
+    "Freeze Chance": "Шанс за замразяване",
+    "Freeze Duration": "Продължителност на замразяване",
+    "Defense Reduction": "Намаляване на защитата",
+    "Effect Duration": "Продължителност на ефекта",
+    "PvE Damage Multiplier": "PvE множител на щетите",
+    "per": "за"
 }

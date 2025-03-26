@@ -884,5 +884,22 @@
     "Other Forum": "Otro foro",
     "If you cannot find a solution to your game performance issues here, please": "Si no puede encontrar una solución a sus problemas de rendimiento del juego aquí, por favor",
     "take a look at our advice in": "eche un vistazo a nuestros consejos en",
-    "this article.": "este artículo."
+    "this article.": "este artículo.",
+    "Combat Settings": "Configuración de combate",
+    "Initial Percentage": "Porcentaje inicial",
+    "Agility Requirement": "Requisito de Agility",
+    "Energy Requirement": "Requisito de Energy",
+    "Maximum Percentage": "Porcentaje máximo",
+    "Damage Multiplier": "Multiplicador de daño",
+    "Vitality Requirement": "Requisito de vitalidad",
+    "Damage Reduction": "Reducción de daño",
+    "Knights Only": "Solo para caballeros",
+    "Duration": "Duración",
+    "seconds": "segundos",
+    "Freeze Chance": "Probabilidad de congelación",
+    "Freeze Duration": "Duración de congelación",
+    "Defense Reduction": "Reducción de defensa",
+    "Effect Duration": "Duración del efecto",
+    "PvE Damage Multiplier": "Multiplicador de daño PvE",
+    "per": "por"
 }

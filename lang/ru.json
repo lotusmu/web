@@ -884,5 +884,22 @@
     "Other Forum": "Другой форум",
     "If you cannot find a solution to your game performance issues here, please": "Если вы не можете найти решение проблем с производительностью игры здесь, пожалуйста",
     "take a look at our advice in": "ознакомьтесь с нашими советами в",
-    "this article.": "этой статье."
+    "this article.": "этой статье.",
+    "Combat Settings": "Боевые настройки",
+    "Initial Percentage": "Начальный процент",
+    "Agility Requirement": "Требование Agility",
+    "Energy Requirement": "Требование Energy",
+    "Maximum Percentage": "Максимальный процент",
+    "Damage Multiplier": "Множитель урона",
+    "Vitality Requirement": "Требование жизнеспособности",
+    "Damage Reduction": "Снижение урона",
+    "Knights Only": "Только для рыцарей",
+    "Duration": "Длительность",
+    "seconds": "секунды",
+    "Freeze Chance": "Шанс заморозки",
+    "Freeze Duration": "Длительность заморозки",
+    "Defense Reduction": "Снижение защиты",
+    "Effect Duration": "Длительность эффекта",
+    "PvE Damage Multiplier": "PvE множитель урона",
+    "per": "за"
 }

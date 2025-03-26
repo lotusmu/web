@@ -1,6 +1,10 @@
 <div class="flex gap-2 items-center">
     <flux:icon.fire variant="solid" class="text-orange-500 dark:text-orange-400"/>
-    <flux:heading>{{ __('Exclusive VIP Arena & Shop') }}</flux:heading>
+    <flux:link href="https://wiki.lotusmu.org/maps/vip-arena" external>
+        <flux:heading>
+            {{ __('Exclusive VIP Arena & Shop') }}
+        </flux:heading>
+    </flux:link>
 </div>
 
 <div class="flex gap-2 items-center">
@@ -33,9 +37,11 @@
 
 <div class="flex gap-2 items-center">
     <flux:icon.check-badge variant="solid" class="text-sky-500 dark:text-sky-400"/>
-    <flux:heading>
-        {{ __('In-game Daily Rewards') }}
-    </flux:heading>
+    <flux:link href="https://wiki.lotusmu.org/gameplay-systems/daily-reward" external>
+        <flux:heading>
+            {{ __('In-game Daily Rewards') }}
+        </flux:heading>
+    </flux:link>
 </div>
 
 <div class="flex gap-2 items-center">

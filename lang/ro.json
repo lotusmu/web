@@ -884,5 +884,22 @@
     "Other Forum": "Alt forum",
     "If you cannot find a solution to your game performance issues here, please": "Dacă nu puteți găsi o soluție pentru problemele de performanță ale jocului aici, vă rugăm",
     "take a look at our advice in": "aruncați o privire la sfaturile noastre din",
-    "this article.": "acest articol."
+    "this article.": "acest articol.",
+    "Combat Settings": "Setări de luptă",
+    "Initial Percentage": "Procent inițial",
+    "Agility Requirement": "Cerințe de Agility",
+    "Energy Requirement": "Cerințe de Energy",
+    "Maximum Percentage": "Procent maxim",
+    "Damage Multiplier": "Multiplicator de daune",
+    "Vitality Requirement": "Cerințe de vitalitate",
+    "Damage Reduction": "Reducerea daunelor",
+    "Knights Only": "Doar pentru cavaleri",
+    "Duration": "Durată",
+    "seconds": "secunde",
+    "Freeze Chance": "Șansă de înghețare",
+    "Freeze Duration": "Durata înghețării",
+    "Defense Reduction": "Reducerea apărării",
+    "Effect Duration": "Durata efectului",
+    "PvE Damage Multiplier": "Multiplicator de daune PvE",
+    "per": "per"
 }

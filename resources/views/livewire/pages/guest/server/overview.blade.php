@@ -211,7 +211,120 @@ new #[Layout('layouts.guest')] class extends Component {
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>{{ __('Combo all Class') }}</flux:cell>
-                                    <flux:cell>{{ __('Yes') }}</flux:cell>
+                                    <flux:cell>{{ __('No') }}</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                        </flux:table>
+                    </flux:card>
+
+                    <flux:card class="space-y-6">
+                        <flux:heading size="lg">
+                            {{ __('Combat Settings') }}
+                        </flux:heading>
+
+                        <flux:table>
+                            <flux:columns>
+                                <flux:.column>Soul Barrier</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('Initial Percentage') }}</flux:cell>
+                                    <flux:cell>10%</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Agility Requirement') }}</flux:cell>
+                                    <flux:cell>200 {{ __('per') }} 1%</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Energy Requirement') }}</flux:cell>
+                                    <flux:cell>400 {{ __('per') }} 1%</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Maximum Percentage') }}</flux:cell>
+                                    <flux:cell>30%</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                            <flux:columns>
+                                <flux:.column>Nova</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('Damage Multiplier') }}</flux:cell>
+                                    <flux:cell>440%</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                            <flux:columns>
+                                <flux:.column>Swell Life</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('Initial Percentage') }}</flux:cell>
+                                    <flux:cell>12%</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Vitality Requirement') }}</flux:cell>
+                                    <flux:cell>2000 {{ __('per') }} 1%</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Energy Requirement') }}</flux:cell>
+                                    <flux:cell>1000 {{ __('per') }} 1%</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                            <flux:columns>
+                                <flux:.column>Defense Skill</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('Damage Reduction') }}</flux:cell>
+                                    <flux:cell>20% ({{ __('Knights Only') }})</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Duration') }}</flux:cell>
+                                    <flux:cell>5 {{ __('seconds') }}</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                            <flux:columns>
+                                <flux:.column>Ice Arrow</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('Freeze Chance') }}</flux:cell>
+                                    <flux:cell>40%</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Freeze Duration') }}</flux:cell>
+                                    <flux:cell>5 {{ __('seconds') }}</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                            <flux:columns>
+                                <flux:.column>Fire Slash</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('Defense Reduction') }}</flux:cell>
+                                    <flux:cell>30%</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>{{ __('Effect Duration') }}</flux:cell>
+                                    <flux:cell>10 {{ __('seconds') }}</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                            <flux:columns>
+                                <flux:.column>Electric Spike</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('Damage Multiplier') }}</flux:cell>
+                                    <flux:cell>250%</flux:cell>
+                                </flux:row>
+                            </flux:rows>
+                            <flux:columns>
+                                <flux:.column>Dark Raven</flux:.column>
+                            </flux:columns>
+                            <flux:rows>
+                                <flux:row>
+                                    <flux:cell>{{ __('PvE Damage Multiplier') }}</flux:cell>
+                                    <flux:cell>840%</flux:cell>
                                 </flux:row>
                             </flux:rows>
                         </flux:table>
