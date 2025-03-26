@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 
 class SwitchGameServer
 {
-    public function execute(int $serverId, ?string $referer = null)
+    public function execute(int $serverId)
     {
         $server = GameServer::findOrFail($serverId);
 
@@ -16,6 +16,6 @@ class SwitchGameServer
             'game_db_connection' => $server->connection_name,
         ]);
 
-        return redirect($referer ?? url()->previous());
+        return $server;
     }
 }

@@ -29,9 +29,11 @@ new class extends Component {
             $this->selectedServerId = $newServerId;
             $server                 = GameServer::findOrFail($newServerId);
 
-            app(SwitchGameServer::class)->execute($newServerId, $referer ?? request()->header('Referer'));
+            app(SwitchGameServer::class)->execute($newServerId);
 
             $this->sendNotification($server);
+
+            $this->redirect($referer ?? request()->header('Referer'), navigate: true);
         } catch (Exception $e) {
             $this->sendErrorNotification($e->getMessage());
         }
