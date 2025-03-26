@@ -7,8 +7,6 @@ use Illuminate\Support\Collection;
 
 class SettingsManager
 {
-    private array $cache = [];
-
     public function get(string $group, string $key, mixed $default = null): mixed
     {
         return Setting::getValue($group, $key, $default);
