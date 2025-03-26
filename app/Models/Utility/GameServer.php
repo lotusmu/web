@@ -2,13 +2,9 @@
 
 namespace App\Models\Utility;
 
-use App\Models\Game\Status;
-use ErrorException;
-use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\QueryException;
-use Log;
+use Illuminate\Support\Facades\Cache;
 
 class GameServer extends Model
 {
@@ -38,60 +34,28 @@ class GameServer extends Model
         return "{$this->name} - x{$this->experience_rate}";
     }
 
-    public function isOnline(): bool
+    public function getStatus(): array
     {
-        $cacheKey = "server_status_{$this->id}";
-
-        try {
-            $isOnline = (bool) @fsockopen(
-                config("database.connections.{$this->connection_name}.host"),
-                config('gameserver.port'),
-                $errno,
-                $errstr,
-                config('gameserver.socket_timeout')
-            );
-
-            cache()->put($cacheKey, $isOnline,
-                now()->addMinutes(config('gameserver.cache.status_ttl'))
-            );
-
-            return $isOnline;
-
-        } catch (ErrorException $e) {
-            Log::error("Socket connection failed for {$this->name}: {$e->getMessage()}");
-
-            return cache()->get($cacheKey, false);
-        }
+        return Cache::get("server_status_{$this->id}", [
+            'is_online' => false,
+            'online_count' => 0,
+            'multiplied_count' => 0,
+            'last_updated' => now()->subHours(1),
+        ]);
     }
 
-    public function getMultipliedCount(): int
+    public function isOnline(): bool
     {
-        return ceil($this->getOnlineCount() * $this->online_multiplier);
+        return $this->getStatus()['is_online'];
     }
 
     public function getOnlineCount(): int
     {
-        $cacheKey = "server_online_count_{$this->id}";
+        return $this->getStatus()['online_count'];
+    }
 
-        try {
-            return cache()->remember($cacheKey,
-                now()->addMinutes(config('gameserver.cache.count_ttl')),
-                function () {
-                    try {
-                        return Status::on($this->connection_name)
-                            ->where('ConnectStat', 1)
-                            ->count();
-                    } catch (QueryException $e) {
-                        Log::error("Query failed for {$this->name}: {$e->getMessage()}");
-
-                        return 0;
-                    }
-                }
-            );
-        } catch (Exception $e) {
-            Log::error("Cache failed for {$this->name}: {$e->getMessage()}");
-
-            return 0;
-        }
+    public function getMultipliedCount(): int
+    {
+        return $this->getStatus()['multiplied_count'];
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Middleware\ReferralSurveyMiddleware;
 use App\Http\Middleware\TrackPageViewsMiddleware;
 use App\Http\Middleware\ValidPrimeWebhookIpMiddleware;
+use App\Services\GameServerStatusService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -79,6 +80,14 @@ return Application::configure(basePath: dirname(__DIR__))
             ->runInBackground()
             ->withoutOverlapping()
             ->appendOutputTo(storage_path('logs/cleanup-unverified-users.log'));
+
+        $schedule->call(function () {
+            try {
+                app(GameServerStatusService::class)->updateAllServerStatuses();
+            } catch (Exception $e) {
+                Log::error("Server status update failed: {$e->getMessage()}");
+            }
+        })->everyTwoMinutes();
 
         //        $schedule->command('orders:cleanup')
         //            ->quarterly()

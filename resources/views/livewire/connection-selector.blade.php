@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\SwitchGameServer;
 use App\Models\Utility\GameServer;
 use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
@@ -24,18 +25,13 @@ new class extends Component {
 
     public function updateServer($newServerId, $referer = null): void
     {
-        $this->selectedServerId = $newServerId;
-        $server                 = GameServer::findOrFail($newServerId);
-
         try {
-            session([
-                'selected_server_id' => $newServerId,
-                'game_db_connection' => $server->connection_name,
-            ]);
+            $this->selectedServerId = $newServerId;
+            $server                 = GameServer::findOrFail($newServerId);
+
+            app(SwitchGameServer::class)->execute($newServerId, $referer ?? request()->header('Referer'));
 
             $this->sendNotification($server);
-
-            $this->redirect($referer ?? request()->header('Referer'), navigate: true);
         } catch (Exception $e) {
             $this->sendErrorNotification($e->getMessage());
         }
@@ -80,20 +76,25 @@ new class extends Component {
         }
     }
 
-    private function getServerOptions(): Collection
+    public function getServerOptions(): Collection
     {
-        return GameServer::where('is_active', true)
-            ->get(['id', 'name', 'connection_name', 'experience_rate', 'online_multiplier'])
-            ->mapWithKeys(function ($server) {
-                return [
-                    $server->id => [
-                        'name'            => $server->name,
-                        'experience_rate' => $server->experience_rate,
-                        'online_count'    => $server->getMultipliedCount(),
-                        'is_online'       => $server->isOnline(),
-                    ]
-                ];
-            });
+        return Cache::remember('all_server_options', now()->addMinutes(5), function () {
+            return GameServer::where('is_active', true)
+                ->get(['id', 'name', 'connection_name', 'experience_rate', 'online_multiplier'])
+                ->mapWithKeys(function ($server) {
+                    $status = $server->getStatus();
+
+                    return [
+                        $server->id => [
+                            'name'            => $server->name,
+                            'experience_rate' => $server->experience_rate,
+                            'online_count'    => $status['multiplied_count'],
+                            'is_online'       => $status['is_online'],
+                            'last_updated'    => $status['last_updated']
+                        ]
+                    ];
+                });
+        });
     }
 }; ?>
 
