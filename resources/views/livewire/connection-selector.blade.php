@@ -37,7 +37,7 @@ new class extends Component {
             $this->selectedServerId = $newServerId;
 
             app(SwitchGameServer::class)->execute($newServerId);
-            
+
             $this->sendNotification($server);
 
             $this->redirect($referer ?? request()->header('Referer'), navigate: true);
@@ -87,7 +87,13 @@ new class extends Component {
 
     public function getServerOptions(): Collection
     {
-        return Cache::remember('all_server_options', now()->addMinutes(5), function () {
+        static $requestCache = null;
+
+        if ($requestCache !== null) {
+            return $requestCache;
+        }
+
+        $requestCache = Cache::remember('all_server_options', now()->addMinutes(5), function () {
             return GameServer::where('is_active', true)
                 ->get(['id', 'name', 'connection_name', 'experience_rate', 'online_multiplier'])
                 ->mapWithKeys(function ($server) {
@@ -104,6 +110,8 @@ new class extends Component {
                     ];
                 });
         });
+
+        return $requestCache;
     }
 }; ?>
 
