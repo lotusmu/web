@@ -13,6 +13,10 @@ class GameServerStatusService
     public function updateAllServerStatuses(): void
     {
         GameServer::where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('launch_date')
+                    ->orWhere('launch_date', '<=', now());
+            })
             ->get()
             ->each(function ($server, $index) {
                 if ($index > 0) {
