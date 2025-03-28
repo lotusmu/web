@@ -31,7 +31,7 @@ new #[Layout('layouts.guest')] class extends Component {
         $query = $this->filters->apply($query);
         $query = $this->applySorting($query);
 
-        return $query->simplePaginate(10);
+        return $this->paginateWithLimit($query);
     }
 
     public function updatedFilters(): void
