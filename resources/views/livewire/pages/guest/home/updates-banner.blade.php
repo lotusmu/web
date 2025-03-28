@@ -43,36 +43,40 @@ new class extends Component {
             return '{}';
         }
 
-        $launchDate               = $this->launchServer->launch_date;
-        $isPastLaunch             = now()->gt($launchDate) ? 'true' : 'false';
-        $isWithinPostLaunchPeriod = (now()->gt($launchDate) && now()->diffInDays($launchDate) <= 7) ? 'true' : 'false';
+        $launchDate = $this->launchServer->launch_date->setTimezone('UTC')->format('c');
+
+        $isPastLaunch             = now()->setTimezone('UTC')->gt($this->launchServer->launch_date) ? 'true' : 'false';
+        $isWithinPostLaunchPeriod = (now()->setTimezone('UTC')->gt($this->launchServer->launch_date) &&
+            now()->setTimezone('UTC')->diffInDays($this->launchServer->launch_date) <= 7) ? 'true' : 'false';
 
         return <<<JS
-    {
-        launchDate: '{$launchDate->format('Y-m-d H:i:s')}',
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-        isPastLaunch: {$isPastLaunch},
-        isWithinPostLaunchPeriod: {$isWithinPostLaunchPeriod},
-        updateCountdown() {
-            const now = new Date().getTime();
-            const launch = new Date(this.launchDate).getTime();
-            const diff = launch - now;
+        {
+            launchDate: '{$launchDate}',
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            isPastLaunch: {$isPastLaunch},
+            isWithinPostLaunchPeriod: {$isWithinPostLaunchPeriod},
+            updateCountdown() {
+                // Client-side now in UTC
+                const now = new Date();
+                // Parse ISO date string which preserves timezone info
+                const launch = new Date(this.launchDate);
+                const diff = launch.getTime() - now.getTime();
 
-            if (diff <= 0) {
-                this.isPastLaunch = true;
-                return;
+                if (diff <= 0) {
+                    this.isPastLaunch = true;
+                    return;
+                }
+
+                this.days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                this.hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                this.minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                this.seconds = Math.floor((diff % (1000 * 60)) / 1000);
             }
-
-            this.days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            this.hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            this.minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            this.seconds = Math.floor((diff % (1000 * 60)) / 1000);
         }
-    }
-    JS;
+        JS;
     }
 }; ?>
 

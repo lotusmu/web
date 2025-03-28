@@ -48,9 +48,11 @@ class RetrieveBanner
     public function getLaunchServer(): ?GameServer
     {
         return $this->getFromCache('launch_server', function () {
+            $nowUtc = now()->setTimezone('UTC');
+
             return GameServer::where('is_active', true)
                 ->whereNotNull('launch_date')
-                ->where('launch_date', '>', now())
+                ->where('launch_date', '>', $nowUtc)
                 ->orderBy('launch_date')
                 ->first();
         }, now()->addHour());
@@ -65,9 +67,11 @@ class RetrieveBanner
             return false;
         }
 
-        // Show for pre-launch countdown and 7 days post-launch
-        if ($server->launch_date->isPast()) {
-            return $server->launch_date->diffInDays(now()) <= 7;
+        $nowUtc = now()->setTimezone('UTC');
+        $launchDateUtc = $server->launch_date->setTimezone('UTC');
+
+        if ($launchDateUtc->isPast()) {
+            return $launchDateUtc->diffInDays($nowUtc) <= 7;
         }
 
         return true;
