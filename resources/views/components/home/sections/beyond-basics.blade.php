@@ -160,7 +160,8 @@
                     <x-slot:media>
                         <x-browser-frame
                             video="{{ asset('videos/quests') }}"
-                            poster="{{ asset('images/posters/quests') }}"
+                            poster="{{ asset('videos/posters/quests.jpg') }}"
+                            :hasWebm="true"
                         />
                     </x-slot:media>
                 </x-home.feature-split>
@@ -241,6 +242,7 @@
                         <x-browser-frame
                             video="{{ asset('videos/events') }}"
                             poster="{{ asset('videos/posters/events.jpg') }}"
+                            :hasWebm="true"
                         />
                     </x-slot:media>
                 </x-home.feature-split>

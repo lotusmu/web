@@ -1,6 +1,7 @@
 @props([
    'video',
    'poster',
+   'hasWebm' => false, // Default to false, explicitly enable when webm exists
 ])
 
 <div {{ $attributes->merge(['class' => 'mt-4 -mx-6 sm:mx-0 lg:mt-0']) }}>
@@ -28,10 +29,12 @@
                             playsinline
                             poster="{{ $poster }}"
                         >
-                            <source
-                                src="{{ $video }}.webm"
-                                type="video/webm"
-                            >
+                            @if($hasWebm)
+                                <source
+                                    src="{{ $video }}.webm"
+                                    type="video/webm"
+                                >
+                            @endif
                             <source
                                 src="{{ $video }}.mp4"
                                 type="video/mp4"
