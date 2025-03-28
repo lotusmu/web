@@ -59,6 +59,9 @@ new class extends Component {
                 color: '#00AAAA',
                 fontWeight: 'bold'
             },
+            timeZoneConfig: {
+                server: 'Europe/Sofia'
+            },
 
             // Formatting methods
             formatDateTime(date) {
@@ -70,6 +73,10 @@ new class extends Component {
                     minute: '2-digit',
                     hour12: false
                 });
+            },
+
+            parseISODate(isoString) {
+                return new Date(isoString);
             },
 
             formatCountdown(milliseconds) {
@@ -84,6 +91,60 @@ new class extends Component {
                 } else {
                     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
                 }
+            },
+
+            // Calculate timezone offset between Sofia and local time
+            getTimezoneOffsetDiff() {
+                // Get current date
+                const now = new Date();
+
+                // Check if current date is within Bulgaria's DST period
+                // DST starts on last Sunday of March (March 30, 2025)
+                // DST ends on last Sunday of October (October 26, 2025)
+                const year = now.getFullYear();
+                const isDST = (() => {
+                    // DST starts at 3:00 AM on the last Sunday of March
+                    const dstStart = new Date(year, 2, 31); // March 31
+                    dstStart.setDate(31 - dstStart.getDay()); // Last Sunday
+
+                    // DST ends at 4:00 AM on the last Sunday of October
+                    const dstEnd = new Date(year, 9, 31); // October 31
+                    dstEnd.setDate(31 - dstEnd.getDay()); // Last Sunday
+
+                    return now >= dstStart && now < dstEnd;
+                })();
+
+                // Sofia is UTC+3 during DST and UTC+2 during standard time
+                const sofiaOffset = isDST ? 180 : 120; // minutes
+
+                // Get local offset in minutes (positive is ahead of UTC)
+                const localOffset = -now.getTimezoneOffset();
+
+                // Return the difference (how many minutes to add/subtract)
+                return localOffset - sofiaOffset;
+            },
+
+            // Convert Sofia time to local time
+            convertSofiaTimeToLocal(timeStr, date = null) {
+                if (!timeStr) return null;
+
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                const baseDate = date || new Date();
+
+                // Create a new date with the provided hours/minutes
+                const result = new Date(
+                    baseDate.getFullYear(),
+                    baseDate.getMonth(),
+                    baseDate.getDate(),
+                    hours,
+                    minutes
+                );
+
+                // Apply the offset difference to convert from Sofia to local time
+                const offsetDiff = this.getTimezoneOffsetDiff();
+                result.setMinutes(result.getMinutes() + offsetDiff);
+
+                return result;
             },
 
             // Day conversion helpers
@@ -137,13 +198,13 @@ new class extends Component {
                 eventConfig.schedule.forEach(item => {
                     if (!item || !item.time) return;
 
-                    let [hours, minutes] = item.time.split(':').map(Number);
-                    let itemDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+                    // Convert Sofia time to local time
+                    let itemDate = this.convertSofiaTimeToLocal(item.time, now);
 
                     // Adjust for weekly recurrence
                     if (eventConfig.recurrenceType === 'weekly' && item.day) {
                         const days = this.getDays();
-                        const jsDay = itemDate.getDay();
+                        const jsDay = now.getDay();
                         const customDayIndex = this.getDayIndex(jsDay);
                         const scheduledDayIndex = days.indexOf(item.day);
                         const dayDiff = (scheduledDayIndex - customDayIndex + 7) % 7;
@@ -207,14 +268,8 @@ new class extends Component {
                             }
                         }
 
-                        const [hours, minutes] = item.time.split(':').map(Number);
-                        const eventStart = new Date(
-                            checkDay.getFullYear(),
-                            checkDay.getMonth(),
-                            checkDay.getDate(),
-                            hours,
-                            minutes
-                        );
+                        // Convert Sofia time to local time
+                        const eventStart = this.convertSofiaTimeToLocal(item.time, checkDay);
                         const eventEnd = new Date(eventStart.getTime() + durationMs);
 
                         if (now >= eventStart && now < eventEnd) {
@@ -275,6 +330,7 @@ new class extends Component {
             },
 
             init() {
+                this.serverStartTime = this.parseISODate(eventConfig.startTime);
                 this.calculateCountdown();
                 setInterval(() => this.calculateCountdown(), 1000);
             }
