@@ -47,7 +47,7 @@
 <div class="flex gap-2 items-center">
     <flux:icon.check-badge variant="solid" class="text-sky-500 dark:text-sky-400"/>
     <flux:heading>
-        {{ __('Off Attack · 8 hours (6 regular)') }}
+        {{ __('Off Attack · 12 hours (9 regular)') }}
     </flux:heading>
 </div>
 
