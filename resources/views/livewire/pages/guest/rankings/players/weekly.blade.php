@@ -34,7 +34,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         $query = $this->applySorting($query);
 
-        return $this->paginateWithLimit($query);
+        return $query->simplePaginate(10);
     }
 
     #[Computed]
