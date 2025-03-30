@@ -111,7 +111,6 @@ class ScheduledEventResource extends Resource
                                             }),
                                         TimePicker::make('time')
                                             ->seconds(false)
-                                            ->native(false)
                                             ->timezone('Europe/Sofia')
                                             ->required(),
                                     ])
