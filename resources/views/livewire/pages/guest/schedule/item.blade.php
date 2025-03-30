@@ -118,7 +118,7 @@ new class extends Component {
                 // since the game server is not changing the time according to DST keep that commented.
                 //const sofiaOffset = isDST ? 180 : 120;
 
-                const sofiaOffset = 120;
+                const sofiaOffset = 180;
 
                 // Get local offset in minutes (positive is ahead of UTC)
                 const localOffset = -now.getTimezoneOffset();
