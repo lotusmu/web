@@ -98,6 +98,7 @@ new class extends Component {
                 // Get current date
                 const now = new Date();
 
+                /* Original DST calculation (commented out)
                 // Check if current date is within Bulgaria's DST period
                 // DST starts on last Sunday of March (March 30, 2025)
                 // DST ends on last Sunday of October (October 26, 2025)
@@ -116,6 +117,10 @@ new class extends Component {
 
                 // Sofia is UTC+3 during DST and UTC+2 during standard time
                 const sofiaOffset = isDST ? 180 : 120;
+                */
+
+                // Fixed Sofia offset to UTC+2 (120 minutes) regardless of DST
+                const sofiaOffset = 120;
 
 
                 // Get local offset in minutes (positive is ahead of UTC)
