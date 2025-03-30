@@ -84,7 +84,7 @@
                 {{ __('If you cannot find a solution to your game performance issues here, please') }}
                 {{ __('take a look at our advice in') }}
                 <flux:link
-                    href="https://wiki.lotusmu.org/client-features/options-menu/#what-to-do-if-your-game-performance-is-lowlaggy"
+                    href="https://wiki.lotusmu.org/troubleshooting"
                     external>
                     {{ __('this article.') }}
                 </flux:link>

@@ -75,7 +75,16 @@
                 <br>
                 {{ __('6. Update your DirectX and graphics drivers.') }} <br>
                 {{ __("7. Make sure that the path to your game client does not include cyrilic words (i.e. C:\Игри\Lotus Mu).") }}
-                <br>
+                <br><br>
+
+                {{ __('If you cannot find a solution to your game performance issues here, please') }}
+                {{ __('take a look at our advice in') }}
+                <flux:link
+                    href="https://wiki.lotusmu.org/troubleshooting"
+                    external>
+                    {{ __('this article.') }}
+                </flux:link>
+                
             </flux:accordion.content>
         </flux:accordion.item>
 
@@ -91,7 +100,7 @@
                 {{ __('If you cannot find a solution to your game performance issues here, please') }}
                 {{ __('take a look at our advice in') }}
                 <flux:link
-                    href="https://wiki.lotusmu.org/client-features/options-menu/#what-to-do-if-your-game-performance-is-lowlaggy"
+                    href="https://wiki.lotusmu.org/troubleshooting"
                     external>
                     {{ __('this article.') }}
                 </flux:link>
