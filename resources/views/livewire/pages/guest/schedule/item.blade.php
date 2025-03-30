@@ -115,10 +115,8 @@ new class extends Component {
                 })();
 
                 // Sofia is UTC+3 during DST and UTC+2 during standard time
-                // since the game server is not changing the time according to DST keep that commented.
-                //const sofiaOffset = isDST ? 180 : 120;
+                const sofiaOffset = isDST ? 180 : 120;
 
-                const sofiaOffset = 120;
 
                 // Get local offset in minutes (positive is ahead of UTC)
                 const localOffset = -now.getTimezoneOffset();
