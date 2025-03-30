@@ -118,10 +118,7 @@ class ScheduledEvent extends Model
         $now = Carbon::now();
         $minutesSinceStart = $now->diffInMinutes($initialStartTime);
         $intervalsPassed = floor($minutesSinceStart / $this->interval_minutes);
-
-        // We are now adding an extra hour due to the nature of the gameserver timezone settings.
-        // It should not have that add hour at the end.
-        $nextOccurrence = $initialStartTime->copy()->addMinutes(($intervalsPassed + 1) * $this->interval_minutes)->addHour();
+        $nextOccurrence = $initialStartTime->copy()->addMinutes(($intervalsPassed + 1) * $this->interval_minutes);
 
         return $nextOccurrence;
     }
