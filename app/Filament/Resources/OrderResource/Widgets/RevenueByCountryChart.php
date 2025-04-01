@@ -57,6 +57,9 @@ class RevenueByCountryChart extends ChartWidget
                     'label' => 'Revenue',
                     'data' => $revenueByCountry->values(),
                     'backgroundColor' => $colors,
+                    'borderColor' => $colors,
+                    'borderWidth' => 2,
+                    'borderRadius' => 10,
                 ],
             ],
             'labels' => $labels,
@@ -74,17 +77,13 @@ class RevenueByCountryChart extends ChartWidget
             ],
             'scales' => [
                 'x' => [
-                    'display' => false,
-                ],
-                'y' => [
-                    'display' => false,
-                ],
-            ],
-            'elements' => [
-                'arc' => [
-                    'borderWidth' => 0,
+                    'beginAtZero' => true,
+                    'ticks' => [
+                        'precision' => 0,
+                    ],
                 ],
             ],
+            'indexAxis' => 'y', // This makes it a horizontal bar chart
         ];
     }
 
@@ -95,7 +94,7 @@ class RevenueByCountryChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'doughnut';
+        return 'bar';
     }
 
     private function generateColorFromCode(string $code): string
