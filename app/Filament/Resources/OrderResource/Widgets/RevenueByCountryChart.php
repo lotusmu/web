@@ -59,8 +59,8 @@ class RevenueByCountryChart extends ChartWidget
                 [
                     'label' => 'Revenue',
                     'data' => $revenueByCountry->values(),
-                    'backgroundColor' => $colors,
-                    'borderColor' => $colors,
+                    // 'backgroundColor' => $colors,
+                    // 'borderColor' => $colors,
                     'borderWidth' => 2,
                     'borderRadius' => 10,
                 ],
