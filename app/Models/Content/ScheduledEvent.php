@@ -118,7 +118,7 @@ class ScheduledEvent extends Model
         $now = Carbon::now();
         $minutesSinceStart = $now->diffInMinutes($initialStartTime);
         $intervalsPassed = floor($minutesSinceStart / $this->interval_minutes);
-        $nextOccurrence = $initialStartTime->copy()->addMinutes(($intervalsPassed + 1) * $this->interval_minutes);
+        $nextOccurrence = $initialStartTime->copy()->addMinutes(($intervalsPassed + 1) * $this->interval_minutes)->addHour();
 
         return $nextOccurrence;
     }
