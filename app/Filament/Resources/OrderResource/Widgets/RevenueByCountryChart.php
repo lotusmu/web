@@ -42,6 +42,8 @@ class RevenueByCountryChart extends ChartWidget
                 OR JSON_EXTRACT(payment_data, '$.payer.address.country_code') IS NOT NULL
             )")
             ->groupBy('country')
+            ->orderByDesc('total_revenue')
+            ->limit(10)
             ->pluck('total_revenue', 'country');
 
         $countries = $revenueByCountry->keys()->filter(function ($code) {
