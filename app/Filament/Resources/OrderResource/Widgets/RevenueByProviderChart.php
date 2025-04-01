@@ -34,6 +34,7 @@ class RevenueByProviderChart extends ChartWidget
             ->where('status', OrderStatus::COMPLETED)
             ->selectRaw('payment_provider, SUM(amount) as total_revenue')
             ->groupBy('payment_provider')
+            ->orderByDesc('total_revenue')
             ->pluck('total_revenue', 'payment_provider');
 
         $colorMapping = [
@@ -52,6 +53,9 @@ class RevenueByProviderChart extends ChartWidget
                     'label' => 'Revenue',
                     'data' => $revenueByProvider->values(),
                     'backgroundColor' => $backgroundColors->toArray(),
+                    'borderColor' => $backgroundColors->toArray(),
+                    'borderWidth' => 2,
+                    'borderRadius' => 10,
                 ],
             ],
             'labels' => $revenueByProvider->keys()->map(fn ($provider) => PaymentProvider::from($provider)->getLabel())->toArray(),
@@ -69,15 +73,10 @@ class RevenueByProviderChart extends ChartWidget
             ],
             'scales' => [
                 'x' => [
-                    'display' => false,
-                ],
-                'y' => [
-                    'display' => false,
-                ],
-            ],
-            'elements' => [
-                'arc' => [
-                    'borderWidth' => 0,
+                    'beginAtZero' => true,
+                    'ticks' => [
+                        'precision' => 0,
+                    ],
                 ],
             ],
         ];
@@ -90,6 +89,6 @@ class RevenueByProviderChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'doughnut';
+        return 'bar';
     }
 }
