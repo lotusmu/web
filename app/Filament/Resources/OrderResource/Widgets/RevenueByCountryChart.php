@@ -45,7 +45,6 @@ class RevenueByCountryChart extends ChartWidget
             )")
             ->groupBy('country')
             ->orderByDesc('total_revenue')
-            ->limit(15)
             ->pluck('total_revenue', 'country');
 
         $countries = $revenueByCountry->keys()->filter(function ($code) {
@@ -81,9 +80,8 @@ class RevenueByCountryChart extends ChartWidget
             ],
             'scales' => [
                 'x' => [
-                    'beginAtZero' => true,
                     'ticks' => [
-                        'precision' => 0,
+                        'display' => false,
                     ],
                 ],
             ],
