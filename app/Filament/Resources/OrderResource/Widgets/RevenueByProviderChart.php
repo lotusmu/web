@@ -16,7 +16,10 @@ class RevenueByProviderChart extends ChartWidget
 
     protected static ?string $maxHeight = '150px';
 
-    protected int|string|array $columnSpan = 2;
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 2,
+    ];
 
     protected static ?string $heading = 'Revenue by Payment Provider';
 

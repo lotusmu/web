@@ -19,7 +19,10 @@ class TokensOverTimeChart extends ChartWidget
 
     protected static ?string $heading = 'Tokens Over Time';
 
-    protected int|string|array $columnSpan = 2;
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 2,
+    ];
 
     protected function getTablePage(): string
     {
