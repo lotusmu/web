@@ -192,7 +192,11 @@ new #[Layout('layouts.app')] class extends Component {
                     <div class="flex justify-between items-center">
                         <flux:heading class="flex items-center gap-1 !mb-0">
                             <flux:icon.user variant="mini"/>
-                            {{ $reply->user->name ?? __('Unknown User') }}
+                            {{
+                             $reply->user->name === 'kodovoime'
+                                ? __('Support')
+                                : ($reply->user->name ?? __('Unknown User'))
+                            }}
                         </flux:heading>
                         <flux:subheading>
                             {{ $reply->created_at->format('M d, Y H:i') }}

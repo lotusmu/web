@@ -14,12 +14,14 @@
                     <x-filament::section
                         compact
                         icon="heroicon-m-user"
-                        :heading="$reply->user->name">
+                        :heading="$reply->user->name === 'kodovoime'
+                                ? __('Support')
+                                : ($reply->user->name ?? __('Unknown User'))">
 
                         <div class="prose dark:prose-invert break-words">
                             {!! $reply->content !!}
                         </div>
-                        
+
                         <div
                             class="flex justify-end mt-4 text-sm text-gray-500 dark:text-gray-400">
                             {{ $reply->created_at->format('M d, Y H:i') }}

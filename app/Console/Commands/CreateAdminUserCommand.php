@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\User\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 
 class CreateAdminUserCommand extends Command
 {
@@ -28,7 +27,6 @@ class CreateAdminUserCommand extends Command
 
         $user->forceFill([
             'is_admin' => true,
-            'email_verified_at' => Carbon::now(),
         ])->save();
 
         $this->info("Admin user {$username} created successfully!");
