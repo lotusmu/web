@@ -24,8 +24,8 @@ class ListOrders extends ListRecords
         return [
             OrderStatsWidget::class,
             RevenueByProviderChart::class,
-            RevenueByCountryChart::class,
             TokensOverTimeChart::class,
+            RevenueByCountryChart::class,
         ];
     }
 

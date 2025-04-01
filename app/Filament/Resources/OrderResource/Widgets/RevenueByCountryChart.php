@@ -16,6 +16,8 @@ class RevenueByCountryChart extends ChartWidget
 
     protected static ?string $maxHeight = '150px';
 
+    protected int|string|array $columnSpan = 'full';
+
     protected static ?string $heading = 'Revenue by Country';
 
     protected function getTablePage(): string
@@ -43,7 +45,7 @@ class RevenueByCountryChart extends ChartWidget
             )")
             ->groupBy('country')
             ->orderByDesc('total_revenue')
-            ->limit(10)
+            ->limit(20)
             ->pluck('total_revenue', 'country');
 
         $countries = $revenueByCountry->keys()->filter(function ($code) {
@@ -85,7 +87,6 @@ class RevenueByCountryChart extends ChartWidget
                     ],
                 ],
             ],
-            'indexAxis' => 'y', // This makes it a horizontal bar chart
         ];
     }
 
