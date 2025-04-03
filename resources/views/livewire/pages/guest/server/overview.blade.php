@@ -371,7 +371,11 @@ new #[Layout('layouts.guest')] class extends Component {
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>/readd</flux:cell>
-                                    <flux:cell>{!! __('Re-assign your stats.') !!}</flux:cell>
+                                    <flux:cell>{{ __('Re-assign your stats.') }}</flux:cell>
+                                </flux:row>
+                                <flux:row>
+                                    <flux:cell>/changename &lt;new name&gt;</flux:cell>
+                                    <flux:cell>{{ __('Change the name of your character. Cost - 250 Credits.') }}</flux:cell>
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>/wh</flux:cell>
