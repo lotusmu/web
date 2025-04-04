@@ -26,6 +26,10 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:text>
                 {{ __('Our website offers virtual currency and items for use within our Mu Online game. These are classified as digital content and virtual products. While we aim to provide the best service possible, specific conditions apply to refunds of virtual currency and items.') }}
             </flux:text>
+
+            <flux:text>
+                {{ __('The price displayed for each package is the final amount you will pay. We do not charge additional processing fees, subscription fees, or hidden charges. All applicable taxes are included in the displayed price.') }}
+            </flux:text>
         </div>
 
         <div class="space-y-2">
@@ -118,6 +122,20 @@ new #[Layout('layouts.guest')] class extends Component {
                 <flux:link href="http://ec.europa.eu/consumers/odr" target="_blank">
                     http://ec.europa.eu/consumers/odr.
                 </flux:link>
+            </flux:text>
+
+            <flux:text>
+                {{ __('In case of a payment dispute, our support team will investigate within 5 business days. We require proof of purchase and account information. All payment dispute communications must be in writing and submitted through our support system for proper tracking. You may also use the dispute resolution tools provided by PayPal or other payment processors, but we encourage contacting our support team first to resolve issues more quickly.') }}
+            </flux:text>
+        </div>
+
+        <div class="space-y-2">
+            <flux:heading size="lg">
+                {{ __('Currency and Payment Processing') }}
+            </flux:heading>
+
+            <flux:text>
+                {{ __('All transactions are processed in Euros (€). Any currency conversion is handled by our payment processors. We do not charge additional conversion fees beyond what is stated in our packages.') }}
             </flux:text>
         </div>
 

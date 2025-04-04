@@ -95,6 +95,10 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:text>
                 {{ __('We take security seriously and use appropriate measures to protect your information. However, no internet transmission is completely secure, so please use strong passwords and keep your account information safe.') }}
             </flux:text>
+
+            <flux:text>
+                {{ __('Payment information is processed securely through our payment providers. We do not store complete credit card information on our servers. All transactions are protected with industry-standard encryption and security protocols.') }}
+            </flux:text>
         </div>
 
         <div class="space-y-2">

@@ -111,6 +111,10 @@ new #[Layout('layouts.guest')] class extends Component {
             <flux:text>
                 {{ __('Virtual currency and items are licensed, not sold, to you. You have no property rights in virtual items. We reserve the right to modify or remove virtual items at any time. Please refer to our Refund Policy for information about purchases.') }}
             </flux:text>
+
+            <flux:text>
+                {{ __('Charges on your bank or credit card statement will appear as "*Lotus Mu", "Lotusmu.Org" or something similar.') }}
+            </flux:text>
         </div>
 
         <div class="space-y-2">
@@ -120,6 +124,10 @@ new #[Layout('layouts.guest')] class extends Component {
 
             <flux:text>
                 {{ __('We reserve the right to suspend or terminate your account for any violation of these terms, inappropriate behavior, or for any other reason at our discretion. Upon termination, you will lose access to your account and any virtual items or currency associated with it.') }}
+            </flux:text>
+
+            <flux:text>
+                {{ __('You may request account termination at any time by submitting a support ticket. Upon verification, we will close your account and delete associated personal data in accordance with our data retention policies and applicable law.') }}
             </flux:text>
         </div>
 
