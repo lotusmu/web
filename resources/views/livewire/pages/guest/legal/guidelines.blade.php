@@ -56,7 +56,7 @@ new #[Layout('layouts.guest')] class extends Component {
                         <flux:text size="sm">{{ __('Penalty: 7-day account ban') }}</flux:text>
                     </li>
                     <li>
-                        {{ __('Disrespectful conduct towards server staff, making threats, or attempting to undermine the authority of the server is strictly prohibited') }}
+                        {{ __("Disrespectful conduct towards server staff, making threats, or attempting to undermine the authority of the server is not tolerated") }}
                         <flux:text size="sm">{{ __('Penalty: Chat ban or 7-day account block') }}</flux:text>
                     </li>
                 </ul>
