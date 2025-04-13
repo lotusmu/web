@@ -38,8 +38,12 @@ class ViewOrder extends ViewRecord
                     ->schema([
                         TextEntry::make('payment_provider')
                             ->badge(),
-                        TextEntry::make('payment_id'),
-                    ])->columns(2),
+                        TextEntry::make('payment_id')
+                            ->label('Payment ID'),
+                        TextEntry::make('provider_transaction_id')
+                            ->label('Provider Transaction ID')
+                            ->getStateUsing(fn ($record) => $record->getProviderTransactionId()),
+                    ])->columns(3),
 
                 Section::make('Package Details')
                     ->schema([

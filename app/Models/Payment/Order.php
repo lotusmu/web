@@ -62,6 +62,20 @@ class Order extends Model
             && ! $this->expires_at?->isPast();
     }
 
+    public function getProviderTransactionId(): ?string
+    {
+        if (! $this->payment_data) {
+            return null;
+        }
+
+        return match ($this->payment_provider) {
+            PaymentProvider::PAYPAL => $this->payment_data['purchase_units'][0]['payments']['captures'][0]['id'] ?? null,
+            PaymentProvider::STRIPE => $this->payment_data['payment_intent'] ?? null,
+            PaymentProvider::PRIME => null,
+            default => null,
+        };
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
