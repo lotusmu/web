@@ -22,7 +22,6 @@ class ListTickets extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All Tickets'),
             'active' => Tab::make('Active')
                 ->modifyQueryUsing(function ($query) {
                     return $query->whereNotIn('status', [TicketStatus::CLOSED, TicketStatus::RESOLVED]);
@@ -31,6 +30,7 @@ class ListTickets extends ListRecords
                 ->modifyQueryUsing(function ($query) {
                     return $query->whereIn('status', [TicketStatus::CLOSED, TicketStatus::RESOLVED]);
                 }),
+            'all' => Tab::make('All Tickets'),
         ];
     }
 }

@@ -67,21 +67,38 @@ class WeeklyRankingConfiguration extends Model
 
     public function shouldProcessReset(): bool
     {
-        if (! $this->is_enabled) {
+        // Skip if not enabled or first cycle hasn't started
+        if (! $this->is_enabled || $this->isFirstCyclePending()) {
             return false;
         }
 
-        if ($this->isFirstCyclePending()) {
+        // Only process if it's reset day and after reset time
+        if (! $this->isCurrentlyInResetWindow()) {
             return false;
         }
 
+        // Don't process if we've already processed this cycle
+        return ! $this->hasAlreadyProcessedCurrentCycle();
+    }
+
+    private function isCurrentlyInResetWindow(): bool
+    {
         $now = now();
         $resetTime = Carbon::createFromTimeString($this->reset_time);
-        $todayReset = $now->copy()->setTime($resetTime->hour, $resetTime->minute);
+        $currentReset = $now->copy()->setTime($resetTime->hour, $resetTime->minute);
 
         $isResetDay = $now->dayOfWeek === $this->reset_day_of_week;
-        $isAfterResetTime = $now->gte($todayReset);
+        $isAfterResetTime = $now->gte($currentReset);
 
         return $isResetDay && $isAfterResetTime;
+    }
+
+    private function hasAlreadyProcessedCurrentCycle(): bool
+    {
+        $resetTime = Carbon::createFromTimeString($this->reset_time);
+        $currentReset = now()->copy()->setTime($resetTime->hour, $resetTime->minute);
+
+        return $this->last_successful_processing &&
+            $this->last_successful_processing->gte($currentReset);
     }
 }
