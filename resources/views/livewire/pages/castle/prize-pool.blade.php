@@ -5,6 +5,7 @@ use App\Models\Utility\CastlePrize;
 use Livewire\Volt\Component;
 
 new class extends Component {
+    private const DEFAULT_GAME_SERVER_ID = 1;
     public ?CastleData $castle = null;
 
     public function mount(CastleData $castle)
@@ -14,7 +15,7 @@ new class extends Component {
 
     public function getPrizePool(): ?CastlePrize
     {
-        $connection = session('selected_server_id');
+        $connection = session('selected_server_id', self::DEFAULT_GAME_SERVER_ID);
 
         return CastlePrize::where('game_server_id', $connection)
             ->where('is_active', true)
