@@ -26,14 +26,14 @@ new class extends Component {
     public function getTimeUntilNextDistribution(): string
     {
         $now        = now();
-        $nextSunday = $now->copy()->next('Sunday')->setHour(22)->setMinute(1)->setSecond(0);
+        $nextSunday = $now->copy()->next('Sunday')->setHour(23)->setMinute(1)->setSecond(0);
 
-        if ($now->isSunday() && $now->hour < 22) {
-            $nextSunday = $now->copy()->setHour(22)->setMinute(1)->setSecond(0);
+        if ($now->isSunday() && $now->hour < 23) {
+            $nextSunday = $now->copy()->setHour(23)->setMinute(1)->setSecond(0);
         }
 
-        if ($now->isSunday() && $now->hour >= 22) {
-            $nextSunday = $now->copy()->next('Sunday')->setHour(22)->setMinute(1)->setSecond(0);
+        if ($now->isSunday() && $now->hour >= 23) {
+            $nextSunday = $now->copy()->next('Sunday')->setHour(23)->setMinute(1)->setSecond(0);
         }
 
         $diff = $now->diff($nextSunday);
