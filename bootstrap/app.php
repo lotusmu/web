@@ -56,7 +56,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command(DistributeCastleSiegePrizesCommand::class)
             ->weekly()
             ->sundays()
-            ->at('22:00')
+            ->at('23:01')
             ->runInBackground()
             ->withoutOverlapping();
 
