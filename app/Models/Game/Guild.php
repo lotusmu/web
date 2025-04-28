@@ -2,6 +2,7 @@
 
 namespace App\Models\Game;
 
+use App\Actions\Guild\GetGuildMarkUrl;
 use App\Models\Concerns\GameConnection;
 use App\Models\Game\Ranking\Event;
 use App\Models\Game\Ranking\Hunter;
@@ -42,107 +43,7 @@ class Guild extends Model
 
     public function getMarkUrl(int $size = 24): string
     {
-        $size = (int) (round($size / 8) * 8);
-
-        if ($size > 256) {
-            $size = 24;
-        }
-
-        $cacheKey = "guild_mark_{$this->G_Name}_{$size}";
-
-        return cache()->remember($cacheKey, now()->addWeek(), function () use ($size) {
-            $path = "guild_marks/{$this->G_Name}_{$size}.png";
-
-            if (! Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->put($path, $this->generateMarkImage($size));
-            }
-
-            return Storage::disk('public')->url($path);
-        });
-    }
-
-    private function getMarkArray(): array
-    {
-        $mark = bin2hex($this->G_Mark);
-        $grid = [];
-
-        for ($y = 0; $y < 8; $y++) {
-            $row = [];
-            for ($x = 0; $x < 8; $x++) {
-                $pos = $y * 8 + $x;
-                $row[] = substr($mark, $pos, 1);
-
-            }
-            $grid[] = $row;
-        }
-
-        return $grid;
-    }
-
-    private function generateMarkImage(int $size): string
-    {
-        $grid = $this->getMarkArray();
-
-        $pixelSize = (int) floor($size / 8);  // Force integer pixel size
-
-        $image = imagecreatetruecolor($size, $size);
-
-        $colors = [
-            '0' => '#ffffff', // Transparent (skipped in rendering)
-            '1' => '#000000', // Black
-            '2' => '#8c8a8d', // Gray
-            '3' => '#ffffff', // White
-            '4' => '#fe0000', // Pure Red
-            '5' => '#ff8a00', // Orange
-            '6' => '#ffff00', // Yellow
-            '7' => '#8cff01', // Lime Green
-            '8' => '#00ff00', // Pure Green
-            '9' => '#01ff8d', // Spring Green
-            'A' => '#00ffff', // Cyan
-            'B' => '#008aff', // Azure Blue
-            'C' => '#0000fe', // Pure Blue
-            'D' => '#8c00ff', // Purple
-            'E' => '#ff00ff', // Magenta
-            'F' => '#ff008c', // Pink
-        ];
-
-        // Set transparent background first
-        $transparent = imagecolorallocatealpha($image, 0, 0, 0, 127);
-        imagefill($image, 0, 0, $transparent);
-
-        imagealphablending($image, true);
-        imagesavealpha($image, true);
-
-        for ($y = 0; $y < 8; $y++) {
-            for ($x = 0; $x < 8; $x++) {
-                $colorKey = strtoupper($grid[$y][$x]); // Ensure uppercase for hex values
-
-                if ($colorKey === '0') {
-                    continue;
-                }
-
-                $hexColor = $colors[$colorKey] ?? '#ffffff';
-                [$r, $g, $b] = sscanf($hexColor, '#%02x%02x%02x');
-                $color = imagecolorallocate($image, $r, $g, $b);
-
-                imagefilledrectangle(
-                    $image,
-                    $x * $pixelSize,
-                    $y * $pixelSize,
-                    ($x + 1) * $pixelSize - 1,
-                    ($y + 1) * $pixelSize - 1,
-                    $color
-                );
-            }
-        }
-
-        ob_start();
-        imagepng($image);
-        $imageContent = ob_get_clean();
-
-        imagedestroy($image);
-
-        return $imageContent;
+        return app(GetGuildMarkUrl::class)->handle($this, $size);
     }
 
     public static function cleanupOldMarkImages(int $days = 30): void
