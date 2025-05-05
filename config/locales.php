@@ -17,7 +17,6 @@ return [
         ...(env('APP_ENV') === 'local' ? ['bg'] : []),
         'en',
         'ru',
-        'ro',
         'es',
         'pt',
     ]),
@@ -40,7 +39,6 @@ return [
         'ru' => 'Русский',
         'es' => 'Español',
         'pt' => 'Português',
-        'ro' => 'Română',
     ],
 
     /*
@@ -59,7 +57,6 @@ return [
         'ru' => '/images/flags/1x1/ru.svg',
         'es' => '/images/flags/1x1/es.svg',
         'pt' => '/images/flags/1x1/pt.svg',
-        'ro' => '/images/flags/1x1/ro.svg',
     ],
 
     /*
