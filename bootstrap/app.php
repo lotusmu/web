@@ -80,7 +80,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $schedule->command(ProcessHallOfFameCommand::class)
             ->mondays()
-            ->at('11:00')
+            ->at('23:00')
             ->runInBackground()
             ->withoutOverlapping();
 
