@@ -30,7 +30,7 @@ new class extends Component {
 }; ?>
 
 <div
-    class="flex items-center justify-center gap-4 min-h-64 sm:bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl sm:p-6">
+    class="flex items-center justify-center gap-4 min-h-72 sm:bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl sm:p-6">
     <img src="{{ $this->guild->getMarkUrl(124) }}"
          alt="Guild Mark"
          class="shrink-0 rounded-xl border border-zinc-200 dark:border-white/10 max-sm:self-start max-sm:mt-[2.75rem]"

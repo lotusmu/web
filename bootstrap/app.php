@@ -4,6 +4,7 @@ use App\Console\Commands\CleanEventEntriesCommand;
 use App\Console\Commands\CleanupGuildMarksCommand;
 use App\Console\Commands\DistributeCastleSiegePrizesCommand;
 use App\Console\Commands\ExpireOrdersCommand;
+use App\Console\Commands\ProcessHallOfFameCommand;
 use App\Console\Commands\ProcessWeeklyRankingsCommand;
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
 use App\Http\Middleware\CheckUserBannedMiddleware;
@@ -76,6 +77,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->runInBackground()
             ->withoutOverlapping()
             ->appendOutputTo(storage_path('logs/cleanup-unverified-users.log'));
+
+        $schedule->command(ProcessHallOfFameCommand::class)
+            ->mondays()
+            ->at('11:00')
+            ->runInBackground()
+            ->withoutOverlapping();
 
         $schedule->call(function () {
             try {
