@@ -16,11 +16,11 @@ new class extends Component {
     ];
 
     public const DEFAULT_WINNERS = [
-        'dk' => 'Knight',
-        'dw' => 'Wizard',
-        'fe' => 'Elf',
-        'mg' => 'Gladiator',
-        'dl' => 'Lord'
+        'dk' => 'TBD',
+        'dw' => 'TBD',
+        'fe' => 'TBD',
+        'mg' => 'TBD',
+        'dl' => 'TBD'
     ];
 
     public const COLOR_CLASSES = [
