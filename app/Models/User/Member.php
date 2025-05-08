@@ -7,6 +7,7 @@ use App\Enums\Game\CharacterStatus;
 use App\Models\Concerns\IsBannable;
 use App\Models\Concerns\MemberAccessors;
 use App\Models\Game\Character;
+use App\Models\Game\ItemBank;
 use App\Models\Game\Status;
 use App\Models\Game\Wallet;
 use Illuminate\Database\Eloquent\Model;
@@ -88,5 +89,10 @@ class Member extends Model
     public function characters(): HasMany
     {
         return $this->hasMany(Character::class, 'AccountID', 'memb___id');
+    }
+
+    public function itemBank(): HasMany
+    {
+        return $this->hasMany(ItemBank::class, 'AccountID', 'memb___id');
     }
 }

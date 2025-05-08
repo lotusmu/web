@@ -7,6 +7,7 @@ use App\Enums\Game\CharacterStatus;
 use App\Filament\Actions\BanTableAction;
 use App\Filament\Resources\MemberResource\Pages;
 use App\Filament\Resources\MemberResource\RelationManagers\CharactersRelationManager;
+use App\Filament\Resources\MemberResource\RelationManagers\ItemBankRelationManager;
 use App\Models\User\Member;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
@@ -196,6 +197,7 @@ class MemberResource extends Resource
     {
         return [
             CharactersRelationManager::class,
+            ItemBankRelationManager::class,
         ];
     }
 
