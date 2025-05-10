@@ -27,6 +27,8 @@
     <livewire:referral-survey-popup/>
 @endauth
 
+<livewire:database-notifications-modal/>
+
 <livewire:layout.header/>
 
 <flux:sidebar stashable sticky

@@ -144,17 +144,8 @@ new class extends Component {
                              href="/admin" target="_blank"/>
             @endif
 
-            @if(false)
-                <div class="relative">
-                    <flux:button variant="ghost" size="sm" icon="bell"/>
-                    <div
-                        class="absolute top-0 right-0 bg-red-600 text-white text-[11px] text-center min-w-4 min-h-4 rounded-full"
-                    >
-                        1
-                    </div>
-                </div>
-            @endif
-
+            <livewire:database-notifications-trigger/>
+            
             <flux:dropdown class="max-lg:hidden">
                 <flux:navbar.item icon-trailing="chevron-down">
                     {{ auth()->user()->name }}

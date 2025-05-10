@@ -17,6 +17,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
@@ -137,6 +138,18 @@ class ManageTicket extends Page implements HasForms, HasInfolists
         Notification::make()->success()->title('Success!')
             ->body('Message sent successfully.')
             ->send();
+
+        Notification::make()
+            ->title('New reply from support')
+            ->success()
+            ->body('The support team has responded to your ticket.')
+            ->actions([
+                NotificationAction::make('View')
+                    ->url(route('support.show-ticket', $this->record->id))
+                    ->color('gray')
+                    ->markAsRead(),
+            ])
+            ->sendToDatabase($this->record->user);
     }
 
     public function getViewData(): array
