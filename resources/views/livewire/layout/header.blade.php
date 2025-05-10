@@ -144,8 +144,8 @@ new class extends Component {
                              href="/admin" target="_blank"/>
             @endif
 
-            <livewire:database-notifications-trigger/>
-            
+            <livewire:notifications-trigger/>
+
             <flux:dropdown class="max-lg:hidden">
                 <flux:navbar.item icon-trailing="chevron-down">
                     {{ auth()->user()->name }}

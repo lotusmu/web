@@ -27,7 +27,7 @@
     <livewire:referral-survey-popup/>
 @endauth
 
-<livewire:database-notifications-modal/>
+<livewire:notifications-modal/>
 
 <livewire:layout.header/>
 

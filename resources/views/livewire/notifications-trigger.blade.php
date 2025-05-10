@@ -25,7 +25,7 @@ new class extends Component {
 } ?>
 
 <div class="relative">
-    <flux:modal.trigger name="database-notifications-modal">
+    <flux:modal.trigger name="notifications-modal">
         <flux:button
             :tooltip="__('Notifications')"
             variant="subtle"
