@@ -1,13 +1,26 @@
 <?php
 
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    #[Computed]
-    public function unreadNotificationsCount()
+    public $unreadCount = 0;
+
+    public function mount()
     {
-        return auth()->user()->unreadNotifications()->count();
+        $this->refreshUnreadCount();
+    }
+
+    public function refreshUnreadCount()
+    {
+        $this->unreadCount = auth()->user()->unreadNotifications()->count();
+    }
+
+    #[On('notifications-updated')]
+    public function handleNotificationsUpdated()
+    {
+        $this->refreshUnreadCount();
     }
 } ?>
 
@@ -19,10 +32,10 @@ new class extends Component {
             size="sm"
             icon="bell"/>
 
-        @if($this->unreadNotificationsCount > 0)
+        @if($unreadCount > 0)
             <div
                 class="absolute top-0 right-0 bg-red-600 text-white text-[11px] text-center min-w-4 min-h-4 rounded-full">
-                {{ $this->unreadNotificationsCount }}
+                {{ $unreadCount }}
             </div>
         @endif
     </flux:modal.trigger>

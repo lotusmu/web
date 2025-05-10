@@ -30,14 +30,14 @@ new class extends Component {
 
         $notification->markAsRead();
 
-        $this->dispatch('notification-read');
+        $this->dispatch('notifications-updated');
     }
 
     public function markAllAsRead()
     {
         auth()->user()->unreadNotifications->markAsRead();
 
-        $this->dispatch('all-notifications-read');
+        $this->dispatch('notifications-updated');
     }
 
     public function delete(string $notificationId)
@@ -50,14 +50,14 @@ new class extends Component {
 
         $notification->delete();
 
-        $this->dispatch('notification-deleted');
+        $this->dispatch('notifications-updated');
     }
 
     public function deleteAll()
     {
         auth()->user()->notifications()->delete();
 
-        $this->dispatch('all-notifications-deleted');
+        $this->dispatch('notifications-updated');
     }
 } ?>
 
@@ -147,7 +147,12 @@ new class extends Component {
                                         <flux:link
                                             class="text-sm"
                                             :href="$action['url'] ?? '#'"
-                                            wire:click="markAsRead('{{ $notification->id }}')"
+                                            x-data="{}"
+                                            x-on:click.prevent="
+                                                $wire.markAsRead('{{ $notification->id }}').then(() => {
+                                                    window.location.href = '{{ $action['url'] ?? '#' }}';
+                                                })
+                                            "
                                         >
                                             {{ $action['label'] }}
                                         </flux:link>
