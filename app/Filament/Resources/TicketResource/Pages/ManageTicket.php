@@ -141,7 +141,6 @@ class ManageTicket extends Page implements HasForms, HasInfolists
 
         Notification::make()
             ->title('New reply from support')
-            ->success()
             ->body('The support team has responded to your ticket.')
             ->actions([
                 NotificationAction::make('View')

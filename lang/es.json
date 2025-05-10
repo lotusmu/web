@@ -910,5 +910,13 @@
     "Charges on your bank or credit card statement will appear as \"*Lotus Mu\", \"Lotusmu.Org\" or something similar.": "Los cargos en su extracto bancario o de tarjeta de crédito aparecerán como \"*Lotus Mu\", \"Lotusmu.Org\" o algo similar.",
     "You may request account termination at any time by submitting a support ticket. Upon verification, we will close your account and delete associated personal data in accordance with our data retention policies and applicable law.": "Puede solicitar la terminación de su cuenta en cualquier momento enviando un ticket de soporte. Tras la verificación, cerraremos su cuenta y eliminaremos los datos personales asociados de acuerdo con nuestras políticas de retención de datos y la ley aplicable.",
     "Payment information is processed securely through our payment providers. We do not store complete credit card information on our servers. All transactions are protected with industry-standard encryption and security protocols.": "La información de pago se procesa de forma segura a través de nuestros proveedores de pago. No almacenamos información completa de tarjetas de crédito en nuestros servidores. Todas las transacciones están protegidas con cifrado y protocolos de seguridad estándar de la industria.",
-    "Disrespectful conduct towards server staff, making threats, or attempting to undermine the authority of the server is not tolerated": "No se tolera la conducta irrespetuosa hacia el personal del servidor, las amenazas o los intentos de socavar la autoridad del servidor"
+    "Disrespectful conduct towards server staff, making threats, or attempting to undermine the authority of the server is not tolerated": "No se tolera la conducta irrespetuosa hacia el personal del servidor, las amenazas o los intentos de socavar la autoridad del servidor",
+    "Notifications": "Notificaciones",
+    "No notifications": "No hay notificaciones",
+    "Please check again later.": "Por favor, compruebe más tarde.",
+    "Notification": "Notificación",
+    "Mark as read": "Marcar como leído",
+    "Delete": "Eliminar",
+    "Mark all as read": "Marcar todo como leído",
+    "Delete all": "Eliminar todo"
 }

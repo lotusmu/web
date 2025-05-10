@@ -910,5 +910,13 @@
     "Charges on your bank or credit card statement will appear as \"*Lotus Mu\", \"Lotusmu.Org\" or something similar.": "Таксите във вашето банково или кредитно извлечение ще се появят като \"*Lotus Mu\", \"Lotusmu.Org\" или нещо подобно.",
     "You may request account termination at any time by submitting a support ticket. Upon verification, we will close your account and delete associated personal data in accordance with our data retention policies and applicable law.": "Можете да поискате прекратяване на акаунта по всяко време, като подадете билет за поддръжка. След проверка ще затворим вашия акаунт и ще изтрием свързаните лични данни в съответствие с нашите политики за съхранение на данни и приложимото законодателство.",
     "Payment information is processed securely through our payment providers. We do not store complete credit card information on our servers. All transactions are protected with industry-standard encryption and security protocols.": "Информацията за плащане се обработва сигурно чрез нашите доставчици на платежни услуги. Не съхраняваме пълна информация за кредитни карти на нашите сървъри. Всички транзакции са защитени с индустриални стандарти за криптиране и протоколи за сигурност.",
-    "Disrespectful conduct towards server staff, making threats, or attempting to undermine the authority of the server is not tolerated": "Неуважително поведение към персонала на сървъра, отправяне на заплахи или опити за подкопаване на авторитета на сървъра не се толерира"
+    "Disrespectful conduct towards server staff, making threats, or attempting to undermine the authority of the server is not tolerated": "Неуважително поведение към персонала на сървъра, отправяне на заплахи или опити за подкопаване на авторитета на сървъра не се толерира",
+    "Notifications": "Известия",
+    "No notifications": "Няма известия",
+    "Please check again later.": "Моля, проверете отново по-късно.",
+    "Notification": "Известие",
+    "Mark as read": "Маркирай като прочетено",
+    "Delete": "Изтрий",
+    "Mark all as read": "Маркирай всички като прочетени",
+    "Delete all": "Изтрий всички"
 }
