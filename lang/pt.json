@@ -930,5 +930,11 @@
     "Credits Received": "Créditos Recebidos",
     "Zen Received": "Zen Recebido",
     "You've received :amount :resource.": "Você recebeu :amount :resource.",
-    "You've received :amount :resource on :server.": "Você recebeu :amount :resource no servidor :server."
+    "You've received :amount :resource on :server.": "Você recebeu :amount :resource no servidor :server.",
+    "Ranking Reward": "Recompensa de Classificação",
+    "Ranking Reward: Tokens": "Recompensa de Classificação: Tokens",
+    "Ranking Reward: Credits": "Recompensa de Classificação: Créditos",
+    "Ranking Reward: Zen": "Recompensa de Classificação: Zen",
+    "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Seu personagem :character conquistou a posição #:rank na classificação semanal de eventos e recebeu :amount :resource.",
+    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Seu personagem :character conquistou a posição #:rank na classificação semanal de caça e recebeu :amount :resource."
 }

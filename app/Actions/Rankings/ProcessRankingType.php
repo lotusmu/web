@@ -2,6 +2,7 @@
 
 namespace App\Actions\Rankings;
 
+use App\Actions\User\SendNotification;
 use App\Actions\Wallet\IncrementResource;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\RankingLogStatus;
@@ -123,6 +124,7 @@ class ProcessRankingType
             ))->handle();
 
             $this->logRewardDistribution($user, $character, $rank, $resourceType, $reward['amount']);
+            $this->sendRewardNotification($user, $character, $rank, $resourceType, $reward['amount']);
         }
     }
 
@@ -141,6 +143,36 @@ class ProcessRankingType
                 'server' => $this->config->server->name,
             ])
             ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->value}).");
+    }
+
+    private function sendRewardNotification($user, $character, $rank, $resourceType, $amount): void
+    {
+        $title = match ($resourceType) {
+            ResourceType::TOKENS => 'Ranking Reward: Tokens',
+            ResourceType::CREDITS => 'Ranking Reward: Credits',
+            ResourceType::ZEN => 'Ranking Reward: Zen',
+            default => 'Ranking Reward',
+        };
+
+        if ($this->type === RankingScoreType::EVENTS) {
+            SendNotification::make($title)
+                ->body('Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.', [
+                    'character' => $character->Name,
+                    'rank' => $rank,
+                    'amount' => $this->format($amount),
+                    'resource' => $resourceType->value,
+                ])
+                ->send($user);
+        } else {
+            SendNotification::make($title)
+                ->body('Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.', [
+                    'character' => $character->Name,
+                    'rank' => $rank,
+                    'amount' => $this->format($amount),
+                    'resource' => $resourceType->value,
+                ])
+                ->send($user);
+        }
     }
 
     private function format(int $amount): string

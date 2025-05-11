@@ -930,5 +930,11 @@
     "Credits Received": "Кредиты получены",
     "Zen Received": "Zen получен",
     "You've received :amount :resource.": "Вы получили :amount :resource.",
-    "You've received :amount :resource on :server.": "Вы получили :amount :resource на сервере :server."
+    "You've received :amount :resource on :server.": "Вы получили :amount :resource на сервере :server.",
+    "Ranking Reward": "Награда за рейтинг",
+    "Ranking Reward: Tokens": "Награда за рейтинг: Токены",
+    "Ranking Reward: Credits": "Награда за рейтинг: Кредиты",
+    "Ranking Reward: Zen": "Награда за рейтинг: Zen",
+    "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Ваш персонаж :character занял позицию #:rank в еженедельном рейтинге событий и получил :amount :resource.",
+    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Ваш персонаж :character занял позицию #:rank в еженедельном рейтинге охоты и получил :amount :resource."
 }
