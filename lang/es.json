@@ -919,7 +919,9 @@
     "Delete": "Eliminar",
     "Mark all as read": "Marcar todo como leído",
     "Delete all": "Eliminar todo",
-    "Ticket Reply": "Respuesta al ticket",
-    "A new response has been added to your support ticket.": "Se ha añadido una nueva respuesta a su ticket de soporte.",
-    "View": "Ver"
+    "Ticket Reply": "Respuesta al Ticket",
+    "A staff member has replied to your ticket \":title\".": "Un miembro del personal ha respondido a su ticket \":title\".",
+    "Ticket Status Updated": "Estado del Ticket Actualizado",
+    "We've updated your ticket \":title\" to \":status\".": "Hemos actualizado su ticket \":title\" a \":status\".",
+    "View Ticket": "Ver ticket"
 }

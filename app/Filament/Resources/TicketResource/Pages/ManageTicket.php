@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TicketResource\Pages;
 
+use App\Actions\User\SendNotification;
 use App\Enums\Ticket\TicketStatus;
 use App\Filament\Resources\TicketResource;
 use App\Models\Ticket\TicketReply;
@@ -17,7 +18,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
-use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
@@ -117,16 +117,13 @@ class ManageTicket extends Page implements HasForms, HasInfolists
                                 ->body('Ticket status updated successfully.')
                                 ->send();
 
-                            Notification::make()
-                                ->title(__('Status Update'))
-                                ->body(__('The status of your support ticket has been updated.'))
-                                ->actions([
-                                    NotificationAction::make(__('View'))
-                                        ->url(route('support.show-ticket', $this->record->id))
-                                        ->color('gray')
-                                        ->markAsRead(),
+                            SendNotification::make('Ticket Status Updated')
+                                ->body("We've updated your ticket \":title\" to \":status\".", [
+                                    'title' => $this->record->title,
+                                    'status' => $this->record->status->value,
                                 ])
-                                ->sendToDatabase($this->record->user);
+                                ->action('View Ticket', route('support.show-ticket', $this->record->id))
+                                ->send($this->record->user);
                         }),
                 ]),
         ];
@@ -150,16 +147,12 @@ class ManageTicket extends Page implements HasForms, HasInfolists
             ->body('Message sent successfully.')
             ->send();
 
-        Notification::make()
-            ->title('Ticket Reply')
-            ->body('A new response has been added to your support ticket.')
-            ->actions([
-                NotificationAction::make('View')
-                    ->url(route('support.show-ticket', $this->record->id))
-                    ->color('gray')
-                    ->markAsRead(),
+        SendNotification::make('Ticket Reply')
+            ->body('A staff member has replied to your ticket ":title".', [
+                'title' => $this->record->title,
             ])
-            ->sendToDatabase($this->record->user);
+            ->action('View Ticket', route('support.show-ticket', $this->record->id))
+            ->send($this->record->user);
     }
 
     public function getViewData(): array

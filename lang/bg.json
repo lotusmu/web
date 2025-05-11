@@ -550,7 +550,7 @@
     "Reset Zen": "Zen за Ресети",
     "Reset your password": "Възстановяване на паролата ви",
     "Resets": "Ресети",
-    "Resolved": "Решено",
+    "Resolved": "Разрешена",
     "Review the number of times you've registered for events with attendance limitations.": "Прегледайте колко пъти сте участвали в събития с ограничен брой участия.",
     "Revolutionary.": "Революционен.",
     "Reward": "Награда",
@@ -920,6 +920,8 @@
     "Mark all as read": "Маркирай всички като прочетени",
     "Delete all": "Изтрий всички",
     "Ticket Reply": "Отговор на заявка",
-    "A new response has been added to your support ticket.": "Добавен е нов отговор към вашата заявка за поддръжка.",
-    "View": "Преглед"
+    "A staff member has replied to your ticket \":title\".": "Член от екипа отговори на вашата заявка \":title\".",
+    "Ticket Status Updated": "Статус на заявката е актуализиран",
+    "We've updated your ticket \":title\" to \":status\".": "Актуализирахме вашата заявка \":title\" до статус \":status\".",
+    "View Ticket": "Преглед на заявката"
 }

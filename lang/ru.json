@@ -920,6 +920,8 @@
     "Mark all as read": "Отметить все как прочитанные",
     "Delete all": "Удалить все",
     "Ticket Reply": "Ответ на заявку",
-    "A new response has been added to your support ticket.": "Добавлен новый ответ на вашу заявку в службу поддержки.",
-    "View": "Просмотр"
+    "A staff member has replied to your ticket \":title\".": "Сотрудник службы поддержки ответил на вашу заявку \":title\".",
+    "Ticket Status Updated": "Статус заявки обновлен",
+    "We've updated your ticket \":title\" to \":status\".": "Мы обновили вашу заявку \":title\" до статуса \":status\".",
+    "View Ticket": "Просмотр заявки"
 }
