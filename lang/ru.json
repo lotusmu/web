@@ -918,5 +918,8 @@
     "Mark as read": "Отметить как прочитанное",
     "Delete": "Удалить",
     "Mark all as read": "Отметить все как прочитанные",
-    "Delete all": "Удалить все"
+    "Delete all": "Удалить все",
+    "Ticket Reply": "Ответ на заявку",
+    "A new response has been added to your support ticket.": "Добавлен новый ответ на вашу заявку в службу поддержки.",
+    "View": "Просмотр"
 }

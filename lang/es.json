@@ -918,5 +918,8 @@
     "Mark as read": "Marcar como leído",
     "Delete": "Eliminar",
     "Mark all as read": "Marcar todo como leído",
-    "Delete all": "Eliminar todo"
+    "Delete all": "Eliminar todo",
+    "Ticket Reply": "Respuesta al ticket",
+    "A new response has been added to your support ticket.": "Se ha añadido una nueva respuesta a su ticket de soporte.",
+    "View": "Ver"
 }

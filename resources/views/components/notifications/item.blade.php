@@ -17,11 +17,11 @@ use Illuminate\Notifications\DatabaseNotification;
             <div>
                 <flux:heading
                     class="{{ $notification->read_at ?? '!text-[var(--color-compliment-content)]' }}">
-                    {{ $notification->data['title'] ?? __('Notification') }}
+                    {{ __($notification->data['title']) ?? __('Notification') }}
                 </flux:heading>
 
                 <flux:subheading>
-                    {{ $notification->data['body'] ?? '' }}
+                    {{ __($notification->data['body']) ?? '' }}
                 </flux:subheading>
             </div>
 
@@ -61,7 +61,7 @@ use Illuminate\Notifications\DatabaseNotification;
                             })
                         "
                     >
-                        {{ $action['label'] }}
+                        {{ __($action['label']) }}
                     </flux:link>
                 @endforeach
             @endif
