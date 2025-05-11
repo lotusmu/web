@@ -923,5 +923,7 @@
     "A staff member has replied to your ticket \":title\".": "Um membro da equipe respondeu ao seu ticket \":title\".",
     "Ticket Status Updated": "Estado do Ticket Atualizado",
     "We've updated your ticket \":title\" to \":status\".": "Atualizamos o seu ticket \":title\" para \":status\".",
-    "View Ticket": "Ver ticket"
+    "View Ticket": "Ver ticket",
+    "Tokens Received": "Tokens Recebidos",
+    "Your purchase of \":package_name\" is complete. :amount tokens have been added to your account.": "Sua compra de \":package_name\" está completa. :amount tokens foram adicionados à sua conta."
 }

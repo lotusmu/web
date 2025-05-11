@@ -15,7 +15,7 @@ use Illuminate\Notifications\DatabaseNotification;
 
     <div class="w-full">
         <div class="flex items-start justify-between gap-2 w-full">
-            <div>
+            <div class="max-w-80">
                 <flux:heading
                     class="{{ $notification->read_at ?? '!text-[var(--color-compliment-content)]' }}">
                     {{ __($notification->data['title']) ?? __('Notification') }}

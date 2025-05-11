@@ -923,5 +923,7 @@
     "A staff member has replied to your ticket \":title\".": "Член от екипа отговори на вашата заявка \":title\".",
     "Ticket Status Updated": "Статус на заявката е актуализиран",
     "We've updated your ticket \":title\" to \":status\".": "Актуализирахме вашата заявка \":title\" до статус \":status\".",
-    "View Ticket": "Преглед на заявката"
+    "View Ticket": "Преглед на заявката",
+    "Tokens Received": "Получени токени",
+    "Your purchase of \":package_name\" is complete. :amount tokens have been added to your account.": "Вашата покупка на \":package_name\" е завършена. :amount токена са добавени към вашия акаунт."
 }

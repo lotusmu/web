@@ -923,5 +923,7 @@
     "A staff member has replied to your ticket \":title\".": "Сотрудник службы поддержки ответил на вашу заявку \":title\".",
     "Ticket Status Updated": "Статус заявки обновлен",
     "We've updated your ticket \":title\" to \":status\".": "Мы обновили вашу заявку \":title\" до статуса \":status\".",
-    "View Ticket": "Просмотр заявки"
+    "View Ticket": "Просмотр заявки",
+    "Tokens Received": "Токены получены",
+    "Your purchase of \":package_name\" is complete. :amount tokens have been added to your account.": "Ваша покупка \":package_name\" завершена. :amount токенов добавлены на ваш счет."
 }

@@ -2,6 +2,7 @@
 
 namespace App\Actions\Payment;
 
+use App\Actions\User\SendNotification;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Payment\Order;
@@ -23,5 +24,17 @@ class LogPurchaseActivity
                 ...IdentityProperties::capture(),
             ])
             ->log('Purchased :properties.package_name.');
+
+        $this->sendNotification($order);
+    }
+
+    private function sendNotification(Order $order): void
+    {
+        SendNotification::make('Tokens Received')
+            ->body('Your purchase of ":package_name" is complete. :amount tokens have been added to your account.', [
+                'package_name' => $order->package->name,
+                'amount' => $order->package->tokens_amount,
+            ])
+            ->send($order->user);
     }
 }
