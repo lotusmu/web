@@ -936,5 +936,7 @@
     "Ranking Reward: Credits": "Награда от класацията: Кредити",
     "Ranking Reward: Zen": "Награда от класацията: Zen",
     "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Вашият герой :character достигна ранг #:rank в седмичната класация за събития и получи :amount :resource.",
-    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Вашият герой :character достигна ранг #:rank в седмичната класация за лов и получи :amount :resource."
+    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Вашият герой :character достигна ранг #:rank в седмичната класация за лов и получи :amount :resource.",
+    "Castle Siege Reward": "Награда от Обсадата на замъка",
+    "Your guild :guild has won the Castle Siege. You've received :amount credits as your share of the prize.": "Вашата гилдия :guild е спечелила Обсадата на замъка. Получихте :amount кредита като ваш дял от наградата."
 }

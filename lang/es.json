@@ -936,5 +936,7 @@
     "Ranking Reward: Credits": "Recompensa de Clasificación: Créditos",
     "Ranking Reward: Zen": "Recompensa de Clasificación: Zen",
     "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Tu personaje :character alcanzó el rango #:rank en la clasificación semanal de eventos y recibió :amount :resource.",
-    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Tu personaje :character alcanzó el rango #:rank en la clasificación semanal de caza y recibió :amount :resource."
+    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Tu personaje :character alcanzó el rango #:rank en la clasificación semanal de caza y recibió :amount :resource.",
+    "Castle Siege Reward": "Recompensa del Asedio del Castillo",
+    "Your guild :guild has won the Castle Siege. You've received :amount credits as your share of the prize.": "Tu gremio :guild ha ganado el Asedio del Castillo. Has recibido :amount créditos como tu parte del premio."
 }

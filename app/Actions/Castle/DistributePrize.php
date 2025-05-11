@@ -2,6 +2,7 @@
 
 namespace App\Actions\Castle;
 
+use App\Actions\User\SendNotification;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\ResourceType;
 use App\Models\Game\CastleData;
@@ -70,6 +71,7 @@ readonly class DistributePrize
         foreach ($users as $user) {
             $user->resource(ResourceType::CREDITS)->increment($amountPerMember);
             $this->recordActivity($user, $amountPerMember, $guild->G_Name);
+            $this->sendNotification($user, $amountPerMember, $guild->G_Name);
             $distributed = true;
         }
 
@@ -100,6 +102,16 @@ readonly class DistributePrize
             ->performedOn($user)
             ->withProperties($properties)
             ->log('Castle Siege credits reward received (:properties.connection).');
+    }
+
+    private function sendNotification(User $user, int $amount, string $guildName): void
+    {
+        SendNotification::make('Castle Siege Reward')
+            ->body("Your guild :guild has won the Castle Siege. You've received :amount credits as your share of the prize.", [
+                'guild' => $guildName,
+                'amount' => number_format($amount),
+            ])
+            ->send($user);
     }
 
     private function recordDistribution(string $guildName, int $totalMembers, int $amountPerMember): void
