@@ -66,7 +66,7 @@ new class extends Component {
 
 <div>
     <flux:modal name="notifications-modal" variant="flyout">
-        <div class="space-y-4 min-w-[34rem]">
+        <div class="space-y-4 sm:min-w-[34rem]">
             <header class="flex items-start flex-col space-y-4">
                 <flux:heading size="lg">
                     {{ __('Notifications') }}

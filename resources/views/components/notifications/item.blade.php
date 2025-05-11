@@ -33,24 +33,22 @@ use Illuminate\Notifications\DatabaseNotification;
 
             <flux:spacer/>
 
-            <div class="flex items-center gap-2">
-                <div class="flex gap-1">
-                    @if(!$notification->read_at)
-                        <flux:button
-                            variant="subtle"
-                            icon="check"
-                            wire:click="markAsRead('{{ $notification->id }}')"
-                            :tooltip="__('Mark as read')"
-                        />
-                    @endif
-
+            <div class="flex items-center gap-2 max-sm:flex-col">
+                @if(!$notification->read_at)
                     <flux:button
                         variant="subtle"
-                        icon="trash"
-                        wire:click="delete('{{ $notification->id }}')"
-                        :tooltip="__('Delete')"
+                        icon="check"
+                        wire:click="markAsRead('{{ $notification->id }}')"
+                        :tooltip="__('Mark as read')"
                     />
-                </div>
+                @endif
+
+                <flux:button
+                    variant="subtle"
+                    icon="trash"
+                    wire:click="delete('{{ $notification->id }}')"
+                    :tooltip="__('Delete')"
+                />
             </div>
         </div>
 

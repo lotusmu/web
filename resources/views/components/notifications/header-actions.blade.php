@@ -1,5 +1,5 @@
 @if($notifications->isNotEmpty())
-    <div class="flex gap-2 w-full">
+    <div class="flex gap-2 w-full max-sm:flex-col max-sm:items-start">
         <flux:spacer/>
 
         <flux:button
