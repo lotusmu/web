@@ -925,5 +925,10 @@
     "We've updated your ticket \":title\" to \":status\".": "Мы обновили вашу заявку \":title\" до статуса \":status\".",
     "View Ticket": "Просмотр заявки",
     "Tokens Received": "Токены получены",
-    "Your purchase of \":package_name\" is complete. :amount tokens have been added to your account.": "Ваша покупка \":package_name\" завершена. :amount токенов добавлены на ваш счет."
+    "Your purchase of \":package_name\" is complete. :amount tokens have been added to your account.": "Ваша покупка \":package_name\" завершена. :amount токенов добавлены на ваш счет.",
+    "Resources Received": "Ресурсы получены",
+    "Credits Received": "Кредиты получены",
+    "Zen Received": "Zen получен",
+    "You've received :amount :resource.": "Вы получили :amount :resource.",
+    "You've received :amount :resource on :server.": "Вы получили :amount :resource на сервере :server."
 }

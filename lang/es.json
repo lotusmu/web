@@ -925,5 +925,10 @@
     "We've updated your ticket \":title\" to \":status\".": "Hemos actualizado su ticket \":title\" a \":status\".",
     "View Ticket": "Ver ticket",
     "Tokens Received": "Tokens Recibidos",
-    "Your purchase of \":package_name\" is complete. :amount tokens have been added to your account.": "Su compra de \":package_name\" está completa. Se han añadido :amount tokens a su cuenta."
+    "Your purchase of \":package_name\" is complete. :amount tokens have been added to your account.": "Su compra de \":package_name\" está completa. Se han añadido :amount tokens a su cuenta.",
+    "Resources Received": "Recursos Recibidos",
+    "Credits Received": "Créditos Recibidos",
+    "Zen Received": "Zen Recibido",
+    "You've received :amount :resource.": "Has recibido :amount :resource.",
+    "You've received :amount :resource on :server.": "Has recibido :amount :resource en el servidor :server."
 }

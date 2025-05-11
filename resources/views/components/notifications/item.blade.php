@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Ticket\TicketStatus;
+use App\Support\Notifications\NotificationTranslator;
 use Illuminate\Notifications\DatabaseNotification;
 
 ?>
@@ -23,13 +24,7 @@ use Illuminate\Notifications\DatabaseNotification;
 
                 <flux:subheading>
                     @if(isset($notification->data['body_parameters']) && is_array($notification->data['body_parameters']))
-                        @php
-                            $params = $notification->data['body_parameters'];
-                            if (isset($params['status']) && TicketStatus::tryFrom($params['status'])) {
-                                $params['status'] = TicketStatus::from($params['status'])->getLabel();
-                            }
-                        @endphp
-                        {{ __($notification->data['body'], $params) ?? '' }}
+                        {{ __($notification->data['body'], NotificationTranslator::translateParameters($notification->data['body_parameters'])) ?? '' }}
                     @else
                         {{ __($notification->data['body']) ?? '' }}
                     @endif

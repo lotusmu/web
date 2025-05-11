@@ -2,6 +2,7 @@
 
 namespace App\Actions\Wallet;
 
+use App\Actions\User\SendNotification;
 use App\Enums\Utility\ActivityType;
 use App\Enums\Utility\OperationType;
 use App\Enums\Utility\ResourceType;
@@ -52,6 +53,8 @@ class SendResources
 
         $recipient->resource($resourceType)->increment($amount);
         $this->recordRecipientActivity($sender, $recipient, $resourceType, $amount, $serverName);
+
+        $this->sendNotificationToRecipient($recipient, $resourceType, $amount, $serverName);
 
         RateLimiter::hit($this->throttleKey($sender->id));
 
@@ -139,15 +142,42 @@ class SendResources
         if ($resourceType !== ResourceType::TOKENS) {
             $properties['connection'] = $serverName;
 
-            $description = ':properties.resource_type received from :properties.sender. Amount: :properties.amount (:properties.connection).';
+            $description = ':properties.resource_type received. Amount: :properties.amount (:properties.connection).';
         } else {
-            $description = ':properties.resource_type received from :properties.sender. Amount: :properties.amount.';
+            $description = ':properties.resource_type received. Amount: :properties.amount.';
         }
 
         activity('resource_transfer')
             ->performedOn($recipient)
             ->withProperties($properties)
             ->log($description);
+    }
+
+    private function sendNotificationToRecipient(User $recipient, ResourceType $resourceType, int $amount, string $serverName): void
+    {
+        $title = match ($resourceType) {
+            ResourceType::TOKENS => 'Tokens Received',
+            ResourceType::CREDITS => 'Credits Received',
+            ResourceType::ZEN => 'Zen Received',
+            default => 'Resources Received',
+        };
+
+        if ($resourceType !== ResourceType::TOKENS) {
+            SendNotification::make($title)
+                ->body("You've received :amount :resource on :server.", [
+                    'amount' => $this->format($amount),
+                    'resource' => $resourceType->value,
+                    'server' => $serverName,
+                ])
+                ->send($recipient);
+        } else {
+            SendNotification::make($title)
+                ->body("You've received :amount :resource.", [
+                    'amount' => $this->format($amount),
+                    'resource' => $resourceType->value,
+                ])
+                ->send($recipient);
+        }
     }
 
     private function format(int $amount): string
