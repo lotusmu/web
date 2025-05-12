@@ -58,7 +58,7 @@ class SendNotification
     {
         return $user->notifications()->create([
             'id' => Str::uuid()->toString(),
-            'type' => 'App\\Notifications\\DatabaseNotification',
+            'type' => 'UserNotification',
             'data' => [
                 'title' => $this->title,
                 'body' => $this->body,
