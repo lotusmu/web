@@ -2,6 +2,7 @@
 
 namespace App\Models\Ticket;
 
+use App\Actions\User\SendNotification;
 use App\Enums\Ticket\TicketPriority;
 use App\Enums\Ticket\TicketStatus;
 use App\Models\User\User;
@@ -49,6 +50,13 @@ class Ticket extends Model
         $this->update(['status' => TicketStatus::RESOLVED]);
 
         $this->logStatusChange('resolved');
+
+        SendNotification::make('Ticket Resolved')
+            ->body('User has marked ticket as resolved: :title', [
+                'title' => $this->ticket->title,
+            ])
+            ->action('View Ticket', '/admin/tickets/'.$this->ticket->id.'/manage')
+            ->sendToAdmins();
 
         Flux::toast(
             text: __('The ticket has been marked as resolved. Thank you for your patience.'),

@@ -942,5 +942,6 @@
     "New Support Ticket": "Нова заявка за поддръжка",
     "A new ticket has been created: :title": "Създадена е нова заявка: :title",
     "New Ticket Reply": "Нов отговор по заявка",
-    "A new reply has been added to ticket: :title": "Добавен е нов отговор към заявка: :title"
+    "A new reply has been added to ticket: :title": "Добавен е нов отговор към заявка: :title",
+    "User has marked ticket as resolved: :title": "Потребителят отбеляза заявката като разрешена: :title"
 }

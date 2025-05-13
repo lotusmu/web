@@ -942,5 +942,6 @@
     "New Support Ticket": "Nueva Solicitud de Soporte",
     "A new ticket has been created: :title": "Se ha creado una nueva solicitud: :title",
     "New Ticket Reply": "Nueva Respuesta en Solicitud",
-    "A new reply has been added to ticket: :title": "Se ha añadido una nueva respuesta a la solicitud: :title"
+    "A new reply has been added to ticket: :title": "Se ha añadido una nueva respuesta a la solicitud: :title",
+    "User has marked ticket as resolved: :title": "El usuario ha marcado la solicitud como resuelta: :title"
 }

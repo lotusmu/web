@@ -942,5 +942,6 @@
     "New Support Ticket": "Новая заявка в службу поддержки",
     "A new ticket has been created: :title": "Создана новая заявка: :title",
     "New Ticket Reply": "Новый ответ на заявку",
-    "A new reply has been added to ticket: :title": "Добавлен новый ответ к заявке: :title"
+    "A new reply has been added to ticket: :title": "Добавлен новый ответ к заявке: :title",
+    "User has marked ticket as resolved: :title": "Пользователь отметил заявку как разрешенную: :title"
 }
