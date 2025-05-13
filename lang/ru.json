@@ -936,5 +936,9 @@
     "Ranking Reward: Credits": "Награда за рейтинг: Кредиты",
     "Ranking Reward: Zen": "Награда за рейтинг: Zen",
     "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Ваш персонаж :character занял позицию #:rank в еженедельном рейтинге событий и получил :amount :resource.",
-    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Ваш персонаж :character занял позицию #:rank в еженедельном рейтинге охоты и получил :amount :resource."
+    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Ваш персонаж :character занял позицию #:rank в еженедельном рейтинге охоты и получил :amount :resource.",
+    "New Support Ticket": "Новая заявка в службу поддержки",
+    "A new ticket has been created: :title": "Создана новая заявка: :title",
+    "New Ticket Reply": "Новый ответ на заявку",
+    "A new reply has been added to ticket: :title": "Добавлен новый ответ к заявке: :title"
 }

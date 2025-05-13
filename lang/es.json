@@ -936,5 +936,7 @@
     "Ranking Reward: Credits": "Recompensa de Clasificación: Créditos",
     "Ranking Reward: Zen": "Recompensa de Clasificación: Zen",
     "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Tu personaje :character alcanzó el rango #:rank en la clasificación semanal de eventos y recibió :amount :resource.",
-    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Tu personaje :character alcanzó el rango #:rank en la clasificación semanal de caza y recibió :amount :resource."
+    "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Tu personaje :character alcanzó el rango #:rank en la clasificación semanal de caza y recibió :amount :resource.",
+    "New Support Ticket": "Nuevo Ticket de Soporte",
+    "A new ticket has been created: :title": "Se ha creado un nuevo ticket: :title"
 }
