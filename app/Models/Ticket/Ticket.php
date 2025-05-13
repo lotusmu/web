@@ -53,9 +53,9 @@ class Ticket extends Model
 
         SendNotification::make('Ticket Resolved')
             ->body('User has marked ticket as resolved: :title', [
-                'title' => $this->ticket->title,
+                'title' => $this->title,
             ])
-            ->action('View Ticket', '/admin/tickets/'.$this->ticket->id.'/manage')
+            ->action('View Ticket', '/admin/tickets/'.$this->id.'/manage')
             ->sendToAdmins();
 
         Flux::toast(
