@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\Ticket\SubmitReply;
+use App\Actions\User\SendNotification;
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketReply;
@@ -35,6 +36,13 @@ new #[Layout('layouts.app')] class extends Component {
 
             $this->reset('content');
             $this->loadTicket($this->ticket);
+
+            SendNotification::make('New Ticket Reply')
+                ->body('A new reply has been added to ticket: :title', [
+                    'title' => $this->ticket->title,
+                ])
+                ->action('View Ticket', '/admin/tickets/'.$this->ticket->id.'/manage')
+                ->sendToAdmins();
 
             Flux::toast(
                 text: __('Your reply has been successfully added to the ticket.'),

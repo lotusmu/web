@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\Ticket\CreateTicket;
+use App\Actions\User\SendNotification;
 use App\Enums\Ticket\TicketPriority;
 use App\Enums\Ticket\TicketStatus;
 use App\Models\Ticket\Ticket;
@@ -51,6 +52,13 @@ new #[Layout('layouts.app')] class extends Component {
             'contact_discord'    => $this->contact_discord,
         ], Auth::id())
         ) {
+
+            SendNotification::make('New Support Ticket')
+                ->body('A new ticket has been created: :title', [
+                    'title' => $this->title,
+                ])
+                ->action('View Ticket', '/admin/tickets/'.$ticket->id.'/manage')
+                ->sendToAdmins();
 
             Flux::toast(
                 text: __('Ticket created successfully.'),

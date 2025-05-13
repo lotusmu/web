@@ -4,6 +4,7 @@ namespace App\Actions\User;
 
 use App\Models\User\User;
 use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class SendNotification
@@ -52,6 +53,19 @@ class SendNotification
     }
 
     /**
+     * Get the notification data array
+     */
+    private function getNotificationData(): array
+    {
+        return [
+            'title' => $this->title,
+            'body' => $this->body,
+            'body_parameters' => $this->bodyParameters,
+            'actions' => $this->actions,
+        ];
+    }
+
+    /**
      * Send the notification to the user
      */
     public function send(User $user): DatabaseNotification
@@ -59,12 +73,17 @@ class SendNotification
         return $user->notifications()->create([
             'id' => Str::uuid()->toString(),
             'type' => 'UserNotification',
-            'data' => [
-                'title' => $this->title,
-                'body' => $this->body,
-                'body_parameters' => $this->bodyParameters,
-                'actions' => $this->actions,
-            ],
+            'data' => $this->getNotificationData(),
         ]);
+    }
+
+    /**
+     * Send the notification to all admin users
+     */
+    public function sendToAdmins(): Collection
+    {
+        return User::where('is_admin', true)
+            ->get()
+            ->map(fn ($admin) => $this->send($admin));
     }
 }
