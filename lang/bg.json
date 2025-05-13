@@ -938,5 +938,9 @@
     "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Вашият герой :character достигна ранг #:rank в седмичната класация за събития и получи :amount :resource.",
     "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Вашият герой :character достигна ранг #:rank в седмичната класация за лов и получи :amount :resource.",
     "Castle Siege Reward": "Награда от Обсадата на замъка",
-    "Your guild :guild has won the Castle Siege. You've received :amount credits as your share of the prize.": "Вашата гилдия :guild е спечелила Обсадата на замъка. Получихте :amount кредита като ваш дял от наградата."
+    "Your guild :guild has won the Castle Siege. You've received :amount credits as your share of the prize.": "Вашата гилдия :guild е спечелила Обсадата на замъка. Получихте :amount кредита като ваш дял от наградата.",
+    "New Support Ticket": "Нова заявка за поддръжка",
+    "A new ticket has been created: :title": "Създадена е нова заявка: :title",
+    "New Ticket Reply": "Нов отговор по заявка",
+    "A new reply has been added to ticket: :title": "Добавен е нов отговор към заявка: :title"
 }

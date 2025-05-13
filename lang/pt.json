@@ -938,5 +938,9 @@
     "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Seu personagem :character conquistou a posição #:rank na classificação semanal de eventos e recebeu :amount :resource.",
     "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Seu personagem :character conquistou a posição #:rank na classificação semanal de caça e recebeu :amount :resource.",
     "Castle Siege Reward": "Recompensa de Cerco ao Castelo",
-    "Your guild :guild has won the Castle Siege. You've received :amount credits as your share of the prize.": "Sua guilda :guild venceu o Cerco ao Castelo. Você recebeu :amount créditos como sua parte do prêmio."
+    "Your guild :guild has won the Castle Siege. You've received :amount credits as your share of the prize.": "Sua guilda :guild venceu o Cerco ao Castelo. Você recebeu :amount créditos como sua parte do prêmio.",
+    "New Support Ticket": "Nova Solicitação de Suporte",
+    "A new ticket has been created: :title": "Uma nova solicitação foi criada: :title",
+    "New Ticket Reply": "Nova Resposta em Solicitação",
+    "A new reply has been added to ticket: :title": "Uma nova resposta foi adicionada à solicitação: :title"
 }
