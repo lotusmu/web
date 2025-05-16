@@ -25,6 +25,10 @@
         {{ __('Stealth Mode') }}
     </flux:navlist.item>
 
+    <flux:navlist.item wire:navigate.hover icon="handshake" :href="route('partners.apply')">
+        {{ __('Partner Program') }}
+    </flux:navlist.item>
+
     <flux:navlist.item wire:navigate.hover icon="hand-coins" :href="route('donate')">
         {{ __('Donate') }}
     </flux:navlist.item>
@@ -60,7 +64,7 @@
             </flux:radio.group>
 
             <flux:menu.separator/>
-            
+
             <livewire:locale-selector triggerType="navmenu"/>
 
             <flux:navmenu.item wire:navigate.hover icon="cog-6-tooth"

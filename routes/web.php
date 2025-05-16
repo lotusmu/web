@@ -113,6 +113,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Volt::route('/ticket/{ticket}', 'pages.support.show-ticket')
             ->name('support.show-ticket');
     });
+
+    Route::prefix('partners')->group(function () {
+        Volt::route('/apply', 'pages.partners.application')
+            ->name('partners.apply');
+    });
+
 });
 
 // Authentication routes
