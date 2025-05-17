@@ -4,19 +4,25 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
-    public $contentTypes = [];
-    public $platforms = [];
-    public $channels = [
-        ['platform' => '', 'name' => '']
+    public array $contentTypes = [];
+    public array $platforms = [];
+    public array $channels = [
+        [
+            'platform' => '',
+            'name'     => ''
+        ]
     ];
-    public $aboutYou = '';
+    public string $aboutYou = '';
 
-    public function addChannel()
+    public function addChannel(): void
     {
-        $this->channels[] = ['platform' => '', 'name' => ''];
+        $this->channels[] = [
+            'platform' => '',
+            'name'     => ''
+        ];
     }
 
-    public function removeChannel($index)
+    public function removeChannel($index): void
     {
         if (count($this->channels) > 1) {
             unset($this->channels[$index]);
@@ -26,7 +32,7 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function submit()
     {
-        // Handle form submission
+        //
     }
 }; ?>
 
@@ -51,14 +57,14 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="flex-1 space-y-6">
                 <flux:select
                     variant="listbox"
-                    multiple
-                    indicator="checkbox"
                     wire:model="contentTypes"
                     :label="__('Type of Content')"
-                    :description="__('Select one or more types of content you create')"
+                    :description="__('Select the type of content you create')"
+                    :placeholder="__('Select one...')"
                 >
                     <flux:option value="streaming">{{ __('Live Streaming') }}</flux:option>
                     <flux:option value="content">{{ __('Content (Videos)') }}</flux:option>
+                    <flux:option value="both">{{ __('Both') }}</flux:option>
                 </flux:select>
             </div>
         </div>
@@ -79,6 +85,7 @@ new #[Layout('layouts.app')] class extends Component {
                     wire:model.live="platforms"
                     :label="__('Content Platforms')"
                     :description="__('Select all platforms where you create content')"
+                    :placeholder="__('Select one or more...')"
                 >
                     <flux:option value="youtube">{{ __('YouTube') }}</flux:option>
                     <flux:option value="twitch">{{ __('Twitch') }}</flux:option>
@@ -116,9 +123,9 @@ new #[Layout('layouts.app')] class extends Component {
                             wire:model="channels.{{ $index }}.platform"
                             variant="listbox"
                             :label="__('Platform')"
+                            :placeholder="__('Select platform...')"
                             required
                         >
-                            <flux:option value="">{{ __('Select platform...') }}</flux:option>
                             @foreach($platforms as $platform)
                                 <flux:option value="{{ $platform }}">
                                     @if($platform === 'youtube')
@@ -172,7 +179,7 @@ new #[Layout('layouts.app')] class extends Component {
                 toolbar="bold italic underline | bullet ordered highlight | link ~ undo redo"
                 wire:model="aboutYou"
                 required
-                placeholder="Share details about your content, experience, and what you've created so far..."
+                :placeholder="__('Share details about your content, experience, and what you have created so far...')"
             />
         </div>
 
