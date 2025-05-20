@@ -1,10 +1,12 @@
 <?php
 
+use App\Actions\Partner\SubmitPartnerApplication;
+use App\Enums\Partner\Platform;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
-    public array $contentTypes = [];
+    public string $contentType;
     public array $platforms = [];
     public array $channels = [
         [
@@ -30,9 +32,41 @@ new #[Layout('layouts.app')] class extends Component {
         }
     }
 
-    public function submit()
+    public function submit(SubmitPartnerApplication $action)
     {
-        //
+        $this->validate([
+            'contentType'         => 'required|string|in:streaming,content,both',
+            'platforms'           => 'required|array|min:1',
+            'platforms.*'         => 'string|in:youtube,twitch,tiktok,facebook',
+            'channels'            => 'required|array|min:1',
+            'channels.*.platform' => 'required|string',
+            'channels.*.name'     => 'required|string',
+            'aboutYou'            => 'required|string|min:50',
+        ]);
+
+        $result = $action->handle(
+            auth()->user(),
+            $this->contentType,
+            $this->platforms,
+            $this->channels,
+            $this->aboutYou
+        );
+
+        if ($result['success']) {
+            Flux::toast(
+                text: __('Your application has been submitted successfully!'),
+                heading: __('Success'),
+                variant: 'success',
+            );
+
+            return redirect()->route('partners.status');
+        } else {
+            Flux::toast(
+                text: $result['message'],
+                heading: __('Error'),
+                variant: 'danger',
+            );
+        }
     }
 }; ?>
 
@@ -57,7 +91,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="flex-1 space-y-6">
                 <flux:select
                     variant="listbox"
-                    wire:model="contentTypes"
+                    wire:model="contentType"
                     :label="__('Type of Content')"
                     :description="__('Select the type of content you create')"
                     :placeholder="__('Select one...')"
@@ -87,10 +121,9 @@ new #[Layout('layouts.app')] class extends Component {
                     :description="__('Select all platforms where you create content')"
                     :placeholder="__('Select one or more...')"
                 >
-                    <flux:option value="youtube">{{ __('YouTube') }}</flux:option>
-                    <flux:option value="twitch">{{ __('Twitch') }}</flux:option>
-                    <flux:option value="tiktok">{{ __('TikTok') }}</flux:option>
-                    <flux:option value="facebook">{{ __('Facebook') }}</flux:option>
+                    @foreach(Platform::cases() as $platform)
+                        <flux:option value="{{ $platform->value }}">{{ $platform->getLabel() }}</flux:option>
+                    @endforeach
                 </flux:select>
             </div>
         </div>
@@ -126,20 +159,13 @@ new #[Layout('layouts.app')] class extends Component {
                             :placeholder="__('Select platform...')"
                             required
                         >
-                            @foreach($platforms as $platform)
-                                <flux:option value="{{ $platform }}">
-                                    @if($platform === 'youtube')
-                                        {{ __('YouTube') }}
-                                    @elseif($platform === 'twitch')
-                                        {{ __('Twitch') }}
-                                    @elseif($platform === 'tiktok')
-                                        {{ __('TikTok') }}
-                                    @elseif($platform === 'facebook')
-                                        {{ __('Facebook') }}
-                                    @else
-                                        {{ $platform }}
-                                    @endif
-                                </flux:option>
+                            @foreach($platforms as $platformValue)
+                                @php $platform = Platform::tryFrom($platformValue); @endphp
+                                @if($platform)
+                                    <flux:option value="{{ $platformValue }}">
+                                        {{ $platform->getLabel() }}
+                                    </flux:option>
+                                @endif
                             @endforeach
                         </flux:select>
 

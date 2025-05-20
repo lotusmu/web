@@ -49,8 +49,10 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-ticket'),
                 NavigationGroup::make('Payments')
                     ->icon('heroicon-o-banknotes'),
-                NavigationGroup::make('Settings')
-                    ->icon('heroicon-o-cog-6-tooth'),
+                NavigationGroup::make('Payments')
+                    ->icon('heroicon-o-banknotes'),
+                NavigationGroup::make('Partners')
+                    ->icon('heroicon-o-video-camera'),
                 NavigationGroup::make('Catalog')
                     ->icon('heroicon-o-building-storefront'),
                 NavigationGroup::make('Rankings')

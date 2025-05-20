@@ -117,6 +117,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('partners')->group(function () {
         Volt::route('/apply', 'pages.partners.application')
             ->name('partners.apply');
+
+        Volt::route('/status', 'pages.partners.status')
+            ->name('partners.status');
     });
 
 });
