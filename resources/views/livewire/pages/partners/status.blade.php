@@ -77,7 +77,7 @@ new #[Layout('layouts.app')] class extends Component {
             @if($application->notes)
                 <div>
                     <flux:heading>{{ __('Admin Notes') }}</flux:heading>
-                    <flux:text class="mt-2">{{ $application->notes }}</flux:text>
+                    <x-prose :content="$application->notes" class="mt-2"/>
                 </div>
             @endif
         </flux:card>
