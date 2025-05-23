@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PartnerApplicationResource\Pages;
 
+use App\Actions\User\SendNotification;
 use App\Enums\Partner\ApplicationStatus;
 use App\Enums\Partner\Platform;
 use App\Filament\Resources\PartnerApplicationResource;
@@ -9,6 +10,7 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Infolists\Components;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewPartnerApplication extends ViewRecord
@@ -34,10 +36,21 @@ class ViewPartnerApplication extends ViewRecord
                         ->required(),
                 ])
                 ->action(function (array $data) {
+                    $oldStatus = $this->record->status;
+                    $newStatus = ApplicationStatus::from($data['status']);
+
                     $this->record->update([
                         'status' => $data['status'],
                         'reviewed_at' => now(),
                     ]);
+
+                    Notification::make()
+                        ->success()
+                        ->title('Success!')
+                        ->body('Application status updated successfully.')
+                        ->send();
+
+                    $this->sendStatusNotification($oldStatus, $newStatus);
                 }),
 
             Actions\Action::make('addNotes')
@@ -54,9 +67,44 @@ class ViewPartnerApplication extends ViewRecord
                 ->action(function (array $data) {
                     $this->record->update([
                         'notes' => $data['notes'],
+                        'reviewed_at' => now(),
                     ]);
+
+                    Notification::make()
+                        ->success()
+                        ->title('Success!')
+                        ->body('Notes added successfully.')
+                        ->send();
+
+                    SendNotification::make('Application Notes Added')
+                        ->body("We've added notes to your partner application.")
+                        ->action('View Application', route('partners.status'))
+                        ->send($this->record->user);
                 }),
         ];
+    }
+
+    private function sendStatusNotification(ApplicationStatus $oldStatus, ApplicationStatus $newStatus): void
+    {
+        if ($oldStatus === $newStatus) {
+            return;
+        }
+
+        $title = match ($newStatus) {
+            ApplicationStatus::APPROVED => 'Partner Application Approved',
+            ApplicationStatus::REJECTED, ApplicationStatus::PENDING => 'Partner Application Update',
+        };
+
+        $body = match ($newStatus) {
+            ApplicationStatus::APPROVED => 'Congratulations! Your partner application has been approved. You can now start earning through our partner program.',
+            ApplicationStatus::REJECTED => "We've reviewed your partner application. Unfortunately, it wasn't approved at this time.",
+            ApplicationStatus::PENDING => 'Your partner application status has been updated to pending review.',
+        };
+
+        SendNotification::make($title)
+            ->body($body)
+            ->action('View Application', route('partners.status'))
+            ->send($this->record->user);
     }
 
     public function infolist(Infolist $infolist): Infolist
