@@ -17,7 +17,6 @@ class Partner extends Model
         'level',
         'promo_code',
         'commission_rate',
-        'vip_until',
         'status',
         'platforms',
         'channels',
@@ -30,7 +29,6 @@ class Partner extends Model
         'platforms' => 'array',
         'channels' => 'array',
         'approved_at' => 'datetime',
-        'vip_until' => 'datetime',
         'commission_rate' => 'decimal:2',
     ];
 

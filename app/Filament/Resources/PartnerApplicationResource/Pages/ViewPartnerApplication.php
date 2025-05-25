@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PartnerApplicationResource\Pages;
 
+use App\Actions\Partner\CreatePartnerFromApplication;
 use App\Actions\User\SendNotification;
 use App\Enums\Partner\ApplicationStatus;
 use App\Enums\Partner\Platform;
@@ -20,37 +21,57 @@ class ViewPartnerApplication extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('changeStatus')
-                ->label('Change Status')
-                ->icon('heroicon-o-pencil-square')
-                ->color('primary')
+            Actions\Action::make('approve')
+                ->label('Approve')
+                ->icon('heroicon-o-check-circle')
+                ->color('success')
+                ->visible(fn () => $this->record->status === ApplicationStatus::PENDING)
+                ->requiresConfirmation()
+                ->modalHeading('Approve Partner Application')
+                ->modalDescription('Are you sure you want to approve this partner application? This will create a partner account.')
+                ->action(function () {
+                    $this->record->update([
+                        'status' => ApplicationStatus::APPROVED->value,
+                        'reviewed_at' => now(),
+                    ]);
+
+                    (new CreatePartnerFromApplication)->handle($this->record);
+
+                    Notification::make()
+                        ->success()
+                        ->title('Application Approved!')
+                        ->body('Partner account has been created successfully.')
+                        ->send();
+
+                    $this->sendStatusNotification(ApplicationStatus::PENDING, ApplicationStatus::APPROVED);
+                }),
+
+            Actions\Action::make('reject')
+                ->label('Reject')
+                ->icon('heroicon-o-x-circle')
+                ->color('danger')
+                ->visible(fn () => $this->record->status === ApplicationStatus::PENDING)
                 ->form([
-                    Forms\Components\Select::make('status')
-                        ->label('Application Status')
-                        ->options([
-                            ApplicationStatus::PENDING->value => 'Pending Review',
-                            ApplicationStatus::APPROVED->value => 'Approved',
-                            ApplicationStatus::REJECTED->value => 'Rejected',
-                        ])
-                        ->default(fn () => $this->record->status->value)
-                        ->required(),
+                    Forms\Components\RichEditor::make('rejection_notes')
+                        ->label('Rejection Reason')
+                        ->placeholder('Please provide a reason for rejecting this application')
+                        ->required()
+                        ->helperText('This message will be visible to the applicant.'),
                 ])
                 ->action(function (array $data) {
-                    $oldStatus = $this->record->status;
-                    $newStatus = ApplicationStatus::from($data['status']);
-
                     $this->record->update([
-                        'status' => $data['status'],
+                        'status' => ApplicationStatus::REJECTED->value,
                         'reviewed_at' => now(),
+                        'notes' => $data['rejection_notes'],
                     ]);
 
                     Notification::make()
                         ->success()
-                        ->title('Success!')
-                        ->body('Application status updated successfully.')
+                        ->title('Application Rejected')
+                        ->body('Rejection reason has been saved.')
                         ->send();
 
-                    $this->sendStatusNotification($oldStatus, $newStatus);
+                    $this->sendStatusNotification(ApplicationStatus::PENDING, ApplicationStatus::REJECTED);
                 }),
 
             Actions\Action::make('addNotes')
@@ -72,12 +93,12 @@ class ViewPartnerApplication extends ViewRecord
 
                     Notification::make()
                         ->success()
-                        ->title('Success!')
-                        ->body('Notes added successfully.')
+                        ->title('Notes Updated')
+                        ->body('Notes have been saved successfully.')
                         ->send();
 
                     SendNotification::make('Application Notes Added')
-                        ->body("We've added notes to your partner application.")
+                        ->body("We've updated the notes on your partner application.")
                         ->action('View Application', route('partners.status'))
                         ->send($this->record->user);
                 }),

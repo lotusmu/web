@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Partner\PartnerRouteHandler;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -115,11 +116,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('partners')->group(function () {
-        Volt::route('/apply', 'pages.partners.application')
-            ->name('partners.apply');
+        Route::get('/', PartnerRouteHandler::class)->name('partners.index');
+        Route::get('/apply', PartnerRouteHandler::class)->name('partners.apply');
 
-        Volt::route('/status', 'pages.partners.status')
-            ->name('partners.status');
+        Volt::route('/application', 'pages.partners.application')
+            ->middleware('partner.application.check')
+            ->name('partners.application');
+
+        Volt::route('/status', 'pages.partners.status')->name('partners.status');
+        Volt::route('/dashboard', 'pages.partners.dashboard')
+            ->middleware('partner')
+            ->name('partners.dashboard');
     });
 
 });

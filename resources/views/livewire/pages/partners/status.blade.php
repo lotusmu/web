@@ -1,6 +1,6 @@
 <?php
-// pages/partners/status.blade.php
 
+use App\Enums\Partner\ApplicationStatus;
 use App\Models\Partner\PartnerApplication;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -13,6 +13,26 @@ new #[Layout('layouts.app')] class extends Component {
         $this->application = PartnerApplication::where('user_id', auth()->id())
             ->latest()
             ->first();
+    }
+
+    public function getCanReapplyProperty(): bool
+    {
+        if ( ! $this->application || $this->application->status !== ApplicationStatus::REJECTED) {
+            return false;
+        }
+
+        $sixMonthsAfter = $this->application->created_at->addMonths(6);
+
+        return now()->greaterThanOrEqualTo($sixMonthsAfter);
+    }
+
+    public function getReapplyDateProperty(): ?string
+    {
+        if ( ! $this->application || $this->application->status !== ApplicationStatus::REJECTED) {
+            return null;
+        }
+
+        return $this->application->created_at->addMonths(6)->format('M j, Y');
     }
 }; ?>
 
@@ -38,6 +58,30 @@ new #[Layout('layouts.app')] class extends Component {
                 </flux:badge>
             </div>
 
+            @if($application->status === ApplicationStatus::REJECTED)
+                <flux:card variant="outline" class="border-red-200 bg-red-50">
+                    <div class="space-y-3">
+                        <flux:heading>
+                            {{ __('Application Not Approved') }}
+                        </flux:heading>
+
+                        @if($this->canReapply)
+                            <flux:text>
+                                {{ __('Thank you for your interest. You\'re now eligible to submit a new application with updated information.') }}
+                            </flux:text>
+                            <flux:button href="{{ route('partners.apply') }}" variant="primary" size="sm">
+                                {{ __('Submit New Application') }}
+                            </flux:button>
+                        @else
+                            <flux:text>
+                                {{ __('Thank you for your interest. You may submit a new application after :date to give you time to address our feedback.', ['date' => $this->reapplyDate]) }}
+                            </flux:text>
+                        @endif
+                    </div>
+                </flux:card>
+            @endif
+
+            <!-- Rest of the template stays the same -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <flux:heading>{{ __('Content Type') }}</flux:heading>

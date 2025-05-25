@@ -16,12 +16,14 @@ class PromoCodeUsage extends Model
         'commission_amount',
         'discount_amount',
         'transaction_id',
+        'paid_at',
     ];
 
     protected $casts = [
         'donation_amount' => 'decimal:2',
         'commission_amount' => 'decimal:2',
         'discount_amount' => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
 
     public function partner(): BelongsTo

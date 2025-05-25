@@ -11,6 +11,8 @@ use App\Http\Middleware\CheckUserBannedMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
 use App\Http\Middleware\EnsureVipOnlyMiddleware;
 use App\Http\Middleware\LocaleMiddleware;
+use App\Http\Middleware\PartnerApplicationCheckMiddleware;
+use App\Http\Middleware\PartnerMiddleware;
 use App\Http\Middleware\ValidPrimeWebhookIpMiddleware;
 use App\Services\GameServerStatusService;
 use Illuminate\Console\Scheduling\Schedule;
@@ -38,6 +40,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'vip.only' => EnsureVipOnlyMiddleware::class,
+            'partner' => PartnerMiddleware::class,
+            'partner.application.check' => PartnerApplicationCheckMiddleware::class,
             'non.vip.only' => EnsureNonVipOnlyMiddleware::class,
             'article.published' => CheckArticlePublishedMiddleware::class,
             'valid-prime-webhook-ip' => ValidPrimeWebhookIpMiddleware::class,

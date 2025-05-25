@@ -65,37 +65,10 @@ class PartnerApplicationResource extends Resource
                     ]),
             ])
             ->actions([
-                Action::make('approve')
-                    ->label('Approve')
-                    ->color('success')
-                    ->icon('heroicon-o-check-circle')
-                    ->visible(fn (PartnerApplication $record) => $record->status === ApplicationStatus::PENDING)
-                    ->action(function (PartnerApplication $record) {
-                        $record->update([
-                            'status' => ApplicationStatus::APPROVED->value,
-                            'reviewed_at' => now(),
-                        ]);
-
-                        // In the future, we'll create a Partner record here
-                    }),
-
-                Action::make('reject')
-                    ->label('Reject')
-                    ->color('danger')
-                    ->icon('heroicon-o-x-circle')
-                    ->visible(fn (PartnerApplication $record) => $record->status === ApplicationStatus::PENDING)
-                    ->action(function (PartnerApplication $record) {
-                        $record->update([
-                            'status' => ApplicationStatus::REJECTED->value,
-                            'reviewed_at' => now(),
-                        ]);
-                    }),
-
                 Action::make('view')
                     ->label('View')
                     ->icon('heroicon-o-eye')
                     ->url(fn (PartnerApplication $record) => static::getUrl('view', ['record' => $record])),
-
             ])
             ->defaultSort('created_at', 'desc');
     }

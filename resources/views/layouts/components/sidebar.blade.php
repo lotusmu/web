@@ -25,7 +25,7 @@
         {{ __('Stealth Mode') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="handshake" :href="route('partners.apply')">
+    <flux:navlist.item wire:navigate.hover icon="handshake" :href="route('partners.index')">
         {{ __('Partner Program') }}
     </flux:navlist.item>
 
