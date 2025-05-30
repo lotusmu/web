@@ -11,6 +11,30 @@ new #[Layout('layouts.app')] class extends Component {
     public $paymentMethod;
     public $packages;
 
+    public $showPromoCode = false;
+    public $promoCode = '';
+    public $promoCodeStatus = null;
+    public $promoBonus = 10;
+
+    public function updatedPromoCode()
+    {
+        if (empty($this->promoCode)) {
+            $this->promoCodeStatus = null;
+            $this->promoBonus      = 0;
+
+            return;
+        }
+
+        // Mock validation for UI testing
+        if (strtoupper($this->promoCode) === 'STREAMER10') {
+            $this->promoCodeStatus = 'valid';
+            $this->promoBonus      = 10;
+        } else {
+            $this->promoCodeStatus = 'invalid';
+            $this->promoBonus      = 0;
+        }
+    }
+
     public function mount(): void
     {
         $this->packages = TokenPackage::all();
@@ -59,9 +83,17 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function getTokenSummary(TokenPackage $package): array
     {
+        $baseAmount   = $package->tokens_amount;
+        $packageBonus = $package->bonus_rate > 0 ? $package->bonus_rate : 0;
+        $promoBonus   = $this->promoCodeStatus === 'valid' ? $this->promoBonus : 0;
+
+        $totalBonus  = $packageBonus + $promoBonus;
+        $finalAmount = $baseAmount + ($baseAmount * $totalBonus / 100);
+
         return [
-            'amount' => number_format($package->tokens_amount),
-            'bonus'  => $package->bonus_rate > 0 ? $package->bonus_rate : null,
+            'amount'        => number_format($finalAmount),
+            'bonus'         => $totalBonus > 0 ? $totalBonus : null,
+            'promo_applied' => $promoBonus > 0,
         ];
     }
 }; ?>
@@ -113,6 +145,53 @@ new #[Layout('layouts.app')] class extends Component {
             </flux:radio>
         @endforeach
     </flux:radio.group>
+
+    <!-- Promo Code Accordion -->
+    <flux:card>
+        <flux:accordion transition>
+            <flux:accordion.item>
+                <flux:accordion.heading>
+                    <div class="flex items-center gap-3">
+                        <flux:icon.tag class="w-5 h-5"/>
+                        <span>{{ __('Got a promo code?') }}</span>
+                        @if($promoCodeStatus === 'valid')
+                            <flux:badge size="sm" color="green" inset="top bottom">
+                                {{ __('Applied') }}
+                            </flux:badge>
+                        @endif
+                    </div>
+                </flux:accordion.heading>
+
+                <flux:accordion.content>
+                    <div class="space-y-3">
+                        <flux:input
+                            wire:model.live.debounce.300ms="promoCode"
+                            placeholder="{{ __('STREAMER10') }}"
+                            class="mt-1"
+                        />
+
+                        @if($promoCodeStatus === 'valid')
+                            <flux:text class="flex items-center gap-2 !text-green-600 dark:!text-green-400">
+                                <flux:icon.check class="w-4 h-4"/>
+                                <span>{{ __('Nice! You\'re getting') }} +{{ $promoBonus }}% {{ __('extra tokens') }}</span>
+                            </flux:text>
+                        @elseif($promoCodeStatus === 'invalid')
+                            <flux:text class="flex items-center gap-2 !text-red-600 dark:!text-red-400">
+                                <flux:icon.x-mark class="w-4 h-4"/>
+                                <span>{{ __('Hmm, that code isn\'t working') }}</span>
+                            </flux:text>
+                        @endif
+
+                        @if(!$promoCode)
+                            <flux:text>
+                                {{ __('Enter your favorite streamer\'s code to earn bonus tokens') }}
+                            </flux:text>
+                        @endif
+                    </div>
+                </flux:accordion.content>
+            </flux:accordion.item>
+        </flux:accordion>
+    </flux:card>
 
     <flux:radio.group label="{{__('Payment method')}}" variant="cards" :indicator="false"
                       class="grid grid-cols-1 sm:grid-cols-2" wire:model="paymentMethod">
