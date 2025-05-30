@@ -62,11 +62,6 @@
                     {{ __('Daily Rewards') }}
                 </flux:tab>
 
-                <flux:tab name="locations" :accent="false" icon="map-pinned">
-                    {{ __('Key Locations') }}
-                </flux:tab>
-
-
                 <flux:tab name="helper" :accent="false" icon="bot">
                     {{ __('Helper') }}
                 </flux:tab>
@@ -176,58 +171,6 @@
                     <x-slot:media>
                         <x-home.feature-picture src="images/essentials/daily-rewards"
                                                 alt="Daily rewards in-game screen"/>
-                    </x-slot:media>
-                </x-home.feature-split>
-            </flux:tab.panel>
-
-            <flux:tab.panel name="locations">
-                <x-home.feature-split type="image">
-                    <x-slot:text>
-                        <flux:heading size="lg">
-                            {{ __('Key Locations') }}
-                        </flux:heading>
-
-                        <div class="space-y-2">
-                            <flux:text>
-                                {{  __("There are key locations in the realm of Lotus Mu - they are the cornerstones of everything, and you'll visit them often.") }}
-                            </flux:text>
-
-                            <flux:text>
-                                <ul class="list-disc ml-8">
-                                    <li>
-                                        <flux:link variant="ghost"
-                                                   href="https://wiki.lotusmu.org/maps/yoskreth"
-                                                   external>
-                                            {{ __('Yoskreth') }}
-                                        </flux:link>
-                                        {{ __('– the capital city of Lotus Mu.') }}
-                                    </li>
-                                    <li>
-                                        <flux:link variant="ghost"
-                                                   href="https://wiki.lotusmu.org/maps/the-citadel"
-                                                   external>
-                                            {{ __('The Citadel') }}
-                                        </flux:link>
-                                        {{ __('– exclusive battleground zone.') }}
-
-                                    </li>
-                                    <li>
-                                        <flux:link variant="ghost"
-                                                   href="https://wiki.lotusmu.org/maps/vip-arena"
-                                                   external>
-                                            {{ __('VIP Arena') }}
-                                        </flux:link>
-                                        {{ __('– leveling zone for our VIP Members.') }}
-
-                                    </li>
-                                </ul>
-                            </flux:text>
-                        </div>
-                    </x-slot:text>
-
-                    <x-slot:media>
-                        <x-home.feature-picture src="images/essentials/key-locations"
-                                                alt="Key locations image in Lotus Mu including Yoskreth, The Citadel and VIP Arena"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>

@@ -1,28 +1,19 @@
 <div class="flex gap-2 items-center">
     <flux:icon.fire variant="solid" class="text-orange-500 dark:text-orange-400"/>
-    <flux:link href="https://wiki.lotusmu.org/maps/vip-arena" external>
-        <flux:heading>
-            {{ __('Exclusive VIP Arena & Shop') }}
-        </flux:heading>
-    </flux:link>
-</div>
-
-<div class="flex gap-2 items-center">
-    <flux:icon.check-badge variant="solid" class="text-sky-500 dark:text-sky-400"/>
     <flux:heading>
         {{ __('MG & DL from Level 1') }}
     </flux:heading>
 </div>
 
 <div class="flex gap-2 items-center">
-    <flux:icon.check-badge variant="solid" class="text-sky-500 dark:text-sky-400"/>
+    <flux:icon.fire variant="solid" class="text-orange-500 dark:text-orange-400"/>
     <flux:heading>
         {{ __('+20% Bonus EXP') }}
     </flux:heading>
 </div>
 
 <div class="flex gap-2 items-center">
-    <flux:icon.check-badge variant="solid" class="text-sky-500 dark:text-sky-400"/>
+    <flux:icon.fire variant="solid" class="text-orange-500 dark:text-orange-400"/>
     <flux:heading>
         {{ __('+10% Bonus Drop') }}
     </flux:heading>
