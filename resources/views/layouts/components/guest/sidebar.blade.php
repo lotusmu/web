@@ -19,10 +19,6 @@
         {{ __('Rankings') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="calendar-days" href="{{ route('schedule') }}">
-        {{ __('Event Schedule') }}
-    </flux:navlist.item>
-
     <flux:navlist.item wire:navigate.hover icon="information-circle" href="{{ route('server.overview') }}">
         {{ __('Server Overview') }}
     </flux:navlist.item>

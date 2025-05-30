@@ -129,12 +129,6 @@
                                            external>
                                     {{ __('our wiki') }}
                                 </flux:link>
-                                {{ __('or track your next prey in the') }}
-                                <flux:link variant="ghost"
-                                           :href="route('schedule')"
-                                           wire:navigate.hover>
-                                    {{ __('event schedule.') }}
-                                </flux:link>
                             </flux:text>
                         </div>
                     </x-slot:text>
