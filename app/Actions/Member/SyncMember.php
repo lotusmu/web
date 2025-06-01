@@ -5,6 +5,7 @@ namespace App\Actions\Member;
 use App\Models\Game\Wallet;
 use App\Models\User\Member;
 use App\Models\User\User;
+use App\Models\Utility\GameServer;
 use Illuminate\Support\Facades\DB;
 
 class SyncMember
@@ -43,11 +44,17 @@ class SyncMember
     private function createWalletIfNeeded(User $user, Member $member): void
     {
         if ($member->wasRecentlyCreated) {
-            Wallet::create([
-                'AccountID' => $user->name,
-                'WCoinC' => 0,
-                'zen' => 0,
-            ]);
+            $activeServers = GameServer::where('is_active', true)->get();
+
+            foreach ($activeServers as $server) {
+                session(['game_db_connection' => $server->connection_name]);
+
+                Wallet::create([
+                    'AccountID' => $user->name,
+                    'WCoinC' => 0,
+                    'zen' => 0,
+                ]);
+            }
         }
     }
 
