@@ -64,11 +64,11 @@ return [
             'trust_server_certificate' => true,
         ],
 
-        'gamedb_x200' => [
+        'gamedb_x5' => [
             'driver' => 'sqlsrv',
             'host' => env('GAME_DB_HOST', 'localhost'),
             'port' => env('GAME_DB_PORT', '1433'),
-            'database' => env('X200_DB_DATABASE', 'MuOnline'),
+            'database' => env('X5_DB_DATABASE', 'MuOnline'),
             'username' => env('GAME_DB_USERNAME', 'sa'),
             'password' => env('GAME_DB_PASSWORD', ''),
             'charset' => env('DB_CHARSET', 'utf8'),
