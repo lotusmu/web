@@ -45,6 +45,14 @@ class GameServerResource extends Resource
                             ->required()
                             ->helperText('Select the database connection for this server.'),
 
+                        TextInput::make('port')
+                            ->label('Game Server Port')
+                            ->required()
+                            ->numeric()
+                            ->default(55901)
+                            ->maxLength(5)
+                            ->helperText('Enter the port for the main game server.'),
+
                         DateTimePicker::make('launch_date')
                             ->label('Launch Date')
                             ->native(false)

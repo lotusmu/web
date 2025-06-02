@@ -45,7 +45,7 @@ class GameServerStatusService
         try {
             $socket = fsockopen(
                 config("database.connections.{$server->connection_name}.host"),
-                config('gameserver.port'),
+                $server->port,
                 $errno,
                 $errstr,
                 config('gameserver.socket_timeout')

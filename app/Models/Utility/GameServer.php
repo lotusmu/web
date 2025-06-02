@@ -13,6 +13,7 @@ class GameServer extends Model
     protected $fillable = [
         'name',
         'connection_name',
+        'port',
         'experience_rate',
         'drop_rate',
         'is_active',

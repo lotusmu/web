@@ -95,7 +95,7 @@ new class extends Component {
 
         $requestCache = Cache::remember('all_server_options', now()->addMinutes(5), function () {
             return GameServer::where('is_active', true)
-                ->get(['id', 'name', 'connection_name', 'experience_rate', 'online_multiplier'])
+                ->get(['id', 'name', 'connection_name', 'experience_rate', 'online_multiplier', 'port'])
                 ->mapWithKeys(function ($server) {
                     $status = $server->getStatus();
 
@@ -105,7 +105,8 @@ new class extends Component {
                             'experience_rate' => $server->experience_rate,
                             'online_count'    => $status['multiplied_count'],
                             'is_online'       => $status['is_online'],
-                            'last_updated'    => $status['last_updated']
+                            'last_updated'    => $status['last_updated'],
+                            'port'            => $server->port,
                         ]
                     ];
                 });
