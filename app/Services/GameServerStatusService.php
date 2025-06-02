@@ -68,8 +68,16 @@ class GameServerStatusService
     private function getServerOnlineCount(GameServer $server): int
     {
         try {
-            return Status::on($server->connection_name)
-                ->where('ConnectStat', 1)
+            $serverName = str_replace('gamedb_', '', $server->connection_name);
+
+            $serverVariants = [
+                $serverName,
+                $serverName.'-TVT',
+                $serverName.'-GS',
+            ];
+
+            return Status::online()
+                ->whereIn('ServerName', $serverVariants)
                 ->count();
         } catch (Exception $e) {
             Log::error("Query failed for {$server->name}: {$e->getMessage()}");
