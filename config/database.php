@@ -54,7 +54,7 @@ return [
         'gamedb_main' => [
             'driver' => 'sqlsrv',
             'host' => env('GAME_DB_HOST', 'localhost'),
-            'port' => env('MAIN_DB_PORT', '1433'),
+            'port' => env('GAME_DB_PORT', '1433'),
             'database' => env('MAIN_DB_DATABASE', 'MuOnline'),
             'username' => env('GAME_DB_USERNAME', 'sa'),
             'password' => env('GAME_DB_PASSWORD', ''),
@@ -67,7 +67,7 @@ return [
         'gamedb_x5' => [
             'driver' => 'sqlsrv',
             'host' => env('GAME_DB_HOST', 'localhost'),
-            'port' => env('X5_DB_PORT', '1433'),
+            'port' => env('GAME_DB_PORT', '1433'),
             'database' => env('X5_DB_DATABASE', 'MuOnline'),
             'username' => env('GAME_DB_USERNAME', 'sa'),
             'password' => env('GAME_DB_PASSWORD', ''),
