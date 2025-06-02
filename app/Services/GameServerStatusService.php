@@ -57,9 +57,19 @@ class GameServerStatusService
                 return true;
             }
 
+            // Server is offline
+            Log::info("Server {$server->name} is offline (port {$server->port})");
+
             return false;
         } catch (Exception $e) {
-            Log::error("Socket connection failed for {$server->name}: {$e->getMessage()}");
+            // Check if it's just a connection timeout/refused (normal offline state)
+            if (str_contains($e->getMessage(), 'Connection timed out') ||
+                str_contains($e->getMessage(), 'Connection refused')) {
+                Log::info("Server {$server->name} is offline: {$e->getMessage()}");
+            } else {
+                // Log unexpected errors as warnings
+                Log::warning("Unexpected error checking {$server->name}: {$e->getMessage()}");
+            }
 
             return false;
         }
