@@ -28,6 +28,18 @@ new #[Layout('layouts.app')] class extends Component {
         $this->initializeTaxable();
     }
 
+    public function pollQuestStatus(): void
+    {
+        $this->character->refresh();
+        $this->character->load('quest');
+    }
+
+    #[Computed]
+    public function shouldPoll(): bool
+    {
+        return ! $this->canSkipQuest;
+    }
+
     #[Computed]
     public function pkClearCost(): int
     {
@@ -151,6 +163,8 @@ new #[Layout('layouts.app')] class extends Component {
                             {{ __('Skip Quest') }}
                         </flux:menu.item>
                     </flux:modal.trigger>
+                @else
+                    <div {{ $this->shouldPoll ? 'wire:poll.5s=pollQuestStatus' : '' }}></div>
                 @endif
 
                 @if($this->canClearPk)
