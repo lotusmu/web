@@ -934,6 +934,8 @@
     "Ranking Reward": "Recompensa de Classificação",
     "Ranking Reward: Tokens": "Recompensa de Classificação: Tokens",
     "Ranking Reward: Credits": "Recompensa de Classificação: Créditos",
+    "Ranking Reward: Game Points": "Recompensa de Classificação: Pontos de jogo",
+    "Ranking Reward: Lucky Tickets": "Recompensa de Classificação: Bilhetes da sorte",
     "Ranking Reward: Zen": "Recompensa de Classificação: Zen",
     "Your character :character earned rank #:rank in the weekly events ranking and received :amount :resource.": "Seu personagem :character conquistou a posição #:rank na classificação semanal de eventos e recebeu :amount :resource.",
     "Your character :character earned rank #:rank in the weekly hunting ranking and received :amount :resource.": "Seu personagem :character conquistou a posição #:rank na classificação semanal de caça e recebeu :amount :resource.",
@@ -948,5 +950,9 @@
     "A new patch note \":title\" has been released. Check out the latest improvements and fixes.": "Novas mudanças do jogo \":title\" foram lançadas. Confira as últimas melhorias e correções.",
     "New Article Published": "Novo artigo publicado",
     "We've published a new article \":title\". Don't miss out on the latest updates!": "Publicamos um novo artigo \":title\". Não perca as últimas atualizações!",
-    "Read More": "Ler mais"
+    "Read More": "Ler mais",
+    "Game Points": "Pontos de jogo",
+    "Lucky Tickets": "Bilhetes da sorte",
+    "Game Points Received": "Pontos de jogo recebidos",
+    "Lucky Tickets Received": "Bilhetes da sorte recebidos"
 }

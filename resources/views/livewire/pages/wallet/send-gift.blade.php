@@ -112,7 +112,9 @@ new class extends Component {
     <form wire:submit="transfer" class="mt-6 space-y-6">
         <flux:select wire:model="resourceType" variant="listbox" placeholder="{{__('Choose resource type...')}}">
             @foreach(ResourceType::cases() as $type)
-                <flux:option value="{{ $type->value }}">{{ __($type->getLabel()) }}</flux:option>
+                @if($type !== ResourceType::LUCKY_TICKETS)
+                    <flux:option value="{{ $type->value }}">{{ __($type->getLabel()) }}</flux:option>
+                @endif
             @endforeach
         </flux:select>
 

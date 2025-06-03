@@ -104,7 +104,7 @@ class SendResources
             'amount' => $this->format($amount),
             'tax_amount' => $this->format($taxAmount),
             'tax_rate' => $this->getRate().'%',
-            'resource_type' => Str::title($resourceType->value),
+            'resource_type' => Str::title($resourceType->getLabel()),
             'balance' => $this->format($balance),
             ...IdentityProperties::capture(),
         ];
@@ -135,7 +135,7 @@ class SendResources
             'activity_type' => ActivityType::INCREMENT->value,
             'sender' => $sender->name,
             'amount' => $this->format($amount),
-            'resource_type' => Str::title($resourceType->value),
+            'resource_type' => Str::title($resourceType->getLabel()),
             'balance' => $this->format($balance),
         ];
 
@@ -158,6 +158,8 @@ class SendResources
         $title = match ($resourceType) {
             ResourceType::TOKENS => 'Tokens Received',
             ResourceType::CREDITS => 'Credits Received',
+            ResourceType::GAME_POINTS => 'Game Points Received',
+            ResourceType::LUCKY_TICKETS => 'Lucky Tickets Received',
             ResourceType::ZEN => 'Zen Received',
             default => 'Resources Received',
         };
@@ -166,7 +168,7 @@ class SendResources
             SendNotification::make($title)
                 ->body("You've received :amount :resource on :server.", [
                     'amount' => $this->format($amount),
-                    'resource' => $resourceType->value,
+                    'resource' => $resourceType->getLabel(),
                     'server' => $serverName,
                 ])
                 ->send($recipient);
@@ -174,7 +176,7 @@ class SendResources
             SendNotification::make($title)
                 ->body("You've received :amount :resource.", [
                     'amount' => $this->format($amount),
-                    'resource' => $resourceType->value,
+                    'resource' => $resourceType->getLabel(),
                 ])
                 ->send($recipient);
         }

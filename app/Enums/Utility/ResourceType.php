@@ -28,7 +28,7 @@ enum ResourceType: string implements HasLabel
         return match ($this) {
             self::TOKENS => 'sky',
             self::CREDITS => 'teal',
-            self::GAME_POINTS => 'rose',
+            self::GAME_POINTS => 'fuchsia',
             self::LUCKY_TICKETS => 'green',
             self::ZEN => 'amber',
         };

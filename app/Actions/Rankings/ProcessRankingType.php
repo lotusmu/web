@@ -138,11 +138,11 @@ class ProcessRankingType
                 'character' => $character->Name,
                 'rank' => $rank,
                 'score' => $character->{$this->type->weeklyScoreField()},
-                'reward_type' => $resourceType->value,
+                'reward_type' => $resourceType->getLabel(),
                 'ranking_type' => $this->type->label(),
                 'server' => $this->config->server->name,
             ])
-            ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->value}).");
+            ->log("Received weekly {$this->type->label()} ranking reward for rank #{$rank} ({$resourceType->getLabel()}).");
     }
 
     private function sendRewardNotification($user, $character, $rank, $resourceType, $amount): void
@@ -150,6 +150,8 @@ class ProcessRankingType
         $title = match ($resourceType) {
             ResourceType::TOKENS => 'Ranking Reward: Tokens',
             ResourceType::CREDITS => 'Ranking Reward: Credits',
+            ResourceType::GAME_POINTS => 'Ranking Reward: Game Points',
+            ResourceType::LUCKY_TICKETS => 'Ranking Reward: Lucky Tickets',
             ResourceType::ZEN => 'Ranking Reward: Zen',
             default => 'Ranking Reward',
         };
@@ -160,7 +162,7 @@ class ProcessRankingType
                     'character' => $character->Name,
                     'rank' => $rank,
                     'amount' => $this->format($amount),
-                    'resource' => $resourceType->value,
+                    'resource' => $resourceType->getLabel(),
                 ])
                 ->send($user);
         } else {
@@ -169,7 +171,7 @@ class ProcessRankingType
                     'character' => $character->Name,
                     'rank' => $rank,
                     'amount' => $this->format($amount),
-                    'resource' => $resourceType->value,
+                    'resource' => $resourceType->getLabel(),
                 ])
                 ->send($user);
         }
