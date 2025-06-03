@@ -954,5 +954,10 @@
     "Game Points": "Игрови точки",
     "Lucky Tickets": "Късметлийски билети",
     "Game Points Received": "Получени игрови точки",
-    "Lucky Tickets Received": "Получени късметлийски билети"
+    "Lucky Tickets Received": "Получени късметлийски билети",
+    "Skip Quest": "Пропусни куест",
+    "Skip Quest?": "Пропусни куест?",
+    "Are you sure you want to skip the quest for <strong>:name</strong>?": "Сигурен ли си, че искаш да пропуснеш куеста за <strong>:name</strong>?",
+    "Quest Number:": "Номер на куест:",
+    "Quest reward remains available in-game.": "Наградата от куеста остава достъпна в играта."
 }

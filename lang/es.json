@@ -954,5 +954,10 @@
     "Game Points": "Puntos de juego",
     "Lucky Tickets": "Boletos de suerte",
     "Game Points Received": "Puntos de juego recibidos",
-    "Lucky Tickets Received": "Boletos de suerte recibidos"
+    "Lucky Tickets Received": "Boletos de suerte recibidos",
+    "Skip Quest": "Saltar búsqueda",
+    "Skip Quest?": "¿Saltar búsqueda?",
+    "Are you sure you want to skip the quest for <strong>:name</strong>?": "¿Estás seguro de que quieres saltar la búsqueda de <strong>:name</strong>?",
+    "Quest Number:": "Número de búsqueda:",
+    "Quest reward remains available in-game.": "La recompensa de la búsqueda sigue disponible en el juego."
 }

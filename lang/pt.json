@@ -954,5 +954,10 @@
     "Game Points": "Pontos de jogo",
     "Lucky Tickets": "Bilhetes da sorte",
     "Game Points Received": "Pontos de jogo recebidos",
-    "Lucky Tickets Received": "Bilhetes da sorte recebidos"
+    "Lucky Tickets Received": "Bilhetes da sorte recebidos",
+    "Skip Quest": "Pular missão",
+    "Skip Quest?": "Pular missão?",
+    "Are you sure you want to skip the quest for <strong>:name</strong>?": "Tem certeza de que deseja pular a missão de <strong>:name</strong>?",
+    "Quest Number:": "Número da missão:",
+    "Quest reward remains available in-game.": "A recompensa da missão permanece disponível no jogo."
 }

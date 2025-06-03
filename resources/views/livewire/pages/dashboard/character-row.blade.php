@@ -63,6 +63,11 @@ new #[Layout('layouts.app')] class extends Component {
 
         $this->modal('pk_clear_'.$this->character->Name)->close();
     }
+
+    public function skipQuest(): void
+    {
+        $this->modal('skip_quest_'.$this->character->Name)->close();
+    }
 };
 
 ?>
@@ -107,6 +112,12 @@ new #[Layout('layouts.app')] class extends Component {
                     {{ __('How to Reset') }}
                 </flux:menu.item>
 
+                <flux:modal.trigger name="skip_quest_{{ $this->character->Name }}">
+                    <flux:menu.item icon="forward">
+                        {{ __('Skip Quest') }}
+                    </flux:menu.item>
+                </flux:modal.trigger>
+
                 <flux:modal.trigger name="pk_clear_{{ $this->character->Name }}">
                     <flux:menu.item icon="arrow-path">
                         {{ __('PK Clear') }}
@@ -123,7 +134,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div>
                 <flux:heading size="lg">{{ __('Clear Player Kills ? ') }}</flux:heading>
                 <flux:subheading>
-                    {!! __('Are you sure you want to clear all player kills for <strong >:name </strong >?', [
+                    {!! __('Are you sure you want to clear all player kills for <strong>:name</strong>?', [
                        'name' => $this->character->Name
                    ]) !!}
                 </flux:subheading>
@@ -148,6 +159,45 @@ new #[Layout('layouts.app')] class extends Component {
                 </flux:modal.close>
 
                 <flux:button wire:click="clearKills" type="submit" variant="primary">{{ __('Confirm') }}</flux:button>
+            </div>
+        </flux:modal>
+
+        <flux:modal name="skip_quest_{{ $this->character->Name }}" class="space-y-6 text-start">
+            <div>
+                <flux:heading size="lg">{{ __('Skip Quest?') }}</flux:heading>
+                <flux:subheading>
+                    {!! __('Are you sure you want to skip the quest for <strong>:name</strong>?', [
+                       'name' => $this->character->Name
+                   ]) !!}
+                </flux:subheading>
+            </div>
+
+            <div>
+                <flux:text class="flex gap-1">
+                    {{ __('Quest Number:') }}
+                    <flux:heading>{{ $this->character->PkCount }}</flux:heading>
+                </flux:text>
+                <flux:text class="flex gap-1">
+                    {{ __('Cost:') }}
+                    <flux:heading>{{ number_format($this->clearCost) }} {{ __($this->resource) }}</flux:heading>
+                </flux:text>
+            </div>
+
+            <div class="flex items-center gap-1">
+                <flux:icon.information-circle variant="mini" inset="top bottom"/>
+                <flux:text>
+                    {{ __('Quest reward remains available in-game.') }}
+                </flux:text>
+            </div>
+
+            <div class="flex gap-2">
+                <flux:spacer/>
+
+                <flux:modal.close>
+                    <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                </flux:modal.close>
+
+                <flux:button wire:click="skipQuest" type="submit" variant="primary">{{ __('Confirm') }}</flux:button>
             </div>
         </flux:modal>
     </flux:cell>

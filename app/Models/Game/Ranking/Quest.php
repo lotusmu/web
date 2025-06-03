@@ -23,11 +23,19 @@ class Quest extends Model
         'Name',
         'Quest',
         'MonsterCount',
+        'MonsterCount2',
+        'MonsterCount3',
+        'MonsterCount4',
+        'MonsterCount5',
     ];
 
     protected $casts = [
         'Quest' => 'integer',
         'MonsterCount' => 'integer',
+        'MonsterCount2' => 'integer',
+        'MonsterCount3' => 'integer',
+        'MonsterCount4' => 'integer',
+        'MonsterCount5' => 'integer',
     ];
 
     public function character(): BelongsTo
