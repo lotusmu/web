@@ -943,5 +943,10 @@
     "A new ticket has been created: :title": "Създадена е нова заявка: :title",
     "New Ticket Reply": "Нов отговор по заявка",
     "A new reply has been added to ticket: :title": "Добавен е нов отговор към заявка: :title",
-    "User has marked ticket as resolved: :title": "Потребителят отбеляза заявката като разрешена: :title"
+    "User has marked ticket as resolved: :title": "Потребителят отбеляза заявката като разрешена: :title",
+    "New Update Available": "Налични са нови промени",
+    "A new patch note \":title\" has been released. Check out the latest improvements and fixes.": "Публикувани са нови промени в играта \":title\". Разгледайте най-новите подобрения и поправки.",
+    "New Article Published": "Публикувана е нова статия",
+    "We've published a new article \":title\". Don't miss out on the latest updates!": "Публикувахме нова статия \":title\". Не пропускайте най-новите актуализации!",
+    "Read More": "Прочети повече"
 }

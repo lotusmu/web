@@ -943,5 +943,10 @@
     "A new ticket has been created: :title": "Se ha creado una nueva solicitud: :title",
     "New Ticket Reply": "Nueva Respuesta en Solicitud",
     "A new reply has been added to ticket: :title": "Se ha añadido una nueva respuesta a la solicitud: :title",
-    "User has marked ticket as resolved: :title": "El usuario ha marcado la solicitud como resuelta: :title"
+    "User has marked ticket as resolved: :title": "El usuario ha marcado la solicitud como resuelta: :title",
+    "New Update Available": "Nuevos cambios disponibles",
+    "A new patch note \":title\" has been released. Check out the latest improvements and fixes.": "Se han publicado nuevos cambios del juego \":title\". Consulta las últimas mejoras y correcciones.",
+    "New Article Published": "Nuevo artículo publicado",
+    "We've published a new article \":title\". Don't miss out on the latest updates!": "Hemos publicado un nuevo artículo \":title\". ¡No te pierdas las últimas actualizaciones!",
+    "Read More": "Leer más"
 }
