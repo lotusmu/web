@@ -28,11 +28,15 @@ class Wallet extends Model
     protected $fillable = [
         'AccountID',
         'WCoinC',
+        'WCoinP',
+        'GoblinPoint',
         'zen',
     ];
 
     protected $casts = [
         'WCoinC' => 'integer',
+        'WCoinP',
+        'GoblinPoint',
         'zen' => 'integer',
     ];
 
