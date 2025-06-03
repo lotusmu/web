@@ -1,6 +1,7 @@
 <?php
 
-use App\Actions\SwitchGameServer;
+use App\Actions\GameConnection\SwitchGameServer;
+use App\Actions\GameConnection\GetPreferredServer;
 use App\Models\Utility\GameServer;
 use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
@@ -18,9 +19,13 @@ new class extends Component {
 
     public function mount($triggerType = 'navbar'): void
     {
-        $this->serverOptions    = $this->getServerOptions();
-        $this->selectedServerId = session('selected_server_id', $this->serverOptions->keys()->first());
-        $this->triggerType      = $triggerType;
+        $this->serverOptions = $this->getServerOptions();
+
+        // Use our new preference resolution system
+        $preference             = app(GetPreferredServer::class)->execute();
+        $this->selectedServerId = $preference['server_id'];
+
+        $this->triggerType = $triggerType;
     }
 
     public function updateServer($newServerId, $referer = null): void
