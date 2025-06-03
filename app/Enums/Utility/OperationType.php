@@ -10,6 +10,7 @@ enum OperationType: string implements HasLabel
     case EXCHANGE = 'exchange';
     case PK_CLEAR = 'pk_clear';
     case STEALTH = 'stealth';
+    case QUEST_SKIP = 'quest_skip';
 
     public function getLabel(): string
     {
@@ -18,6 +19,7 @@ enum OperationType: string implements HasLabel
             self::EXCHANGE => 'Exchange',
             self::PK_CLEAR => 'PK Clear',
             self::STEALTH => 'Stealth Mode',
+            self::QUEST_SKIP => 'Quest Skip',
         };
     }
 }

@@ -959,5 +959,8 @@
     "Skip Quest?": "Пропусни куест?",
     "Are you sure you want to skip the quest for <strong>:name</strong>?": "Сигурен ли си, че искаш да пропуснеш куеста за <strong>:name</strong>?",
     "Quest Number:": "Номер на куест:",
-    "Quest reward remains available in-game.": "Наградата от куеста остава достъпна в играта."
+    "Quest reward remains available in-game.": "Наградата от куеста остава достъпна в играта.",
+    "Quest for \":name\" has been skipped successfully.": "Куестът за \":name\" беше пропуснат успешно.",
+    "Your character \":name\" has no active quest to skip.": "Твоят герой \":name\" няма активен куест за пропускане.",
+    "No Active Quest": "Няма Активен Куест"
 }

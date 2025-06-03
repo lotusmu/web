@@ -959,5 +959,8 @@
     "Skip Quest?": "¿Saltar búsqueda?",
     "Are you sure you want to skip the quest for <strong>:name</strong>?": "¿Estás seguro de que quieres saltar la búsqueda de <strong>:name</strong>?",
     "Quest Number:": "Número de búsqueda:",
-    "Quest reward remains available in-game.": "La recompensa de la búsqueda sigue disponible en el juego."
+    "Quest reward remains available in-game.": "La recompensa de la búsqueda sigue disponible en el juego.",
+    "Quest for \":name\" has been skipped successfully.": "La misión de \":name\" ha sido omitida exitosamente.",
+    "Your character \":name\" has no active quest to skip.": "Tu personaje \":name\" no tiene ninguna misión activa para omitir.",
+    "No Active Quest": "Sin Misión Activa"
 }

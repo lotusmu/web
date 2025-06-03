@@ -123,6 +123,21 @@ class Character extends Model
         return $this->quest?->Quest ?? 0;
     }
 
+    public function hasActiveQuest(): bool
+    {
+        $quest = $this->quest;
+
+        if (! $quest) {
+            return false;
+        }
+
+        return $quest->MonsterCount > 0 ||
+            $quest->MonsterCount2 > 0 ||
+            $quest->MonsterCount3 > 0 ||
+            $quest->MonsterCount4 > 0 ||
+            $quest->MonsterCount5 > 0;
+    }
+
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'AccountID', 'memb___id');
