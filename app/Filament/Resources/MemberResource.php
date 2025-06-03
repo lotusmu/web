@@ -158,21 +158,42 @@ class MemberResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mail_addr')
                     ->label('Email')
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('AccountLevel')
                     ->label('Account Level')
+                    ->toggleable()
                     ->badge(),
                 Tables\Columns\TextColumn::make('AccountExpireDate')
                     ->label('VIP Expire Date')
+                    ->toggleable()
                     ->dateTime()
                     ->formatStateUsing(function ($state, $record) {
                         return $record->AccountLevel === AccountLevel::Regular ? '-' : $state;
                     }),
                 Tables\Columns\TextColumn::make('tokens')
                     ->numeric()
+                    ->toggleable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('wallet.credits')
+                Tables\Columns\TextColumn::make('wallet.WCoinC')
                     ->label('Credits')
+                    ->toggleable()
+                    ->sortable()
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('wallet.WCoinP')
+                    ->label('Game Points')
+                    ->toggleable()
+                    ->sortable()
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('wallet.GoblinPoint')
+                    ->label('Lucky Tickets')
+                    ->toggleable()
+                    ->sortable()
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('wallet.zen')
+                    ->label('Zen')
+                    ->toggleable()
+                    ->sortable()
                     ->numeric(),
             ])
             ->filters([
