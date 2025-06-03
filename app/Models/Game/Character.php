@@ -127,7 +127,7 @@ class Character extends Model
     {
         $quest = $this->quest;
 
-        if (! $quest) {
+        if (! $quest || $quest->MonsterCount === 99999) {
             return false;
         }
 

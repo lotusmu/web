@@ -100,7 +100,7 @@ class SkipQuest
     {
         $quest = $character->quest;
 
-        if (! $quest) {
+        if (! $quest || $quest->MonsterCount === 99999) {
             return false;
         }
 
