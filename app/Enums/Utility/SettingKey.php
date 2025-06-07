@@ -16,6 +16,9 @@ enum SettingKey: string implements HasLabel
     case PK_CLEAR_COST = 'pk_clear.cost';
     case PK_CLEAR_RESOURCE = 'pk_clear.resource';
 
+    case QUEST_SKIP_COST = 'quest_skip.cost';
+    case QUEST_SKIP_RESOURCE = 'quest_skip.resource';
+
     public function getLabel(): string
     {
         return match ($this) {
@@ -26,6 +29,8 @@ enum SettingKey: string implements HasLabel
             self::EXCHANGE_RATE => 'Exchange Rate',
             self::PK_CLEAR_COST => 'PK Clear Cost',
             self::PK_CLEAR_RESOURCE => 'PK Clear Resource',
+            self::QUEST_SKIP_COST => 'Quest Skip Cost',
+            self::QUEST_SKIP_RESOURCE => 'Quest Skip Resource',
         };
     }
 
@@ -36,16 +41,17 @@ enum SettingKey: string implements HasLabel
             self::TRANSFER_RATE => OperationType::TRANSFER,
             self::EXCHANGE_RATE => OperationType::EXCHANGE,
             self::PK_CLEAR_COST, self::PK_CLEAR_RESOURCE => OperationType::PK_CLEAR,
+            self::QUEST_SKIP_COST, self::QUEST_SKIP_RESOURCE => OperationType::QUEST_SKIP,
         };
     }
 
     public function getType(): SettingType
     {
         return match ($this) {
-            self::STEALTH_COST, self::PK_CLEAR_COST => SettingType::COST,
+            self::STEALTH_COST, self::PK_CLEAR_COST, self::QUEST_SKIP_COST => SettingType::COST,
             self::TRANSFER_RATE, self::EXCHANGE_RATE => SettingType::PERCENTAGE,
             self::STEALTH_DURATION => SettingType::DURATION,
-            self::STEALTH_RESOURCE, self::PK_CLEAR_RESOURCE => SettingType::RESOURCE,
+            self::STEALTH_RESOURCE, self::PK_CLEAR_RESOURCE, self::QUEST_SKIP_RESOURCE => SettingType::RESOURCE,
         };
     }
 
@@ -57,6 +63,8 @@ enum SettingKey: string implements HasLabel
         return match ($this) {
             self::PK_CLEAR_COST => [self::PK_CLEAR_RESOURCE],
             self::PK_CLEAR_RESOURCE => [self::PK_CLEAR_COST],
+            self::QUEST_SKIP_COST => [self::QUEST_SKIP_RESOURCE],
+            self::QUEST_SKIP_RESOURCE => [self::QUEST_SKIP_COST],
             self::STEALTH_COST => [self::STEALTH_RESOURCE, self::STEALTH_DURATION],
             self::STEALTH_RESOURCE => [self::STEALTH_COST, self::STEALTH_DURATION],
             self::STEALTH_DURATION => [self::STEALTH_COST, self::STEALTH_RESOURCE],
@@ -71,6 +79,7 @@ enum SettingKey: string implements HasLabel
     {
         return match ($operation) {
             OperationType::PK_CLEAR => [self::PK_CLEAR_COST, self::PK_CLEAR_RESOURCE],
+            OperationType::QUEST_SKIP => [self::QUEST_SKIP_COST, self::QUEST_SKIP_RESOURCE],
             OperationType::STEALTH => [self::STEALTH_COST, self::STEALTH_RESOURCE, self::STEALTH_DURATION],
             OperationType::TRANSFER => [self::TRANSFER_RATE],
             OperationType::EXCHANGE => [self::EXCHANGE_RATE],

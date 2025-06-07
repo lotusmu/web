@@ -41,12 +41,6 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="{{ route('schedule', ['tab' => 'invasions']) }}"
-                                           wire:navigate>
-                                    {{ __('Invasions Schedule') }}
-                                </flux:link>
-                            </li>
-                            <li>
                                 <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/events"
                                            external>
                                     {{ __('Events') }}

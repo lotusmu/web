@@ -33,6 +33,8 @@ trait ManagesResources
         return match ($resourceType) {
             ResourceType::TOKENS => $this->member->tokens,
             ResourceType::CREDITS => $this->member->wallet->credits,
+            ResourceType::GAME_POINTS => $this->member->wallet->gamePoints,
+            ResourceType::LUCKY_TICKETS => $this->member->wallet->luckyTickets,
             ResourceType::ZEN => $this->member->wallet->zen,
         };
     }
@@ -74,6 +76,20 @@ trait ManagesResources
     {
         return Attribute::make(
             get: fn () => $this->format($this->member->wallet->credits)
+        );
+    }
+
+    protected function gamePoints(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->format($this->member->wallet->gamePoints)
+        );
+    }
+
+    protected function luckyTickets(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->format($this->member->wallet->luckyTickets)
         );
     }
 

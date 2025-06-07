@@ -45,7 +45,7 @@ class GameServerStatusService
         try {
             $socket = fsockopen(
                 config("database.connections.{$server->connection_name}.host"),
-                config('gameserver.port'),
+                $server->port,
                 $errno,
                 $errstr,
                 config('gameserver.socket_timeout')
@@ -57,9 +57,19 @@ class GameServerStatusService
                 return true;
             }
 
+            // Server is offline
+            Log::info("Server {$server->name} is offline (port {$server->port})");
+
             return false;
         } catch (Exception $e) {
-            Log::error("Socket connection failed for {$server->name}: {$e->getMessage()}");
+            // Check if it's just a connection timeout/refused (normal offline state)
+            if (str_contains($e->getMessage(), 'Connection timed out') ||
+                str_contains($e->getMessage(), 'Connection refused')) {
+                Log::info("Server {$server->name} is offline: {$e->getMessage()}");
+            } else {
+                // Log unexpected errors as warnings
+                Log::warning("Unexpected error checking {$server->name}: {$e->getMessage()}");
+            }
 
             return false;
         }
@@ -68,8 +78,16 @@ class GameServerStatusService
     private function getServerOnlineCount(GameServer $server): int
     {
         try {
-            return Status::on($server->connection_name)
-                ->where('ConnectStat', 1)
+            $serverName = str_replace('gamedb_', '', $server->connection_name);
+
+            $serverVariants = [
+                $serverName,
+                $serverName.'-TVT',
+                $serverName.'-GS',
+            ];
+
+            return Status::online()
+                ->whereIn('ServerName', $serverVariants)
                 ->count();
         } catch (Exception $e) {
             Log::error("Query failed for {$server->name}: {$e->getMessage()}");

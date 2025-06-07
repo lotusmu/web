@@ -38,6 +38,16 @@ class Status extends Model
         return $this->belongsTo(User::class, 'memb___id', 'name');
     }
 
+    public function scopeForServer($query, string $serverName)
+    {
+        return $query->where('ServerName', $serverName);
+    }
+
+    public function scopeOnline($query)
+    {
+        return $query->where('ConnectStat', 1);
+    }
+
     public function getCurrentStatusAttribute(): string
     {
         return $this->ConnectStat ? __('Online') : __('Offline');

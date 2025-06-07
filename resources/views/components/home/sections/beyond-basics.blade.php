@@ -221,20 +221,6 @@
                             <flux:text>
                                 {{ __('Top performers in our weekly rankings receive special rewards for their dedication.') }}
                             </flux:text>
-
-                            <flux:text>{{ __('Want the full schedule?') }}
-                                <flux:link variant="ghost"
-                                           :href="route('schedule')"
-                                           wire:navigate.hover>
-                                    {{ __('Check event times') }}
-                                </flux:link>
-                                {{ __('or') }}
-                                <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/category/events"
-                                           external>
-                                    {{ __('read our guides.') }}
-                                </flux:link>
-                            </flux:text>
                         </div>
                     </x-slot:text>
 

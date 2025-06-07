@@ -12,9 +12,6 @@ Volt::route('/', 'pages.guest.home.index')
 Volt::route('/files', 'pages.guest.files.index')
     ->name('files');
 
-Volt::route('/schedule', 'pages.guest.schedule.index')
-    ->name('schedule');
-
 Volt::route('/catalog', 'pages.guest.catalog.index')
     ->name('catalog');
 

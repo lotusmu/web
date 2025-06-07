@@ -63,6 +63,21 @@ class SettingResource extends Resource
                     ->required(),
             ],
 
+            OperationType::QUEST_SKIP => [
+                Forms\Components\TextInput::make('settings.quest_skip.cost')
+                    ->label('Cost Value')
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->mask(RawJs::make('$money($input)'))
+                    ->stripCharacters(','),
+
+                Forms\Components\Select::make('settings.quest_skip.resource')
+                    ->label('Resource')
+                    ->options(ResourceType::class)
+                    ->required(),
+            ],
+
             OperationType::STEALTH => [
                 Forms\Components\TextInput::make('settings.stealth.cost')
                     ->label('Cost Value')

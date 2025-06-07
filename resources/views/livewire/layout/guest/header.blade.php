@@ -54,8 +54,8 @@ new class extends Component {
                 {{ __('Rankings') }}
             </flux:navbar.item>
 
-            <flux:navbar.item href="{{ route('schedule') }}" wire:navigate.hover>
-                {{ __('Event Schedule') }}
+            <flux:navbar.item href="https://wiki.lotusmu.org" target="_blank">
+                {{ __('Wiki') }}
             </flux:navbar.item>
 
             <flux:separator vertical variant="subtle" class="my-2"/>
@@ -74,10 +74,6 @@ new class extends Component {
 
                     <flux:navmenu.item href="{{ route('catalog') }}" wire:navigate.hover>
                         {{ __('Browse Offerings') }}
-                    </flux:navmenu.item>
-
-                    <flux:navmenu.item href="https://wiki.lotusmu.org" target="_blank">
-                        {{ __('Wiki') }}
                     </flux:navmenu.item>
                 </flux:navmenu>
             </flux:dropdown>

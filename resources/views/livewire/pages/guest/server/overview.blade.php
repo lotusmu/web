@@ -250,7 +250,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <flux:rows>
                                 <flux:row>
                                     <flux:cell>{{ __('Damage Multiplier') }}</flux:cell>
-                                    <flux:cell>440%</flux:cell>
+                                    <flux:cell>400%</flux:cell>
                                 </flux:row>
                             </flux:rows>
                             <flux:columns>
@@ -316,15 +316,6 @@ new #[Layout('layouts.guest')] class extends Component {
                                 <flux:row>
                                     <flux:cell>{{ __('Damage Multiplier') }}</flux:cell>
                                     <flux:cell>250%</flux:cell>
-                                </flux:row>
-                            </flux:rows>
-                            <flux:columns>
-                                <flux:.column>Dark Raven</flux:.column>
-                            </flux:columns>
-                            <flux:rows>
-                                <flux:row>
-                                    <flux:cell>{{ __('PvE Damage Multiplier') }}</flux:cell>
-                                    <flux:cell>840%</flux:cell>
                                 </flux:row>
                             </flux:rows>
                         </flux:table>

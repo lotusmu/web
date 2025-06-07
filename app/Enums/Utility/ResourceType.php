@@ -8,6 +8,8 @@ enum ResourceType: string implements HasLabel
 {
     case TOKENS = 'tokens';
     case CREDITS = 'credits';
+    case GAME_POINTS = 'game_points';
+    case LUCKY_TICKETS = 'lucky_tickets';
     case ZEN = 'zen';
 
     public function getLabel(): string
@@ -15,6 +17,8 @@ enum ResourceType: string implements HasLabel
         return match ($this) {
             self::TOKENS => __('Tokens'),
             self::CREDITS => __('Credits'),
+            self::GAME_POINTS => __('Game Points'),
+            self::LUCKY_TICKETS => __('Lucky Tickets'),
             self::ZEN => 'Zen',
         };
     }
@@ -24,6 +28,8 @@ enum ResourceType: string implements HasLabel
         return match ($this) {
             self::TOKENS => 'sky',
             self::CREDITS => 'teal',
+            self::GAME_POINTS => 'fuchsia',
+            self::LUCKY_TICKETS => 'green',
             self::ZEN => 'amber',
         };
     }

@@ -28,7 +28,7 @@ trait Taxable
     {
         return match ($this->operationType) {
             OperationType::TRANSFER, OperationType::EXCHANGE => round($amount * ($this->getRate() / 100)),
-            OperationType::PK_CLEAR => round($this->getCost() * $amount),
+            OperationType::PK_CLEAR, OperationType::QUEST_SKIP => round($this->getCost() * $amount),
             default => 0,
         };
     }
@@ -49,6 +49,7 @@ trait Taxable
         $path = match ($this->operationType) {
             OperationType::STEALTH => 'stealth.cost',
             OperationType::PK_CLEAR => 'pk_clear.cost',
+            OperationType::QUEST_SKIP => 'quest_skip.cost',
             default => null,
         };
 
@@ -60,6 +61,7 @@ trait Taxable
         $path = match ($this->operationType) {
             OperationType::STEALTH => 'stealth.resource',
             OperationType::PK_CLEAR => 'pk_clear.resource',
+            OperationType::QUEST_SKIP => 'quest_skip.resource',
             default => null,
         };
 

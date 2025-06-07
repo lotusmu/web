@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Actions\User\SendArticleNotificationAction;
 use App\Enums\Content\ArticleType;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Content\Article;
@@ -117,13 +118,14 @@ class ArticleResource extends Resource
                     ->icon('heroicon-o-check')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->action(function ($record) {
+                    ->action(function ($record, SendArticleNotificationAction $notificationAction) {
                         $record->publish();
+                        $notificationAction->handle($record);
                     })
                     ->after(function () {
                         Notification::make()->success()->title('Success!')
-                            ->body('The article was published successfully.')
-                            ->duration(2000)
+                            ->body('The article was published and notifications are being sent.')
+                            ->duration(3000)
                             ->send();
                     }),
                 Tables\Actions\Action::make('archive')

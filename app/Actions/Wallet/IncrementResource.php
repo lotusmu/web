@@ -26,6 +26,8 @@ readonly class IncrementResource
         match ($this->resourceType) {
             ResourceType::TOKENS => $this->user->member->tokens += $this->amount,
             ResourceType::CREDITS => $this->user->member->wallet->credits += $this->amount,
+            ResourceType::GAME_POINTS => $this->user->member->wallet->gamePoints += $this->amount,
+            ResourceType::LUCKY_TICKETS => $this->user->member->wallet->luckyTickets += $this->amount,
             ResourceType::ZEN => $this->user->member->wallet->zen += $this->amount,
         };
     }
@@ -34,7 +36,7 @@ readonly class IncrementResource
     {
         match ($this->resourceType) {
             ResourceType::TOKENS => $this->user->member->save(),
-            ResourceType::CREDITS, ResourceType::ZEN => $this->user->member->wallet->save(),
+            ResourceType::CREDITS, ResourceType::GAME_POINTS, ResourceType::LUCKY_TICKETS, ResourceType::ZEN => $this->user->member->wallet->save(),
         };
     }
 }
