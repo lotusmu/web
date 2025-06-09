@@ -3,13 +3,17 @@
 namespace App\Models\Concerns;
 
 use App\Enums\Utility\OperationType;
+use App\Models\Utility\GameServer;
 use App\Models\Utility\Setting;
+use Illuminate\Support\Facades\Cache;
 
 trait Taxable
 {
     protected array $operationSettings;
 
     protected float $taxRate;
+
+    protected ?int $serverId = null;
 
     public OperationType $operationType = OperationType::TRANSFER;
 
@@ -18,9 +22,10 @@ trait Taxable
         $this->initializeTaxable();
     }
 
-    public function initializeTaxable(): void
+    public function initializeTaxable(?int $serverId = null): void
     {
-        $this->operationSettings = Setting::getGroup($this->operationType->value);
+        $this->serverId = $serverId ?? $this->getCurrentServerId();
+        $this->operationSettings = Setting::getGroup($this->operationType->value, $this->serverId);
         $this->taxRate = $this->getRate();
     }
 
@@ -41,7 +46,7 @@ trait Taxable
             default => null,
         };
 
-        return $path ? Setting::getValue($this->operationType->value, $path, 0) : 0;
+        return $path ? Setting::getValue($this->operationType->value, $path, 0, $this->serverId) : 0;
     }
 
     protected function getCost(): int
@@ -53,7 +58,7 @@ trait Taxable
             default => null,
         };
 
-        return $path ? Setting::getValue($this->operationType->value, $path, 0) : 0;
+        return $path ? Setting::getValue($this->operationType->value, $path, 0, $this->serverId) : 0;
     }
 
     protected function getResourceType(): string
@@ -65,7 +70,7 @@ trait Taxable
             default => null,
         };
 
-        return $path ? Setting::getValue($this->operationType->value, $path, 'tokens') : 'tokens';
+        return $path ? Setting::getValue($this->operationType->value, $path, 'tokens', $this->serverId) : 'tokens';
     }
 
     protected function getDuration(): int
@@ -74,6 +79,15 @@ trait Taxable
             return 0;
         }
 
-        return Setting::getValue($this->operationType->value, 'stealth.duration', 7);
+        return Setting::getValue($this->operationType->value, 'stealth.duration', 7, $this->serverId);
+    }
+
+    private function getCurrentServerId(): int
+    {
+        $connectionName = session('game_db_connection', 'gamedb_main');
+
+        return Cache::remember("server_id_for_{$connectionName}", now()->addHours(1), function () use ($connectionName) {
+            return GameServer::where('connection_name', $connectionName)->value('id') ?? 1;
+        });
     }
 }

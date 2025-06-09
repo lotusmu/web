@@ -12,20 +12,23 @@ use App\Models\Utility\GameServer;
 use App\Models\Utility\Setting;
 use App\Support\ActivityLog\IdentityProperties;
 use Flux;
+use Illuminate\Support\Facades\Cache;
 
 class SkipQuest
 {
     use Taxable;
 
-    public function __construct()
+    public function __construct(?int $serverId = null)
     {
+        $this->serverId = $serverId ?? self::resolveCurrentServerId();
         $this->operationType = OperationType::QUEST_SKIP;
-        $this->initializeTaxable();
+        $this->initializeTaxable($this->serverId);
     }
 
-    public static function isAvailable(): bool
+    public static function isAvailable(?int $serverId = null): bool
     {
-        $settings = Setting::getGroup(OperationType::QUEST_SKIP->value);
+        $serverId = $serverId ?? self::resolveCurrentServerId();
+        $settings = Setting::getGroup(OperationType::QUEST_SKIP->value, $serverId);
 
         return isset($settings['quest_skip']['cost']) && isset($settings['quest_skip']['resource']);
     }
@@ -126,6 +129,7 @@ class SkipQuest
                 'resource' => $this->getResourceType(),
                 'quest_number' => ($character->quest?->Quest ?? 0) + 1,
                 'connection' => $serverName,
+                'server_id' => $this->serverId,
                 ...IdentityProperties::capture(),
             ])
             ->log('Skipped quest No.:properties.quest_number on :properties.character for :properties.amount :properties.resource (:properties.connection).');
@@ -154,5 +158,29 @@ class SkipQuest
     private function format(int $amount): string
     {
         return number_format($amount);
+    }
+
+    private function getCurrentServerId(): int
+    {
+        return self::resolveCurrentServerId();
+    }
+
+    private static function resolveCurrentServerId(): int
+    {
+        $connectionName = session('game_db_connection', 'gamedb_main');
+
+        return Cache::remember("server_id_for_{$connectionName}", now()->addHours(1), function () use ($connectionName) {
+            return GameServer::where('connection_name', $connectionName)->value('id') ?? 1;
+        });
+    }
+
+    protected function getCost(): int
+    {
+        return Setting::getValue($this->operationType->value, 'quest_skip.cost', 0, $this->serverId);
+    }
+
+    protected function getResourceType(): string
+    {
+        return Setting::getValue($this->operationType->value, 'quest_skip.resource', 'tokens', $this->serverId);
     }
 }
