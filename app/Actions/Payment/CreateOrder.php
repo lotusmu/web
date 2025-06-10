@@ -27,6 +27,15 @@ class CreateOrder
         ?OrderStatus $status = null,
         ?array $paymentData = null
     ): Order {
+        // Get promo code data from session if available
+        $promoData = session('checkout_promo_code');
+
+        // Prepare payment data with promo code info
+        $orderPaymentData = $paymentData ?? [];
+        if ($promoData) {
+            $orderPaymentData['promo_code'] = $promoData;
+        }
+
         return Order::firstOrCreate(
             [
                 'user_id' => $user->id,
@@ -40,7 +49,7 @@ class CreateOrder
                 'amount' => $package->price,
                 'currency' => config('app.currency', 'EUR'),
                 'expires_at' => now()->addMinutes(self::EXPIRATION_MINUTES),
-                'payment_data' => $paymentData,
+                'payment_data' => $orderPaymentData,
             ]
         );
     }

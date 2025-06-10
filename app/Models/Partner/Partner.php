@@ -54,7 +54,7 @@ class Partner extends Model
 
     public function getTotalTokensEarned(): int
     {
-        return $this->promoCodeUsages()->sum('tokens_earned') +
+        return $this->promoCodeUsages()->sum('partner_tokens') +
             $this->rewards()->where('status', 'paid')->sum('tokens_amount');
     }
 
@@ -63,6 +63,6 @@ class Partner extends Model
         return $this->promoCodeUsages()
             ->whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
-            ->sum('tokens_earned');
+            ->sum('partner_tokens');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Partner\ProcessPromoCode;
 use App\Enums\PaymentProvider;
 use App\Models\Payment\TokenPackage;
 use App\Services\Payment\PaymentGatewayFactory;
@@ -14,25 +15,33 @@ new #[Layout('layouts.app')] class extends Component {
     public $showPromoCode = false;
     public $promoCode = '';
     public $promoCodeStatus = null;
-    public $promoBonus = 10;
+    public $promoData = null;
 
     public function updatedPromoCode()
     {
         if (empty($this->promoCode)) {
-            $this->promoCodeStatus = null;
-            $this->promoBonus      = 0;
+            $this->resetPromoCode();
 
             return;
         }
 
-        // Mock validation for UI testing
-        if (strtoupper($this->promoCode) === 'STREAMER10') {
+        // Real promo code validation
+        $validator = app(ProcessPromoCode::class);
+        $result    = $validator->validatePromoCode($this->promoCode);
+
+        if ($result['valid']) {
             $this->promoCodeStatus = 'valid';
-            $this->promoBonus      = 10;
+            $this->promoData       = $result;
         } else {
             $this->promoCodeStatus = 'invalid';
-            $this->promoBonus      = 0;
+            $this->promoData       = null;
         }
+    }
+
+    private function resetPromoCode(): void
+    {
+        $this->promoCodeStatus = null;
+        $this->promoData       = null;
     }
 
     public function mount(): void
@@ -52,10 +61,37 @@ new #[Layout('layouts.app')] class extends Component {
             return;
         }
 
+        // Validate promo code if entered
+        if ($this->promoCode && $this->promoCodeStatus !== 'valid') {
+            Flux::toast(
+                text: __('Please fix the promo code error before continuing.'),
+                heading: __('Invalid Promo Code'),
+                variant: 'danger'
+            );
+
+            return;
+        }
+
         $package = TokenPackage::find($this->selectedPackage);
 
         try {
-            $gateway          = PaymentGatewayFactory::create($this->paymentMethod);
+            $gateway = PaymentGatewayFactory::create($this->paymentMethod);
+
+            // Pass promo code data through session for order processing
+            if ($this->promoCodeStatus === 'valid') {
+                session([
+                    'checkout_promo_code' => [
+                        'code'              => $this->promoCode,
+                        'partner_id'        => $this->promoData['partner']->id,
+                        'user_extra_tokens' => $this->getUserExtraTokens($package),
+                        'partner_tokens'    => $this->getPartnerTokens($package),
+                    ]
+                ]);
+            } else {
+                // Clear any existing promo code session data
+                session()->forget('checkout_promo_code');
+            }
+
             $checkoutResponse = $gateway->initiateCheckout(auth()->user(), $package);
 
             // Stripe returns an object with url property
@@ -85,16 +121,51 @@ new #[Layout('layouts.app')] class extends Component {
     {
         $baseAmount   = $package->tokens_amount;
         $packageBonus = $package->bonus_rate > 0 ? $package->bonus_rate : 0;
-        $promoBonus   = $this->promoCodeStatus === 'valid' ? $this->promoBonus : 0;
+        $promoBonus   = $this->promoCodeStatus === 'valid' ? 10 : 0;
 
-        $totalBonus  = $packageBonus + $promoBonus;
-        $finalAmount = $baseAmount + ($baseAmount * $totalBonus / 100);
+        // Additive calculation: both bonuses apply to base amount
+        $totalBonusPercentage = $packageBonus + $promoBonus;
+        $finalAmount          = $baseAmount + ($baseAmount * $totalBonusPercentage / 100);
 
         return [
             'amount'        => number_format($finalAmount),
-            'bonus'         => $totalBonus > 0 ? $totalBonus : null,
+            'bonus'         => $totalBonusPercentage > 0 ? $totalBonusPercentage : null,
             'promo_applied' => $promoBonus > 0,
+            'package_bonus' => $packageBonus,
+            'promo_bonus'   => $promoBonus,
         ];
+    }
+
+    private function getUserExtraTokens(TokenPackage $package): int
+    {
+        // User gets 10% of base tokens (additive with package bonus)
+        return (int) round($package->tokens_amount * 0.10);
+    }
+
+    private function getPartnerTokens(TokenPackage $package): int
+    {
+        if ($this->promoCodeStatus !== 'valid' || ! $this->promoData) {
+            return 0;
+        }
+
+        // Partner gets percentage of tokens BEFORE their promo bonus
+        // This includes base tokens + package bonus, but excludes promo bonus
+        $baseTokens             = $package->tokens_amount;
+        $packageBonus           = $package->bonus_rate > 0 ? $package->bonus_rate : 0;
+        $tokensBeforePromoBonus = $baseTokens + ($baseTokens * $packageBonus / 100);
+
+        $partnerPercentage = $this->promoData['partner_percentage'];
+
+        return (int) round($tokensBeforePromoBonus * ($partnerPercentage / 100));
+    }
+
+    public function getPromoMessage(): string
+    {
+        if ($this->promoCodeStatus === 'valid' && $this->promoData) {
+            return __('Nice! You\'ll get +10% extra tokens.');
+        }
+
+        return __('Hmm, that code isn\'t working');
     }
 }; ?>
 
@@ -165,20 +236,20 @@ new #[Layout('layouts.app')] class extends Component {
                 <flux:accordion.content>
                     <div class="space-y-3">
                         <flux:input
-                            wire:model.live.debounce.300ms="promoCode"
-                            placeholder="{{ __('STREAMER10') }}"
+                            wire:model.live.debounce.500ms="promoCode"
+                            placeholder="{{ __('Enter promo code') }}"
                             class="mt-1"
                         />
 
                         @if($promoCodeStatus === 'valid')
                             <flux:text class="flex items-center gap-2 !text-green-600 dark:!text-green-400">
                                 <flux:icon.check class="w-4 h-4"/>
-                                <span>{{ __('Nice! You\'re getting') }} +{{ $promoBonus }}% {{ __('extra tokens') }}</span>
+                                <span>{{ $this->getPromoMessage() }}</span>
                             </flux:text>
                         @elseif($promoCodeStatus === 'invalid')
                             <flux:text class="flex items-center gap-2 !text-red-600 dark:!text-red-400">
                                 <flux:icon.x-mark class="w-4 h-4"/>
-                                <span>{{ __('Hmm, that code isn\'t working') }}</span>
+                                <span>{{ $this->getPromoMessage() }}</span>
                             </flux:text>
                         @endif
 
