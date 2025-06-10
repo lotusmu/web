@@ -69,8 +69,18 @@ class GetPreferredServer
 
     private function getDefaultServer(): GameServer
     {
-        return GameServer::where('is_active', true)
+        $server = GameServer::where('is_active', true)
             ->orderBy('id')
-            ->first() ?? new GameServer(['id' => 1, 'connection_name' => 'gamedb_main']);
+            ->first();
+
+        if ($server) {
+            return $server;
+        }
+
+        $fallback = new GameServer;
+        $fallback->id = 1;
+        $fallback->connection_name = 'gamedb_main';
+
+        return $fallback;
     }
 }
