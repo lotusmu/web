@@ -18,6 +18,9 @@ return new class extends Migration
             $table->json('platforms');
             $table->json('channels');
             $table->text('about_you');
+            $table->unsignedTinyInteger('streaming_hours_per_day')->nullable();
+            $table->unsignedTinyInteger('streaming_days_per_week')->nullable();
+            $table->unsignedTinyInteger('videos_per_week')->nullable();
             $table->string('status')->default('pending');
             $table->timestamp('reviewed_at')->nullable();
             $table->text('notes')->nullable();

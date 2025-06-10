@@ -13,16 +13,16 @@ class PromoCodeUsage extends Model
         'user_id',
         'promo_code',
         'donation_amount',
-        'commission_amount',
-        'discount_amount',
+        'tokens_earned',
+        'tokens_discount',
         'transaction_id',
         'paid_at',
     ];
 
     protected $casts = [
         'donation_amount' => 'decimal:2',
-        'commission_amount' => 'decimal:2',
-        'discount_amount' => 'decimal:2',
+        'tokens_earned' => 'integer',
+        'tokens_discount' => 'integer',
         'paid_at' => 'datetime',
     ];
 

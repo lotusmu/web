@@ -13,7 +13,10 @@ class SubmitPartnerApplication
         string $contentType,
         array $platforms,
         array $channels,
-        string $aboutYou
+        string $aboutYou,
+        ?int $streamingHoursPerDay = null,
+        ?int $streamingDaysPerWeek = null,
+        ?int $videosPerWeek = null
     ): array {
         $existingApplication = PartnerApplication::where('user_id', $user->id)
             ->whereIn('status', [ApplicationStatus::PENDING, ApplicationStatus::APPROVED])
@@ -32,6 +35,9 @@ class SubmitPartnerApplication
             'platforms' => $platforms,
             'channels' => $channels,
             'about_you' => $aboutYou,
+            'streaming_hours_per_day' => $streamingHoursPerDay,
+            'streaming_days_per_week' => $streamingDaysPerWeek,
+            'videos_per_week' => $videosPerWeek,
             'status' => ApplicationStatus::PENDING,
         ]);
 

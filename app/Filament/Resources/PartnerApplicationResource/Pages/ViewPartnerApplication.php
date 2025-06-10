@@ -187,6 +187,32 @@ class ViewPartnerApplication extends ViewRecord
                     ])
                     ->columns(2),
 
+                Components\Section::make('Content Schedule')
+                    ->schema([
+                        Components\TextEntry::make('streaming_hours_per_day')
+                            ->label('Streaming Hours/Day')
+                            ->suffix(' hours')
+                            ->placeholder('Not specified')
+                            ->visible(fn ($record) => in_array($record->content_type, ['streaming', 'both'])),
+
+                        Components\TextEntry::make('streaming_days_per_week')
+                            ->label('Streaming Days/Week')
+                            ->suffix(' days')
+                            ->placeholder('Not specified')
+                            ->visible(fn ($record) => in_array($record->content_type, ['streaming', 'both'])),
+
+                        Components\TextEntry::make('videos_per_week')
+                            ->label('Videos/Week')
+                            ->suffix(' videos')
+                            ->placeholder('Not specified')
+                            ->visible(fn ($record) => in_array($record->content_type, ['content', 'both'])),
+                    ])
+                    ->columns(3)
+                    ->visible(fn ($record) => $record->streaming_hours_per_day ||
+                        $record->streaming_days_per_week ||
+                        $record->videos_per_week
+                    ),
+
                 Components\Section::make('Channels')
                     ->schema([
                         Components\RepeatableEntry::make('channels')

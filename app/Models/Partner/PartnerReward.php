@@ -10,7 +10,7 @@ class PartnerReward extends Model
     protected $fillable = [
         'partner_id',
         'type',
-        'amount',
+        'tokens_amount',
         'week_number',
         'year',
         'description',
@@ -18,7 +18,7 @@ class PartnerReward extends Model
     ];
 
     protected $casts = [
-        'amount' => 'decimal:2',
+        'tokens_amount' => 'integer',
         'week_number' => 'integer',
         'year' => 'integer',
     ];

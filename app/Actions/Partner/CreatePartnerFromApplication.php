@@ -12,16 +12,14 @@ class CreatePartnerFromApplication
 {
     public function handle(PartnerApplication $application): Partner
     {
-        // Generate unique promo code
         $promoCode = $this->generateUniquePromoCode($application->user->name);
 
-        // Create partner record
         $partner = Partner::create([
             'user_id' => $application->user_id,
             'level' => PartnerLevel::LEVEL_ONE,
             'status' => PartnerStatus::ACTIVE,
             'promo_code' => $promoCode,
-            'commission_rate' => 5.00,
+            'token_percentage' => 10.00,
             'platforms' => $application->platforms,
             'channels' => $application->channels,
             'approved_at' => now(),
@@ -33,7 +31,7 @@ class CreatePartnerFromApplication
     private function generateUniquePromoCode(string $userName): string
     {
         $baseCode = strtoupper(Str::slug($userName, ''));
-        $baseCode = substr($baseCode, 0, 8); // Limit to 8 characters
+        $baseCode = substr($baseCode, 0, 8);
 
         $promoCode = $baseCode;
         $counter = 1;

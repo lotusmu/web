@@ -12,12 +12,12 @@ return new class extends Migration
         Schema::create('partner_rewards', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Partner::class)->constrained()->cascadeOnDelete();
-            $table->string('type'); // 'farm', 'commission', etc.
-            $table->decimal('amount', 10, 2);
+            $table->string('type');
+            $table->unsignedInteger('tokens_amount');
             $table->unsignedTinyInteger('week_number');
             $table->unsignedSmallInteger('year');
             $table->string('description')->nullable();
-            $table->string('status')->default('pending'); // pending, paid
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

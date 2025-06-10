@@ -14,8 +14,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('level')->default(1);
             $table->string('promo_code')->unique();
-            $table->decimal('commission_rate', 5, 2)->default(10.00);
-            $table->timestamp('vip_until')->nullable();
+            $table->decimal('token_percentage', 5, 2)->default(10.00);
             $table->string('status')->default('active');
             $table->json('platforms');
             $table->json('channels');

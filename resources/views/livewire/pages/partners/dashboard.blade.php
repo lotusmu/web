@@ -6,24 +6,32 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
-    public Partner $partner;
-    public array $stats = [];
-
-    public function mount()
+    public function getPartnerProperty(): Partner
     {
-        $this->partner = Partner::where('user_id', auth()->id())->firstOrFail();
+        return Partner::where('user_id', auth()->id())->firstOrFail();
+    }
 
-        $this->stats = [
-            'total_referrals'      => PromoCodeUsage::where('partner_id', $this->partner->id)->count(),
-            'this_month_referrals' => PromoCodeUsage::where('partner_id', $this->partner->id)
-                ->whereMonth('created_at', now()->month)
-                ->count(),
-            'total_commission'     => PromoCodeUsage::where('partner_id', $this->partner->id)
-                ->sum('commission_amount'),
-            'pending_commission'   => PromoCodeUsage::where('partner_id', $this->partner->id)
-                ->whereNull('paid_at')
-                ->sum('commission_amount'),
-        ];
+    public function getTotalReferralsProperty(): int
+    {
+        return PromoCodeUsage::where('partner_id', $this->partner->id)->count();
+    }
+
+    public function getThisMonthReferralsProperty(): int
+    {
+        return PromoCodeUsage::where('partner_id', $this->partner->id)
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+    }
+
+    public function getTotalTokensProperty(): int
+    {
+        return $this->partner->getTotalTokensEarned();
+    }
+
+    public function getTokensThisMonthProperty(): int
+    {
+        return $this->partner->getTokensEarnedThisMonth();
     }
 }; ?>
 
@@ -44,35 +52,34 @@ new #[Layout('layouts.app')] class extends Component {
                 {{ __('Total Referrals') }}
             </flux:subheading>
             <flux:heading size="lg" class="text-blue-600">
-                {{ $stats['total_referrals'] }}
+                {{ number_format($this->totalReferrals) }}
             </flux:heading>
         </flux:card>
-
 
         <flux:card class="!p-4">
             <flux:subheading size="sm">
                 {{ __('This Month') }}
             </flux:subheading>
             <flux:heading size="lg" class="text-green-600">
-                {{ $stats['this_month_referrals'] }}
+                {{ number_format($this->thisMonthReferrals) }}
             </flux:heading>
         </flux:card>
 
         <flux:card class="!p-4">
             <flux:subheading size="sm">
-                {{ __('Total Earned') }}
+                {{ __('Total Tokens') }}
             </flux:subheading>
             <flux:heading size="lg" class="text-purple-600">
-                ${{ number_format($stats['total_commission'], 2) }}
+                {{ number_format($this->totalTokens) }}
             </flux:heading>
         </flux:card>
 
         <flux:card class="!p-4">
             <flux:subheading size="sm">
-                {{ __('Pending Payout') }}
+                {{ __('Tokens This Month') }}
             </flux:subheading>
             <flux:heading size="lg" class="text-orange-600">
-                ${{ number_format($stats['pending_commission'], 2) }}
+                {{ number_format($this->tokensThisMonth) }}
             </flux:heading>
         </flux:card>
     </div>
@@ -84,7 +91,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:heading>
 
         <flux:subheading>
-            {{ __('Share this code with your audience to earn :rate% commission from their donations.', ['rate' => $partner->commission_rate]) }}
+            {{ __('Share this code with your audience to earn :rate% tokens from their donations.', ['rate' => $this->partner->token_percentage]) }}
         </flux:subheading>
 
         <flux:input.group class="mt-4">
@@ -92,27 +99,26 @@ new #[Layout('layouts.app')] class extends Component {
                 {{ __('Promo Code') }}
             </flux:input.group.prefix>
 
-            <flux:input :value="$partner->promo_code" readonly copyable/>
+            <flux:input :value="$this->partner->promo_code" readonly copyable/>
         </flux:input.group>
-
     </flux:card>
 
     <!-- Account Details -->
     <flux:card>
-        <flяux:heading>{{ __('Account Details') }}</flяux:heading>
+        <flux:heading>{{ __('Account Details') }}</flux:heading>
 
         <div class="mt-4 space-y-4">
             <div class="flex justify-between">
                 <flux:subheading>{{ __('Partner Level') }}</flux:subheading>
-                <flux:badge color="blue" inset="top bottom">{{ $partner->level->getLabel() }}</flux:badge>
+                <flux:badge color="blue" inset="top bottom">{{ $this->partner->level->getLabel() }}</flux:badge>
             </div>
             <div class="flex justify-between">
-                <flux:subheading>{{ __('Commission Rate') }}</flux:subheading>
-                <flux:subheading class="font-semibold">{{ $partner->commission_rate }}%</flux:subheading>
+                <flux:subheading>{{ __('Token Percentage') }}</flux:subheading>
+                <flux:subheading class="font-semibold">{{ $this->partner->token_percentage }}%</flux:subheading>
             </div>
             <div class="flex justify-between">
                 <flux:text>{{ __('Approved') }}</flux:text>
-                <flux:text>{{ $partner->approved_at->format('M j, Y') }}</flux:text>
+                <flux:text>{{ $this->partner->approved_at->format('M j, Y') }}</flux:text>
             </div>
         </div>
     </flux:card>
@@ -121,12 +127,56 @@ new #[Layout('layouts.app')] class extends Component {
     <flux:card>
         <flux:heading>{{ __('Your Channels') }}</flux:heading>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            @foreach($partner->channels as $channel)
+            @foreach($this->partner->channels as $channel)
                 <flux:input.group>
                     <flux:input.group.prefix>{{ ucfirst($channel['platform']) }}</flux:input.group.prefix>
                     <flux:input readonly :value="$channel['name']"/>
                 </flux:input.group>
             @endforeach
+        </div>
+    </flux:card>
+
+    <!-- Rules & Resources Section -->
+    <flux:card>
+        <flux:heading>{{ __('Partner Rules & Resources') }}</flux:heading>
+
+        <div class="mt-4 space-y-4">
+            <div>
+                <flux:subheading>{{ __('Content Requirements') }}</flux:subheading>
+                <flux:text class="mt-2">
+                    • {{ __('Include your promo code in stream titles and video descriptions') }}<br>
+                    • {{ __('Display brand banners during streams/videos') }}<br>
+                    • {{ __('Maintain regular content schedule as specified in your application') }}
+                </flux:text>
+            </div>
+
+            <div>
+                <flux:subheading>{{ __('Weekly Review Process') }}</flux:subheading>
+                <flux:text class="mt-2">
+                    {{ __('Each week your content will be reviewed. Upon approval, you\'ll receive:') }}<br>
+                    • {{ __('VIP status for the following week') }}<br>
+                    • {{ __('Farm rewards based on your partner level') }}<br>
+                    • {{ __('Discord streamer role permissions') }}
+                </flux:text>
+            </div>
+
+            <div>
+                <flux:subheading>{{ __('Brand Resources') }}</flux:subheading>
+                <flux:text class="mt-2">
+                    {{ __('Download brand assets and banners for your content:') }}
+                </flux:text>
+                <div class="mt-2 flex gap-2">
+                    <flux:button variant="outline" size="sm">
+                        {{ __('Stream Banners') }}
+                    </flux:button>
+                    <flux:button variant="outline" size="sm">
+                        {{ __('Video Templates') }}
+                    </flux:button>
+                    <flux:button variant="outline" size="sm">
+                        {{ __('Logo Pack') }}
+                    </flux:button>
+                </div>
+            </div>
         </div>
     </flux:card>
 </div>

@@ -16,9 +16,10 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('promo_code');
             $table->decimal('donation_amount', 10, 2);
-            $table->decimal('commission_amount', 10, 2);
-            $table->decimal('discount_amount', 10, 2);
+            $table->unsignedInteger('tokens_earned');
+            $table->unsignedInteger('tokens_discount');
             $table->string('transaction_id')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }
