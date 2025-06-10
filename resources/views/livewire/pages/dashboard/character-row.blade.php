@@ -25,7 +25,7 @@ new #[Layout('layouts.app')] class extends Component {
         $this->character     = $character;
         $this->user          = auth()->user();
         $this->operationType = OperationType::PK_CLEAR;
-        $this->initializeTaxable();
+        $this->initializeTaxable($this->getCurrentServerId());
     }
 
     public function pollQuestStatus(): void

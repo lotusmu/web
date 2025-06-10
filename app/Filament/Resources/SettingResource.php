@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\Utility\OperationType;
 use App\Enums\Utility\ResourceType;
 use App\Filament\Resources\SettingResource\Pages;
+use App\Models\Utility\GameServer;
 use App\Models\Utility\Setting;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -25,6 +26,12 @@ class SettingResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('server_id')
+                    ->label('Game Server')
+                    ->options(GameServer::where('is_active', true)->pluck('name', 'id'))
+                    ->required()
+                    ->columnSpanFull(),
+
                 Forms\Components\Select::make('group')
                     ->options(OperationType::class)
                     ->required()
@@ -128,6 +135,11 @@ class SettingResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('server.name')
+                    ->label('Server')
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('group')
                     ->formatStateUsing(fn (string $state) => OperationType::from($state)->getLabel())
                     ->sortable()
@@ -135,6 +147,17 @@ class SettingResource extends Resource
 
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
+            ])
+            ->defaultSort('server.name')
+            ->filters([
+                Tables\Filters\SelectFilter::make('server_id')
+                    ->label('Server')
+                    ->options(GameServer::where('is_active', true)->pluck('name', 'id'))
+                    ->multiple(),
+
+                Tables\Filters\SelectFilter::make('group')
+                    ->options(OperationType::class)
+                    ->multiple(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
