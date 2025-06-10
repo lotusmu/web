@@ -110,7 +110,8 @@ new #[Layout('layouts.app')] class extends Component {
         <div class="mt-4 space-y-4">
             <div class="flex justify-between">
                 <flux:subheading>{{ __('Partner Level') }}</flux:subheading>
-                <flux:badge color="blue" inset="top bottom">{{ $this->partner->level->getLabel() }}</flux:badge>
+                <flux:badge color="{{ $this->partner->level->badgeColor() }}"
+                            inset="top bottom">{{ $this->partner->level->getLabel() }}</flux:badge>
             </div>
             <div class="flex justify-between">
                 <flux:subheading>{{ __('Token Percentage') }}</flux:subheading>
