@@ -7,6 +7,7 @@ use App\Actions\User\SendNotification;
 use App\Enums\Partner\ApplicationStatus;
 use App\Enums\Partner\Platform;
 use App\Filament\Resources\PartnerApplicationResource;
+use App\Models\Partner\Partner;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Infolists\Components;
@@ -26,21 +27,36 @@ class ViewPartnerApplication extends ViewRecord
                 ->icon('heroicon-o-check-circle')
                 ->color('success')
                 ->visible(fn () => $this->record->status === ApplicationStatus::PENDING)
-                ->requiresConfirmation()
+                ->form([
+                    Forms\Components\TextInput::make('promo_code')
+                        ->label('Promo Code')
+                        ->required()
+                        ->maxLength(50)
+                        ->unique('partners', 'promo_code')
+                        ->helperText('Create a unique promo code for this partner')
+                        ->default(fn () => $this->generateSuggestedPromoCode())
+                        ->suffixAction(
+                            Forms\Components\Actions\Action::make('regenerate')
+                                ->icon('heroicon-m-arrow-path')
+                                ->action(function (Forms\Set $set) {
+                                    $set('promo_code', $this->generateSuggestedPromoCode());
+                                })
+                        ),
+                ])
                 ->modalHeading('Approve Partner Application')
-                ->modalDescription('Are you sure you want to approve this partner application? This will create a partner account.')
-                ->action(function () {
+                ->modalDescription('Please set a promo code for the new partner.')
+                ->action(function (array $data) {
                     $this->record->update([
                         'status' => ApplicationStatus::APPROVED->value,
                         'reviewed_at' => now(),
                     ]);
 
-                    (new CreatePartnerFromApplication)->handle($this->record);
+                    $partner = (new CreatePartnerFromApplication)->handle($this->record, $data['promo_code']);
 
                     Notification::make()
                         ->success()
                         ->title('Application Approved!')
-                        ->body('Partner account has been created successfully.')
+                        ->body("Partner account created with promo code: {$partner->promo_code}")
                         ->send();
 
                     $this->sendStatusNotification(ApplicationStatus::PENDING, ApplicationStatus::APPROVED);
@@ -103,6 +119,24 @@ class ViewPartnerApplication extends ViewRecord
                         ->send($this->record->user);
                 }),
         ];
+    }
+
+    private function generateSuggestedPromoCode(): string
+    {
+        $userName = $this->record->user->name;
+        $baseCode = strtoupper(str()->slug($userName, ''));
+        $baseCode = substr($baseCode, 0, 8); // Limit to 8 characters
+
+        $promoCode = $baseCode;
+        $counter = 1;
+
+        // Ensure uniqueness
+        while (Partner::where('promo_code', $promoCode)->exists()) {
+            $promoCode = $baseCode.$counter;
+            $counter++;
+        }
+
+        return $promoCode;
     }
 
     private function sendStatusNotification(ApplicationStatus $oldStatus, ApplicationStatus $newStatus): void

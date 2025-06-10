@@ -10,15 +10,15 @@ use Illuminate\Support\Str;
 
 class CreatePartnerFromApplication
 {
-    public function handle(PartnerApplication $application): Partner
+    public function handle(PartnerApplication $application, ?string $promoCode = null): Partner
     {
-        $promoCode = $this->generateUniquePromoCode($application->user->name);
+        $finalPromoCode = $promoCode ?? $this->generateUniquePromoCode($application->user->name);
 
         $partner = Partner::create([
             'user_id' => $application->user_id,
             'level' => PartnerLevel::LEVEL_ONE,
             'status' => PartnerStatus::ACTIVE,
-            'promo_code' => $promoCode,
+            'promo_code' => $finalPromoCode,
             'token_percentage' => 10.00,
             'platforms' => $application->platforms,
             'channels' => $application->channels,
@@ -36,7 +36,6 @@ class CreatePartnerFromApplication
         $promoCode = $baseCode;
         $counter = 1;
 
-        // Ensure uniqueness
         while (Partner::where('promo_code', $promoCode)->exists()) {
             $promoCode = $baseCode.$counter;
             $counter++;

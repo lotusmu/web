@@ -10,6 +10,7 @@ use App\Models\Partner\Partner;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -125,6 +126,8 @@ class PartnerResource extends Resource
                 Tables\Columns\TextColumn::make('promo_code')
                     ->label('Promo Code')
                     ->searchable()
+                    ->icon('heroicon-o-clipboard-document-list')
+                    ->iconPosition(IconPosition::After)
                     ->copyable(),
 
                 Tables\Columns\TextColumn::make('level')
