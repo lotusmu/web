@@ -4,6 +4,7 @@ use App\Console\Commands\CleanEventEntriesCommand;
 use App\Console\Commands\CleanupGuildMarksCommand;
 use App\Console\Commands\DistributeCastleSiegePrizesCommand;
 use App\Console\Commands\ExpireOrdersCommand;
+use App\Console\Commands\ExtendPartnerVipCommand;
 use App\Console\Commands\ProcessHallOfFameCommand;
 use App\Console\Commands\ProcessWeeklyRankingsCommand;
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
@@ -85,6 +86,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command(ProcessHallOfFameCommand::class)
             ->mondays()
             ->at('23:00')
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command(ExtendPartnerVipCommand::class)
+            ->dailyAt('06:00')
             ->runInBackground()
             ->withoutOverlapping();
 

@@ -25,6 +25,8 @@ class CreatePartnerFromApplication
             'approved_at' => now(),
         ]);
 
+        app(ExtendPartnerVip::class)->handleSinglePartner($partner);
+
         return $partner;
     }
 
