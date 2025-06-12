@@ -7,6 +7,7 @@ use App\Actions\User\SendNotification;
 use App\Enums\Partner\ApplicationStatus;
 use App\Enums\Partner\Platform;
 use App\Filament\Resources\PartnerApplicationResource;
+use App\Models\Partner\Partner;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Infolists\Components;
