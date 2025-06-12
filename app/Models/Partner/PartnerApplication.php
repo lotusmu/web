@@ -19,6 +19,9 @@ class PartnerApplication extends Model
         'streaming_hours_per_day',
         'streaming_days_per_week',
         'videos_per_week',
+        'content_creation_months',
+        'average_live_viewers',
+        'average_video_views',
         'status',
         'reviewed_at',
         'notes',
@@ -32,6 +35,9 @@ class PartnerApplication extends Model
         'streaming_hours_per_day' => 'integer',
         'streaming_days_per_week' => 'integer',
         'videos_per_week' => 'integer',
+        'content_creation_months' => 'integer',
+        'average_live_viewers' => 'integer',
+        'average_video_views' => 'integer',
     ];
 
     public function user(): BelongsTo

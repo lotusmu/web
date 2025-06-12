@@ -16,7 +16,10 @@ class SubmitPartnerApplication
         string $aboutYou,
         ?int $streamingHoursPerDay = null,
         ?int $streamingDaysPerWeek = null,
-        ?int $videosPerWeek = null
+        ?int $videosPerWeek = null,
+        ?int $contentCreationMonths = null,
+        ?int $averageLiveViewers = null,
+        ?int $averageVideoViews = null
     ): array {
         $existingApplication = PartnerApplication::where('user_id', $user->id)
             ->whereIn('status', [ApplicationStatus::PENDING, ApplicationStatus::APPROVED])
@@ -38,6 +41,9 @@ class SubmitPartnerApplication
             'streaming_hours_per_day' => $streamingHoursPerDay,
             'streaming_days_per_week' => $streamingDaysPerWeek,
             'videos_per_week' => $videosPerWeek,
+            'content_creation_months' => $contentCreationMonths,
+            'average_live_viewers' => $averageLiveViewers,
+            'average_video_views' => $averageVideoViews,
             'status' => ApplicationStatus::PENDING,
         ]);
 

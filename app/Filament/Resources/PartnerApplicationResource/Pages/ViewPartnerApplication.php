@@ -7,7 +7,6 @@ use App\Actions\User\SendNotification;
 use App\Enums\Partner\ApplicationStatus;
 use App\Enums\Partner\Platform;
 use App\Filament\Resources\PartnerApplicationResource;
-use App\Models\Partner\Partner;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Infolists\Components;
@@ -245,6 +244,28 @@ class ViewPartnerApplication extends ViewRecord
                     ->visible(fn ($record) => $record->streaming_hours_per_day ||
                         $record->streaming_days_per_week ||
                         $record->videos_per_week
+                    ),
+
+                Components\Section::make('Content Analytics')
+                    ->schema([
+                        Components\TextEntry::make('content_creation_months')
+                            ->label('Content Creation Experience')
+                            ->suffix(' months'),
+
+                        Components\TextEntry::make('average_live_viewers')
+                            ->label('Average Live Viewers')
+                            ->formatStateUsing(fn ($state) => $state ? number_format($state) : 'Not specified')
+                            ->visible(fn ($record) => $record->isStreamingContent()),
+
+                        Components\TextEntry::make('average_video_views')
+                            ->label('Average Video Views')
+                            ->formatStateUsing(fn ($state) => $state ? number_format($state) : 'Not specified')
+                            ->visible(fn ($record) => $record->isVideoContent()),
+                    ])
+                    ->columns(3)
+                    ->visible(fn ($record) => $record->content_creation_months ||
+                        $record->average_live_viewers ||
+                        $record->average_video_views
                     ),
 
                 Components\Section::make('Channels')

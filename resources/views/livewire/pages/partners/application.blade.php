@@ -21,6 +21,11 @@ new #[Layout('layouts.app')] class extends Component {
     public ?int $streamingDaysPerWeek = null;
     public ?int $videosPerWeek = null;
 
+    // New analytics fields
+    public ?int $contentCreationMonths = null;
+    public ?int $averageLiveViewers = null;
+    public ?int $averageVideoViews = null;
+
     public function addChannel(): void
     {
         $this->channels[] = [
@@ -63,11 +68,16 @@ new #[Layout('layouts.app')] class extends Component {
         if ($this->showStreamingFields) {
             $rules['streamingHoursPerDay'] = 'required|integer|min:1|max:24';
             $rules['streamingDaysPerWeek'] = 'required|integer|min:1|max:7';
+            $rules['averageLiveViewers']   = 'required|integer|min:0';
         }
 
         if ($this->showVideoFields) {
-            $rules['videosPerWeek'] = 'required|integer|min:1|max:50';
+            $rules['videosPerWeek']     = 'required|integer|min:1|max:50';
+            $rules['averageVideoViews'] = 'required|integer|min:0';
         }
+
+        // Always required for all content types
+        $rules['contentCreationMonths'] = 'required|integer|min:1|max:240'; // Max 20 years
 
         $this->validate($rules);
 
@@ -79,7 +89,10 @@ new #[Layout('layouts.app')] class extends Component {
             $this->aboutYou,
             $this->streamingHoursPerDay,
             $this->streamingDaysPerWeek,
-            $this->videosPerWeek
+            $this->videosPerWeek,
+            $this->contentCreationMonths,
+            $this->averageLiveViewers,
+            $this->averageVideoViews
         );
 
         if ($result['success']) {
@@ -234,12 +247,25 @@ new #[Layout('layouts.app')] class extends Component {
                 </div>
 
                 <div class="flex-1 space-y-6">
+                    <!-- Content Creation Experience (always shown) -->
+                    <flux:input
+                        type="number"
+                        wire:model="contentCreationMonths"
+                        :label="__('Content creation experience')"
+                        :description="__('How many months have you been creating content?')"
+                        :placeholder="__('e.g., 12')"
+                        min="1"
+                        max="240"
+                        required
+                    />
+
                     @if($this->showStreamingFields)
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <flux:input
                                 type="number"
                                 wire:model="streamingHoursPerDay"
                                 :label="__('Hours per day streaming')"
+                                :description="__('How many hours do you typically stream each day?')"
                                 :placeholder="__('e.g., 4')"
                                 min="1"
                                 max="24"
@@ -250,24 +276,48 @@ new #[Layout('layouts.app')] class extends Component {
                                 type="number"
                                 wire:model="streamingDaysPerWeek"
                                 :label="__('Days per week streaming')"
+                                :description="__('How many days per week do you go live?')"
                                 :placeholder="__('e.g., 5')"
                                 min="1"
                                 max="7"
                                 required
                             />
                         </div>
+
+                        <flux:input
+                            type="number"
+                            wire:model="averageLiveViewers"
+                            :label="__('Average live viewers')"
+                            :description="__('Average number of concurrent viewers during your streams')"
+                            :placeholder="__('e.g., 50')"
+                            min="0"
+                            required
+                        />
                     @endif
 
                     @if($this->showVideoFields)
-                        <flux:input
-                            type="number"
-                            wire:model="videosPerWeek"
-                            :label="__('Videos per week')"
-                            :placeholder="__('e.g., 3')"
-                            min="1"
-                            max="50"
-                            required
-                        />
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <flux:input
+                                type="number"
+                                wire:model="videosPerWeek"
+                                :label="__('Videos per week')"
+                                :description="__('How many videos do you typically publish each week?')"
+                                :placeholder="__('e.g., 3')"
+                                min="1"
+                                max="50"
+                                required
+                            />
+
+                            <flux:input
+                                type="number"
+                                wire:model="averageVideoViews"
+                                :label="__('Average video views')"
+                                :description="__('Average views per video across your content')"
+                                :placeholder="__('e.g., 1000')"
+                                min="0"
+                                required
+                            />
+                        </div>
                     @endif
                 </div>
             </div>
