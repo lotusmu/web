@@ -3,6 +3,7 @@
 use App\Console\Commands\CleanEventEntriesCommand;
 use App\Console\Commands\CleanupGuildMarksCommand;
 use App\Console\Commands\DistributeCastleSiegePrizesCommand;
+use App\Console\Commands\DistributeFarmRewardsCommand;
 use App\Console\Commands\ExpireOrdersCommand;
 use App\Console\Commands\ExtendPartnerVipCommand;
 use App\Console\Commands\ProcessHallOfFameCommand;
@@ -91,6 +92,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $schedule->command(ExtendPartnerVipCommand::class)
             ->dailyAt('06:00')
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command(DistributeFarmRewardsCommand::class)
+            ->sundays()
+            ->at('22:00')
             ->runInBackground()
             ->withoutOverlapping();
 

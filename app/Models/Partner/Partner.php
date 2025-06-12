@@ -47,15 +47,14 @@ class Partner extends Model
         return $this->hasMany(PromoCodeUsage::class);
     }
 
-    public function rewards(): HasMany
+    public function reviews(): HasMany
     {
-        return $this->hasMany(PartnerReward::class);
+        return $this->hasMany(PartnerReview::class);
     }
 
     public function getTotalTokensEarned(): int
     {
-        return $this->promoCodeUsages()->sum('partner_tokens') +
-            $this->rewards()->where('status', 'paid')->sum('tokens_amount');
+        return $this->promoCodeUsages()->sum('partner_tokens');
     }
 
     public function getTokensEarnedThisMonth(): int
@@ -64,5 +63,19 @@ class Partner extends Model
             ->whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
             ->sum('partner_tokens');
+    }
+
+    public function hasBeenReviewedThisWeek(): bool
+    {
+        return $this->reviews()
+            ->forWeek(now()->week, now()->year)
+            ->exists();
+    }
+
+    public function getThisWeekReview(): ?PartnerReview
+    {
+        return $this->reviews()
+            ->forWeek(now()->week, now()->year)
+            ->first();
     }
 }

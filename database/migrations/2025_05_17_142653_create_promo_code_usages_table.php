@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedInteger('partner_tokens'); // Tokens partner earned
             $table->unsignedInteger('user_extra_tokens'); // Extra tokens user got (always 10%)
             $table->string('transaction_id')->nullable();
-            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }
