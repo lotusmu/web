@@ -16,6 +16,7 @@ class PartnerApplication extends Model
         'platforms',
         'channels',
         'about_you',
+        'discord_username',
         'streaming_hours_per_day',
         'streaming_days_per_week',
         'videos_per_week',

@@ -15,13 +15,12 @@ new #[Layout('layouts.app')] class extends Component {
         ]
     ];
     public string $aboutYou = '';
+    public string $discordUsername = '';
 
-    // New frequency fields
     public ?int $streamingHoursPerDay = null;
     public ?int $streamingDaysPerWeek = null;
     public ?int $videosPerWeek = null;
 
-    // New analytics fields
     public ?int $contentCreationMonths = null;
     public ?int $averageLiveViewers = null;
     public ?int $averageVideoViews = null;
@@ -62,6 +61,7 @@ new #[Layout('layouts.app')] class extends Component {
             'channels.*.platform' => 'required|string',
             'channels.*.name'     => 'required|string',
             'aboutYou'            => 'required|string|min:50',
+            'discordUsername'     => 'required|string|max:37',
         ];
 
         // Add conditional validation for frequency fields
@@ -87,6 +87,7 @@ new #[Layout('layouts.app')] class extends Component {
             $this->platforms,
             $this->channels,
             $this->aboutYou,
+            $this->discordUsername,
             $this->streamingHoursPerDay,
             $this->streamingDaysPerWeek,
             $this->videosPerWeek,
@@ -337,6 +338,18 @@ new #[Layout('layouts.app')] class extends Component {
                 required
                 :placeholder="__('Share details about your content, experience, and what you have created so far...')"
             />
+
+            <flux:field>
+                <flux:label badge="Optional">Discord</flux:label>
+
+                <flux:input wire:model="discordUsername" maxlength="37"/>
+
+                <flux:description>
+                    {{ __('Your Discord username so we can contact you') }}
+                </flux:description>
+
+                <flux:error name="discordUsername"/>
+            </flux:field>
         </div>
 
         <div class="flex justify-end">

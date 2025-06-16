@@ -42,6 +42,11 @@ class PartnerApplicationResource extends Resource
                         };
                     }),
 
+                TextColumn::make('discord_username')
+                    ->label('Discord')
+                    ->placeholder('Not provided')
+                    ->limit(20),
+
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge(),

@@ -14,6 +14,7 @@ use Filament\Infolists\Components;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Enums\IconPosition;
 
 class ViewPartnerApplication extends ViewRecord
 {
@@ -186,8 +187,14 @@ class ViewPartnerApplication extends ViewRecord
                             ->label('Username'),
                         Components\TextEntry::make('user.email')
                             ->label('Email'),
+                        Components\TextEntry::make('discord_username')
+                            ->label('Discord')
+                            ->copyable()
+                            ->icon('heroicon-o-clipboard-document-list')
+                            ->iconPosition(IconPosition::After)
+                            ->placeholder('Not provided'),
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 Components\Section::make('Content Details')
                     ->schema([
@@ -204,19 +211,36 @@ class ViewPartnerApplication extends ViewRecord
                         Components\TextEntry::make('platforms')
                             ->label('Platforms')
                             ->formatStateUsing(function ($state) {
+                                if (! $state) {
+                                    return 'No platforms selected';
+                                }
+
+                                if (is_string($state)) {
+                                    $decoded = json_decode($state, true);
+                                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                        $state = $decoded;
+                                    } else {
+                                        if (str_contains($state, ',')) {
+                                            $state = array_map('trim', explode(',', $state));
+                                        } else {
+                                            $state = [$state];
+                                        }
+                                    }
+                                }
+
                                 if (! is_array($state)) {
-                                    return '';
+                                    return 'Invalid platform data';
                                 }
 
                                 $formatted = [];
                                 foreach ($state as $platformValue) {
-                                    $platform = Platform::tryFrom($platformValue);
+                                    $platform = Platform::tryFrom(trim($platformValue));
                                     if ($platform) {
                                         $formatted[] = $platform->getLabel();
                                     }
                                 }
 
-                                return implode(', ', $formatted);
+                                return empty($formatted) ? 'No valid platforms found' : implode(', ', $formatted);
                             }),
                     ])
                     ->columns(2),
