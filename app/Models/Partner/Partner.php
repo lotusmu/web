@@ -4,6 +4,8 @@ namespace App\Models\Partner;
 
 use App\Enums\Partner\PartnerLevel;
 use App\Enums\Partner\PartnerStatus;
+use App\Models\Stream\StreamAnalytics;
+use App\Models\Stream\StreamSession;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,6 +52,16 @@ class Partner extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(PartnerReview::class);
+    }
+
+    public function streamSessions(): HasMany
+    {
+        return $this->hasMany(StreamSession::class);
+    }
+
+    public function streamAnalytics(): HasMany
+    {
+        return $this->hasMany(StreamAnalytics::class);
     }
 
     public function getTotalTokensEarned(): int

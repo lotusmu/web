@@ -4,13 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Enums\Partner\PartnerLevel;
 use App\Enums\Partner\PartnerStatus;
-use App\Enums\Partner\Platform;
 use App\Filament\Resources\PartnerResource\Pages;
+use App\Filament\Resources\PartnerResource\Widgets\PartnerPerformanceWidget;
 use App\Models\Partner\Partner;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,94 +22,45 @@ class PartnerResource extends Resource
 
     protected static ?string $navigationLabel = 'Partners';
 
-    protected static ?int $navigationSort = 2;
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Partner Information')
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->required()
+                    ->searchable(),
+
+                Forms\Components\Select::make('level')
+                    ->options(PartnerLevel::class)
+                    ->required(),
+
+                Forms\Components\Select::make('status')
+                    ->options(PartnerStatus::class)
+                    ->required(),
+
+                Forms\Components\TextInput::make('promo_code')
+                    ->required()
+                    ->unique(ignoreRecord: true),
+
+                Forms\Components\TextInput::make('token_percentage')
+                    ->numeric()
+                    ->step(0.01)
+                    ->suffix('%')
+                    ->required(),
+
+                Forms\Components\TagsInput::make('platforms'),
+
+                Forms\Components\Repeater::make('channels')
                     ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->label('User')
-                            ->relationship('user', 'name')
-                            ->searchable()
-                            ->preload()
-                            ->required()
-                            ->disabled(fn ($context) => $context === 'edit'),
-
-                        Forms\Components\TextInput::make('promo_code')
-                            ->label('Promo Code')
-                            ->required()
-                            ->unique(Partner::class, 'promo_code', ignoreRecord: true)
-                            ->maxLength(50),
-
-                        Forms\Components\Select::make('level')
-                            ->label('Partner Level')
-                            ->options(PartnerLevel::getOptionsWithPercentages())
-                            ->required()
-                            ->reactive()
-                            ->afterStateUpdated(fn ($state, $set) => $set('token_percentage', PartnerLevel::from($state)->getTokenPercentage())),
-
-                        Forms\Components\TextInput::make('token_percentage')
-                            ->label('Token Percentage')
-                            ->numeric()
-                            ->suffix('%')
-                            ->minValue(1)
-                            ->maxValue(50)
-                            ->step(0.01)
+                        Forms\Components\TextInput::make('platform')
                             ->required(),
-
-                        Forms\Components\Select::make('status')
-                            ->label('Status')
-                            ->options([
-                                PartnerStatus::ACTIVE->value => PartnerStatus::ACTIVE->getLabel(),
-                                PartnerStatus::INACTIVE->value => PartnerStatus::INACTIVE->getLabel(),
-                                PartnerStatus::SUSPENDED->value => PartnerStatus::SUSPENDED->getLabel(),
-                            ])
+                        Forms\Components\TextInput::make('name')
                             ->required(),
-
-                        Forms\Components\DateTimePicker::make('approved_at')
-                            ->label('Approved At')
-                            ->default(now()),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Platforms & Channels')
-                    ->schema([
-                        Forms\Components\CheckboxList::make('platforms')
-                            ->label('Platforms')
-                            ->options([
-                                Platform::YOUTUBE->value => Platform::YOUTUBE->getLabel(),
-                                Platform::TWITCH->value => Platform::TWITCH->getLabel(),
-                                Platform::TIKTOK->value => Platform::TIKTOK->getLabel(),
-                                Platform::FACEBOOK->value => Platform::FACEBOOK->getLabel(),
-                            ])
-                            ->required()
-                            ->columns(2),
-
-                        Forms\Components\Repeater::make('channels')
-                            ->label('Channels')
-                            ->schema([
-                                Forms\Components\Select::make('platform')
-                                    ->label('Platform')
-                                    ->options([
-                                        Platform::YOUTUBE->value => Platform::YOUTUBE->getLabel(),
-                                        Platform::TWITCH->value => Platform::TWITCH->getLabel(),
-                                        Platform::TIKTOK->value => Platform::TIKTOK->getLabel(),
-                                        Platform::FACEBOOK->value => Platform::FACEBOOK->getLabel(),
-                                    ])
-                                    ->required(),
-
-                                Forms\Components\TextInput::make('name')
-                                    ->label('Channel Name/URL')
-                                    ->required(),
-                            ])
-                            ->columns(2)
-                            ->required()
-                            ->minItems(1)
-                            ->addActionLabel('Add Channel'),
-                    ]),
+                Forms\Components\DateTimePicker::make('approved_at'),
             ]);
     }
 
@@ -119,44 +69,64 @@ class PartnerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Partner')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('promo_code')
-                    ->label('Promo Code')
-                    ->searchable()
-                    ->icon('heroicon-o-clipboard-document-list')
-                    ->iconPosition(IconPosition::After)
-                    ->copyable(),
-
                 Tables\Columns\TextColumn::make('level')
-                    ->label('Level')
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('token_percentage')
-                    ->label('Token %')
                     ->suffix('%')
                     ->sortable(),
 
+                Tables\Columns\IconColumn::make('has_live_streams')
+                    ->label('Live')
+                    ->boolean()
+                    ->getStateUsing(function (Partner $record): bool {
+                        return $record->streamSessions()->whereNull('ended_at')->exists();
+                    })
+                    ->trueColor('success')
+                    ->falseColor('gray'),
+
+                Tables\Columns\TextColumn::make('streams_this_week')
+                    ->label('Streams/Week')
+                    ->getStateUsing(function (Partner $record): string {
+                        $count = $record->streamSessions()
+                            ->whereBetween('started_at', [now()->startOfWeek(), now()->endOfWeek()])
+                            ->count();
+
+                        return (string) $count;
+                    })
+                    ->sortable(false),
+
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('total_referrals')
-                    ->label('Referrals')
-                    ->getStateUsing(fn ($record) => $record->promoCodeUsages()->count())
-                    ->sortable(false),
-
-                Tables\Columns\TextColumn::make('total_tokens')
-                    ->label('Total Tokens')
-                    ->getStateUsing(fn ($record) => number_format($record->getTotalTokensEarned()))
-                    ->sortable(false),
-
                 Tables\Columns\TextColumn::make('approved_at')
-                    ->label('Approved')
                     ->dateTime('M j, Y')
                     ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options(PartnerStatus::class),
+
+                Tables\Filters\SelectFilter::make('level')
+                    ->options(PartnerLevel::class),
+
+                Tables\Filters\Filter::make('live_now')
+                    ->query(fn (Builder $query): Builder => $query->whereHas('streamSessions', fn (Builder $q) => $q->whereNull('ended_at')
+                    )
+                    )
+                    ->label('Currently Live'),
+
+                Tables\Filters\Filter::make('streamed_this_week')
+                    ->query(fn (Builder $query): Builder => $query->whereHas('streamSessions', fn (Builder $q) => $q->whereBetween('started_at', [
+                        now()->startOfWeek(),
+                        now()->endOfWeek(),
+                    ])
+                    )
+                    )
+                    ->label('Streamed This Week'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -170,6 +140,13 @@ class PartnerResource extends Resource
             ->defaultSort('approved_at', 'desc');
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            PartnerPerformanceWidget::class,
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
@@ -178,11 +155,5 @@ class PartnerResource extends Resource
             'view' => Pages\ViewPartner::route('/{record}'),
             'edit' => Pages\EditPartner::route('/{record}/edit'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->with(['user', 'promoCodeUsages']);
     }
 }

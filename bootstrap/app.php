@@ -6,6 +6,7 @@ use App\Console\Commands\DistributeCastleSiegePrizesCommand;
 use App\Console\Commands\DistributeFarmRewardsCommand;
 use App\Console\Commands\ExpireOrdersCommand;
 use App\Console\Commands\ExtendPartnerVipCommand;
+use App\Console\Commands\GenerateStreamAnalyticsCommand;
 use App\Console\Commands\ProcessHallOfFameCommand;
 use App\Console\Commands\ProcessWeeklyRankingsCommand;
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
@@ -98,6 +99,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command(DistributeFarmRewardsCommand::class)
             ->sundays()
             ->at('22:00')
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command(GenerateStreamAnalyticsCommand::class)
+            ->daily()
             ->runInBackground()
             ->withoutOverlapping();
 

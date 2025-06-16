@@ -57,7 +57,7 @@ new #[Layout('layouts.app')] class extends Component {
         $rules = [
             'contentType'         => 'required|string|in:streaming,content,both',
             'platforms'           => 'required|array|min:1',
-            'platforms.*'         => 'string|in:youtube,twitch,tiktok,facebook',
+            'platforms.*'         => 'string|in:youtube,twitch,facebook',
             'channels'            => 'required|array|min:1',
             'channels.*.platform' => 'required|string',
             'channels.*.name'     => 'required|string',
