@@ -96,7 +96,54 @@ new class extends Component {
     @if($this->visible && !empty($this->liveStreams))
         @php $currentStream = $this->getCurrentStream(); @endphp
 
-        <div class="fixed bottom-4 right-4 z-50" x-data="{ showPromoToast: false }">
+        <div class="fixed bottom-4 right-4 z-50"
+             x-data="{
+                showPromoToast: false,
+                isVisible: @js($this->visible),
+                isMinimized: @js($this->minimized),
+                init() {
+                    // Load states from localStorage
+                    const savedVisible = localStorage.getItem('stream-widget-visible');
+                    const savedMinimized = localStorage.getItem('stream-widget-minimized');
+
+                    if (savedVisible !== null) {
+                        this.isVisible = savedVisible === 'true';
+                        if (!this.isVisible) {
+                            $wire.close();
+                        }
+                    }
+
+                    if (savedMinimized !== null) {
+                        this.isMinimized = savedMinimized === 'true';
+                        if (this.isMinimized) {
+                            $wire.minimize();
+                        }
+                    }
+                },
+                handleMinimize() {
+                    $wire.minimize();
+                    localStorage.setItem('stream-widget-minimized', 'true');
+                    this.isMinimized = true;
+                },
+                handleResume() {
+                    $wire.resume();
+                    localStorage.setItem('stream-widget-minimized', 'false');
+                    this.isMinimized = false;
+                },
+                handleClose() {
+                    $wire.close();
+                    localStorage.setItem('stream-widget-visible', 'false');
+                    this.isVisible = false;
+                }
+             }"
+             x-show="isVisible"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform translate-y-4 scale-95"
+             x-transition:enter-end="opacity-100 transform translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 transform translate-y-4 scale-95">
+
             @if($this->minimized)
                 <!-- Minimized State -->
                 <div
@@ -135,7 +182,7 @@ new class extends Component {
                                 </button>
                             @endif
 
-                            <button wire:click="resume"
+                            <button @click="handleResume()"
                                     class="p-1 text-gray-400 hover:text-purple-400 hover:bg-slate-700 rounded transition-colors"
                                     title="Resume">
                                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -144,7 +191,7 @@ new class extends Component {
                                 </svg>
                             </button>
 
-                            <button wire:click="close"
+                            <button @click="handleClose()"
                                     class="p-1 text-gray-400 hover:text-red-400 hover:bg-slate-700 rounded transition-colors"
                                     title="Close">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,8 +213,7 @@ new class extends Component {
                         <div class="flex items-center space-x-2">
                             <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                             <span class="text-white text-sm font-medium">LIVE</span>
-                            <span
-                                class="text-gray-300 text-xs">{{ number_format($currentStream->average_viewers) }} viewers</span>
+                            <span class="text-gray-300 text-xs">{{ number_format($currentStream->average_viewers) }} viewers</span>
                             @if(count($this->liveStreams) > 1)
                                 <span class="text-gray-400 text-xs">•</span>
                                 <span
@@ -197,7 +243,7 @@ new class extends Component {
                                 </button>
                             @endif
 
-                            <button wire:click="minimize"
+                            <button @click="handleMinimize()"
                                     class="p-1 text-gray-400 hover:text-white hover:bg-slate-700 rounded transition-colors"
                                     title="Minimize">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -205,7 +251,7 @@ new class extends Component {
                                 </svg>
                             </button>
 
-                            <button wire:click="close"
+                            <button @click="handleClose()"
                                     class="p-1 text-gray-400 hover:text-red-400 hover:bg-slate-700 rounded transition-colors"
                                     title="Close">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -307,4 +353,30 @@ new class extends Component {
             </div>
         </div>
     @endif
+
+    <!-- Hidden restore button when widget is closed -->
+    <div x-data="{
+            canRestore: false,
+            init() {
+                // Check if widget was closed and there are live streams
+                const wasClosed = localStorage.getItem('stream-widget-visible') === 'false';
+                this.canRestore = wasClosed && @js(!empty($this->liveStreams));
+            }
+         }"
+         x-show="canRestore && !$wire.visible"
+         class="fixed bottom-4 right-4 z-40">
+
+        <button @click="
+                    localStorage.setItem('stream-widget-visible', 'true');
+                    $wire.set('visible', true);
+                    canRestore = false;
+                "
+                class="bg-purple-600/90 hover:bg-purple-700 text-white p-2 rounded-full shadow-lg backdrop-blur-sm border border-purple-500/50 transition-all duration-300 hover:scale-110"
+                title="Show live streams">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+            </svg>
+        </button>
+    </div>
 </div>
