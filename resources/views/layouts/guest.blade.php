@@ -67,5 +67,14 @@
 @livewireScripts
 @fluxScripts
 
+<script src="{{ asset('js/stream-widget.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!window.globalStreamWidget) {
+            window.globalStreamWidget = new StreamWidget();
+            window.globalStreamWidget.init();
+        }
+    });
+</script>
 </body>
 </html>
