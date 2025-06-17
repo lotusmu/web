@@ -339,17 +339,13 @@ new #[Layout('layouts.app')] class extends Component {
                 :placeholder="__('Share details about your content, experience, and what you have created so far...')"
             />
 
-            <flux:field>
-                <flux:label badge="Optional">Discord</flux:label>
-
-                <flux:input wire:model="discordUsername" maxlength="37"/>
-
-                <flux:description>
-                    {{ __('Your Discord username so we can contact you') }}
-                </flux:description>
-
-                <flux:error name="discordUsername"/>
-            </flux:field>
+            <flux:input
+                wire:model="discordUsername"
+                :label="__('Discord')"
+                :description="__('Your Discord username so we can contact you')"
+                :placeholder="__('e.g., username#1234 or @username')"
+                maxlength="37"
+            />
         </div>
 
         <div class="flex justify-end">

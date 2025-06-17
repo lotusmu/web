@@ -52,6 +52,8 @@
 
 <livewire:layout.guest.header/>
 
+<livewire:live-streams/>
+
 <main class="flex-1">
     {{ $slot }}
 </main>
