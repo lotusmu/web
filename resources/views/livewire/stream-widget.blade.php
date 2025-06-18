@@ -32,7 +32,14 @@ new class extends Component {
     x-data="streamWidget()"
     x-init="initWithWire()"
 >
+    @persist('stream-widget-container')
+    <div id="stream-widget-persistent-container">
+        <!-- Widget will be dynamically inserted here -->
+    </div>
+    @endpersist
+
     <!-- Restore button -->
+    @persist('stream-restore-btn')
     <div id="stream-restore-btn" style="display: none;" class="fixed bottom-4 right-4 z-40">
         <button onclick="window.streamWidgetInstance?.show()"
                 class="bg-purple-600/90 hover:bg-purple-700 text-white p-2 rounded-full shadow-lg backdrop-blur-sm border border-purple-500/50 transition-all duration-300 hover:scale-110"
@@ -43,6 +50,7 @@ new class extends Component {
             </svg>
         </button>
     </div>
+    @endpersist
 </div>
 
 <script>
@@ -57,11 +65,8 @@ new class extends Component {
             widgetCreated: false,
 
             async initWithWire() {
-                console.log('StreamWidget initializing...');
-
                 // Prevent multiple initializations
                 if (window.streamWidgetInstance) {
-                    console.log('StreamWidget already exists, skipping');
                     return;
                 }
 
@@ -69,7 +74,6 @@ new class extends Component {
 
                 // Get initial streams
                 this.streams = this.$wire.streams || [];
-                console.log('Initial streams:', this.streams);
 
                 if (this.streams.length > 0) {
                     this.createWidget();
@@ -77,12 +81,14 @@ new class extends Component {
 
                 // Listen for Livewire updates
                 this.$wire.on('streams-updated', () => {
-                    console.log('Streams updated event received');
                     this.updateStreams(this.$wire.streams);
                 });
             },
 
             createWidget() {
+                const container = document.getElementById('stream-widget-persistent-container');
+                if (!container) return;
+
                 // Remove existing widget
                 const existing = document.getElementById('stream-widget');
                 if (existing) existing.remove();
@@ -90,7 +96,7 @@ new class extends Component {
                 const widget = document.createElement('div');
                 widget.id = 'stream-widget';
                 widget.innerHTML = this.getWidgetHTML();
-                document.body.appendChild(widget);
+                container.appendChild(widget); // Append to persistent container
 
                 this.widgetCreated = true;
                 this.updateVisibility();
@@ -102,7 +108,6 @@ new class extends Component {
             },
 
             updateStreams(newStreams) {
-                console.log('Updating streams:', newStreams);
                 this.streams = newStreams || [];
 
                 if (this.streams.length === 0) {
@@ -120,6 +125,7 @@ new class extends Component {
             removeWidget() {
                 const widget = document.getElementById('stream-widget');
                 if (widget) widget.remove();
+                
                 // Clear iframe reference when removing widget
                 this.iframe = null;
                 this.widgetCreated = false;
@@ -148,7 +154,6 @@ new class extends Component {
                 container.appendChild(iframe);
                 this.iframe = iframe;
 
-                console.log('Player loaded for:', stream.channel_name);
             },
 
             getCurrentStream() {
