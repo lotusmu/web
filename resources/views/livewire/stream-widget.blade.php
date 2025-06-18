@@ -79,6 +79,13 @@ new class extends Component {
                 this.$wire.on('streams-updated', () => {
                     this.updateStreams(this.$wire.streams);
                 });
+
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden && !this.minimized && this.visible && this.streams.length > 0) {
+                        // Small delay to ensure tab is fully active
+                        setTimeout(() => this.loadPlayer(), 50);
+                    }
+                });
             },
 
             updateStreams(newStreams) {
@@ -102,7 +109,7 @@ new class extends Component {
                 if (!container) return;
 
                 const domain = window.location.hostname;
-                const src = `https://player.twitch.tv/?channel=${stream.channel_name}&parent=${domain}&muted=${this.muted}&autoplay=true&controls=false`;
+                const src = `https://player.twitch.tv/?channel=${stream.channel_name}&parent=${domain}&muted=${this.muted}&autoplay=true&controls=false&playsinline=true`;
 
                 const iframe = document.createElement('iframe');
                 iframe.src = src;
@@ -137,6 +144,7 @@ new class extends Component {
             minimize() {
                 this.minimized = true;
                 this.savePreferences();
+
                 // Remove iframe when minimizing to stop playback
                 const container = document.getElementById('stream-player-container');
                 if (container) {
