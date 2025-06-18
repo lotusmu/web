@@ -24,7 +24,6 @@
         decoding="async">
 </picture>
 
-
 {{-- Light theme beams --}}
 <picture class="absolute inset-0 -z-20">
     <source
@@ -52,7 +51,7 @@
 
 <livewire:layout.guest.header/>
 
-<livewire:live-streams/>
+<livewire:stream-widget/>
 
 <main class="flex-1">
     {{ $slot }}
@@ -67,14 +66,5 @@
 @livewireScripts
 @fluxScripts
 
-<script src="{{ asset('js/stream-widget.js') }}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (!window.globalStreamWidget) {
-            window.globalStreamWidget = new StreamWidget();
-            window.globalStreamWidget.init();
-        }
-    });
-</script>
 </body>
 </html>
