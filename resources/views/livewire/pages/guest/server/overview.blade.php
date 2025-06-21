@@ -108,10 +108,9 @@ new #[Layout('layouts.guest')] class extends Component {
                                 <flux:row>
                                     <flux:cell>{{ __('Max Resets') }}</flux:cell>
                                     <flux:cell>
-                                        {{ $server->max_resets }},
                                         <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system"
                                                    external>
-                                            {{ __('starts at :starting', ['starting' => $server->starting_resets]) }}
+                                            {{ $server->max_resets }}
                                         </flux:link>
                                     </flux:cell>
                                 </flux:row>
