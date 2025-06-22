@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="relative group">
-            <div class="w-80 h-48 bg-slate-800" id="stream-player-container"></div>
+            <div id="stream-player-container" class="w-80 h-48 bg-slate-800"></div>
 
             <template x-if="showCustomPlayButton">
                 <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10">

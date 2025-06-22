@@ -32,7 +32,7 @@ new class extends Component {
     x-data="streamWidget(@js($streams))"
     x-init="init()"
 >
-    <div id="stream-widget-persistent-container">
+    <div>
         <template x-if="visible && streams.length > 0">
             <div x-show="minimized">
                 <x-stream-widget.minimized/>

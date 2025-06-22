@@ -15,7 +15,9 @@
 
 <livewire:layout.guest.header/>
 
+@persist('stream-widget')
 <livewire:stream-widget/>
+@endpersist
 
 <main class="flex-1">
     {{ $slot }}
