@@ -190,7 +190,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <flux:rows>
                                 <flux:row>
                                     <flux:cell>{{ __('Max Excellent Options') }}</flux:cell>
-                                    <flux:cell>6</flux:cell>
+                                    <flux:cell>4</flux:cell>
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>{{ __('Max Game Client instances') }}</flux:cell>
@@ -275,7 +275,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <flux:rows>
                                 <flux:row>
                                     <flux:cell>{{ __('Damage Reduction') }}</flux:cell>
-                                    <flux:cell>20% ({{ __('Knights Only') }})</flux:cell>
+                                    <flux:cell>20% ({{ __('Knights & Gladiators Only') }})</flux:cell>
                                 </flux:row>
                                 <flux:row>
                                     <flux:cell>{{ __('Duration') }}</flux:cell>
