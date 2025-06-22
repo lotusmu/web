@@ -22,6 +22,7 @@ use Filament\Resources\Resource;
 use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class MemberResource extends Resource
@@ -163,7 +164,21 @@ class MemberResource extends Resource
                 Tables\Columns\TextColumn::make('AccountLevel')
                     ->label('Account Level')
                     ->toggleable()
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(function ($state, $record) {
+                        if (! $record?->hasValidVipSubscription()) {
+                            return 'Regular';
+                        }
+
+                        return $state;
+                    })
+                    ->getStateUsing(function ($record) {
+                        if (! $record?->hasValidVipSubscription()) {
+                            return AccountLevel::Regular;
+                        }
+
+                        return $record->AccountLevel;
+                    }),
                 Tables\Columns\TextColumn::make('AccountExpireDate')
                     ->label('VIP Expire Date')
                     ->toggleable()
@@ -201,7 +216,28 @@ class MemberResource extends Resource
                     ->options(AccountLevel::class)
                     ->label('Account Level')
                     ->placeholder('All Levels')
-                    ->multiple(),
+                    ->multiple()
+                    ->query(function (Builder $query, array $data) {
+                        if (empty($data['values'])) {
+                            return $query;
+                        }
+
+                        return $query->where(function ($query) use ($data) {
+                            foreach ($data['values'] as $level) {
+                                if ($level === AccountLevel::Regular->value) {
+                                    // Include actual Regular accounts AND expired VIP accounts
+                                    $query->orWhere('AccountLevel', AccountLevel::Regular)
+                                        ->orWhere('AccountExpireDate', '<=', now());
+                                } else {
+                                    // Include active VIP accounts of this level
+                                    $query->orWhere(function ($subQuery) use ($level) {
+                                        $subQuery->where('AccountLevel', $level)
+                                            ->where('AccountExpireDate', '>', now());
+                                    });
+                                }
+                            }
+                        });
+                    }),
             ])
             ->defaultSort('tokens', 'desc')
             ->persistFiltersInSession()
