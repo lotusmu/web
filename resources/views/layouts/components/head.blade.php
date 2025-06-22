@@ -36,6 +36,9 @@
     gtag('config', 'G-9FQ4QV8M1J');
 </script>
 
+<!-- Twitch embed player -->
+<script src="https://embed.twitch.tv/embed/v1.js"></script>
+
 <!-- Scripts -->
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxStyles

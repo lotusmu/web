@@ -37,8 +37,24 @@
         </div>
         <div class="relative group">
             <div class="w-80 h-48 bg-slate-800" id="stream-player-container"></div>
+
+            <template x-if="showCustomPlayButton">
+                <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+                    <button
+                        @click="playFromCustomButton()"
+                        class="bg-purple-600 hover:bg-purple-700 rounded-full p-4 transition-colors"
+                    >
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </template>
+
             <x-stream-widget.stream-overlay/>
         </div>
+
+
         <x-stream-widget.stream-footer/>
     </div>
 </div>
