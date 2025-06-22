@@ -22,7 +22,7 @@ class GetGuildsRanking
             ->withSum('characters', 'HunterScore')
             ->with([
                 'master:Name,AccountID,Class',
-                'master.member:memb___id,AccountLevel',
+                'master.member:memb___id,AccountLevel,AccountExpireDate',
             ]);
     }
 }

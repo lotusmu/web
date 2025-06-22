@@ -16,7 +16,7 @@ class GetCharacterProfile
                 'HofWins', 'EventScore', 'HunterScore',
             ])
             ->with([
-                'member:memb___id,AccountLevel',
+                'member:memb___id,AccountLevel,AccountExpireDate',
                 'member.status:memb___id,ConnectStat,ConnectTM,DisConnectTM',
                 'guildMember:Name,G_Name,G_Status,G_Level',
                 'guildMember.guild:G_Name,G_Mark,G_Master',

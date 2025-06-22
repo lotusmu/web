@@ -38,7 +38,7 @@ class GetCharactersRanking
     protected function getRelations(): array
     {
         $relations = [
-            'member:memb___id,AccountLevel',
+            'member:memb___id,AccountLevel,AccountExpireDate',
             'member.status:memb___id,ConnectStat',
             'guildMember.guild',
         ];

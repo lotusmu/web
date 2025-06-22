@@ -14,7 +14,7 @@
         {{ $character->Name }}
     </flux:link>
 
-    @if($character?->member?->AccountLevel !== AccountLevel::Regular)
+    @if($character?->member?->hasValidVipSubscription())
         <flux:tooltip :content="__(':level VIP Member', ['level' => $character?->member?->AccountLevel->getLabel()])">
             <flux:icon.fire variant="mini" class="text-{{ $character?->member?->AccountLevel->badgeColor() }}-500"/>
         </flux:tooltip>
