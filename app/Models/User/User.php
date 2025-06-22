@@ -4,7 +4,6 @@ namespace App\Models\User;
 
 use App\Actions\Member\CreateMemberOnEmailVerification;
 use App\Actions\Member\SyncMember;
-use App\Enums\Game\AccountLevel;
 use App\Enums\Game\GuildMemberStatus;
 use App\Interfaces\HasMember;
 use App\Models\Concerns\ManagesResources;
@@ -157,8 +156,7 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
 
     public function hasValidVipSubscription(): bool
     {
-        return $this->member->AccountLevel !== AccountLevel::Regular
-            && now()->lessThan($this->member->AccountExpireDate);
+        return $this->member?->hasValidVipSubscription() ?? false;
     }
 
     public function member(): HasOne

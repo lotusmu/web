@@ -15,6 +15,7 @@
         "flowframe/laravel-trend": "^0.3.0",
         "laravel/cashier": "^15.5",
         "laravel/framework": "^11.9",
+        "laravel/nightwatch": "^1.7",
         "laravel/pail": "^1.2",
         "laravel/pulse": "^1.4",
         "laravel/tinker": "^2.9",

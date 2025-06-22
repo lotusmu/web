@@ -66,9 +66,8 @@ class Member extends Model
 
     public function hasValidVipSubscription(): bool
     {
-        $user = User::where('name', $this->memb___id)->first();
-
-        return $user?->hasValidVipSubscription() ?? false;
+        return $this->AccountLevel !== AccountLevel::Regular
+            && $this->AccountExpireDate?->isFuture();
     }
 
     public function user(): BelongsTo
