@@ -13,7 +13,9 @@
     <livewire:referral-survey-popup/>
 @endauth
 
+@persist('stream-widget')
 <livewire:stream-widget/>
+@endpersist
 
 <livewire:notifications-modal/>
 
