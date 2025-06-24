@@ -1,4 +1,4 @@
-<div class="p-3 bg-slate-800/50 border-t border-slate-700/50">
+<div class="p-3 bg-zinc-800/50 border-t border-zinc-700/50">
     <div class="flex space-x-2">
         <a :href="`https://twitch.tv/${getCurrentStream()?.channel_name}`"
            target="_blank"
@@ -11,7 +11,7 @@
             <span>Watch Full</span>
         </a>
         <a :href="`/partners/${getCurrentStream()?.partner_id}`"
-           class="bg-slate-700 hover:bg-slate-600 text-gray-300 text-xs py-2 px-3 rounded-lg font-medium transition-colors flex items-center space-x-1"
+           class="bg-zinc-700 hover:bg-zinc-600 text-zinc-300 text-xs py-2 px-3 rounded-lg font-medium transition-colors flex items-center space-x-1"
            title="View Partner">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3">
                 <path
