@@ -25,7 +25,7 @@ class PartnerAccessService
             return 'partners.status';
         }
 
-        return 'partners.application';
+        return 'partners.apply';
     }
 
     public function canAccessForm(): bool

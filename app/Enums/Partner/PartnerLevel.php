@@ -58,17 +58,6 @@ enum PartnerLevel: int implements HasColor, HasLabel
         };
     }
 
-    public function getFarmTokensPerWeek(): int
-    {
-        return match ($this) {
-            self::LEVEL_ONE => 100,
-            self::LEVEL_TWO => 200,
-            self::LEVEL_THREE => 350,
-            self::LEVEL_FOUR => 500,
-            self::LEVEL_FIVE => 750,
-        };
-    }
-
     public static function getOptionsWithPercentages(): array
     {
         $options = [];

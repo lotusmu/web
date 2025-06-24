@@ -215,9 +215,9 @@ new #[Layout('layouts.app')] class extends Component {
 
                         <flux:input
                             wire:model="channels.{{ $index }}.name"
-                            :label="__('Channel Name/URL')"
+                            :label="__('Channel Name')"
                             required
-                            :placeholder="__('Enter your channel name or URL')"
+                            :placeholder="__('Enter your channel name')"
                         />
                     </div>
 
