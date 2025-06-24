@@ -1,8 +1,7 @@
-// Export as global function
-window.streamWidgetState = function (initialStreams) {
+window.streamWidgetState = function (initialStreams, initialVisible = null, initialMinimized = null) {
     return {
-        visible: localStorage.getItem('stream-widget-visible') !== 'false',
-        minimized: localStorage.getItem('stream-widget-minimized') === 'true',
+        visible: initialVisible !== null ? initialVisible : getInitialVisibility(),
+        minimized: initialMinimized !== null ? initialMinimized : (localStorage.getItem('stream-widget-minimized') === 'true'),
         muted: localStorage.getItem('stream-widget-muted') !== 'false',
         streams: initialStreams,
         currentIndex: 0,
@@ -20,8 +19,24 @@ window.streamWidgetState = function (initialStreams) {
             window.streamWidgetInstance = this;
             this.setupEventListeners();
 
+            // Load saved preferences after initial server state
+            this.loadSavedPreferences();
+
             if (this.streams.length > 0 && !this.minimized && this.visible) {
                 this.$nextTick(() => this.loadPlayer());
+            }
+        },
+
+        loadSavedPreferences() {
+            const savedVisible = localStorage.getItem('stream-widget-visible');
+            const savedMinimized = localStorage.getItem('stream-widget-minimized');
+
+            if (savedVisible !== null) {
+                this.visible = savedVisible !== 'false';
+            }
+
+            if (savedMinimized !== null) {
+                this.minimized = savedMinimized === 'true';
             }
         },
 
@@ -106,3 +121,19 @@ window.streamWidgetState = function (initialStreams) {
         }
     };
 };
+
+function getInitialVisibility() {
+    const stored = localStorage.getItem('stream-widget-visible');
+
+    // If user has already set a preference, use it
+    if (stored !== null) {
+        return stored !== 'false';
+    }
+
+    // For first-time users, check if mobile
+    const isMobile = window.innerWidth <= 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // Mobile users start with widget closed, desktop users start with it open
+    return !isMobile;
+}

@@ -1,4 +1,3 @@
-// Export as global function
 window.streamWidgetActions = function () {
     return {
         nextStream() {

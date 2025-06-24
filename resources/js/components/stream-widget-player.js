@@ -1,4 +1,3 @@
-// Export as global function
 window.streamWidgetPlayer = function () {
     return {
         twitchPlayer: null,

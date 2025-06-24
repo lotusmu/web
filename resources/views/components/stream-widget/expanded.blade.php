@@ -2,37 +2,33 @@
 
 <div class="fixed bottom-4 right-4 z-50 min-w-80">
     <div
-        class="bg-zinc-900/95 backdrop-blur-lg rounded-xl border border-purple-500/30 shadow-2xl shadow-purple-500/20 overflow-hidden transition-all duration-300 hover:shadow-purple-500/30">
+        class="bg-white dark:bg-zinc-900/75 backdrop-blur-lg rounded-xl border border-purple-500/30 shadow-2xl shadow-zinc-500/60 dark:shadow-purple-500/20 overflow-hidden transition-all duration-300">
         <div
-            class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-600/30 to-blue-600/30 border-b border-zinc-700/50">
+            class="flex items-center justify-between p-2 bg-gradient-to-r from-purple-600/15 to-blue-600/15 dark:from-purple-600/30 dark:to-blue-600/30">
             <div class="flex items-center space-x-2">
                 <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                <span class="text-white text-sm font-medium">LIVE</span>
-                <span class="text-zinc-300 text-xs"
-                      x-text="`${getCurrentStream()?.average_viewers?.toLocaleString() || '0'} viewers`"></span>
+
+                <flux:text class="font-medium">{{  __('LIVE') }}</flux:text>
+                
+                <flux:text size="sm"
+                           x-text="`${getCurrentStream()?.average_viewers?.toLocaleString() || '0'} viewers`"
+                />
+
                 <template x-if="streams.length > 1">
-                    <div class="flex items-center space-x-1">
-                        <span class="text-zinc-400 text-xs">•</span>
-                        <span class="text-zinc-400 text-xs" x-text="`${currentIndex + 1}/${streams.length}`"></span>
+                    <div class="flex items-center space-x-2">
+                        <flux:text size="sm">•</flux:text>
+                        <flux:text size="sm" x-text="`${currentIndex + 1}/${streams.length}`"></flux:text>
                     </div>
                 </template>
             </div>
+
             <div class="flex items-center space-x-1">
-                <x-stream-widget.navigation-buttons size="w-4 h-4"/>
-                <button @click="minimize()"
-                        class="p-1 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded transition-colors"
-                        title="Minimize">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
-                    </svg>
-                </button>
-                <button @click="close()"
-                        class="p-1 text-zinc-400 hover:text-red-400 hover:bg-zinc-700 rounded transition-colors"
-                        title="Close">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
+                <x-stream-widget.navigation-buttons/>
+
+                <flux:button @click="minimize()" icon="minus" size="xs" variant="subtle"/>
+
+                <flux:button @click="close()" icon="x-mark" size="xs" variant="subtle"
+                             class="hover:!text-red-400"/>
             </div>
         </div>
         <div class="relative group">
@@ -40,20 +36,15 @@
 
             <template x-if="showCustomPlayButton">
                 <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
-                    <button
+                    <flux:button
                         @click="playFromCustomButton()"
-                        class="bg-purple-600 hover:bg-purple-700 rounded-full p-4 transition-colors"
-                    >
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                    </button>
+                        icon="play" class="!bg-purple-600 hover:!bg-purple-700 !rounded-full"
+                    />
                 </div>
             </template>
 
             <x-stream-widget.stream-overlay/>
         </div>
-
 
         <x-stream-widget.stream-footer/>
     </div>
