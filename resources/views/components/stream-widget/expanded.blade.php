@@ -9,7 +9,7 @@
                 <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
 
                 <flux:text class="font-medium">{{  __('LIVE') }}</flux:text>
-                
+
                 <flux:text size="sm"
                            x-text="`${getCurrentStream()?.average_viewers?.toLocaleString() || '0'} viewers`"
                 />
@@ -38,7 +38,7 @@
                 <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
                     <flux:button
                         @click="playFromCustomButton()"
-                        icon="play" class="!bg-purple-600 hover:!bg-purple-700 !rounded-full"
+                        icon="play" class="!bg-purple-600 hover:!bg-purple-700 !text-white !border-none !rounded-full"
                     />
                 </div>
             </template>
