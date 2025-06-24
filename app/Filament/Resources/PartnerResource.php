@@ -26,41 +26,85 @@ class PartnerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required()
-                    ->searchable(),
-
-                Forms\Components\Select::make('level')
-                    ->options(PartnerLevel::class)
-                    ->required(),
-
-                Forms\Components\Select::make('status')
-                    ->options(PartnerStatus::class)
-                    ->required(),
-
-                Forms\Components\TextInput::make('promo_code')
-                    ->required()
-                    ->unique(ignoreRecord: true),
-
-                Forms\Components\TextInput::make('token_percentage')
-                    ->numeric()
-                    ->step(0.01)
-                    ->suffix('%')
-                    ->required(),
-
-                Forms\Components\TagsInput::make('platforms'),
-
-                Forms\Components\Repeater::make('channels')
+                Forms\Components\Section::make('Partner Details')
+                    ->description('Basic partner information and status.')
+                    ->aside()
+                    ->columns(2)
                     ->schema([
-                        Forms\Components\TextInput::make('platform')
-                            ->required(),
-                        Forms\Components\TextInput::make('name')
-                            ->required(),
-                    ])
-                    ->columns(2),
+                        Forms\Components\Select::make('user_id')
+                            ->label('User')
+                            ->relationship('user', 'name')
+                            ->required()
+                            ->searchable()
+                            ->placeholder('Select a user'),
 
-                Forms\Components\DateTimePicker::make('approved_at'),
+                        Forms\Components\TextInput::make('promo_code')
+                            ->label('Promo Code')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->placeholder('e.g., STREAMER123')
+                            ->helperText('Unique promotional code for this partner'),
+                    ]),
+
+                Forms\Components\Section::make('Partnership Level & Status')
+                    ->description('Configure partner level and current status.')
+                    ->aside()
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Select::make('level')
+                            ->label('Partner Level')
+                            ->options(PartnerLevel::class)
+                            ->required()
+                            ->placeholder('Select partner level'),
+
+                        Forms\Components\Select::make('status')
+                            ->label('Status')
+                            ->options(PartnerStatus::class)
+                            ->required()
+                            ->placeholder('Select status'),
+
+                        Forms\Components\TextInput::make('token_percentage')
+                            ->label('Token Commission')
+                            ->numeric()
+                            ->step(0.01)
+                            ->suffix('%')
+                            ->required()
+                            ->placeholder('0.00')
+                            ->helperText('Percentage of tokens earned from referrals'),
+
+                        Forms\Components\DateTimePicker::make('approved_at')
+                            ->label('Approval Date')
+                            ->native(false)
+                            ->placeholder('Select approval date'),
+                    ]),
+
+                Forms\Components\Section::make('Platforms & Channels')
+                    ->description('Configure streaming platforms and channel information.')
+                    ->aside()
+                    ->schema([
+                        Forms\Components\TagsInput::make('platforms')
+                            ->label('Platforms')
+                            ->placeholder('Add platforms (e.g., Twitch, YouTube)')
+                            ->helperText('Press Enter to add each platform'),
+
+                        Forms\Components\Repeater::make('channels')
+                            ->label('Channel Details')
+                            ->schema([
+                                Forms\Components\TextInput::make('platform')
+                                    ->label('Platform')
+                                    ->required()
+                                    ->placeholder('e.g., Twitch'),
+
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Channel Name')
+                                    ->required()
+                                    ->placeholder('Channel/Username'),
+                            ])
+                            ->columns(2)
+                            ->addActionLabel('Add Channel')
+                            ->collapsible()
+                            ->defaultItems(0),
+                    ]),
             ]);
     }
 
