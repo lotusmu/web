@@ -36,7 +36,7 @@
     gtag('config', 'G-9FQ4QV8M1J');
 </script>
 
-<!-- Twitch embed player -->
+<!-- Twitch SDK -->
 <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
 <!-- Scripts -->

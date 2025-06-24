@@ -10,16 +10,14 @@
             </svg>
             <span>Watch Full</span>
         </a>
-        <template x-if="getCurrentStream()?.partner?.promo_code">
-            <button @click="navigator.clipboard.writeText(getCurrentStream()?.partner?.promo_code)"
-                    class="bg-slate-700 hover:bg-slate-600 text-gray-300 text-xs py-2 px-3 rounded-lg font-medium transition-colors flex items-center space-x-1"
-                    title="Copy promo code">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                </svg>
-                <span x-text="getCurrentStream()?.partner?.promo_code"></span>
-            </button>
-        </template>
+        <a :href="`/partners/${getCurrentStream()?.partner_id}`"
+           class="bg-slate-700 hover:bg-slate-600 text-gray-300 text-xs py-2 px-3 rounded-lg font-medium transition-colors flex items-center space-x-1"
+           title="View Partner">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3">
+                <path
+                    d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"/>
+            </svg>
+            <span>All Streams</span>
+        </a>
     </div>
 </div>
