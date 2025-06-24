@@ -35,7 +35,7 @@ new #[Layout('layouts.auth')] class extends Component {
         $this->validate([
             'token'    => ['required'],
             'email'    => ['required', 'string', 'email'],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'string', 'confirmed', 'min:6', 'max:10'],
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
