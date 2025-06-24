@@ -32,7 +32,7 @@ new #[Layout('layouts.auth')] class extends Component {
                 ],
                 'email'             => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
                 'password'          => [
-                    'required', 'string', 'confirmed', 'min:6', 'max:10', Rules\Password::defaults()
+                    'required', 'string', 'confirmed', 'min:6', 'max:10'
                 ],
                 'terms'             => ['accepted'],
                 'turnstileResponse' => app()->environment(['production']) ? ['required', $turnstile] : [],
