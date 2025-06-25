@@ -40,7 +40,19 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="flex items-start gap-4">
                     <div>
                         <flux:heading class="flex items-center gap-2">
-                            <flux:icon.currency-dollar class="text-green-500 flex-shrink-0"/>
+                            <flux:icon.megaphone variant="solid" class="text-purple-500 flex-shrink-0"/>
+                            <span>{{ __('Featured Content') }}</span>
+                        </flux:heading>
+                        <flux:subheading>
+                            {{ __('Your streams and videos featured on our website.') }}
+                        </flux:subheading>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div>
+                        <flux:heading class="flex items-center gap-2">
+                            <flux:icon.currency-dollar variant="solid" class="text-green-500 flex-shrink-0"/>
                             <span>{{ __('Earn Tokens') }}</span>
                         </flux:heading>
                         <flux:subheading>
@@ -52,7 +64,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="flex items-start gap-4">
                     <div>
                         <flux:heading class="flex items-center gap-2">
-                            <flux:icon.fire class="text-yellow-500 flex-shrink-0"/>
+                            <flux:icon.fire variant="solid" class="text-yellow-500 flex-shrink-0"/>
                             <span>{{ __('VIP Status') }}</span>
                         </flux:heading>
                         <flux:subheading>
@@ -64,7 +76,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="flex items-start gap-4">
                     <div>
                         <flux:heading class="flex items-center gap-2">
-                            <flux:icon.gift class="text-blue-500 flex-shrink-0"/>
+                            <flux:icon.gift variant="solid" class="text-blue-500 flex-shrink-0"/>
                             <span>{{ __('Farm Rewards') }}</span>
                         </flux:heading>
                         <flux:subheading>
@@ -85,7 +97,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="flex items-start gap-4">
                     <div>
                         <flux:heading class="flex items-center gap-2">
-                            <flux:icon.gift class="text-green-500 flex-shrink-0"/>
+                            <flux:icon.gift variant="solid" class="text-green-500 flex-shrink-0"/>
                             <span>{{ __('Bonus Tokens') }}</span>
                         </flux:heading>
                         <flux:subheading>
@@ -97,7 +109,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="flex items-start gap-4">
                     <div>
                         <flux:heading class="flex items-center gap-2">
-                            <flux:icon.heart class="text-red-500 flex-shrink-0"/>
+                            <flux:icon.heart variant="solid" class="text-red-500 flex-shrink-0"/>
                             <span>{{ __('Support Their Creator') }}</span>
                         </flux:heading>
                         <flux:subheading>
@@ -109,7 +121,7 @@ new #[Layout('layouts.app')] class extends Component {
                 <div class="flex items-start gap-4">
                     <div>
                         <flux:heading class="flex items-center gap-2">
-                            <flux:icon.sparkles class="text-purple-500 flex-shrink-0"/>
+                            <flux:icon.sparkles variant="solid" class="text-purple-500 flex-shrink-0"/>
                             <span>{{ __('Exclusive Content') }}</span>
                         </flux:heading>
                         <flux:subheading>
