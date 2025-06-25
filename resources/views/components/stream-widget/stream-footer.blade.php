@@ -5,6 +5,7 @@
     <div class="flex space-x-2">
 
         <flux:button variant="primary" size="sm" class="!bg-purple-600 hover:!bg-purple-700  text-white text-xs  w-full"
+                     href="{{ route('content.streams') }}"
                      icon="video-camera">
             All Streams
         </flux:button>

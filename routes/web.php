@@ -49,6 +49,11 @@ Route::prefix('articles')->group(function () {
         ->name('articles.show');
 });
 
+Route::prefix('content')->group(function () {
+    Volt::route('/streams', 'pages.guest.content.streams')
+        ->name('content.streams');
+});
+
 Route::prefix('server')->group(function () {
     Volt::route('/overview', 'pages.guest.server.overview')
         ->name('server.overview');
