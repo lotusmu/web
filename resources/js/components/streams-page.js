@@ -14,13 +14,20 @@ window.streamsPage = function (initialStreams, initialSelectedStreamId, initialV
         // Internal
         manager: null,
         visibilityKey: null,
-        loadingPlayers: new Set(), // Track loading players
+        loadingPlayers: new Set(),
 
         init() {
-            // Create manager instance
-            this.manager = new StreamManager('streams-page', {
-                debounceMs: 200
-            });
+            // Use existing manager if available, otherwise create new one
+            if (!this.manager || this.manager.isDestroyed) {
+                // Destroy any existing streams-page manager first
+                if (StreamManager.instances.has('streams-page')) {
+                    StreamManager.instances.get('streams-page').destroy();
+                }
+
+                this.manager = new StreamManager('streams-page', {
+                    debounceMs: 200
+                });
+            }
 
             this.updateSelectedStream();
             this.setupEventListeners();
@@ -70,13 +77,10 @@ window.streamsPage = function (initialStreams, initialSelectedStreamId, initialV
                 if (playerData.instance.isFallback) return;
 
                 try {
-                    const twitchPlayer = playerData.instance.getPlayer();
-                    if (twitchPlayer) {
-                        if (isHidden) {
-                            twitchPlayer.pause();
-                        } else {
-                            twitchPlayer.play();
-                        }
+                    if (isHidden) {
+                        playerData.instance.pause();
+                    } else {
+                        playerData.instance.play();
                     }
                 } catch (error) {
                     // Ignore API errors
@@ -144,12 +148,11 @@ window.streamsPage = function (initialStreams, initialSelectedStreamId, initialV
                 return;
             }
 
-            // Check if container already has content (prevent double loading)
+            // Check if container already has content
             const container = document.getElementById(containerId);
             if (!container) return;
 
             if (container.querySelector('iframe, div[data-twitch-embed]')) {
-                console.log(`Player ${containerId} already has content, skipping`);
                 return;
             }
 
@@ -175,7 +178,6 @@ window.streamsPage = function (initialStreams, initialSelectedStreamId, initialV
         setupGridPlayerEvents(player, streamId) {
             player.addEventListener(Twitch.Embed.OFFLINE, () => {
                 console.log(`Grid stream ${streamId} went offline`);
-                // Could trigger a refresh or show offline state
             });
         },
 

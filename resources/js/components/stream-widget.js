@@ -11,7 +11,6 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
         streams: initialStreams || [],
         currentIndex: 0,
         isTabVisible: true,
-        showCustomPlayButton: false,
 
         // Internal
         manager: null,
@@ -19,6 +18,16 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
         visibilityKey: null,
 
         init() {
+            // Prevent double initialization
+            if (this.manager && !this.manager.isDestroyed) {
+                return;
+            }
+
+            // Destroy any existing widget manager first
+            if (StreamManager.instances.has('stream-widget')) {
+                StreamManager.instances.get('stream-widget').destroy();
+            }
+
             // Create manager instance
             this.manager = new StreamManager('stream-widget', {
                 debounceMs: 300
@@ -66,12 +75,24 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
             this.isTabVisible = !document.hidden;
 
             if (this.isTabVisible) {
-                if (this.shouldLoadPlayer() && !this.showCustomPlayButton) {
-                    setTimeout(() => this.resumePlayer(), 200);
+                // Tab becomes visible - try to resume
+                const playerData = this.manager.players.get('stream-player-container');
+                if (playerData && !playerData.instance.isFallback) {
+                    try {
+                        playerData.instance.play();
+                    } catch (error) {
+                        console.error('Error resuming widget player:', error);
+                    }
                 }
             } else {
-                if (this.shouldShowPlayButton()) {
-                    this.showCustomPlayButton = true;
+                // Tab becomes hidden - pause player
+                const playerData = this.manager.players.get('stream-player-container');
+                if (playerData && !playerData.instance.isFallback) {
+                    try {
+                        playerData.instance.pause();
+                    } catch (error) {
+                        console.error('Error pausing widget player:', error);
+                    }
                 }
             }
         },
@@ -79,8 +100,6 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
         loadPlayer() {
             const stream = this.getCurrentStream();
             if (!stream || !this.shouldLoadPlayer()) return;
-
-            this.showCustomPlayButton = false;
 
             // Check if we need to reload
             if (this.currentChannelName === stream.channel_name && this.hasValidPlayer()) {
@@ -127,16 +146,12 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
             return !this.minimized && this.visible && this.streams.length > 0;
         },
 
-        shouldShowPlayButton() {
-            return !this.minimized && this.visible && this.manager.players.has('stream-player-container');
-        },
-
         // Navigation
         nextStream() {
             if (this.streams.length <= 1) return;
 
             this.currentIndex = (this.currentIndex + 1) % this.streams.length;
-            this.resetPlayerState();
+            this.currentChannelName = null;
             this.loadPlayer();
         },
 
@@ -144,13 +159,8 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
             if (this.streams.length <= 1) return;
 
             this.currentIndex = (this.currentIndex - 1 + this.streams.length) % this.streams.length;
-            this.resetPlayerState();
-            this.loadPlayer();
-        },
-
-        resetPlayerState() {
-            this.showCustomPlayButton = false;
             this.currentChannelName = null;
+            this.loadPlayer();
         },
 
         // Actions
@@ -162,7 +172,7 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
 
         resume() {
             this.minimized = false;
-            this.resetPlayerState();
+            this.currentChannelName = null;
             this.savePreferences();
             this.$nextTick(() => this.loadPlayer());
         },
@@ -175,7 +185,7 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
 
         show() {
             this.visible = true;
-            this.resetPlayerState();
+            this.currentChannelName = null;
             this.savePreferences();
 
             if (this.shouldLoadPlayer()) {
@@ -197,20 +207,8 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
             }
         },
 
-        playFromCustomButton() {
-            this.showCustomPlayButton = false;
-            this.loadPlayer();
-        },
-
-        resumePlayer() {
-            if (this.isTabVisible && !this.showCustomPlayButton && this.shouldLoadPlayer()) {
-                this.loadPlayer();
-            }
-        },
-
         destroyPlayer() {
             this.manager.destroyPlayer('stream-player-container');
-            this.showCustomPlayButton = false;
             this.currentChannelName = null;
         },
 
@@ -220,10 +218,6 @@ window.streamWidget = function (initialStreams, initialVisible = null, initialMi
 
             if (this.currentIndex >= this.streams.length) {
                 this.currentIndex = 0;
-            }
-
-            if (this.streams.length === 0) {
-                this.showCustomPlayButton = false;
             }
 
             if (this.shouldLoadPlayer()) {

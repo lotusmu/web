@@ -34,15 +34,6 @@
         <div class="relative group">
             <div id="stream-player-container" class="w-80 h-48 bg-zinc-800"></div>
 
-            <template x-if="showCustomPlayButton">
-                <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
-                    <flux:button
-                        @click="playFromCustomButton()"
-                        icon="play" class="!bg-purple-600 hover:!bg-purple-700 !text-white !border-none !rounded-full"
-                    />
-                </div>
-            </template>
-
             <x-stream-widget.stream-overlay/>
         </div>
 
