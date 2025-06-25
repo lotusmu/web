@@ -81,10 +81,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <div
         @if($isPollingEnabled) wire:poll.120s="refreshStreams" @endif
-    x-data="{
-            ...window.streamsPageState(@js($streams), @js($selectedStreamId), '{{ $viewMode }}'),
-            ...window.streamsPagePlayer()
-        }"
+    x-data="streamsPage(@js($streams), @js($selectedStreamId), '{{ $viewMode }}')"
         x-init="init()"
     >
         <x-streams.header

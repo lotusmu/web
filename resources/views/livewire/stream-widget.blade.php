@@ -49,13 +49,3 @@ new class extends Component {
         </div>
     </div>
 </div>
-
-<script>
-    window.streamWidget = function (initialStreams) {
-        return {
-            ...window.streamWidgetState(initialStreams),
-            ...window.streamWidgetPlayer(),
-            ...window.streamWidgetActions()
-        };
-    };
-</script>
