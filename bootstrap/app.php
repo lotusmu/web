@@ -9,6 +9,7 @@ use App\Console\Commands\ExtendPartnerVipCommand;
 use App\Console\Commands\GenerateStreamAnalyticsCommand;
 use App\Console\Commands\ProcessHallOfFameCommand;
 use App\Console\Commands\ProcessWeeklyRankingsCommand;
+use App\Console\Commands\SyncStreamsCommand;
 use App\Http\Middleware\CheckArticlePublishedMiddleware;
 use App\Http\Middleware\CheckUserBannedMiddleware;
 use App\Http\Middleware\EnsureNonVipOnlyMiddleware;
@@ -104,6 +105,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $schedule->command(GenerateStreamAnalyticsCommand::class)
             ->daily()
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command(SyncStreamsCommand::class)
+            ->everyTwoMinutes()
             ->runInBackground()
             ->withoutOverlapping();
 

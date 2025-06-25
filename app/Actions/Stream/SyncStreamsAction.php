@@ -4,6 +4,7 @@ namespace App\Actions\Stream;
 
 use App\Services\Stream\TwitchService;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class SyncStreamsAction
@@ -30,6 +31,8 @@ class SyncStreamsAction
                 $analyticsResults = $analyticsAction->handle();
                 $results['total_results']['analytics'] = $analyticsResults;
             }
+
+            Cache::forget('active-streams-public');
 
             Log::info('Manual stream sync completed', $results);
 
