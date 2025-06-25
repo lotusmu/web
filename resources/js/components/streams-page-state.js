@@ -51,12 +51,14 @@ window.streamsPageState = function (initialStreams, initialSelectedStreamId, ini
                 }
             });
 
-            // Watch for Livewire stream updates
-            this.$watch('$wire.streams', (newStreams) => {
-                if (newStreams && Array.isArray(newStreams)) {
-                    this.streams = newStreams;
+            // Add a specific watch for Livewire selectedStreamId changes
+            this.$watch('$wire.selectedStreamId', (newSelectedStreamId) => {
+                if (newSelectedStreamId !== this.selectedStreamId) {
+                    this.selectedStreamId = newSelectedStreamId;
                     this.updateSelectedStream();
-                    this.loadAllPlayers();
+                    if (this.viewMode === 'featured' && this.selectedStream) {
+                        this.loadMainPlayer();
+                    }
                 }
             });
 
