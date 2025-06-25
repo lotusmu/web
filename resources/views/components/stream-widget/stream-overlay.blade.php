@@ -6,9 +6,9 @@
         <div class="flex items-center space-x-2 ">
             <flux:text size="sm" class="font-medium !text-white/70" x-text="getCurrentStream()?.channel_name"/>
 
-            <flux:text size="sm" class="text-white/70">•</flux:text>
+            <flux:text size="sm" class="!text-white/70">•</flux:text>
 
-            <flux:text size="sm" class="text-white/70" x-text="getCurrentStream()?.game_category || 'No Category'"/>
+            <flux:text size="sm" class="!text-white/70" x-text="getCurrentStream()?.game_category || 'No Category'"/>
         </div>
         <div class="flex items-center space-x-1 ">
             <flux:icon.clock variant="micro" class="size-3 !text-white/70"/>
