@@ -87,23 +87,11 @@ new #[Layout('layouts.guest')] class extends Component {
         }"
         x-init="init()"
     >
-        <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
-            <flux:spacer/>
-
-            <div class="flex items-center gap-3">
-                <div class="flex items-center gap-2">
-                    <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                    <flux:text class="font-medium">{{ count($streams) }} {{ __('Live') }}</flux:text>
-                    <flux:text>•</flux:text>
-                    <flux:text>{{ number_format($this->totalViewers) }} {{ __('viewers') }}</flux:text>
-                </div>
-
-                <flux:radio.group wire:model.live="viewMode" variant="segmented" size="sm">
-                    <flux:radio value="grid" icon="squares-2x2"/>
-                    <flux:radio value="featured" icon="tv"/>
-                </flux:radio.group>
-            </div>
-        </header>
+        <x-streams.header
+            :streams="$streams"
+            :total-viewers="$this->totalViewers"
+            :view-mode="$viewMode"
+        />
 
         @if(empty($streams))
             <x-streams.empty-state/>
@@ -111,68 +99,8 @@ new #[Layout('layouts.guest')] class extends Component {
             <!-- Featured View -->
             <div x-show="viewMode === 'featured'" x-cloak>
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    <!-- Main Player -->
-                    <div class="lg:col-span-3">
-                        <flux:card class="overflow-hidden">
-                            <div class="relative bg-zinc-900 aspect-video">
-                                <div id="main-stream-player" class="w-full h-full">
-                                    <!-- Player will be loaded by JavaScript -->
-                                </div>
-                            </div>
-
-                            <div class="mt-4" x-show="selectedStream">
-                                <flux:heading
-                                    x-text="selectedStream?.title || '{{ __('Untitled Stream') }}'">
-                                </flux:heading>
-
-                                <div class="flex items-center gap-2 mt-2">
-                                    <flux:text x-text="selectedStream?.channel_name"></flux:text>
-                                    <flux:text>•</flux:text>
-                                    <flux:text
-                                        x-text="selectedStream?.game_category || '{{ __('No Category') }}'"></flux:text>
-                                    <flux:spacer/>
-                                    <flux:text
-                                        x-text="(selectedStream?.average_viewers || 0).toLocaleString() + ' {{ __('viewers') }}'"></flux:text>
-                                    <flux:text>•</flux:text>
-                                    <flux:text x-text="getDuration(selectedStream?.started_at)"></flux:text>
-                                </div>
-                            </div>
-                        </flux:card>
-                    </div>
-
-                    <!-- Stream Selection -->
-                    <div>
-                        <flux:radio.group
-                            label="{{ __('Live Channels') }}"
-                            variant="cards"
-                            :indicator="false"
-                            wire:model.live="selectedStreamId"
-                            class="flex flex-col"
-                        >
-                            @foreach($streams as $stream)
-                                <flux:tooltip content="{{ $stream['title'] ?? __('Untitled Stream') }}" position="left">
-                                    <flux:radio value="{{ $stream['id'] }}">
-                                        <div class="w-full">
-                                            <flux:heading class="flex items-center">
-                                                <span>{{ $stream['channel_name'] }}</span>
-                                                <flux:spacer/>
-                                                <div class="flex items-center gap-2">
-                                                    <div
-                                                        class="w-2 h-2 bg-red-500 rounded-full flex-shrink-0 animate-pulse"></div>
-                                                    <flux:text size="sm">
-                                                        {{ number_format($stream['average_viewers'] ?? 0) }} {{ __('viewers') }}
-                                                    </flux:text>
-                                                </div>
-                                            </flux:heading>
-                                            <flux:subheading size="sm">
-                                                {{ $stream['game_category'] ?? __('No Category') }}
-                                            </flux:subheading>
-                                        </div>
-                                    </flux:radio>
-                                </flux:tooltip>
-                            @endforeach
-                        </flux:radio.group>
-                    </div>
+                    <x-streams.featured-player :streams="$streams"/>
+                    <x-streams.stream-selector :streams="$streams"/>
                 </div>
             </div>
 
@@ -180,40 +108,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <div x-show="viewMode === 'grid'" x-cloak>
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     @foreach($streams as $stream)
-                        <flux:card class="overflow-hidden">
-                            <div class="relative bg-zinc-900 aspect-video">
-                                <div id="stream-player-{{ $stream['id'] }}" class="w-full h-full">
-                                    <!-- Player will be loaded lazily by JavaScript -->
-                                </div>
-                            </div>
-
-                            <div class="mt-4">
-                                <flux:heading class="truncate">
-                                    {{ $stream['title'] ?? __('Untitled Stream') }}
-                                </flux:heading>
-                                <flux:subheading>{{ $stream['channel_name'] }}</flux:subheading>
-
-                                <div class="flex items-center gap-2 mt-1">
-                                    <flux:text size="sm">{{ $stream['game_category'] ?? __('No Category') }}</flux:text>
-                                    <flux:text size="sm">•</flux:text>
-                                    <flux:text
-                                        size="sm">{{ number_format($stream['average_viewers'] ?? 0) }} {{ __('viewers') }}</flux:text>
-                                </div>
-
-                                <div class="mt-4">
-                                    <flux:button
-                                        href="https://twitch.tv/{{ $stream['channel_name'] }}"
-                                        external
-                                        variant="filled"
-                                        icon="arrow-top-right-on-square"
-                                        size="sm"
-                                        class="w-full"
-                                    >
-                                        {{ __('Watch on Twitch') }}
-                                    </flux:button>
-                                </div>
-                            </div>
-                        </flux:card>
+                        <x-streams.stream-card :stream="$stream"/>
                     @endforeach
                 </div>
             </div>
