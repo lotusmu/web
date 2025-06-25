@@ -87,7 +87,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ->appendOutputTo(storage_path('logs/cleanup-unverified-users.log'));
 
         $schedule->command(ProcessHallOfFameCommand::class)
-            ->mondays()
+            ->saturdays()
             ->at('23:00')
             ->runInBackground()
             ->withoutOverlapping();
