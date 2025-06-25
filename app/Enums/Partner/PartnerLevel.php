@@ -58,6 +58,17 @@ enum PartnerLevel: int implements HasColor, HasLabel
         };
     }
 
+    public function getNextLevel(): ?self
+    {
+        return match ($this) {
+            self::LEVEL_ONE => self::LEVEL_TWO,
+            self::LEVEL_TWO => self::LEVEL_THREE,
+            self::LEVEL_THREE => self::LEVEL_FOUR,
+            self::LEVEL_FOUR => self::LEVEL_FIVE,
+            self::LEVEL_FIVE => null, // Max level
+        };
+    }
+
     public static function getOptionsWithPercentages(): array
     {
         $options = [];

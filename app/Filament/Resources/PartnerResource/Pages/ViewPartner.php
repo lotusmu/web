@@ -2,11 +2,15 @@
 
 namespace App\Filament\Resources\PartnerResource\Pages;
 
+use App\Actions\Partner\PromotePartnerAction;
+use App\Actions\User\SendNotification;
 use App\Enums\Partner\Platform;
 use App\Filament\Resources\PartnerResource;
+use Exception;
 use Filament\Actions;
 use Filament\Infolists\Components;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewPartner extends ViewRecord
@@ -16,6 +20,48 @@ class ViewPartner extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('promote')
+                ->label('Promote Partner')
+                ->icon('heroicon-o-arrow-up')
+                ->color('success')
+                ->visible(fn (): bool => $this->record->level->getNextLevel() !== null)
+                ->requiresConfirmation()
+                ->modalHeading(fn (): string => "Promote {$this->record->user->name}?")
+                ->modalDescription(fn (): string => "This will promote {$this->record->user->name} from {$this->record->level->getLabel()} to {$this->record->level->getNextLevel()->getLabel()} and update their commission to {$this->record->level->getNextLevel()->getTokenPercentage()}%."
+                )
+                ->action(function (): void {
+                    try {
+                        $oldLevel = $this->record->level;
+                        app(PromotePartnerAction::class)->handle($this->record);
+
+                        // Refresh the record to show updated data
+                        $this->record = $this->record->fresh();
+
+                        // Send admin notification
+                        Notification::make()
+                            ->title('Partner promoted successfully')
+                            ->body("{$this->record->user->name} has been promoted to {$this->record->level->getLabel()}")
+                            ->success()
+                            ->send();
+
+                        // Send user notification
+                        SendNotification::make('Congratulations! You\'ve been promoted!')
+                            ->body('You have been promoted from :oldLevel to :newLevel. Your new commission rate is :percentage%.', [
+                                'oldLevel' => $oldLevel->getLabel(),
+                                'newLevel' => $this->record->level->getLabel(),
+                                'percentage' => $this->record->token_percentage,
+                            ])
+                            ->action('View Dashboard', route('partners.dashboard'))
+                            ->send($this->record->user);
+                    } catch (Exception $e) {
+                        Notification::make()
+                            ->title('Promotion failed')
+                            ->body($e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
+                }),
+
             Actions\EditAction::make(),
         ];
     }
