@@ -112,7 +112,7 @@ class ExtendPartnerVip
         activity('partner_vip')
             ->performedOn($partner->user)
             ->withProperties([
-                'activity_type' => ActivityType::INCREMENT->value,
+                'activity_type' => ActivityType::DEFAULT,
                 'partner_id' => $partner->id,
                 'partner_level' => $partner->level->getLabel(),
                 'promo_code' => $partner->promo_code,
