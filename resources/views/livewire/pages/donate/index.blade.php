@@ -255,7 +255,7 @@ new #[Layout('layouts.app')] class extends Component {
 
                         @if(!$promoCode)
                             <flux:text>
-                                {{ __('Enter your favorite streamer\'s code to earn bonus tokens') }}
+                                {{ __('Enter your favorite content creator\'s code to earn bonus tokens') }}
                             </flux:text>
                         @endif
                     </div>

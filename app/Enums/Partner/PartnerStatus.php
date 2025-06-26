@@ -14,9 +14,9 @@ enum PartnerStatus: string implements HasColor, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::ACTIVE => 'Active',
-            self::INACTIVE => 'Inactive',
-            self::SUSPENDED => 'Suspended',
+            self::ACTIVE => __('Active'),
+            self::INACTIVE => __('Inactive'),
+            self::SUSPENDED => __('Suspended'),
         };
     }
 

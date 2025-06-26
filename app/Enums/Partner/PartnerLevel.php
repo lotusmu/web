@@ -17,11 +17,11 @@ enum PartnerLevel: int implements HasColor, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::LEVEL_ONE => 'Level 1',
-            self::LEVEL_TWO => 'Level 2',
-            self::LEVEL_THREE => 'Level 3',
-            self::LEVEL_FOUR => 'Level 4',
-            self::LEVEL_FIVE => 'Level 5',
+            self::LEVEL_ONE => __('Level 1'),
+            self::LEVEL_TWO => __('Level 2'),
+            self::LEVEL_THREE => __('Level 3'),
+            self::LEVEL_FOUR => __('Level 4'),
+            self::LEVEL_FIVE => __('Level 5'),
         };
     }
 

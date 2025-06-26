@@ -85,7 +85,7 @@ new #[Layout('layouts.app')] class extends Component {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <flux:heading>{{ __('Content Type') }}</flux:heading>
-                    <flux:subheading>{{ ucfirst($application->content_type) }}</flux:subheading>
+                    <flux:subheading>{{ __(ucfirst($application->content_type)) }}</flux:subheading>
                 </div>
 
                 <div>

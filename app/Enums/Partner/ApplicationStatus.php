@@ -15,9 +15,9 @@ enum ApplicationStatus: string implements HasColor, HasIcon, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::PENDING => 'Pending Review',
-            self::APPROVED => 'Approved',
-            self::REJECTED => 'Rejected',
+            self::PENDING => __('Pending Review'),
+            self::APPROVED => __('Approved'),
+            self::REJECTED => __('Rejected'),
         };
     }
 
