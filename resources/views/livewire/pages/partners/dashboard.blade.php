@@ -144,7 +144,7 @@ new #[Layout('layouts.app')] class extends Component {
             {{ __('Partner Dashboard') }}
         </flux:heading>
         <flux:subheading>
-            {{ __('Here\'s your partner overview.') }}
+            {{ __('Here\'s your dashboard overview.') }}
         </flux:subheading>
     </header>
 
@@ -361,7 +361,7 @@ new #[Layout('layouts.app')] class extends Component {
                 </div>
             </div>
 
-            <flux:separator class="my-4"/>
+            <flux:separator class="my-6"/>
 
             <div class="flex items-center justify-between">
                 <flux:text size="sm">

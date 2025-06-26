@@ -23,11 +23,13 @@ class DistributeFarmRewards
             'errors' => 0,
         ];
 
+        $currentServer = session('game_db_connection', 'default');
+
         foreach ($activePartners as $partner) {
             try {
                 $results['processed']++;
 
-                if ($this->distributeFarmToPartner($partner)) {
+                if ($this->distributeFarmToPartner($partner, $currentServer)) {
                     $results['distributed']++;
                 }
             } catch (Exception $e) {
@@ -35,6 +37,7 @@ class DistributeFarmRewards
                 Log::error('Failed to distribute farm rewards to partner', [
                     'partner_id' => $partner->id,
                     'user_id' => $partner->user_id,
+                    'server' => $currentServer,
                     'error' => $e->getMessage(),
                 ]);
             }
@@ -43,7 +46,7 @@ class DistributeFarmRewards
         return $results;
     }
 
-    private function distributeFarmToPartner(Partner $partner): bool
+    private function distributeFarmToPartner(Partner $partner, string $server): bool
     {
         // Get farm package for this partner's level
         $farmPackage = PartnerFarmPackage::active()
@@ -76,8 +79,9 @@ class DistributeFarmRewards
                 'partner_level' => $partner->level->getLabel(),
                 'farm_package' => $farmPackage->name,
                 'items_distributed' => $farmPackage->items,
+                'server' => $server,
             ])
-            ->log("Weekly farm rewards distributed: {$farmPackage->name}");
+            ->log("Weekly farm rewards distributed on {$server}: {$farmPackage->name}");
 
         return true;
     }
