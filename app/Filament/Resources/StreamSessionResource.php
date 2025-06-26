@@ -20,6 +20,8 @@ class StreamSessionResource extends Resource
 
     protected static ?string $navigationLabel = 'Stream Sessions';
 
+    protected static ?int $navigationSort = 4;
+
     public static function table(Table $table): Table
     {
         return $table

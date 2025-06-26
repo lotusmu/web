@@ -24,6 +24,8 @@ class PartnerBrandAssetsResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Brand Assets';
 
+    protected static ?int $navigationSort = 8;
+
     public static function form(Form $form): Form
     {
         return $form

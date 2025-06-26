@@ -22,6 +22,11 @@ class PartnerApplicationResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', ApplicationStatus::PENDING)->count();
+    }
+
     public static function table(Table $table): Table
     {
         return $table

@@ -2,6 +2,7 @@
 
 namespace App\Actions\Partner;
 
+use App\Actions\User\SendNotification;
 use App\Enums\Partner\ApplicationStatus;
 use App\Models\Partner\PartnerApplication;
 use App\Models\User\User;
@@ -48,6 +49,13 @@ class SubmitPartnerApplication
             'average_video_views' => $averageVideoViews,
             'status' => ApplicationStatus::PENDING,
         ]);
+
+        SendNotification::make('New Partner Application')
+            ->body('A new partner application has been submitted from :user.', [
+                'user' => $user->name,
+            ])
+            ->action('View Application', '/admin/partner-applications/'.$application->id)
+            ->sendToAdmins();
 
         return [
             'success' => true,

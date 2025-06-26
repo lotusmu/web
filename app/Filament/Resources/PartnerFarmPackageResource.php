@@ -20,7 +20,7 @@ class PartnerFarmPackageResource extends Resource
 
     protected static ?string $navigationLabel = 'Farm Packages';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 7;
 
     public static function form(Form $form): Form
     {

@@ -17,6 +17,8 @@ class StreamAnalyticsResource extends Resource
 
     protected static ?string $navigationGroup = 'Partners';
 
+    protected static ?int $navigationSort = 3;
+
     public static function table(Table $table): Table
     {
         return $table

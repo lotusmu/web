@@ -22,7 +22,17 @@ class PartnerReviewResource extends Resource
 
     protected static ?string $navigationLabel = 'Weekly Review';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 2;
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', PartnerStatus::ACTIVE)
+            ->whereDoesntHave('reviews', function (Builder $q) {
+                $q->where('week_number', now()->week)
+                    ->where('year', now()->year);
+            })
+            ->count();
+    }
 
     public static function table(Table $table): Table
     {
