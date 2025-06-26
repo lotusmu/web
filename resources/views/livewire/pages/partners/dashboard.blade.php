@@ -2,6 +2,7 @@
 
 use App\Actions\Partner\DownloadBrandAssetsAction;
 use App\Enums\Game\BankItem;
+use App\Enums\Partner\PartnerLevel;
 use App\Models\Partner\Partner;
 use App\Models\Partner\PartnerBrandAsset;
 use App\Models\Partner\PartnerFarmPackage;
@@ -11,6 +12,17 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component {
+    public int $previewLevelIndex = 0;
+
+    public function mount()
+    {
+        // Set initial preview to next level if available, otherwise first level
+        $currentLevelIndex       = array_search($this->partner->level, PartnerLevel::cases());
+        $this->previewLevelIndex = $currentLevelIndex !== false && $currentLevelIndex < count(PartnerLevel::cases()) - 1
+            ? $currentLevelIndex + 1
+            : 0;
+    }
+
     #[Computed]
     public function partner(): Partner
     {
@@ -50,6 +62,64 @@ new #[Layout('layouts.app')] class extends Component {
         return PartnerBrandAsset::where('is_active', true)
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    #[Computed]
+    public function allLevels(): array
+    {
+        return PartnerLevel::cases();
+    }
+
+    #[Computed]
+    public function previewLevel(): PartnerLevel
+    {
+        return $this->allLevels[$this->previewLevelIndex];
+    }
+
+    #[Computed]
+    public function previewFarmPackage()
+    {
+        return PartnerFarmPackage::active()->forLevel($this->previewLevel)->first();
+    }
+
+    #[Computed]
+    public function canNavigatePrevious(): bool
+    {
+        return $this->previewLevelIndex > 0;
+    }
+
+    #[Computed]
+    public function canNavigateNext(): bool
+    {
+        return $this->previewLevelIndex < count($this->allLevels) - 1;
+    }
+
+    #[Computed]
+    public function isCurrentLevel(): bool
+    {
+        return $this->previewLevel === $this->partner->level;
+    }
+
+    #[Computed]
+    public function isNextLevel(): bool
+    {
+        $currentLevelIndex = array_search($this->partner->level, PartnerLevel::cases());
+
+        return $currentLevelIndex !== false && $this->previewLevelIndex === $currentLevelIndex + 1;
+    }
+
+    public function previousLevel()
+    {
+        if ($this->canNavigatePrevious) {
+            $this->previewLevelIndex--;
+        }
+    }
+
+    public function nextLevel()
+    {
+        if ($this->canNavigateNext) {
+            $this->previewLevelIndex++;
+        }
     }
 
     public function downloadAsset($assetId, DownloadBrandAssetsAction $action)
@@ -204,91 +274,138 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </flux:card>
 
-        @if($this->partner->level->getNextLevel())
-            <!-- Next Level Preview -->
-            @php
-                $nextLevel = $this->partner->level->getNextLevel();
-                $nextFarmPackage = PartnerFarmPackage::active()->forLevel($nextLevel)->first();
-            @endphp
-            <flux:card
-                class="!bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg border !border-slate-200 dark:!border-slate-700">
-                <div class="flex items-center justify-between mb-4">
-                    <flux:subheading class="flex items-center gap-2">
+        <!-- Level Browser -->
+        <flux:card
+            class="@if($this->isCurrentLevel) !bg-gradient-to-r from-purple-600/15 to-blue-600/15 dark:from-purple-600/30 dark:to-blue-600/30 backdrop-blur-lg !border-purple-500/30 @else !bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-700/50 !border-slate-200 dark:!border-slate-700 @endif rounded-lg border">
+            <div class="flex items-center justify-between mb-4">
+                <flux:subheading class="flex items-center gap-2">
+                    @if($this->isCurrentLevel)
+                        <flux:icon.star variant="solid" class="text-blue-500"/>
+                        {{ __('Current Level') }}
+                    @elseif($this->isNextLevel)
                         <flux:icon.arrow-up variant="solid"/>
                         {{ __('Next Level Benefits') }}
-                    </flux:subheading>
-                    <flux:badge color="{{ $nextLevel->badgeColor() }}"
-                                inset="top bottom"
-                                size="sm">
-                        {{ $nextLevel->getLabel() }}
-                    </flux:badge>
-                </div>
+                    @else
+                        <flux:icon.eye variant="solid"/>
+                        {{ __('Level Preview') }}
+                    @endif
+                </flux:subheading>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center gap-3">
-                        <flux:icon.currency-dollar variant="solid" class="text-green-500 flex-shrink-0"/>
-                        <div>
-                            <flux:text class="font-semibold">{{ $nextLevel->getTokenPercentage() }}
-                                % {{ __('Commission') }}</flux:text>
-                            <flux:text size="sm">
-                                {{ __('+:increase% increase', ['increase' => $nextLevel->getTokenPercentage() - $this->partner->level->getTokenPercentage()]) }}
-                            </flux:text>
-                        </div>
-                    </div>
+                <flux:badge color="{{ $this->previewLevel->badgeColor() }}"
+                            inset="top bottom"
+                            size="sm">
+                    {{ $this->previewLevel->getLabel() }}
+                </flux:badge>
+            </div>
 
-                    <div class="flex items-center gap-3">
-                        <flux:icon.gift variant="solid" class="text-purple-500 flex-shrink-0"/>
-                        <div>
-                            <flux:text class="font-semibold">{{ __('Enhanced Farm Rewards') }}</flux:text>
-                            <flux:text size="sm">
-                                @if($nextFarmPackage && $nextFarmPackage->items)
-                                    @foreach($nextFarmPackage->items as $item)
-                                        @php
-                                            $bankItem = BankItem::tryFrom($item['item_index'] ?? null);
-                                            $itemName = $bankItem ? $bankItem->getName() : 'Unknown Item';
-                                            $level = $item['item_level'] ?? 0;
-                                            $quantity = $item['quantity'] ?? 1;
-
-                                            if ($bankItem === BankItem::LOCHS_FEATHER && $level === 1) {
-                                                $itemName = "Monarch's Crest";
-                                            }
-                                        @endphp
-                                        {{ $quantity }}
-                                        x {{ $itemName }}{{ $level > 0 && $bankItem !== BankItem::LOCHS_FEATHER ? " (Level $level)" : '' }}@if(!$loop->last)
-                                            ,
-                                        @endif
-                                    @endforeach
-                                @else
-                                    {{ __('Better rewards await!') }}
-                                @endif
-                            </flux:text>
-                        </div>
-                    </div>
-                </div>
-
-                <flux:separator class="my-4"/>
-
-                <div>
-                    <flux:text size="sm">
-                        {{ __('Keep creating great content to unlock the next level!') }}
-                    </flux:text>
-                </div>
-            </flux:card>
-        @else
-            <!-- Max Level Reached -->
-            <div
-                class="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex items-center gap-3">
-                    <flux:icon.trophy class="text-yellow-500"/>
+                    <flux:icon.currency-dollar variant="solid" class="text-green-500 flex-shrink-0"/>
                     <div>
-                        <flux:text
-                            class="font-semibold text-yellow-700 dark:text-yellow-300">{{ __('Maximum Level Reached!') }}</flux:text>
-                        <flux:text
-                            size="sm">{{ __('You\'ve achieved the highest partner level. Congratulations!') }}</flux:text>
+                        <flux:text class="font-semibold">{{ $this->previewLevel->getTokenPercentage() }}
+                            % {{ __('Commission') }}</flux:text>
+                        <flux:text size="sm">
+                            @if($this->isCurrentLevel)
+                                {{ __('From donations with your promo code') }}
+                            @else
+                                @php
+                                    $currentPercentage = $this->partner->level->getTokenPercentage();
+                                    $previewPercentage = $this->previewLevel->getTokenPercentage();
+                                    $difference = $previewPercentage - $currentPercentage;
+                                @endphp
+                                @if($difference > 0)
+                                    {{ __('+:increase% increase', ['increase' => $difference]) }}
+                                @elseif($difference < 0)
+                                    {{ __(':decrease% decrease', ['decrease' => abs($difference)]) }}
+                                @else
+                                    {{ __('Same as current level') }}
+                                @endif
+                            @endif
+                        </flux:text>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <flux:icon.gift variant="solid" class="text-purple-500 flex-shrink-0"/>
+                    <div>
+                        <flux:text class="font-semibold">
+                            @if($this->isCurrentLevel)
+                                {{ __('Weekly Farm Rewards') }}
+                            @else
+                                {{ __('Farm Rewards') }}
+                            @endif
+                        </flux:text>
+                        <flux:text size="sm">
+                            @if($this->previewFarmPackage && $this->previewFarmPackage->items)
+                                @foreach($this->previewFarmPackage->items as $item)
+                                    @php
+                                        $bankItem = BankItem::tryFrom($item['item_index'] ?? null);
+                                        $itemName = $bankItem ? $bankItem->getName() : 'Unknown Item';
+                                        $level = $item['item_level'] ?? 0;
+                                        $quantity = $item['quantity'] ?? 1;
+
+                                        if ($bankItem === BankItem::LOCHS_FEATHER && $level === 1) {
+                                            $itemName = "Monarch's Crest";
+                                        }
+                                    @endphp
+                                    {{ $quantity }}
+                                    x {{ $itemName }}{{ $level > 0 && $bankItem !== BankItem::LOCHS_FEATHER ? " (Level $level)" : '' }}@if(!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
+                            @else
+                                {{ __('No rewards configured') }}
+                            @endif
+                        </flux:text>
                     </div>
                 </div>
             </div>
-        @endif
+
+            <flux:separator class="my-4"/>
+
+            <div class="flex items-center justify-between">
+                <flux:text size="sm">
+                    @if($this->isCurrentLevel)
+                        {{ __('This is your current partner level with active benefits.') }}
+                    @elseif($this->isNextLevel)
+                        {{ __('Keep creating great content to unlock the next level!') }}
+                    @else
+                        @php
+                            $currentLevelIndex = array_search($this->partner->level, PartnerLevel::cases());
+                            $targetLevelIndex = $this->previewLevelIndex;
+                            $levelsAway = $targetLevelIndex - $currentLevelIndex;
+                        @endphp
+                        @if($levelsAway > 0)
+                            {{ __('This level is :count levels away from your current level.', ['count' => $levelsAway]) }}
+                        @else
+                            {{ __('You\'ve already surpassed this level!') }}
+                        @endif
+                    @endif
+                </flux:text>
+
+                <flux:spacer/>
+
+                <div class="flex items-center gap-2">
+                    <flux:button
+                        icon="chevron-left"
+                        variant="ghost"
+                        size="sm"
+                        inset="top bottom right"
+                        wire:click="previousLevel"
+                        :disabled="!$this->canNavigatePrevious"
+                    />
+
+                    <flux:button
+                        icon="chevron-right"
+                        variant="ghost"
+                        size="sm"
+                        inset="top bottom right"
+                        wire:click="nextLevel"
+                        :disabled="!$this->canNavigateNext"
+                    />
+                </div>
+            </div>
+        </flux:card>
 
         <flux:separator/>
 
