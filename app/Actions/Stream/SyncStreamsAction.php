@@ -2,6 +2,8 @@
 
 namespace App\Actions\Stream;
 
+use App\Enums\Partner\PartnerStatus;
+use App\Models\Stream\StreamSession;
 use App\Services\Stream\TwitchService;
 use Exception;
 use Illuminate\Support\Facades\Cache;
@@ -18,6 +20,9 @@ class SyncStreamsAction
         ];
 
         try {
+            // End sessions for inactive/suspended partners first
+            $this->endInactivePartnerSessions();
+
             // Sync Twitch streams
             $twitchService = new TwitchService;
             $twitchResults = $twitchService->syncPartnerStreams();
@@ -47,6 +52,17 @@ class SyncStreamsAction
         }
 
         return $results;
+    }
+
+    /**
+     * End active sessions for partners who are no longer active
+     */
+    private function endInactivePartnerSessions(): void
+    {
+        StreamSession::join('partners', 'stream_sessions.partner_id', '=', 'partners.id')
+            ->where('partners.status', '!=', PartnerStatus::ACTIVE)
+            ->whereNull('stream_sessions.ended_at')
+            ->update(['stream_sessions.ended_at' => now()]);
     }
 
     public function getFormattedResults(array $results): string
