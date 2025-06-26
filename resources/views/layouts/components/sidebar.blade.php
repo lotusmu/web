@@ -25,7 +25,11 @@
         {{ __('Stealth Mode') }}
     </flux:navlist.item>
 
-    <flux:navlist.item wire:navigate.hover icon="handshake" :href="route('partners.index')">
+    <flux:navlist.item wire:navigate.hover
+                       icon="handshake"
+                       :href="route('partners.index')"
+                       :current="request()->is('partners') || request()->is('partners/*')"
+    >
         {{ __('Partner Program') }}
     </flux:navlist.item>
 
