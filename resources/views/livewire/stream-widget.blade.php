@@ -28,24 +28,26 @@ new class extends Component {
 }; ?>
 
 <div>
-    <div
-        wire:poll.60s="refreshStreams"
-        x-data="streamWidget(@js($streams))"
-        x-init="init()"
-    >
-        <!-- Show when expanded -->
-        <div x-show="visible && streams.length > 0 && !minimized" x-cloak>
-            <x-stream-widget.expanded/>
-        </div>
+    @if(!empty($streams))
+        <div
+            wire:poll.60s="refreshStreams"
+            x-data="streamWidget(@js($streams))"
+            x-init="init()"
+        >
+            <!-- Show when expanded -->
+            <div x-show="visible && streams.length > 0 && !minimized" x-cloak>
+                <x-stream-widget.expanded/>
+            </div>
 
-        <!-- Show when minimized -->
-        <div x-show="visible && streams.length > 0 && minimized" x-cloak>
-            <x-stream-widget.minimized/>
-        </div>
+            <!-- Show when minimized -->
+            <div x-show="visible && streams.length > 0 && minimized" x-cloak>
+                <x-stream-widget.minimized/>
+            </div>
 
-        <!-- Restore button when hidden -->
-        <div x-show="!visible && streams.length > 0" x-cloak>
-            <x-stream-widget.restore-button/>
+            <!-- Restore button when hidden -->
+            <div x-show="!visible && streams.length > 0" x-cloak>
+                <x-stream-widget.restore-button/>
+            </div>
         </div>
-    </div>
+    @endif
 </div>
