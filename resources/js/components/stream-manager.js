@@ -252,9 +252,8 @@ class StreamManager {
     }
 }
 
-// Export for module systems or attach to window
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = StreamManager;
-} else {
+export default StreamManager;
+
+if (typeof window !== 'undefined') {
     window.StreamManager = StreamManager;
 }

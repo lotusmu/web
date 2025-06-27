@@ -1,13 +1,11 @@
 import './bootstrap';
 
-// Core stream management
-import './components/stream-manager.js';
-
-// Refactored components
+import StreamManager from './components/stream-manager.js';
 import './components/stream-widget.js';
 import './components/streams-page.js';
 
-// Global cleanup on page unload
+window.StreamManager = StreamManager;
+
 window.addEventListener('beforeunload', () => {
     if (window.StreamManager) {
         window.StreamManager.destroyAll();
