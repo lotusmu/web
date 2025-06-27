@@ -20,6 +20,7 @@ new class extends Component {
         return $this->character->$relation()
             ->with($this->type->model())
             ->get()
+            ->sortByDesc('TotalPoints')
             ->map(fn($score) => [
                 'name'         => $score->{$schema['name_field']},
                 'count'        => number_format($score->{$schema['count_field']}),
@@ -27,8 +28,7 @@ new class extends Component {
                 'total_points' => number_format($score->TotalPoints),
                 'count_label'  => $schema['count_label'],
                 'image'        => $this->getImagePath($score),
-            ])
-            ->sortByDesc('total_points');
+            ]);
     }
 
     protected function getImagePath($score): ?string

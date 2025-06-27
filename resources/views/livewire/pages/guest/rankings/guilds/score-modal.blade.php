@@ -30,15 +30,16 @@ new class extends Component {
                 ->groupBy('EventID', 'EventName', 'PointsPerWin')
                 ->with('event:EventID,EventName,image_path')
                 ->get()
+                ->sortByDesc('TotalPoints')
                 ->map(fn($score) => [
-                    'name'         => $score->EventName,
-                    'count'        => number_format($score->WinCount),
-                    'points'       => number_format($score->PointsPerWin),
-                    'total_points' => number_format($score->TotalPoints),
-                    'count_label'  => __('wins'),
-                    'image'        => $score->event?->image_path ? asset($score->event->image_path) : null,
-                ])
-                ->sortByDesc('total_points');
+                    'name'             => $score->EventName,
+                    'count'            => number_format($score->WinCount),
+                    'points'           => number_format($score->PointsPerWin),
+                    'total_points'     => number_format($score->TotalPoints),
+                    'total_points_raw' => $score->TotalPoints,
+                    'count_label'      => __('wins'),
+                    'image'            => $score->event?->image_path ? asset($score->event->image_path) : null,
+                ]);
         }
 
         return Hunter::query()
@@ -54,22 +55,23 @@ new class extends Component {
             ->groupBy('MonsterName', 'MonsterClass', 'PointsPerKill')
             ->with('monster:MonsterClass,MonsterName,image_path')
             ->get()
+            ->sortByDesc('TotalPoints')
             ->map(fn($score) => [
-                'name'         => $score->MonsterName,
-                'count'        => number_format($score->KillCount),
-                'points'       => number_format($score->PointsPerKill),
-                'total_points' => number_format($score->TotalPoints),
-                'count_label'  => __('kills'),
-                'image'        => $score->monster?->image_path ? asset($score->monster->image_path) : null,
-            ])
-            ->sortByDesc('total_points');
+                'name'             => $score->MonsterName,
+                'count'            => number_format($score->KillCount),
+                'points'           => number_format($score->PointsPerKill),
+                'total_points'     => number_format($score->TotalPoints),
+                'total_points_raw' => $score->TotalPoints,
+                'count_label'      => __('kills'),
+                'image'            => $score->monster?->image_path ? asset($score->monster->image_path) : null,
+            ]);
     }
 
     #[Computed]
     public function totalScore(): string
     {
         return number_format(
-            $this->scores->sum(fn($score) => (int) str_replace(',', '', $score['total_points']))
+            $this->scores->sum('total_points_raw')
         );
     }
 
@@ -141,7 +143,7 @@ new class extends Component {
             </flux:heading>
 
             <flux:badge size="sm" variant="solid">
-                {{ $this->totalScore }} points
+                {{ $this->totalScore }} {{ __('points') }}
             </flux:badge>
         </div>
     </div>
