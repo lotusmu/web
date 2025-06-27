@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Status extends Model
 {
-    //    use GameConnection;
+    protected $connection = 'gamedb_main';
 
     protected $table = 'MEMB_STAT';
 
