@@ -62,6 +62,16 @@ class GetPreferredServer
 
     private function getDefaultServerId(): int
     {
+        // Try to get the server marked as default
+        $defaultServer = GameServer::where('is_active', true)
+            ->where('is_default', true)
+            ->first();
+
+        if ($defaultServer) {
+            return $defaultServer->id;
+        }
+
+        // Fallback to first active server
         return GameServer::where('is_active', true)
             ->orderBy('id')
             ->value('id') ?? 1;

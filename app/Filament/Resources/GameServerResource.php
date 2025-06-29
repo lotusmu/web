@@ -69,6 +69,23 @@ class GameServerResource extends Resource
                             ->required()
                             ->inline(false)
                             ->helperText('Toggle to activate or deactivate the server.'),
+
+                        Toggle::make('is_default')
+                            ->label('Default Server')
+                            ->onColor('success')
+                            ->offColor('gray')
+                            ->onIcon('heroicon-s-star')
+                            ->offIcon('heroicon-o-star')
+                            ->default(false)
+                            ->inline(false)
+                            ->helperText('Mark as the default server for new users.')
+                            ->afterStateUpdated(function ($state, $record) {
+                                if ($state && $record) {
+                                    // Ensure only one default server
+                                    GameServer::where('id', '!=', $record->id)
+                                        ->update(['is_default' => false]);
+                                }
+                            }),
                     ]),
 
                 Section::make('Server Rate Configuration')
@@ -178,6 +195,13 @@ class GameServerResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
+
+                Tables\Columns\IconColumn::make('is_default')
+                    ->label('Default')
+                    ->boolean()
+                    ->trueIcon('heroicon-s-star')
+                    ->falseIcon('heroicon-o-star'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true),

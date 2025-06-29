@@ -24,10 +24,12 @@ class GameServer extends Model
         'clear_pk_zen',
         'online_multiplier',
         'launch_date',
+        'is_default',
     ];
 
     protected $casts = [
         'launch_date' => 'datetime',
+        'is_default' => 'boolean',
     ];
 
     public function getServerName(): string
