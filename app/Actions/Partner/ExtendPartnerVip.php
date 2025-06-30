@@ -6,7 +6,6 @@ use App\Enums\Game\AccountLevel;
 use App\Enums\Partner\PartnerStatus;
 use App\Enums\Utility\ActivityType;
 use App\Models\Partner\Partner;
-use App\Support\ActivityLog\IdentityProperties;
 use Exception;
 use Log;
 
@@ -119,8 +118,7 @@ class ExtendPartnerVip
                 'action_type' => $action,
                 'vip_level' => AccountLevel::Gold->getLabel(),
                 'duration_days' => 1,
-                ...IdentityProperties::capture(),
             ])
-            ->log("Partner VIP {$action}: ".($wasExtension ? 'Extended existing VIP by 1 day' : 'Granted VIP until 06:01 tomorrow').' for active partner status.');
+            ->log("Partner VIP {$action}: ".($wasExtension ? 'Extended existing VIP' : 'Granted VIP').' for active partner status.');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Actions\Partner;
 
 use App\Actions\Member\UpdateItemBank;
 use App\Enums\Partner\PartnerStatus;
+use App\Enums\Utility\ActivityType;
 use App\Models\Partner\Partner;
 use App\Models\Partner\PartnerFarmPackage;
 use Exception;
@@ -75,13 +76,13 @@ class DistributeFarmRewards
         activity('partner_farm')
             ->performedOn($partner->user)
             ->withProperties([
+                'activity_type' => ActivityType::DEFAULT,
                 'partner_id' => $partner->id,
                 'partner_level' => $partner->level->getLabel(),
                 'farm_package' => $farmPackage->name,
-                'items_distributed' => $farmPackage->items,
                 'server' => $server,
             ])
-            ->log("Weekly farm rewards distributed on {$server}: {$farmPackage->name}");
+            ->log("Weekly farm rewards received: {$farmPackage->name}");
 
         return true;
     }
