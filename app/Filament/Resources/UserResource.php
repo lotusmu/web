@@ -8,6 +8,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\MemberRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\TicketsRelationManager;
 use App\Models\User\User;
+use App\Rules\UnauthorizedEmailProviders;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
@@ -76,7 +77,8 @@ class UserResource extends Resource
                             ->columnSpanFull()
                             ->email()
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->rules([new UnauthorizedEmailProviders]),
                         Checkbox::make('change_password')
                             ->label('Change password')
                             ->columnSpanFull()

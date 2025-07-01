@@ -1154,5 +1154,7 @@
     "Nice! You'll get +10% extra tokens.": "Legal! Você receberá +10% tokens extras.",
     "Hmm, that code isn't working": "Hmm, esse código não está funcionando",
     "Please fix the promo code error before continuing.": "Por favor, corrija o erro do código promocional antes de continuar.",
-    "Invalid Promo Code": "Código Promocional Inválido"
+    "Invalid Promo Code": "Código Promocional Inválido",
+    "The email belongs to an unauthorized email provider.": "O email pertence a um provedor de email não autorizado.",
+    "The email doesn't have an @.": "O email não tem um @."
 }

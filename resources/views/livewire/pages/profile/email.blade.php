@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User\User;
+use App\Rules\UnauthorizedEmailProviders;
 use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,13 @@ new class extends Component {
 
         $validated = $this->validate([
             'email' => [
-                'required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($user->id),
+                new UnauthorizedEmailProviders()
             ],
         ]);
 

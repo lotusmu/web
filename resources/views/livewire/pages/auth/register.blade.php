@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User\User;
+use App\Rules\UnauthorizedEmailProviders;
 use App\Support\ActivityLog\IdentityProperties;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,10 @@ new #[Layout('layouts.auth')] class extends Component {
                 'name'              => [
                     'required', 'string', 'alpha_num:ascii', 'min:4', 'max:10', 'unique:'.User::class
                 ],
-                'email'             => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'email'             => [
+                    'required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class,
+                    new UnauthorizedEmailProviders()
+                ],
                 'password'          => [
                     'required', 'string', 'confirmed', 'min:6', 'max:10'
                 ],

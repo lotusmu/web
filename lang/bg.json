@@ -1154,5 +1154,7 @@
     "Nice! You'll get +10% extra tokens.": "Страхотно! Ще получите +10% допълнителни токени.",
     "Hmm, that code isn't working": "Хм, този код не работи",
     "Please fix the promo code error before continuing.": "Моля, поправете грешката с промо кода преди да продължите.",
-    "Invalid Promo Code": "Невалиден промо код"
+    "Invalid Promo Code": "Невалиден промо код",
+    "The email belongs to an unauthorized email provider.": "Имейлът принадлежи към неразрешен доставчик на имейли.",
+    "The email doesn't have an @.": "Имейлът няма @."
 }
