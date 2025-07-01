@@ -38,9 +38,6 @@ class SyncStreamsAction
             }
 
             Cache::forget('active-streams-public');
-
-            Log::info('Manual stream sync completed', $results);
-
         } catch (Exception $e) {
             $results['errors'][] = $e->getMessage();
             $results['success'] = false;
