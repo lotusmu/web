@@ -249,7 +249,7 @@ new #[Layout('layouts.guest')] class extends Component {
                             <flux:rows>
                                 <flux:row>
                                     <flux:cell>{{ __('Damage Multiplier') }}</flux:cell>
-                                    <flux:cell>400%</flux:cell>
+                                    <flux:cell>350%</flux:cell>
                                 </flux:row>
                             </flux:rows>
                             <flux:columns>
