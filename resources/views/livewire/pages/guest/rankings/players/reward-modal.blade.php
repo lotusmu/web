@@ -9,7 +9,12 @@ new class extends Component {
     #[Computed]
     public function rewards()
     {
+        $currentServerId = session('selected_server_id');
+
         return WeeklyRankingReward::query()
+            ->whereHas('configuration', function ($query) use ($currentServerId) {
+                $query->where('game_server_id', $currentServerId);
+            })
             ->orderBy('position_from')
             ->get()
             ->map(fn($reward) => [

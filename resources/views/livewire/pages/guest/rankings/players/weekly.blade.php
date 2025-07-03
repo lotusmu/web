@@ -41,7 +41,12 @@ new #[Layout('layouts.guest')] class extends Component {
     #[Computed]
     public function rankingRewards()
     {
+        $currentServerId = session('selected_server_id');
+
         return WeeklyRankingReward::query()
+            ->whereHas('configuration', function ($query) use ($currentServerId) {
+                $query->where('game_server_id', $currentServerId);
+            })
             ->orderBy('position_from')
             ->get();
     }
@@ -50,7 +55,7 @@ new #[Layout('layouts.guest')] class extends Component {
     {
         $position = ($this->characters->currentPage() - 1) * 10 + $iteration;
 
-        return $this->rankingRewards()
+        return $this->rankingRewards
             ->first(fn($reward) => $position >= $reward->position_from &&
                 $position <= $reward->position_to
             )?->rewards ?? [];
