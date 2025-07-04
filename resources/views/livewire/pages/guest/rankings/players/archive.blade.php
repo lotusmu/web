@@ -15,7 +15,10 @@ new #[Layout('layouts.guest')] class extends Component {
     #[Computed]
     public function periods(): Collection
     {
+        $currentServerId = session('selected_server_id');
+
         return WeeklyRankingArchive::query()
+            ->where('game_server_id', $currentServerId)
             ->where('type', RankingScoreType::from($this->tab))
             ->orderByDesc('cycle_end')
             ->get()
