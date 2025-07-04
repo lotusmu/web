@@ -18,19 +18,11 @@ new class extends Component {
         $streams       = $loadStreams->handle();
         $this->streams = StreamResource::collection($streams)->resolve();
     }
-
-    #[On('refresh-streams')]
-    public function refreshStreams(LoadActiveStreamsAction $loadStreams)
-    {
-        $this->loadStreams($loadStreams);
-        $this->dispatch('streams-updated');
-    }
 }; ?>
 
 <div>
     @if(!empty($streams))
         <div
-            wire:poll.60s="refreshStreams"
             x-data="streamWidget(@js($streams))"
             x-init="init()"
         >

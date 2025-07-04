@@ -30,13 +30,7 @@ new #[Layout('layouts.guest')] class extends Component {
             $this->selectedStreamId = $this->streams[0]['id'];
         }
     }
-
-    #[On('refresh-streams')]
-    public function refreshStreams(LoadActiveStreamsAction $loadStreams): void
-    {
-        $this->loadStreams($loadStreams);
-    }
-
+    
     public function updatedSelectedStreamId($value): void
     {
         // Validate stream exists
@@ -80,8 +74,7 @@ new #[Layout('layouts.guest')] class extends Component {
     />
 
     <div
-        @if($isPollingEnabled) wire:poll.120s="refreshStreams" @endif
-    x-data="streamsPage(@js($streams), @js($selectedStreamId), '{{ $viewMode }}')"
+        x-data="streamsPage(@js($streams), @js($selectedStreamId), '{{ $viewMode }}')"
         x-init="init()"
     >
         <x-streams.header
