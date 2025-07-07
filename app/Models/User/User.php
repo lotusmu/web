@@ -41,6 +41,7 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
         'email',
         'password',
         'member_created',
+        'terms_agreed_at',
     ];
 
     protected $hidden = [
@@ -54,6 +55,7 @@ class User extends Authenticatable implements FilamentUser, HasMember, MustVerif
         'is_banned' => 'boolean',
         'banned_at' => 'datetime',
         'member_created' => 'boolean',
+        'terms_agreed_at' => 'datetime',
     ];
 
     public static function boot(): void

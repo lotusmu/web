@@ -48,6 +48,8 @@ new #[Layout('layouts.auth')] class extends Component {
             ]
         );
 
+        $validated['terms_agreed_at'] = now();
+        
         unset($validated['terms']);
         unset($validated['turnstileResponse']);
 
