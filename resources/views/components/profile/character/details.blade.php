@@ -60,6 +60,11 @@
     />
 
     <x-profile.detail-row
+        label="{{ __('Achievements') }}"
+        :value="$character->total_achievement_points"
+    />
+
+    <x-profile.detail-row
         label="{{ __('Event Score') }}"
         :value="number_format($character->EventScore)"
     />

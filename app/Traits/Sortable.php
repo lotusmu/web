@@ -12,6 +12,7 @@ trait Sortable
         'event-score' => 'EventScore',
         'weekly-hunt-score' => 'HunterScoreWeekly',
         'weekly-event-score' => 'EventScoreWeekly',
+        'achievement-points' => 'AchievementPoints',
 
         // Guild-specific mappings
         'members' => 'members_count',
@@ -75,6 +76,21 @@ trait Sortable
                 ->orderBy('HofWins', $this->sortDirection),
 
             'HofWins', 'HunterScore', 'EventScore', 'HunterScoreWeekly', 'EventScoreWeekly' => $query->orderBy($dbColumn, $this->sortDirection),
+
+            'AchievementPoints' => $query->orderBy(function ($query) {
+                return $query->selectRaw('COALESCE(
+                    AchievementsPoints + IncHP + IncExperienceRate + IncDefenseBase +
+                    IncFullReflectRate + IncCriticalDamageRate + IncExcellentDamageRate +
+                    IncDoubleDamageRate + IncTripleDamageRate + IncIgnoreDefenseRate +
+                    ResistCriticalDamageRate + ResistExcellentDamageRate + ResistDoubleDamageRate +
+                    ResistTripleDamageRate + ResistIgnoreDefenseRate + IncWeaponDurabilityRate +
+                    IncArmorDurabilityRate + IncGuardianDurabilityRate + IncOffensiveFullHpRestoreRate +
+                    IncDefensiveFullHpRestoreRate1 + ResistStunRate, 0
+                )')
+                    ->from('CustomAchievementsUser')
+                    ->whereColumn('CustomAchievementsUser.Name', 'Character.Name')
+                    ->limit(1);
+            }, $this->sortDirection),
 
             'QuestCount' => $query->orderBy(function ($query) {
                 return $query->select('Quest')

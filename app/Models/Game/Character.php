@@ -9,6 +9,7 @@ use App\Enums\Game\PkLevel;
 use App\Models\Concerns\GameConnection;
 use App\Models\Concerns\HandlesStealthVisibility;
 use App\Models\Concerns\IsBannable;
+use App\Models\Game\Ranking\Achievements;
 use App\Models\Game\Ranking\Event;
 use App\Models\Game\Ranking\EventWeekly;
 use App\Models\Game\Ranking\Hunter;
@@ -138,6 +139,11 @@ class Character extends Model
             $quest->MonsterCount5 > 0;
     }
 
+    public function getTotalAchievementPointsAttribute(): int
+    {
+        return $this->achievements?->total_achievement_points ?? 0;
+    }
+
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'AccountID', 'memb___id');
@@ -176,5 +182,10 @@ class Character extends Model
     public function weeklyEventScores(): HasMany
     {
         return $this->hasMany(EventWeekly::class, 'Name', 'Name');
+    }
+
+    public function achievements(): HasOne
+    {
+        return $this->hasOne(Achievements::class, 'Name', 'Name');
     }
 }

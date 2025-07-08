@@ -41,6 +41,15 @@
         {{ __('Quests') }}
     </flux:column>
 
+    <flux:column
+        sortable
+        :sorted="$sortBy === 'achievement-points'"
+        :direction="$sortDirection"
+        wire:click="sort('achievement-points')"
+    >
+        {{ __('Achievements') }}
+    </flux:column>
+
     <flux:column>{{ __('Guild') }}</flux:column>
 
     <x-rankings.characters.score-column

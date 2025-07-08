@@ -21,6 +21,7 @@ class GetCharacterProfile
                 'guildMember:Name,G_Name,G_Status,G_Level',
                 'guildMember.guild:G_Name,G_Mark,G_Master',
                 'quest:Name,Quest',
+                'achievements',
             ])
             ->where('Name', $name)
             ->first();

@@ -19,7 +19,7 @@
 
                 <x-rankings.table.cells.character-name :$character/>
 
-                <x-rankings.table.cells.character-class :$character/>
+                <x-rankings.table.cells.character-class :$character :label="false"/>
 
                 <flux:cell>{{ $character->cLevel }}</flux:cell>
 
@@ -28,6 +28,8 @@
                 <flux:cell>{{ $character->HofWins }}</flux:cell>
 
                 <flux:cell>{{ $character->quest_count }}</flux:cell>
+
+                <flux:cell>{{ $character->total_achievement_points }}</flux:cell>
 
                 <flux:cell>
                     <x-guild-identity :guildMember="$character->guildMember"/>

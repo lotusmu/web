@@ -41,6 +41,7 @@ class GetCharactersRanking
             'member:memb___id,AccountLevel,AccountExpireDate',
             'member.status:memb___id,ConnectStat',
             'guildMember.guild',
+            'achievements',
         ];
 
         return $relations;
