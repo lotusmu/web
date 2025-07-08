@@ -13,7 +13,7 @@ class HandleDiscordInvitePopup
 
     private const COOKIE_LIFETIME = 60 * 24 * 365; // 1 year in minutes
 
-    private const MINIMUM_ENGAGEMENT_SECONDS = 2;
+    private const MINIMUM_ENGAGEMENT_SECONDS = 30;
 
     private const COOLING_PERIOD_DAYS = 14;
 
