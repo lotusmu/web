@@ -24,11 +24,13 @@ class Order extends Model
         'status',
         'payment_data',
         'expires_at',
+        'agreed_at',
     ];
 
     protected $casts = [
         'payment_data' => 'array',
         'expires_at' => 'datetime',
+        'agreed_at' => 'datetime',
         'status' => OrderStatus::class,
         'payment_provider' => PaymentProvider::class,
     ];

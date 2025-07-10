@@ -49,6 +49,7 @@ class CreateOrder
                 'amount' => $package->price,
                 'currency' => config('app.currency', 'EUR'),
                 'expires_at' => now()->addMinutes(self::EXPIRATION_MINUTES),
+                'agreed_at' => now(),
                 'payment_data' => $orderPaymentData,
             ]
         );

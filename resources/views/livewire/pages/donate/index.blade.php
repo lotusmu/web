@@ -11,6 +11,7 @@ new #[Layout('layouts.app')] class extends Component {
     public $selectedPackage = null;
     public $paymentMethod;
     public $packages;
+    public $terms = false;
 
     public $showPromoCode = false;
     public $promoCode = '';
@@ -51,11 +52,35 @@ new #[Layout('layouts.app')] class extends Component {
 
     public function checkout()
     {
-        if ( ! $this->selectedPackage || ! $this->paymentMethod) {
+        $this->validate([
+            'selectedPackage' => 'required',
+            'paymentMethod'   => 'required',
+            'terms'           => 'accepted',
+        ], [
+            'selectedPackage.required' => __('Please select a package.'),
+            'paymentMethod.required'   => __('Please select a payment method.'),
+            'terms.accepted'           => __('You must agree to the Terms of Service to continue.'),
+        ]);
+
+        // Verify package exists and is valid
+        $package = TokenPackage::find($this->selectedPackage);
+        if ( ! $package) {
             Flux::toast(
-                text: __('Please select a package and payment method to continue.'),
-                heading: __('Selection Required'),
-                variant: 'warning'
+                text: __('Selected package is no longer available.'),
+                heading: __('Invalid Package'),
+                variant: 'danger'
+            );
+
+            return;
+        }
+
+        // Verify payment provider is valid using enum
+        $validProviders = array_column(PaymentProvider::cases(), 'value');
+        if ( ! in_array($this->paymentMethod, $validProviders)) {
+            Flux::toast(
+                text: __('Invalid payment method selected.'),
+                heading: __('Payment Error'),
+                variant: 'danger'
             );
 
             return;
@@ -314,6 +339,16 @@ new #[Layout('layouts.app')] class extends Component {
             <flux:radio.indicator/>
         </flux:radio>
     </flux:radio.group>
+
+    <flux:field variant="inline">
+        <flux:checkbox wire:model="terms"/>
+        <flux:label>
+            {{__('I agree to the ')}}
+            <flux:link href="{{ route('terms') }}" target="_blank">{{ __('Terms of Service') }}</flux:link>
+        </flux:label>
+
+        <flux:error name="terms"/>
+    </flux:field>
 
     <flux:button
         wire:click="checkout"
