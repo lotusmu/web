@@ -32,7 +32,9 @@ class ViewOrder extends ViewRecord
                             ->badge(),
                         TextEntry::make('created_at')
                             ->dateTime(),
-                    ])->columns(5),
+                        TextEntry::make('agreed_at')
+                            ->dateTime(),
+                    ])->columns(6),
 
                 Section::make('Payment Information')
                     ->schema([
