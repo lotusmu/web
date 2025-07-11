@@ -65,7 +65,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command(DistributeCastleSiegePrizesCommand::class)
             ->weekly()
             ->sundays()
-            ->at('23:01')
+            ->at('22:01')
             ->runInBackground()
             ->withoutOverlapping();
 
@@ -88,7 +88,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $schedule->command(ProcessHallOfFameCommand::class)
             ->saturdays()
-            ->at('23:00')
+            ->at('21:00')
             ->runInBackground()
             ->withoutOverlapping();
 
@@ -99,7 +99,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $schedule->command(DistributeFarmRewardsCommand::class)
             ->sundays()
-            ->at('22:00')
+            ->at('19:00')
             ->runInBackground()
             ->withoutOverlapping();
 
