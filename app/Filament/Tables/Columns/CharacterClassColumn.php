@@ -14,6 +14,7 @@ class CharacterClassColumn extends Column
     public function imageSize(int|Closure|null $size): static
     {
         $this->imageSize = $size;
+
         return $this;
     }
 
@@ -25,6 +26,7 @@ class CharacterClassColumn extends Column
     public function getState(): mixed
     {
         $state = parent::getState();
+
         return $this->evaluate($state);
     }
 
