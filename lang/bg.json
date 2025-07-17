@@ -1392,5 +1392,6 @@
     "Include your transaction ID, account information, and detailed explanation when requesting a refund. All refund requests are subject to fraud verification and may be denied if fraudulent activity is suspected.": "Включете вашия идентификатор на транзакция, информация за профила и подробно обяснение при поискване на възстановяване. Всички заявки за възстановяване подлежат на верификация за измами и могат да бъдат отказани, ако се подозира измамна дейност.",
     "Revocation of all virtual goods": "Отмяна на всички виртуални стоки",
     "Reporting to payment processors and authorities": "Докладване до обработчици на плащания и органи",
-    "Achievements": "Постижения"
+    "Achievements": "Постижения",
+    "Achiev.": "Постиж."
 }

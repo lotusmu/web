@@ -1392,5 +1392,6 @@
     "Include your transaction ID, account information, and detailed explanation when requesting a refund. All refund requests are subject to fraud verification and may be denied if fraudulent activity is suspected.": "Incluye tu ID de transacción, información de cuenta y explicación detallada al solicitar un reembolso. Todas las solicitudes de reembolso están sujetas a verificación de fraude y pueden ser denegadas si se sospecha actividad fraudulenta.",
     "Revocation of all virtual goods": "Revocación de todos los bienes virtuales",
     "Reporting to payment processors and authorities": "Reporte a procesadores de pago y autoridades",
-    "Achievements": "Logros"
+    "Achievements": "Logros",
+    "Achiev.": "Logros"
 }

@@ -47,7 +47,7 @@
         :direction="$sortDirection"
         wire:click="sort('achievement-points')"
     >
-        {{ __('Achievements') }}
+        {{ __('Achiev.') }}
     </flux:column>
 
     <flux:column>{{ __('Guild') }}</flux:column>

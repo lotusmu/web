@@ -14,6 +14,7 @@ class CharacterClassEntry extends Entry
     public function imageSize(int|Closure|null $size): static
     {
         $this->imageSize = $size;
+
         return $this;
     }
 
@@ -28,6 +29,7 @@ class CharacterClassEntry extends Entry
         if (is_int($state)) {
             return CharacterClassEntry::from($state);
         }
+
         return $state;
     }
 }
