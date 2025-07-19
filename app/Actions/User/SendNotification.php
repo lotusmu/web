@@ -2,9 +2,11 @@
 
 namespace App\Actions\User;
 
+use App\Mail\AdminNotificationMail;
 use App\Models\User\User;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class SendNotification
@@ -82,8 +84,23 @@ class SendNotification
      */
     public function sendToAdmins(): Collection
     {
-        return User::where('is_admin', true)
-            ->get()
-            ->map(fn ($admin) => $this->send($admin));
+        $admins = User::where('is_admin', true)->get();
+
+        return $admins->map(function ($admin) {
+            // Send database notification
+            $notification = $this->send($admin);
+
+            // Send email
+            Mail::to($admin->email)->queue(
+                new AdminNotificationMail(
+                    $this->title,
+                    $this->body,
+                    $this->bodyParameters,
+                    $this->actions
+                )
+            );
+
+            return $notification;
+        });
     }
 }
