@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    :root {
-        --color-compliment: var(--color-sky-600);
-        --color-compliment-content: var(--color-sky-600);
-        --color-compliment-foreground: var(--color-white);
-    }
-
-    .dark {
-        --color-compliment: var(--color-sky-600);
-        --color-compliment-content: var(--color-sky-400);
-        --color-compliment-foreground: var(--color-white);
-    }
-}
-
 /*
  * Pulse Animation
  * Creates a subtle breathing effect for event countdown timers

@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors';
+
 export default {
     darkMode: 'selector',
 
@@ -15,7 +17,7 @@ export default {
                 sans: ['Inter', 'sans-serif'],
             },
             colors: {
-                // Compliment variables are defined in resources/css/app.css...
+                zinc: colors.slate,
                 compliment: {
                     DEFAULT: 'var(--color-compliment)',
                     content: 'var(--color-compliment-content)',

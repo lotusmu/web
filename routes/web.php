@@ -1,11 +1,11 @@
 <?php
 
+use App\Livewire\Pages\Guest\Home;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Public routes
-
-Volt::route('/', 'pages.guest.home.index')
+Route::get('/', Home::class)
     ->name('guest.home');
 
 Volt::route('/files', 'pages.guest.files.index')
