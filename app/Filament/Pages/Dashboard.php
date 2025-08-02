@@ -47,7 +47,7 @@ class Dashboard extends DashboardPage
                         ])
                         ->default('last_7_days')
                         ->native(false)
-                        ->reactive()
+                        ->live(onBlur: true)
                         ->afterStateUpdated(function ($state, callable $set) {
                             if ($state === 'custom') {
                                 return;
@@ -56,44 +56,21 @@ class Dashboard extends DashboardPage
                             // Set date range based on selected period using the Action
                             [$start, $end] = app(CalculateDateRange::class)->handle($state);
 
-                            // Set dates without triggering further reactivity
-                            $set('startDate', $start, false);
-                            $set('endDate', $end, false);
+                            // Set dates without triggering Livewire updates
+                            $set('startDate', $start->format('Y-m-d'));
+                            $set('endDate', $end->format('Y-m-d'));
                         }),
 
                     DatePicker::make('startDate')
                         ->label('From Date')
                         ->hint('Select start date')
-                        ->reactive()
                         ->native(false)
-                        ->minDate(fn () => Carbon::parse('2025-01-01')) // Minimum date
-                        ->afterStateUpdated(function (callable $set, $state, callable $get) {
-                            // Only set to custom if the date was changed *by the user*
-                            if ($get('period') !== 'custom') {
-                                $set('period', 'custom');
-                            }
-
-                            // If end date exists and is before start date, adjust end date
-                            $endDate = $get('endDate');
-                            if ($endDate && Carbon::parse($state)->isAfter($endDate)) {
-                                $set('endDate', $state, false);
-                            }
-                        }),
+                        ->minDate(fn () => Carbon::parse('2025-01-01')), // Minimum date
 
                     DatePicker::make('endDate')
                         ->label('To Date')
                         ->hint('Select end date')
-                        ->reactive()
-                        ->native(false)
-                        ->afterStateUpdated(function (callable $set, $state, callable $get) {
-                            $set('period', 'custom');
-
-                            // If start date exists and is after end date, adjust start date
-                            $startDate = $get('startDate');
-                            if ($startDate && Carbon::parse($state)->isBefore($startDate)) {
-                                $set('startDate', $state, false);
-                            }
-                        }),
+                        ->native(false),
                 ]),
         ]);
     }
