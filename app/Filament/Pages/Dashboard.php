@@ -65,12 +65,16 @@ class Dashboard extends DashboardPage
                         ->label('From Date')
                         ->hint('Select start date')
                         ->native(false)
-                        ->minDate(fn () => Carbon::parse('2025-01-01')), // Minimum date
+                        ->minDate(fn () => Carbon::parse('2025-01-01'))
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(fn (callable $set) => $set('period', 'custom')),
 
                     DatePicker::make('endDate')
                         ->label('To Date')
                         ->hint('Select end date')
-                        ->native(false),
+                        ->native(false)
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(fn (callable $set) => $set('period', 'custom')),
                 ]),
         ]);
     }
