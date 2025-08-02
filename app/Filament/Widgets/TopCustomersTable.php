@@ -27,10 +27,15 @@ class TopCustomersTable extends BaseWidget
         return $table
             ->query(
                 User::query()
-                    ->select('users.*', DB::raw('SUM(orders.amount) as total_spent'))
+                    ->select([
+                        'users.id',
+                        'users.name',
+                        'users.created_at',
+                        DB::raw('SUM(orders.amount) as total_spent')
+                    ])
                     ->join('orders', 'users.id', '=', 'orders.user_id')
                     ->where('orders.status', 'completed')
-                    ->groupBy('users.id')
+                    ->groupBy('users.id', 'users.name', 'users.created_at')
                     ->orderByDesc('total_spent')
                     ->limit(5)
             )

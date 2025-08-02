@@ -21,7 +21,7 @@
         "laravel/tinker": "^2.9",
         "league/csv": "^9.16",
         "livewire/flux-pro": "^1.0",
-        "livewire/livewire": "v3.5.12",
+        "livewire/livewire": "^3.0",
         "livewire/volt": "^1.0",
         "mailersend/laravel-driver": "^2.7",
         "ryangjchandler/laravel-cloudflare-turnstile": "^1.1",
