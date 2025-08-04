@@ -1,36 +1,3 @@
-<?php
-
-use App\Models\Content\Download;
-use App\Models\Utility\GameServer;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.guest')] class extends Component {
-    #[\Livewire\Attributes\Url]
-    public string $tab = '';
-
-    public function getServersProperty(): Collection
-    {
-        return GameServer::where('is_active', true)
-            ->get()
-            ->map(function ($server) {
-                $server->reset_zen    = Number::abbreviate($server->reset_zen);
-                $server->clear_pk_zen = Number::abbreviate($server->clear_pk_zen);
-
-                return $server;
-            });
-    }
-
-    public function mount(): void
-    {
-        // Set first server as default tab
-        if ($this->servers->isNotEmpty()) {
-            $this->tab = $this->servers->first()->name;
-        }
-    }
-}; ?>
-
 <flux:main container>
     <x-page-header
         :title="__('A peek at the server basics')"
@@ -445,4 +412,3 @@ new #[Layout('layouts.guest')] class extends Component {
         </flux:tab.group>
     </div>
 </flux:main>
-

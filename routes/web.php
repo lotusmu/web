@@ -11,6 +11,7 @@ use App\Livewire\Pages\Guest\Legal\Refund as RefundAlias;
 use App\Livewire\Pages\Guest\Legal\Terms;
 use App\Livewire\Pages\Guest\Profile\CharacterProfile;
 use App\Livewire\Pages\Guest\Profile\GuildProfile;
+use App\Livewire\Pages\Guest\Server\Overview;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -65,7 +66,7 @@ Route::prefix('content')->group(function () {
 });
 
 Route::prefix('server')->group(function () {
-    Volt::route('/overview', 'pages.guest.server.overview')
+    Route::get('/overview', Overview::class)
         ->name('server.overview');
 });
 
