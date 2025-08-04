@@ -5,6 +5,10 @@ use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
 use App\Livewire\Pages\Guest\Files\Files;
 use App\Livewire\Pages\Guest\Home;
+use App\Livewire\Pages\Guest\Legal\Guidelines;
+use App\Livewire\Pages\Guest\Legal\Privacy as PrivacyAlias;
+use App\Livewire\Pages\Guest\Legal\Refund as RefundAlias;
+use App\Livewire\Pages\Guest\Legal\Terms;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -32,16 +36,16 @@ Volt::route('/character/{name}', 'pages.guest.profile.character')
 Volt::route('/guild/{name}', 'pages.guest.profile.guild')
     ->name('guild');
 
-Volt::route('/terms', 'pages.guest.legal.terms')
+Route::get('/terms', Terms::class)
     ->name('terms');
 
-Volt::route('/privacy', 'pages.guest.legal.privacy')
+Route::get('/privacy', PrivacyAlias::class)
     ->name('privacy');
 
-Volt::route('/refund', 'pages.guest.legal.refund')
+Route::get('/refund', RefundAlias::class)
     ->name('refund');
 
-Volt::route('/guidelines', 'pages.guest.legal.guidelines')
+Route::get('/guidelines', Guidelines::class)
     ->name('guidelines');
 
 Route::prefix('articles')->group(function () {

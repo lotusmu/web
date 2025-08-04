@@ -1,12 +1,3 @@
-<?php
-
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.guest')] class extends Component {
-    //
-}; ?>
-
 <flux:main container>
     <div class="pt-16 mx-auto max-w-3xl space-y-12">
         <div>
