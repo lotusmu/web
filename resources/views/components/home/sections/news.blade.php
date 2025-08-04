@@ -16,7 +16,7 @@
         <!-- News Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($articles as $article)
-                <livewire:pages.guest.articles.card :$article :wire:key="$article->id"/>
+                @themeComponent('article.card', ['article' => $article])
             @endforeach
         </div>
     </x-home.wrapper>
