@@ -1,26 +1,3 @@
-<?php
-
-use App\Models\Content\Download;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.guest')] class extends Component {
-    public function downloads(): Collection
-    {
-        return Download::query()
-            ->latest()
-            ->get()
-            ->map(function ($download) {
-                return [
-                    'name' => $download->name,
-                    'url'  => $download->file_url,
-                    'icon' => $download->provider->getIcon(),
-                ];
-            });
-    }
-}; ?>
-
 <flux:main container>
     <x-page-header
         :title="__('Begin your journey')"
@@ -66,7 +43,6 @@ new #[Layout('layouts.guest')] class extends Component {
             </flux:card>
         @endif
 
-        <livewire:pages.guest.files.faq/>
+        @themeComponent('files.faq')
     </div>
 </flux:main>
-

@@ -1,5 +1,9 @@
 <?php
 
+use App\Livewire\Pages\Guest\Articles\Articles;
+use App\Livewire\Pages\Guest\Catalog\Catalog;
+use App\Livewire\Pages\Guest\Content\Streams;
+use App\Livewire\Pages\Guest\Files\Files;
 use App\Livewire\Pages\Guest\Home;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -8,10 +12,10 @@ use Livewire\Volt\Volt;
 Route::get('/', Home::class)
     ->name('guest.home');
 
-Volt::route('/files', 'pages.guest.files.index')
+Route::get('/files', Files::class)
     ->name('files');
 
-Volt::route('/catalog', 'pages.guest.catalog.index')
+Route::get('/catalog', Catalog::class)
     ->name('catalog');
 
 Route::prefix('rankings')->group(function () {
@@ -41,7 +45,7 @@ Volt::route('/guidelines', 'pages.guest.legal.guidelines')
     ->name('guidelines');
 
 Route::prefix('articles')->group(function () {
-    Volt::route('/', 'pages.guest.articles.index')
+    Route::get('/', Articles::class)
         ->name('articles');
 
     Volt::route('/{article:slug}', 'pages.guest.articles.show')
@@ -50,7 +54,7 @@ Route::prefix('articles')->group(function () {
 });
 
 Route::prefix('content')->group(function () {
-    Volt::route('/streams', 'pages.guest.content.streams')
+    Route::get('/streams', Streams::class)
         ->name('content.streams');
 });
 
