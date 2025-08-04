@@ -76,11 +76,12 @@ class ConvertVoltBatch extends Command
         $files = [];
         
         foreach (File::allFiles($directory) as $file) {
-            if ($file->getExtension() === 'php' && str_ends_with($file->getFilename(), '.blade.php')) {
+            if (str_ends_with($file->getFilename(), '.blade.php')) {
                 $content = File::get($file->getRealPath());
                 
-                // Check if it's a Volt file
-                if (str_contains($content, 'new class extends Component')) {
+                // Check if it's a Volt file (handle both patterns)
+                if (str_contains($content, 'class extends Component') && 
+                    (str_contains($content, 'use Livewire\Volt\Component') || str_contains($content, 'Volt\Component'))) {
                     $files[] = $file->getRealPath();
                 }
             }
