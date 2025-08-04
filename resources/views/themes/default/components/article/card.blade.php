@@ -1,11 +1,3 @@
-<?php
-
-use Livewire\Volt\Component;
-use App\Models\Content\Article;
-
-new class extends Component {
-    public Article $article;
-}; ?>
 
 <article class="relative group h-full">
     <a href="{{ route('articles.show', $article) }}" wire:navigate class="block relative flex-1 group">

@@ -1,18 +1,6 @@
-<?php
-
+@php
 use App\Enums\Content\ArticleType;
-use Illuminate\Pagination\LengthAwarePaginator;
-use LaravelIdea\Helper\App\Models\Content\_IH_Article_C;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-use App\Models\Content\Article;
-use Livewire\Attributes\Computed;
-use Livewire\WithPagination;
-
-new #[Layout('layouts.guest')] class extends Component {
-    #[\Livewire\Attributes\Url]
-    public string $tab = 'news';
-}; ?>
+@endphp
 
 <flux:main container>
     <x-page-header

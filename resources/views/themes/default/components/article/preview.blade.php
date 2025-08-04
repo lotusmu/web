@@ -1,12 +1,3 @@
-<?php
-
-use Livewire\Volt\Component;
-use App\Models\Content\Article;
-
-new class extends Component {
-    public Article $article;
-}; ?>
-
 <article class="pb-8 max-lg:mx-auto max-w-[40rem] lg:grid lg:grid-cols-[18rem_40rem_1fr]">
     <div>
         <flux:subheading class="max-lg:mb-2">
