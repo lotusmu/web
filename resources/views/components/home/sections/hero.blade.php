@@ -3,7 +3,7 @@
 
     <x-home.wrapper class="lg:flex pt-10 lg:pt-40">
         <div class="max-w-2xl lg:max-w-xl flex-shrink-0 lg:pt-8">
-            <livewire:pages.guest.home.updates-banner/>
+            <livewire:updates-banner/>
 
             <flux:heading level="1" size="3xl" class="mt-10 flex flex-col">
                 <span>{{ __('Reimagined.') }}</span>
