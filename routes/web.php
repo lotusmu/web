@@ -9,6 +9,8 @@ use App\Livewire\Pages\Guest\Legal\Guidelines;
 use App\Livewire\Pages\Guest\Legal\Privacy as PrivacyAlias;
 use App\Livewire\Pages\Guest\Legal\Refund as RefundAlias;
 use App\Livewire\Pages\Guest\Legal\Terms;
+use App\Livewire\Pages\Guest\Profile\CharacterProfile;
+use App\Livewire\Pages\Guest\Profile\GuildProfile;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -30,10 +32,10 @@ Route::prefix('rankings')->group(function () {
         ->name('rankings.archive');
 });
 
-Volt::route('/character/{name}', 'pages.guest.profile.character')
+Route::get('/character/{name}', CharacterProfile::class)
     ->name('character');
 
-Volt::route('/guild/{name}', 'pages.guest.profile.guild')
+Route::get('/guild/{name}', GuildProfile::class)
     ->name('guild');
 
 Route::get('/terms', Terms::class)

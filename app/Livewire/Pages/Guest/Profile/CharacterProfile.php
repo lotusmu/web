@@ -1,13 +1,15 @@
 <?php
 
+namespace App\Livewire\Pages\Guest\Profile;
+
 use App\Actions\Character\GetAccountCharacters;
 use App\Actions\Character\GetCharacterProfile;
+use App\Livewire\BaseComponent;
 use App\Models\Game\Character;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component {
+class CharacterProfile extends BaseComponent
+{
     public ?string $name = null;
 
     public function mount(?string $name = null): void
@@ -44,20 +46,14 @@ new #[Layout('layouts.guest')] class extends Component {
             'color' => $this->profile->member->AccountLevel->badgeColor(),
         ];
     }
-}; ?>
 
-<flux:main container>
-    <flux:card class="max-w-2xl mx-auto space-y-8">
-        @if($this->profile)
-            <x-profile.character.information :character="$this->profile"/>
+    protected function getViewName(): string
+    {
+        return 'pages.guest.profile.character';
+    }
 
-            <x-profile.character.account
-                :character="$this->profile"
-                :account-level="$this->accountLevel"
-                :account-characters="$this->accountCharacters"
-            />
-        @else
-            <flux:text>{{ __('Character not found or has been deleted.') }}</flux:text>
-        @endif
-    </flux:card>
-</flux:main>
+    protected function getLayoutType(): string
+    {
+        return 'guest';
+    }
+}
