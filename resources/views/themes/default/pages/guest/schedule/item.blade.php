@@ -1,14 +1,3 @@
-<?php
-
-use App\Models\Content\ScheduledEvent;
-use Livewire\Volt\Component;
-use App\Enums\Game\ScheduledEventType;
-
-new class extends Component {
-    public $event;
-    public $highlightThreshold = 300;
-}; ?>
-
 <div
     x-data="eventCountdown({
         isActive: {{ $event['is_active'] ? 'true' : 'false' }},

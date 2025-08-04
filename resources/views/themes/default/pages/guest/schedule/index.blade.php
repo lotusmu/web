@@ -1,34 +1,3 @@
-<?php
-
-use App\Enums\Game\ScheduledEventType;
-use App\Services\ScheduledEventService;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.guest')] class extends Component {
-    public $events = [];
-
-    #[\Livewire\Attributes\Url]
-    public string $tab = 'events';
-
-    public function mount(ScheduledEventService $eventService): void
-    {
-        $this->events = $eventService->getUpcomingEvents();
-    }
-
-    public function getFilteredEvents()
-    {
-        $grouped = collect($this->events)->groupBy(function ($event) {
-            return $event['type'] === ScheduledEventType::EVENT ? 'events' : 'invasions';
-        });
-
-        return [
-            'events'    => $grouped->get('events', collect()),
-            'invasions' => $grouped->get('invasions', collect())
-        ];
-    }
-}; ?>
-
 <flux:main container>
     <x-page-header
         :title="__('Time Your Adventures')"
