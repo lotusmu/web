@@ -1,12 +1,15 @@
 <?php
 
-use App\Models\Utility\VipPackage;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-use App\Actions\Member\UpgradeAccountLevel;
+namespace App\Livewire\Pages\Guest\Catalog\Vip;
 
-new class extends Component {
+use App\Models\Utility\VipPackage;
+use App\Livewire\BaseComponent;
+use Livewire\Attributes\Computed;
+use App\Actions\Member\UpgradeAccountLevel;
+use Flux;
+
+class VipList extends BaseComponent
+{
     #[Computed]
     public function packages()
     {
@@ -23,17 +26,14 @@ new class extends Component {
             $this->redirect(route('vip'), navigate: true);
         }
     }
-}; ?>
 
+    protected function getViewName(): string
+    {
+        return 'pages.guest.catalog.vip.list';
+    }
 
-<section class="flex w-full flex-col lg:flex-row lg:max-w-none max-w-md gap-6 lg:gap-0 mx-auto">
-    @if($this->packages->isNotEmpty())
-        @foreach($this->packages as $package)
-            <livewire:pages.guest.catalog.vip.card
-                :$package
-                :is-featured="$package->is_best_value"
-                :wire:key="'package-' . $package->id"
-            />
-        @endforeach
-    @endif
-</section>
+    protected function getLayoutType(): string
+    {
+        return 'guest';
+    }
+}

@@ -1,36 +1,3 @@
-<?php
-
-use App\Enums\Game\AccountLevel;
-use App\Models\Utility\VipPackage;
-use Livewire\Volt\Component;
-use Livewire\Attributes\Computed;
-
-new class extends Component {
-    public VipPackage $package;
-    public bool $isFeatured = false;
-
-    #[Computed]
-    public function label(): string
-    {
-        return cache()->remember(
-            "package.label.{$this->package->id}",
-            now()->addDay(),
-            fn() => $this->package->level->getLabel()
-        );
-    }
-
-    public function upgrade()
-    {
-        if ( ! auth()->check()) {
-            session()->put('url.intended', route('vip.purchase'));
-
-            return $this->redirect(route('login'));
-        }
-
-        Flux::modal('upgrade-to-'.strtolower($this->label))->show();
-    }
-}; ?>
-
 <div @class([
     'flex-1 p-2 flex flex-col rounded-2xl bg-zinc-100 dark:bg-zinc-900',
     'border border-zinc-200 dark:border-zinc-700/75 lg:mt-10 lg:pr-0 lg:border-r-0 lg:rounded-r-none' => !$isFeatured && $package->catalog_order === 1, // Left card

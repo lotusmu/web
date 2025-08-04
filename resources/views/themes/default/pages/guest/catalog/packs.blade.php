@@ -1,54 +1,7 @@
-<?php
-
-use App\Enums\Content\Catalog\PackTier;
-use App\Enums\Game\CharacterClass;
-use App\Models\Content\Catalog\Pack;
-use Livewire\Attributes\Computed;
-use Livewire\Volt\Component;
+@php
 use App\Enums\Content\Catalog\EquipmentType;
 use App\Enums\Content\Catalog\EquipmentOption;
-
-new class extends Component {
-    public int $selectedClass;
-
-    public function mount()
-    {
-        if ($this->characterClasses) {
-            $this->selectedClass = $this->characterClasses[0]->value;
-        }
-    }
-
-    #[Computed]
-    public function packs()
-    {
-        $latestUpdate = Pack::max('updated_at');
-
-        return cache()->remember("packs.{$latestUpdate}", now()->addWeek(), function () {
-            return Pack::all()
-                ->groupBy('character_class');
-        });
-    }
-
-    #[Computed]
-    public function characterClasses(): array
-    {
-        return collect(CharacterClass::cases())
-            ->filter(fn($class) => $this->packs->has($class->value))
-            ->values()
-            ->toArray();
-    }
-
-    #[Computed]
-    public function availableTiersForClass(int $classId): array
-    {
-        return $this->packs
-            ->get($classId, collect())
-            ->pluck('tier')
-            ->unique()
-            ->values()
-            ->toArray();
-    }
-}; ?>
+@endphp
 
 <section class="isolate">
     @if($this->packs()->isNotEmpty())

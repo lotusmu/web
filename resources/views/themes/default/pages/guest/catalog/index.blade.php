@@ -1,12 +1,3 @@
-<?php
-
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.guest')] class extends Component {
-//
-}; ?>
-
 <flux:main container class="max-sm:space-y-24 space-y-40 mb-20">
     <x-page-header
         :title="__('Your path, your possibilities')"
@@ -14,7 +5,7 @@ new #[Layout('layouts.guest')] class extends Component {
         :description="__('Explore our selection of convenience features and enhancements designed to complement your gameplay experience. See detailed information about everything available in the game.')"
     />
 
-    <livewire:pages.guest.catalog.vip.list/>
+    <livewire:pages.guest.catalog.vip.vip-list/>
 
     <!-- Buffs -->
     <livewire:pages.guest.catalog.buffs lazy/>
