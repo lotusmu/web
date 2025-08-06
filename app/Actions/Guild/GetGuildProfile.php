@@ -21,7 +21,7 @@ class GetGuildProfile
             ->withSum('characters', 'HunterScore')
             ->with([
                 'master:Name,AccountID,Class',
-                'members' => fn($query) => $query->orderByDesc('G_Status'),
+                'members' => fn ($query) => $query->orderByDesc('G_Status'),
                 'members.character:Name,AccountID,cLevel,Class,ResetCount',
                 'members.character.member:memb___id,AccountLevel,AccountExpireDate',
                 'members.character.member.status:memb___id,ConnectStat',

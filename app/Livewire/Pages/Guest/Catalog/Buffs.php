@@ -31,12 +31,12 @@ class Buffs extends BaseComponent
                     ->firstWhere('duration', (string) $duration->value)['price'] ?? null;
 
                 return $price ? [
-                    'name'         => $bundle->name,
-                    'image'        => $bundle->image_path,
+                    'name' => $bundle->name,
+                    'image' => $bundle->image_path,
                     'bundle_items' => $bundle->bundle_items,
-                    'duration'     => $duration->getLabel(),
-                    'price'        => $price,
-                    'resource'     => $bundle->resource
+                    'duration' => $duration->getLabel(),
+                    'price' => $price,
+                    'resource' => $bundle->resource,
                 ] : null;
             });
         })->filter()->values();
@@ -52,9 +52,9 @@ class Buffs extends BaseComponent
     public function buffsByDuration(): array
     {
         return [
-            '7'  => $this->getBuffsForDuration('7'),
+            '7' => $this->getBuffsForDuration('7'),
             '14' => $this->getBuffsForDuration('14'),
-            '30' => $this->getBuffsForDuration('30')
+            '30' => $this->getBuffsForDuration('30'),
         ];
     }
 
@@ -75,13 +75,13 @@ class Buffs extends BaseComponent
                 ->firstWhere('duration', $duration)['price'] ?? null;
 
             return [
-                'name'     => $buff->name,
-                'image'    => $buff->image_path,
-                'stats'    => $buff->stats,
-                'price'    => $price,
-                'resource' => $buff->resource
+                'name' => $buff->name,
+                'image' => $buff->image_path,
+                'stats' => $buff->stats,
+                'price' => $price,
+                'resource' => $buff->resource,
             ];
-        })->filter(fn($buff) => ! is_null($buff['price']));
+        })->filter(fn ($buff) => ! is_null($buff['price']));
     }
 
     protected function getViewName(): string

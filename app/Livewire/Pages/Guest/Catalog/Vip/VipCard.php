@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Pages\Guest\Catalog\Vip;
 
-use App\Models\Utility\VipPackage;
 use App\Livewire\BaseComponent;
-use Livewire\Attributes\Computed;
+use App\Models\Utility\VipPackage;
 use Flux;
+use Livewire\Attributes\Computed;
 
 class VipCard extends BaseComponent
 {
     public VipPackage $package;
+
     public bool $isFeatured = false;
 
     #[Computed]
@@ -18,13 +19,13 @@ class VipCard extends BaseComponent
         return cache()->remember(
             "package.label.{$this->package->id}",
             now()->addDay(),
-            fn() => $this->package->level->getLabel()
+            fn () => $this->package->level->getLabel()
         );
     }
 
     public function upgrade()
     {
-        if ( ! auth()->check()) {
+        if (! auth()->check()) {
             session()->put('url.intended', route('vip.purchase'));
 
             return $this->redirect(route('login'));

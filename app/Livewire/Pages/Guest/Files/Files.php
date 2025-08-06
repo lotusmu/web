@@ -16,7 +16,7 @@ class Files extends BaseComponent
             ->map(function ($download) {
                 return [
                     'name' => $download->name,
-                    'url'  => $download->file_url,
+                    'url' => $download->file_url,
                     'icon' => $download->provider->getIcon(),
                 ];
             });

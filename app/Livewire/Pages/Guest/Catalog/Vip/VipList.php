@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Pages\Guest\Catalog\Vip;
 
-use App\Models\Utility\VipPackage;
-use App\Livewire\BaseComponent;
-use Livewire\Attributes\Computed;
 use App\Actions\Member\UpgradeAccountLevel;
+use App\Livewire\BaseComponent;
+use App\Models\Utility\VipPackage;
 use Flux;
+use Livewire\Attributes\Computed;
 
 class VipList extends BaseComponent
 {

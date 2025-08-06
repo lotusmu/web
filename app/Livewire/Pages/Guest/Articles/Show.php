@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Pages\Guest\Articles;
 
-use App\Enums\Content\ArticleType;
 use App\Livewire\BaseComponent;
 use App\Models\Content\Article;
 
 class Show extends BaseComponent
 {
     public Article $article;
+
     public string $tab = '';
 
     public function mount(Article $article)

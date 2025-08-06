@@ -26,7 +26,7 @@ class CharacterProfile extends BaseComponent
     #[Computed]
     public function accountCharacters()
     {
-        if ( ! $this->profile || $this->profile->shouldHideInformation()) {
+        if (! $this->profile || $this->profile->shouldHideInformation()) {
             return collect();
         }
 
@@ -37,7 +37,7 @@ class CharacterProfile extends BaseComponent
     #[Computed]
     public function accountLevel(): ?array
     {
-        if ( ! $this->profile?->member?->AccountLevel) {
+        if (! $this->profile?->member?->AccountLevel) {
             return null;
         }
 

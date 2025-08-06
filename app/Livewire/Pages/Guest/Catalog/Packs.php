@@ -4,11 +4,9 @@ namespace App\Livewire\Pages\Guest\Catalog;
 
 use App\Enums\Content\Catalog\PackTier;
 use App\Enums\Game\CharacterClass;
-use App\Models\Content\Catalog\Pack;
 use App\Livewire\BaseComponent;
+use App\Models\Content\Catalog\Pack;
 use Livewire\Attributes\Computed;
-use App\Enums\Content\Catalog\EquipmentType;
-use App\Enums\Content\Catalog\EquipmentOption;
 
 class Packs extends BaseComponent
 {
@@ -36,7 +34,7 @@ class Packs extends BaseComponent
     public function characterClasses(): array
     {
         return collect(CharacterClass::cases())
-            ->filter(fn($class) => $this->packs->has($class->value))
+            ->filter(fn ($class) => $this->packs->has($class->value))
             ->values()
             ->toArray();
     }

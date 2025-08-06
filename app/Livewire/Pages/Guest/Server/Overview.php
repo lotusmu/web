@@ -18,7 +18,7 @@ class Overview extends BaseComponent
         return GameServer::where('is_active', true)
             ->get()
             ->map(function ($server) {
-                $server->reset_zen    = Number::abbreviate($server->reset_zen);
+                $server->reset_zen = Number::abbreviate($server->reset_zen);
                 $server->clear_pk_zen = Number::abbreviate($server->clear_pk_zen);
 
                 return $server;

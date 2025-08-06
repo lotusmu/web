@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 class ConvertVoltBatch extends Command
 {
     protected $signature = 'theme:convert-volt-batch {directory} {--theme=default} {--dry-run}';
+
     protected $description = 'Convert all Volt components in a directory to Livewire + theme files';
 
     public function handle()
@@ -16,8 +17,9 @@ class ConvertVoltBatch extends Command
         $theme = $this->option('theme');
         $dryRun = $this->option('dry-run');
 
-        if (!File::isDirectory($directory)) {
+        if (! File::isDirectory($directory)) {
             $this->error("Directory not found: {$directory}");
+
             return 1;
         }
 
@@ -26,16 +28,18 @@ class ConvertVoltBatch extends Command
 
         if (empty($voltFiles)) {
             $this->info("No Volt files found in: {$directory}");
+
             return 0;
         }
 
-        $this->info("Found " . count($voltFiles) . " Volt files:");
+        $this->info('Found '.count($voltFiles).' Volt files:');
         foreach ($voltFiles as $file) {
-            $this->line("  • " . $file);
+            $this->line('  • '.$file);
         }
 
-        if (!$this->confirm('Convert all these files?')) {
+        if (! $this->confirm('Convert all these files?')) {
             $this->info('Batch conversion cancelled.');
+
             return 0;
         }
 
@@ -45,12 +49,12 @@ class ConvertVoltBatch extends Command
 
         foreach ($voltFiles as $file) {
             $this->newLine();
-            $this->info("Converting: " . basename($file));
-            
+            $this->info('Converting: '.basename($file));
+
             $exitCode = $this->call('theme:convert-volt', [
                 'path' => $file,
                 '--theme' => $theme,
-                '--dry-run' => $dryRun
+                '--dry-run' => $dryRun,
             ]);
 
             if ($exitCode === 0) {
@@ -62,7 +66,7 @@ class ConvertVoltBatch extends Command
         }
 
         $this->newLine();
-        $this->info("Batch conversion complete:");
+        $this->info('Batch conversion complete:');
         $this->info("✅ Successful: {$successful}");
         if ($failed > 0) {
             $this->error("❌ Failed: {$failed}");
@@ -74,13 +78,13 @@ class ConvertVoltBatch extends Command
     private function findVoltFiles(string $directory): array
     {
         $files = [];
-        
+
         foreach (File::allFiles($directory) as $file) {
             if (str_ends_with($file->getFilename(), '.blade.php')) {
                 $content = File::get($file->getRealPath());
-                
+
                 // Check if it's a Volt file (handle both patterns)
-                if (str_contains($content, 'class extends Component') && 
+                if (str_contains($content, 'class extends Component') &&
                     (str_contains($content, 'use Livewire\Volt\Component') || str_contains($content, 'Volt\Component'))) {
                     $files[] = $file->getRealPath();
                 }

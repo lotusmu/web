@@ -6,13 +6,15 @@ use App\Actions\Stream\LoadActiveStreamsAction;
 use App\Actions\Stream\SwitchViewModeAction;
 use App\Http\Resources\StreamResource;
 use App\Livewire\BaseComponent;
-use Livewire\Attributes\On;
 
 class Streams extends BaseComponent
 {
     public $streams = [];
+
     public $selectedStreamId = null;
+
     public $viewMode = 'grid';
+
     public $isPollingEnabled = true;
 
     public function mount(LoadActiveStreamsAction $loadStreams): void
@@ -23,18 +25,18 @@ class Streams extends BaseComponent
 
     public function loadStreams(LoadActiveStreamsAction $loadStreams): void
     {
-        $streams       = $loadStreams->handle();
+        $streams = $loadStreams->handle();
         $this->streams = StreamResource::collection($streams)->resolve();
 
-        if ( ! $this->selectedStreamId && ! empty($this->streams)) {
+        if (! $this->selectedStreamId && ! empty($this->streams)) {
             $this->selectedStreamId = $this->streams[0]['id'];
         }
     }
-    
+
     public function updatedSelectedStreamId($value): void
     {
         $streamExists = collect($this->streams)->contains('id', $value);
-        if ( ! $streamExists && ! empty($this->streams)) {
+        if (! $streamExists && ! empty($this->streams)) {
             $this->selectedStreamId = $this->streams[0]['id'];
         }
     }

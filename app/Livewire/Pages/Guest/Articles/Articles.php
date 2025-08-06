@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Pages\Guest\Articles;
 
-use App\Enums\Content\ArticleType;
 use App\Livewire\BaseComponent;
 use Livewire\Attributes\Url;
 

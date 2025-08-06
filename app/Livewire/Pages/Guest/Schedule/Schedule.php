@@ -25,8 +25,8 @@ class Schedule extends BaseComponent
         });
 
         return [
-            'events'    => $grouped->get('events', collect()),
-            'invasions' => $grouped->get('invasions', collect())
+            'events' => $grouped->get('events', collect()),
+            'invasions' => $grouped->get('invasions', collect()),
         ];
     }
 
