@@ -3,6 +3,8 @@
 <head>
     @include('layouts.components.head')
 
+    @themeAssets
+
     @stack('scripts')
 </head>
 <body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 selection:bg-indigo-500 selection:text-white">
@@ -12,8 +14,8 @@
         <div class="w-80 max-w-80 space-y-6 my-12">
             <div class="flex justify-center">
                 <x-brand
-                    :logo_light="asset('images/brand/lotusmu-logotype.svg')"
-                    :logo_dark="asset('images/brand/lotusmu-logotype-white.svg')"
+                    :logo_light="theme_asset('brand/logotype.svg')"
+                    :logo_dark="theme_asset('brand/logotype-white.svg')"
                 />
             </div>
 

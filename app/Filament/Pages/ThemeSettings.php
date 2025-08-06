@@ -108,12 +108,9 @@ class ThemeSettings extends Page
 
             Notification::make()
                 ->title('Theme Applied')
-                ->body('Successfully switched to '.$theme.' theme!')
+                ->body('Successfully switched to "'.ucfirst($theme).'" theme!')
                 ->success()
                 ->send();
-
-            $this->redirect(request()->header('Referer'));
-
         } catch (Exception $e) {
             Notification::make()
                 ->title('Error')

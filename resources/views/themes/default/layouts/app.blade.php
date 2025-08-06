@@ -3,7 +3,7 @@
 <head>
     @include('layouts.components.head')
 
-    @vite(['resources/themes/default/css/theme.css'])
+    @themeAssets
 </head>
 <body
     class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300 selection:bg-sky-600 selection:text-white">
@@ -29,8 +29,8 @@
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
     <x-brand
-        :logo_light="asset('images/brand/lotusmu-logotype.svg')"
-        :logo_dark="asset('images/brand/lotusmu-logotype-white.svg')"
+        :logo_light="theme_asset('brand/logotype.svg')"
+        :logo_dark="theme_asset('brand/logotype-white.svg')"
         size="sm"
         class="px-3"
     />

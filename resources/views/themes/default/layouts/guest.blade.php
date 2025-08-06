@@ -3,7 +3,7 @@
 <head>
     @include('layouts.components.head')
 
-    @vite(['resources/themes/default/css/theme.css'])
+    @themeAssets
 </head>
 <body
     class="flex flex-col min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 selection:bg-sky-600 selection:text-white transition-colors duration-300">

@@ -1,5 +1,5 @@
 @php
-use App\Enums\Content\ArticleType;
+    use App\Enums\Content\ArticleType;
 @endphp
 
 <flux:main container>

@@ -3,7 +3,7 @@
 <head>
     @include('layouts.components.head')
 
-    @vite(['resources/themes/yolan/css/theme.css'])
+    @themeAssets
 </head>
 
 <body
