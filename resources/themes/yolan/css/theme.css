@@ -4,6 +4,18 @@
 
 @layer base {
     :root {
+        --zinc-50: 248 250 252;
+        --zinc-100: 241 245 249;
+        --zinc-200: 226 232 240;
+        --zinc-300: 203 213 225;
+        --zinc-400: 148 163 184;
+        --zinc-500: 100 116 139;
+        --zinc-600: 71 85 105;
+        --zinc-700: 51 65 85;
+        --zinc-800: 30 41 59;
+        --zinc-900: 15 23 42;
+        --zinc-950: 2 6 23;
+
         --color-compliment: var(--color-indigo-500);
         --color-compliment-content: var(--color-indigo-600);
         --color-compliment-foreground: var(--color-white);
