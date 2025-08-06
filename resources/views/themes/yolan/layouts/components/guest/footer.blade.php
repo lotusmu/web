@@ -8,8 +8,8 @@
             <!-- Sitemap -->
             <div class="grid grid-cols-2 gap-y-10 lg:grid-cols-6 lg:gap-8">
                 <x-brand
-                    :logo_light="theme_asset('brand/logotype.svg')"
-                    :logo_dark="theme_asset('brand/logotype-white.svg')"
+                    :logo_light="theme_logo('light')"
+                    :logo_dark="theme_logo('dark')"
                     class="col-span-2"
                 />
 

@@ -14,10 +14,10 @@ if (! function_exists('theme_asset')) {
 
 if (! function_exists('theme_logo')) {
     /**
-     * Get theme-specific logo
+     * Get theme-specific logo with readable variant names
      */
-    function theme_logo(bool $isDark = false): string
+    function theme_logo(string $variant = 'light'): string
     {
-        return app(ThemeAssetService::class)->getThemeLogo($isDark);
+        return app(ThemeAssetService::class)->getThemeLogo($variant);
     }
 }

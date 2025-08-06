@@ -116,31 +116,40 @@ class ThemeAssetService
     }
 
     /**
-     * Get theme-specific logo
+     * Get theme-specific logo with readable variant names
      */
-    public function getThemeLogo(bool $isDark = false): string
+    public function getThemeLogo(string $variant = 'light'): string
     {
         $activeTheme = $this->themeService->getActiveTheme();
-        $logoType = $isDark ? 'logo-dark' : 'logo-light';
+
+        // Map variants to your file naming convention
+        $logoFileName = match ($variant) {
+            'dark', 'white' => 'logotype-white.svg',
+            'light', 'default' => 'logotype.svg',
+            'vertical' => 'logotype-vertical.svg',
+            'vertical-white' => 'logotype-vertical-white.svg',
+            'mark' => 'mark.svg',
+            'wordmark' => 'wordmark.svg',
+            'wordmark-white' => 'wordmark-white.svg',
+            default => 'logotype.svg'
+        };
 
         // Try theme-specific logo
-        $themeLogoPath = "images/themes/{$activeTheme}/{$logoType}.svg";
+        $themeLogoPath = "images/themes/{$activeTheme}/brand/{$logoFileName}";
         if (File::exists(public_path($themeLogoPath))) {
             return asset($themeLogoPath);
         }
 
         // Fallback to default theme logo
-        $defaultLogoPath = "images/themes/default/{$logoType}.svg";
+        $defaultLogoPath = "images/themes/default/brand/{$logoFileName}";
         if (File::exists(public_path($defaultLogoPath))) {
             return asset($defaultLogoPath);
         }
 
-        // Final fallback to your existing logos
-        $fallbackLogo = $isDark
-            ? 'images/brand/logotype-white.svg'
-            : 'images/brand/logotype.svg';
+        // Final fallback to your existing brand directory
+        $fallbackLogoPath = "images/brand/{$logoFileName}";
 
-        return asset($fallbackLogo);
+        return asset($fallbackLogoPath);
     }
 
     /**

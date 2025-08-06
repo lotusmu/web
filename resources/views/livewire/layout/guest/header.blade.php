@@ -33,8 +33,8 @@ new class extends Component {
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 
         <x-brand
-            :logo_light="theme_asset('brand/logotype.svg')"
-            :logo_dark="theme_logo(true)"
+            :logo_light="theme_logo('light')"
+            :logo_dark="theme_logo('dark')"
             size="sm"
             class="max-lg:hidden"
         />
@@ -126,8 +126,8 @@ new class extends Component {
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
             <x-brand
-                :logo_light="theme_asset('brand/logotype.svg')"
-                :logo_dark="theme_asset('brand/logotype-white.svg')"
+                :logo_light="theme_logo('light')"
+                :logo_dark="theme_logo('dark')"
                 size="sm"
                 class="px-3"
             />
