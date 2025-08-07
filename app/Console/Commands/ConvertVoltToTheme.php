@@ -212,21 +212,9 @@ class ConvertVoltToTheme extends Command
             $namespace = 'App\\Livewire\\Pages\\App';
             $namespaceParts = ['App'];
         } else {
-            // Files in subdirectories
-            if ($fileName === 'index') {
-                // For index files, don't include the parent folder in namespace since we use it as class name
-                $namespaceParts = array_slice($parts, 0, -1);
-            } else {
-                // For non-index files, include all parts
-                $namespaceParts = $parts;
-            }
-
-            if (empty($namespaceParts)) {
-                $namespace = 'App\\Livewire\\Pages\\App';
-                $namespaceParts = ['App'];
-            } else {
-                $namespace = 'App\\Livewire\\Pages\\'.implode('\\', array_map([Str::class, 'studly'], $namespaceParts));
-            }
+            // Files in subdirectories - always include all parts for namespace
+            $namespaceParts = $parts;
+            $namespace = 'App\\Livewire\\Pages\\'.implode('\\', array_map([Str::class, 'studly'], $namespaceParts));
         }
 
         // Generate file paths
