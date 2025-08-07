@@ -45,7 +45,7 @@ class Table extends BaseComponent
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.placeholders.table', [
+        return view('components.placeholders.table', [
             'filters' => false,
         ]);
     }

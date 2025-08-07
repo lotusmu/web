@@ -34,7 +34,7 @@ class RewardModal extends BaseComponent
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.placeholders.reward-modal');
+        return view('components.placeholders.reward-modal');
     }
 
     protected function getViewName(): string

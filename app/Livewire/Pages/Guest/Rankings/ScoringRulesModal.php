@@ -45,7 +45,7 @@ class ScoringRulesModal extends BaseComponent
             RankingScoreType::HUNTERS => 10,
         };
 
-        return view('livewire.pages.guest.rankings.placeholders.modal', [
+        return view('components.placeholders.modal', [
             'rows' => $rows,
         ]);
     }

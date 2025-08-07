@@ -63,7 +63,7 @@ class Weekly extends BaseComponent
 
     public function placeholder()
     {
-        return view('livewire.pages.guest.rankings.placeholders.table');
+        return view('components.placeholders.table');
     }
 
     protected function getViewName(): string

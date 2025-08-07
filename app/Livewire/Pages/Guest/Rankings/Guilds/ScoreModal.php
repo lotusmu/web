@@ -7,6 +7,7 @@ use App\Livewire\BaseComponent;
 use App\Models\Game\Guild;
 use App\Models\Game\Ranking\Event;
 use App\Models\Game\Ranking\Hunter;
+use DB;
 use Livewire\Attributes\Computed;
 
 class ScoreModal extends BaseComponent
@@ -24,8 +25,8 @@ class ScoreModal extends BaseComponent
                     'EventID',
                     'EventName',
                     'PointsPerWin',
-                    \DB::raw('SUM(WinCount) as WinCount'),
-                    \DB::raw('SUM(TotalPoints) as TotalPoints'),
+                    DB::raw('SUM(WinCount) as WinCount'),
+                    DB::raw('SUM(TotalPoints) as TotalPoints'),
                 ])
                 ->join('GuildMember', 'RankingEvents.Name', '=', 'GuildMember.Name')
                 ->where('GuildMember.G_Name', $this->guild->G_Name)
@@ -49,8 +50,8 @@ class ScoreModal extends BaseComponent
                 'MonsterName',
                 'MonsterClass',
                 'PointsPerKill',
-                \DB::raw('SUM(KillCount) as KillCount'),
-                \DB::raw('SUM(TotalPoints) as TotalPoints'),
+                DB::raw('SUM(KillCount) as KillCount'),
+                DB::raw('SUM(TotalPoints) as TotalPoints'),
             ])
             ->join('GuildMember', 'RankingHunters.Name', '=', 'GuildMember.Name')
             ->where('GuildMember.G_Name', $this->guild->G_Name)
@@ -90,7 +91,7 @@ class ScoreModal extends BaseComponent
             RankingScoreType::HUNTERS => 10,
         };
 
-        return view('livewire.pages.guest.rankings.placeholders.modal', [
+        return view('components.placeholders.modal', [
             'rows' => $rows,
         ]);
     }
