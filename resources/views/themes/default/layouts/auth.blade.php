@@ -2,9 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @themeComponent('layout.head')
-
-    @themeAssets
-
+    
     @stack('scripts')
 </head>
 <body class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 selection:bg-sky-600 selection:text-white">

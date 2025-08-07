@@ -2,8 +2,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @themeComponent('layout.head')
-
-    @themeAssets
 </head>
 <body
     class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300 selection:bg-sky-600 selection:text-white">
