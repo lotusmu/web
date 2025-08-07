@@ -196,11 +196,41 @@ class ConvertVoltToTheme extends Command
 
         $parts = explode('/', $relativePath);
         $fileName = array_pop($parts);
-        $className = Str::studly($fileName);
-        $namespace = 'App\\Livewire\\Pages\\'.implode('\\', array_map([Str::class, 'studly'], $parts));
+
+        // Custom naming logic based on requirements
+        if ($fileName === 'index') {
+            // For index.blade.php files, use parent directory name as class name
+            $className = ! empty($parts) ? Str::studly(end($parts)) : 'Index';
+        } else {
+            // For other files, use the filename as class name
+            $className = Str::studly($fileName);
+        }
+
+        // Determine namespace and directory structure
+        if (empty($parts)) {
+            // Direct files under livewire/pages/ go to App namespace
+            $namespace = 'App\\Livewire\\Pages\\App';
+            $namespaceParts = ['App'];
+        } else {
+            // Files in subdirectories
+            if ($fileName === 'index') {
+                // For index files, don't include the parent folder in namespace since we use it as class name
+                $namespaceParts = array_slice($parts, 0, -1);
+            } else {
+                // For non-index files, include all parts
+                $namespaceParts = $parts;
+            }
+
+            if (empty($namespaceParts)) {
+                $namespace = 'App\\Livewire\\Pages\\App';
+                $namespaceParts = ['App'];
+            } else {
+                $namespace = 'App\\Livewire\\Pages\\'.implode('\\', array_map([Str::class, 'studly'], $namespaceParts));
+            }
+        }
 
         // Generate file paths
-        $livewireDir = app_path('Livewire/Pages/'.implode('/', array_map([Str::class, 'studly'], $parts)));
+        $livewireDir = app_path('Livewire/Pages/'.implode('/', array_map([Str::class, 'studly'], $namespaceParts)));
         $livewireFile = $livewireDir.'/'.$className.'.php';
 
         $themeDir = resource_path("views/themes/{$theme}/pages/".implode('/', $parts));
@@ -216,7 +246,7 @@ class ConvertVoltToTheme extends Command
             'themeDir' => $themeDir,
             'themeFile' => $themeFile,
             'viewName' => $viewName,
-            'layoutType' => $parts[0] === 'guest' ? 'guest' : 'app',
+            'layoutType' => (! empty($parts) && $parts[0] === 'guest') ? 'guest' : 'app',
         ];
     }
 
