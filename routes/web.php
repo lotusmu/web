@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Pages\App\Activities\Activities;
+use App\Livewire\Pages\App\Dashboard\Dashboard;
 use App\Livewire\Pages\App\Donate\Donate;
 use App\Livewire\Pages\App\Entries\Entries;
 use App\Livewire\Pages\Guest\Articles\Articles;
@@ -83,7 +84,7 @@ Volt::route('/profile', 'pages.profile.index')
 // Protected routes
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Volt::route('dashboard', 'pages.dashboard.index')
+    Route::get('dashboard', Dashboard::class)
         ->name('dashboard');
 
     // Wallet

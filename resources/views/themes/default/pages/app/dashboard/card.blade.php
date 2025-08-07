@@ -1,54 +1,3 @@
-<?php
-
-use App\Enums\Game\AccountLevel;
-use App\Models\Game\Character;
-use App\Models\User\User;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\On;
-use Livewire\Volt\Component;
-use App\Enums\Game\CharacterClass;
-
-new class extends Component {
-    public User $user;
-
-    public function mount(): void
-    {
-        $this->user = auth()->user();
-    }
-
-    #[Computed]
-    public function resources(): object
-    {
-        return (object) [
-            'tokens'  => $this->user->tokens->format(),
-            'credits' => $this->user->credits->format(),
-            'zen'     => $this->user->zen->format(),
-        ];
-    }
-
-    #[Computed]
-    public function accountLevel(): ?array
-    {
-        $level = $this->user->member->AccountLevel;
-        if ($level === AccountLevel::Regular) {
-            return null;
-        }
-
-        return [
-            'label' => $this->user->member->AccountLevel->getLabel(),
-            'color' => $this->user->member->AccountLevel->badgeColor(),
-        ];
-    }
-
-
-    #[On('resourcesUpdated')]
-    public function onResourcesUpdated(): void
-    {
-        $this->user->refresh();
-    }
-} ?>
-
 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
     <!-- Tokens Card -->
     <flux:card class="!p-4">
@@ -97,4 +46,3 @@ new class extends Component {
         @endif
     </flux:card>
 </div>
-
