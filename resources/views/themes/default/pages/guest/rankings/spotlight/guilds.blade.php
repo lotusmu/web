@@ -1,34 +1,3 @@
-<?php
-
-use App\Models\Game\CastleData;
-use App\Models\Game\Guild;
-use Livewire\Attributes\Computed;
-use Livewire\Volt\Component;
-
-new class extends Component {
-    public ?CastleData $castle = null;
-
-    public function mount()
-    {
-        $this->castle = CastleData::first();
-    }
-
-    #[Computed]
-    public function guild()
-    {
-        return Guild::query()
-            ->select([
-                'G_Name',
-                'G_Mark',
-                'G_Master',
-                'CS_Wins',
-            ])
-            ->where('G_Name', $this->castle->OWNER_GUILD)
-            ->withCount('members')
-            ->first();
-    }
-}; ?>
-
 <div
     class="flex items-center justify-center gap-4 min-h-72 sm:bg-gradient-to-t from-zinc-950/10 dark:from-white/10 to-transparent to-90% rounded-xl sm:p-6">
     <img src="{{ $this->guild->getMarkUrl(124) }}"

@@ -1,23 +1,21 @@
 <?php
 
+namespace App\Livewire\Pages\Guest\Rankings\Guilds;
+
 use App\Actions\Rankings\GetGuildsRanking;
-use App\Enums\Game\AccountLevel;
-use App\Models\Game\Character;
-use App\Models\Game\Guild;
+use App\Livewire\BaseComponent;
+use App\Traits\Searchable;
 use App\Traits\Sortable;
 use Livewire\Attributes\Computed;
-use App\Enums\Utility\RankingScoreType;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-use App\Traits\Searchable;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
-new #[Layout('layouts.guest')] class extends Component {
-    use WithPagination;
-    use WithoutUrlPagination;
+class Table extends BaseComponent
+{
     use Searchable;
     use Sortable;
+    use WithoutUrlPagination;
+    use WithPagination;
 
     public function mount()
     {
@@ -48,26 +46,17 @@ new #[Layout('layouts.guest')] class extends Component {
     public function placeholder()
     {
         return view('livewire.pages.guest.rankings.placeholders.table', [
-            'filters' => false
+            'filters' => false,
         ]);
     }
-} ?>
 
-<div class="overflow-x-auto relative space-y-8">
-    <x-rankings.search wire:model.live.debounce="search"/>
+    protected function getViewName(): string
+    {
+        return 'pages.guest.rankings.guilds.table';
+    }
 
-    <flux:table wire:loading.class="opacity-50">
-        <x-rankings.guilds.columns
-            :sort-by="$sortBy"
-            :sort-direction="$sortDirection"
-        />
-
-        <x-rankings.guilds.list
-            :guilds="$this->guilds"
-        />
-    </flux:table>
-
-    <div>
-        <flux:pagination :paginator="$this->guilds" class="!border-0"/>
-    </div>
-</div>
+    protected function getLayoutType(): string
+    {
+        return 'guest';
+    }
+}

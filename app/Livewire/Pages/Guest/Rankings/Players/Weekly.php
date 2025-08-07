@@ -1,24 +1,24 @@
 <?php
 
-use App\Enums\Utility\RankingPeriodType;
+namespace App\Livewire\Pages\Guest\Rankings\Players;
+
+use App\Livewire\BaseComponent;
 use App\Livewire\Forms\Filters;
 use App\Models\Game\Ranking\WeeklyRankingReward;
 use App\Traits\HasCharacterRanking;
 use App\Traits\Searchable;
 use App\Traits\Sortable;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Reactive;
-use Livewire\Volt\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
-new #[Layout('layouts.guest')] class extends Component {
-    use WithPagination;
-    use WithoutUrlPagination;
+class Weekly extends BaseComponent
+{
+    use HasCharacterRanking;
     use Searchable;
     use Sortable;
-    use HasCharacterRanking;
+    use WithoutUrlPagination;
+    use WithPagination;
 
     public Filters $filters;
 
@@ -56,7 +56,7 @@ new #[Layout('layouts.guest')] class extends Component {
         $position = ($this->characters->currentPage() - 1) * 10 + $iteration;
 
         return $this->rankingRewards
-            ->first(fn($reward) => $position >= $reward->position_from &&
+            ->first(fn ($reward) => $position >= $reward->position_from &&
                 $position <= $reward->position_to
             )?->rewards ?? [];
     }
@@ -65,27 +65,14 @@ new #[Layout('layouts.guest')] class extends Component {
     {
         return view('livewire.pages.guest.rankings.placeholders.table');
     }
-} ?>
 
-<div class="overflow-x-auto relative space-y-8">
-    <x-rankings.filters :filters="$this->filters" :disabled="true"/>
+    protected function getViewName(): string
+    {
+        return 'pages.guest.rankings.players.weekly';
+    }
 
-    <x-rankings.search disabled/>
-
-    <flux:table wire:loading.class="opacity-50">
-        <x-rankings.characters.weekly.columns
-            :sort-by="$sortBy"
-            :sort-direction="$sortDirection"
-        />
-
-        <x-rankings.characters.weekly.list
-            :characters="$this->characters"
-            :get-rewards-for-position="$this->getRewardsForPosition(...)"
-            :period="RankingPeriodType::WEEKLY"
-        />
-    </flux:table>
-
-    <div>
-        <flux:pagination :paginator="$this->characters" class="!border-0"/>
-    </div>
-</div>
+    protected function getLayoutType(): string
+    {
+        return 'guest';
+    }
+}

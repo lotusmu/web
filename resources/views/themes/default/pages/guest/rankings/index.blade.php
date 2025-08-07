@@ -1,29 +1,6 @@
-<?php
-
-use App\Livewire\Forms\Filters;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Reactive;
-use Livewire\Volt\Component;
+@php
 use App\Enums\Utility\RankingScoreType;
-
-new #[Layout('layouts.guest')] class extends Component {
-    #[\Livewire\Attributes\Url]
-    public string $tab = 'players';
-
-    #[\Livewire\Attributes\Url]
-    public string $type = 'general';
-
-    public function mount()
-    {
-        if ( ! in_array($this->tab, ['players', 'guilds'])) {
-            $this->tab = 'players';
-        }
-
-        if ( ! in_array($this->type, ['general', 'weekly'])) {
-            $this->type = 'general';
-        }
-    }
-} ?>
+@endphp
 
 <flux:main container>
     <x-page-header

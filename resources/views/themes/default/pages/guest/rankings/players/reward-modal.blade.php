@@ -1,40 +1,6 @@
-<?php
-
-use App\Models\Game\Ranking\WeeklyRankingReward;
+@php
 use App\Enums\Utility\ResourceType;
-use Livewire\Attributes\Computed;
-use Livewire\Volt\Component;
-
-new class extends Component {
-    #[Computed]
-    public function rewards()
-    {
-        $currentServerId = session('selected_server_id');
-
-        return WeeklyRankingReward::query()
-            ->whereHas('configuration', function ($query) use ($currentServerId) {
-                $query->where('game_server_id', $currentServerId);
-            })
-            ->orderBy('position_from')
-            ->get()
-            ->map(fn($reward) => [
-                'position' => $this->formatPosition($reward->position_from, $reward->position_to),
-                'rewards'  => $reward->rewards,
-            ]);
-    }
-
-    protected function formatPosition(int $from, int $to): string
-    {
-        return $from === $to
-            ? "{$from}."
-            : "{$from} - {$to}.";
-    }
-
-    public function placeholder()
-    {
-        return view('livewire.pages.guest.rankings.placeholders.reward-modal');
-    }
-} ?>
+@endphp
 
 <div class="space-y-6">
     <header>

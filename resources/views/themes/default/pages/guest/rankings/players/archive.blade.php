@@ -1,44 +1,7 @@
-<?php
-
+@php
 use App\Enums\Utility\RankingScoreType;
 use App\Enums\Utility\ResourceType;
-use App\Models\Game\Ranking\WeeklyRankingArchive;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.guest')] class extends Component {
-    public string $tab = RankingScoreType::EVENTS->value;
-
-    #[Computed]
-    public function periods(): Collection
-    {
-        $currentServerId = session('selected_server_id');
-
-        return WeeklyRankingArchive::query()
-            ->where('game_server_id', $currentServerId)
-            ->where('type', RankingScoreType::from($this->tab))
-            ->orderByDesc('cycle_end')
-            ->get()
-            ->groupBy(function ($record) {
-                return $record->cycle_start->format('Y-m-d').' - '.$record->cycle_end->format('Y-m-d');
-            })
-            ->map(function ($rankings) {
-                return $rankings->sortBy('rank');
-            });
-    }
-
-    private function formatPeriodDate(string $period): string
-    {
-        [$start, $end] = explode(' - ', $period);
-        $startDate = Carbon::parse($start)->format('M j, Y');
-        $endDate   = Carbon::parse($end)->format('M j, Y');
-
-        return "{$startDate} - {$endDate}";
-    }
-}; ?>
+@endphp
 
 <flux:main container>
     <x-page-header
