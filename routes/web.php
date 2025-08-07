@@ -5,6 +5,9 @@ use App\Livewire\Pages\App\Castle\Castle;
 use App\Livewire\Pages\App\Dashboard\Dashboard;
 use App\Livewire\Pages\App\Donate\Donate;
 use App\Livewire\Pages\App\Entries\Entries;
+use App\Livewire\Pages\App\Partners\Apply;
+use App\Livewire\Pages\App\Partners\Partners;
+use App\Livewire\Pages\App\Partners\Status;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -135,16 +138,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('partners')->group(function () {
-        Volt::route('/', 'pages.partners.index')
+        Route::get('/', Partners::class)
             ->middleware('partner.application.check')
             ->name('partners.index');
 
-        Volt::route('/apply', 'pages.partners.apply')
+        Route::get('/apply', Apply::class)
             ->middleware('partner.application.check')
             ->name('partners.apply');
 
-        Volt::route('/status', 'pages.partners.status')->name('partners.status');
-        Volt::route('/dashboard', 'pages.partners.dashboard')
+        Route::get('/status', Status::class)
+            ->name('partners.status');
+
+        Route::get('/dashboard', \App\Livewire\Pages\App\Partners\Dashboard::class)
             ->middleware('partner')
             ->name('partners.dashboard');
     });
