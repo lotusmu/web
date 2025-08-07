@@ -1,13 +1,23 @@
 <div class="space-y-40">
-    <x-home.sections.hero/>
+    @themeComponent('home.sections.hero')
 
-    <x-home.sections.news :articles="$this->articles"/>
+    @themeComponent('home.sections.news', ['articles' => $this->articles])
 
-    <x-home.sections.essentials/>
+    @themeComponent('home.sections.essentials')
 
-    <x-home.sections.beyond-basics/>
+    @themeComponent('home.sections.beyond-basics')
 
-    <x-home.sections.catalog/>
+    @themeComponent('home.sections.catalog')
 
-    <x-home.sections.cta/>
+    @themeComponent('home.sections.cta')
+
+    {{--    <x-home.sections.news :articles="$this->articles"/>--}}
+
+    {{--    <x-home.sections.essentials/>--}}
+
+    {{--    <x-home.sections.beyond-basics/>--}}
+
+    {{--    <x-home.sections.catalog/>--}}
+
+    {{--    <x-home.sections.cta/>--}}
 </div>

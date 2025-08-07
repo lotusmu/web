@@ -132,7 +132,7 @@ new class extends Component {
                 class="px-3"
             />
 
-            @include('layouts.components.guest.sidebar')
+            @themeComponent('layout.guest.sidebar')
         </flux:sidebar>
     </flux:header>
 </flux:header>
