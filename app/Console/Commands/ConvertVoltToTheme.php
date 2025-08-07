@@ -135,8 +135,8 @@ class ConvertVoltToTheme extends Command
                 continue;
             }
 
-            // Collect imports (use statements)
-            if (str_starts_with($trimmed, 'use ')) {
+            // Collect imports (use statements) - but only before class definition starts
+            if (str_starts_with($trimmed, 'use ') && ! $inClassDefinition) {
                 $this->phpImports[] = $trimmed;
 
                 continue;
