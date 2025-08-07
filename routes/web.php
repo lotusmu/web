@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Pages\App\Activities\Activities;
+use App\Livewire\Pages\App\Donate\Donate;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -113,7 +114,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('stealth');
 
     // Donate
-    Volt::route('donate', 'pages.donate.index')
+    Route::get('donate', Donate::class)
         ->name('donate');
 
     // Activities
