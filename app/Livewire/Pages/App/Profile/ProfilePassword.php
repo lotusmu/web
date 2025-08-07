@@ -1,19 +1,24 @@
 <?php
 
-use App\Support\ActivityLog\IdentityProperties;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Validation\Rules\Password;
-use Illuminate\Validation\ValidationException;
-use Livewire\Volt\Component;
+namespace App\Livewire\Pages\App\Profile;
 
-new class extends Component {
+use App\Livewire\BaseComponent;
+use App\Support\ActivityLog\IdentityProperties;
+use Flux;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
+
+class ProfilePassword extends BaseComponent
+{
     private const MAX_ATTEMPTS = 3;
+
     private const DECAY_SECONDS = 300;
 
     public string $current_password = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
 
     private function throttleKey(): string
@@ -23,7 +28,7 @@ new class extends Component {
 
     private function ensureIsNotRateLimited(): bool
     {
-        if ( ! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
             return true;
         }
 
@@ -45,7 +50,7 @@ new class extends Component {
      */
     public function updatePassword(): void
     {
-        if ( ! $this->ensureIsNotRateLimited()) {
+        if (! $this->ensureIsNotRateLimited()) {
             return;
         }
 
@@ -54,7 +59,7 @@ new class extends Component {
         try {
             $validated = $this->validate([
                 'current_password' => ['required', 'string', 'current_password'],
-                'password'         => ['required', 'string', 'confirmed', 'min:6', 'max:10'],
+                'password' => ['required', 'string', 'confirmed', 'min:6', 'max:10'],
             ]);
         } catch (ValidationException $e) {
             $this->reset('current_password', 'password', 'password_confirmation');
@@ -75,7 +80,7 @@ new class extends Component {
             ->withProperties([
                 ...IdentityProperties::capture(),
             ])
-            ->log("Updated their password.");
+            ->log('Updated their password.');
 
         Flux::toast(
             text: __('You can always update this in your settings.'),
@@ -83,27 +88,14 @@ new class extends Component {
             variant: 'success',
         );
     }
-}; ?>
 
-<div>
-    <header>
-        <flux:heading size="lg">
-            {{ __('Update Password') }}
-        </flux:heading>
+    protected function getViewName(): string
+    {
+        return 'pages.app.profile.password';
+    }
 
-        <x-flux::subheading>
-            {{ __('Ensure your account is using a long, random password to stay secure.') }}
-        </x-flux::subheading>
-    </header>
-
-    <form wire:submit="updatePassword" class="mt-6 space-y-6">
-        <flux:input viewable type="password" wire:model="current_password" label="{{__('Current Password')}}"/>
-        <flux:input viewable type="password" wire:model="password" label="{{__('New Password')}}"/>
-        <flux:input viewable type="password" wire:model="password_confirmation" label="{{__('Confirm Password')}}"/>
-
-
-        <flux:button type="submit" variant="primary">
-            {{ __('Save') }}
-        </flux:button>
-    </form>
-</div>
+    protected function getLayoutType(): string
+    {
+        return 'app';
+    }
+}

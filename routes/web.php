@@ -8,6 +8,7 @@ use App\Livewire\Pages\App\Entries\Entries;
 use App\Livewire\Pages\App\Partners\Apply;
 use App\Livewire\Pages\App\Partners\Partners;
 use App\Livewire\Pages\App\Partners\Status;
+use App\Livewire\Pages\App\Profile\Profile;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -81,7 +82,7 @@ Route::prefix('server')->group(function () {
 });
 
 // Profile route
-Volt::route('/profile', 'pages.profile.index')
+Route::get('/profile', Profile::class)
     ->middleware(['auth'])
     ->name('profile');
 

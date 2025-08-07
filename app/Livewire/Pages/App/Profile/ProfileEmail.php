@@ -1,17 +1,20 @@
 <?php
 
+namespace App\Livewire\Pages\App\Profile;
+
+use App\Livewire\BaseComponent;
 use App\Models\User\User;
 use App\Rules\UnauthorizedEmailProviders;
 use App\Support\ActivityLog\IdentityProperties;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Flux;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
-use Livewire\Volt\Component;
 
-new class extends Component {
+class ProfileEmail extends BaseComponent
+{
     private const MAX_ATTEMPTS = 3;
+
     private const DECAY_SECONDS = 300;
 
     public string $email = '';
@@ -31,7 +34,7 @@ new class extends Component {
 
     private function ensureIsNotRateLimited(): bool
     {
-        if ( ! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_ATTEMPTS)) {
             return true;
         }
 
@@ -53,7 +56,7 @@ new class extends Component {
      */
     public function updateProfileInformation(): void
     {
-        if ( ! $this->ensureIsNotRateLimited()) {
+        if (! $this->ensureIsNotRateLimited()) {
             return;
         }
 
@@ -67,7 +70,7 @@ new class extends Component {
                 'email',
                 'max:255',
                 Rule::unique(User::class)->ignore($user->id),
-                new UnauthorizedEmailProviders()
+                new UnauthorizedEmailProviders,
             ],
         ]);
 
@@ -86,7 +89,7 @@ new class extends Component {
             ->withProperties([
                 ...IdentityProperties::capture(),
             ])
-            ->log("Updated their email address.");
+            ->log('Updated their email address.');
 
         Flux::toast(
             text: __('You can always update this in your settings.'),
@@ -112,36 +115,14 @@ new class extends Component {
 
         Flux::toast(__('A new verification link has been sent to your email address.'));
     }
-}; ?>
 
-<div>
-    <header>
-        <flux:heading size="lg">
-            {{ __('Account details') }}
-        </flux:heading>
+    protected function getViewName(): string
+    {
+        return 'pages.app.profile.email';
+    }
 
-        <flux:subheading>
-            {{ __("Update your account's profile email address.") }}
-        </flux:subheading>
-    </header>
-
-    <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
-        <flux:input wire:model="email" label="{{__('Email')}}"/>
-
-        @if (auth()->user() instanceof MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
-            <flux:card class="space-y-8">
-                <flux:text class="text-sm mt-2 text-gray-800">
-                    {{ __('Your email address is unverified.') }}
-                </flux:text>
-
-                <flux:button wire:click.prevent="sendVerification" variant="primary">
-                    {{ __('Click here to re-send the verification email.') }}
-                </flux:button>
-            </flux:card>
-        @endif
-
-        <flux:button type="submit" variant="primary">
-            {{ __('Save') }}
-        </flux:button>
-    </form>
-</div>
+    protected function getLayoutType(): string
+    {
+        return 'app';
+    }
+}

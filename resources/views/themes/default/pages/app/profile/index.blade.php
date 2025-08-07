@@ -1,15 +1,3 @@
-<?php
-
-use App\Livewire\Actions\Logout;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.app')] class extends Component {
-    #[\Livewire\Attributes\Url]
-    public string $tab = 'email';
-}; ?>
-
 <div>
     <header>
         <flux:heading size="xl">
@@ -29,13 +17,13 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:tabs>
 
         <flux:tab.panel name="email">
-            <livewire:pages.profile.email/>
+            <livewire:pages.app.profile.profile-email/>
         </flux:tab.panel>
         <flux:tab.panel name="password">
-            <livewire:pages.profile.password/>
+            <livewire:pages.app.profile.profile-password/>
         </flux:tab.panel>
         <flux:tab.panel name="appearance">
-            <livewire:pages.profile.appearance/>
+            <livewire:pages.app.profile.appearance/>
         </flux:tab.panel>
     </flux:tab-group>
 </div>
