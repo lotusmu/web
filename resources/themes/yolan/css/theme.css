@@ -4,6 +4,7 @@
 
 @layer base {
     :root {
+        /* Replace Zinc with Slate RGB Color values */
         --zinc-50: 248 250 252;
         --zinc-100: 241 245 249;
         --zinc-200: 226 232 240;
