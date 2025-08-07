@@ -1,20 +1,3 @@
-<?php
-
-use App\Models\Utility\VipPackage;
-use Livewire\Volt\Component;
-use Livewire\Attributes\Computed;
-
-new class extends Component {
-    public VipPackage $package;
-    public bool $isFeatured = false;
-
-    #[Computed]
-    public function label(): string
-    {
-        return $this->package->level->getLabel();
-    }
-}; ?>
-
 <div @class([
     'p-2 flex flex-col gap-2 rounded-2xl border border-zinc-200 dark:border-zinc-700/75 bg-zinc-100 dark:bg-zinc-900',
     'sm:col-span-2' => $this->isFeatured,

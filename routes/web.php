@@ -13,6 +13,8 @@ use App\Livewire\Pages\App\Stealth\Stealth;
 use App\Livewire\Pages\App\Support\CreateSupportTicket;
 use App\Livewire\Pages\App\Support\ShowSupportTicket;
 use App\Livewire\Pages\App\Support\Support;
+use App\Livewire\Pages\App\Vip\Purchase;
+use App\Livewire\Pages\App\Vip\Vip;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -112,10 +114,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // VIP routes group
     Route::prefix('vip')->group(function () {
-        Volt::route('/', 'pages.vip.index')
+        Route::get('/', Vip::class)
             ->middleware('vip.only')
             ->name('vip');
-        Volt::route('/purchase', 'pages.vip.purchase')
+        Route::get('/purchase', Purchase::class)
             ->middleware('non.vip.only')
             ->name('vip.purchase');
     });
