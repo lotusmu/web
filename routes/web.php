@@ -15,6 +15,7 @@ use App\Livewire\Pages\App\Support\ShowSupportTicket;
 use App\Livewire\Pages\App\Support\Support;
 use App\Livewire\Pages\App\Vip\Purchase;
 use App\Livewire\Pages\App\Vip\Vip;
+use App\Livewire\Pages\App\Wallet\Wallet;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -99,7 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
 
     // Wallet
-    Volt::route('wallet', 'pages.wallet.index')
+    Route::get('wallet', Wallet::class)
         ->name('wallet');
 
     // Entries
