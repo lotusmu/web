@@ -1,39 +1,3 @@
-<?php
-
-use App\Actions\Member\ManageStealthMode;
-use App\Models\User\User;
-use App\Enums\Utility\OperationType;
-use App\Models\Concerns\Taxable;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-
-new #[Layout('layouts.app')] class extends Component {
-    use Taxable;
-
-    public User $user;
-
-    public function mount(): void
-    {
-        $this->user          = Auth::user();
-        $this->operationType = OperationType::STEALTH;
-        $this->initializeTaxable();
-    }
-
-    public function enable(ManageStealthMode $action): void
-    {
-        $action->handle($this->user);
-
-        $this->modal('enable')->close();
-    }
-
-    public function extend(ManageStealthMode $action): void
-    {
-        $action->handle($this->user, 'extend');
-
-        $this->modal('extend')->close();
-    }
-}; ?>
-
 <div class="space-y-6">
     <header>
         <flux:heading size="xl">
@@ -47,8 +11,8 @@ new #[Layout('layouts.app')] class extends Component {
 
 
     <div class="flex max-md:flex-col gap-6 w-full">
-        <livewire:pages.stealth.normal-mode-card/>
-        <livewire:pages.stealth.stealth-mode-card/>
+        @themeComponent('stealth.normal-mode-card')
+        @themeComponent('stealth.stealth-mode-card')
     </div>
 
     <flux:card class="space-y-6">

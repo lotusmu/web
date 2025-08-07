@@ -9,6 +9,7 @@ use App\Livewire\Pages\App\Partners\Apply;
 use App\Livewire\Pages\App\Partners\Partners;
 use App\Livewire\Pages\App\Partners\Status;
 use App\Livewire\Pages\App\Profile\Profile;
+use App\Livewire\Pages\App\Stealth\Stealth;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -117,7 +118,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Stealth Mode
-    Volt::route('stealth', 'pages.stealth.index')
+    Route::get('stealth', Stealth::class)
         ->name('stealth');
 
     // Donate
