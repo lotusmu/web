@@ -6,13 +6,13 @@
             <livewire:updates-banner/>
 
             <flux:heading level="1" size="3xl" class="mt-10 flex flex-col">
-                <span>{{ __('Reimagined.') }}</span>
-                <span>{{ __('Refined.') }}</span>
-                <span>{{ __('Revolutionary.') }}</span>
+                <span>{{ __('Ancient.') }}</span>
+                <span>{{ __('Awakened.') }}</span>
+                <span>{{ __('Alive.') }}</span>
             </flux:heading>
 
             <flux:subheading size="xl" class="mt-6">
-                {{ __('A server with soul. Thoughtfully crafted, not copy-pasted.') }}
+                {{ __('The empire time forgot, remembers you.') }}
             </flux:subheading>
 
             <div class="mt-10 flex items-center gap-x-6">
