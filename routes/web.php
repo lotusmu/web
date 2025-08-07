@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Pages\App\Activities\Activities;
+use App\Livewire\Pages\App\Castle\Castle;
 use App\Livewire\Pages\App\Dashboard\Dashboard;
 use App\Livewire\Pages\App\Donate\Donate;
 use App\Livewire\Pages\App\Entries\Entries;
@@ -97,7 +98,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Castle Siege group
     Route::prefix('castle-siege')->group(function () {
-        Volt::route('/', 'pages.castle.index')
+        Route::get('/', Castle::class)
             ->name('castle');
     });
 

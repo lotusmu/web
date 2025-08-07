@@ -1,17 +1,3 @@
-<?php
-
-use App\Models\Game\Guild;
-use Livewire\Volt\Component;
-
-new class extends Component {
-    public ?Guild $guild = null;
-
-    public function mount(Guild $guild)
-    {
-        $this->guild = $guild;
-    }
-}; ?>
-
 <header class="flex items-center gap-4">
     <img src="{{ $this->guild->getMarkUrl(72) }}"
          alt="Guild Mark"

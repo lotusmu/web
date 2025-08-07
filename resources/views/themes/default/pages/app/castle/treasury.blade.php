@@ -1,23 +1,3 @@
-<?php
-
-use Livewire\Attributes\On;
-use Livewire\Volt\Component;
-
-new class extends Component {
-    public int $treasury = 0;
-
-    public function mount(int $treasury)
-    {
-        $this->treasury = $treasury;
-    }
-
-    #[On('treasury-updated')]
-    public function updateTreasury(int $treasury): void
-    {
-        $this->treasury = $treasury;
-    }
-}; ?>
-
 <flux:card class="space-y-6 bg-zinc-800 dark:!bg-white !border-zinc-950 dark:!border-white relative">
     <flux:heading size="lg" class="flex items-center gap-2 !text-white dark:!text-zinc-800">
         <flux:icon.piggy-bank variant="mini" color="orange"/>
