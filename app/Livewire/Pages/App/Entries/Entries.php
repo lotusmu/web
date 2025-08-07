@@ -59,7 +59,7 @@ class Entries extends BaseComponent
 
     protected function getViewName(): string
     {
-        return 'pages.entries.index';
+        return 'pages.app.entries.index';
     }
 
     protected function getLayoutType(): string

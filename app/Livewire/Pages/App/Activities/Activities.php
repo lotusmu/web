@@ -38,7 +38,7 @@ class Activities extends BaseComponent
 
     protected function getViewName(): string
     {
-        return 'pages.activities.index';
+        return 'pages.app.activities.index';
     }
 
     protected function getLayoutType(): string

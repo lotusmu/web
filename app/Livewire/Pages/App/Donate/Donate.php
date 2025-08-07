@@ -203,7 +203,7 @@ class Donate extends BaseComponent
 
     protected function getViewName(): string
     {
-        return 'pages.donate.index';
+        return 'pages.app.donate.index';
     }
 
     protected function getLayoutType(): string

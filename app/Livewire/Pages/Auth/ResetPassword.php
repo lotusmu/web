@@ -1,20 +1,22 @@
 <?php
 
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Locked;
-use Livewire\Volt\Component;
+namespace App\Livewire\Pages\Auth;
 
-new #[Layout('layouts.auth')] class extends Component {
+use App\Livewire\BaseComponent;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Locked;
+
+class ResetPassword extends BaseComponent
+{
     #[Locked]
     public string $token = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
 
     /**
@@ -33,8 +35,8 @@ new #[Layout('layouts.auth')] class extends Component {
     public function resetPassword(): void
     {
         $this->validate([
-            'token'    => ['required'],
-            'email'    => ['required', 'string', 'email'],
+            'token' => ['required'],
+            'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string', 'confirmed', 'min:6', 'max:10'],
         ]);
 
@@ -45,7 +47,7 @@ new #[Layout('layouts.auth')] class extends Component {
             $this->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) {
                 $user->forceFill([
-                    'password'       => $this->password,
+                    'password' => $this->password,
                     'remember_token' => Str::random(60),
                 ])->save();
 
@@ -66,20 +68,14 @@ new #[Layout('layouts.auth')] class extends Component {
 
         $this->redirectRoute('login', navigate: true);
     }
-}; ?>
 
-<div class="space-y-6">
-    <flux:heading size="xl" class="text-center">
-        {{__('Reset your password')}}
-    </flux:heading>
+    protected function getViewName(): string
+    {
+        return 'pages.auth.reset-password';
+    }
 
-    <form wire:submit="resetPassword" class="flex flex-col gap-6">
-        <flux:input wire:model="email" label="{{__('Email')}}"/>
-        <flux:input viewable wire:model="password" type="password" label="{{__('Password')}}"/>
-        <flux:input viewable wire:model="password_confirmation" type="password" label="{{__('Confirm Password')}}"/>
-
-        <flux:button variant="primary" type="submit">
-            {{ __('Reset Password') }}
-        </flux:button>
-    </form>
-</div>
+    protected function getLayoutType(): string
+    {
+        return 'auth';
+    }
+}

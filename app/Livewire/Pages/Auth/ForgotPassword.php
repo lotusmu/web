@@ -1,10 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Password;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
+namespace App\Livewire\Pages\Auth;
 
-new #[Layout('layouts.auth')] class extends Component {
+use App\Livewire\BaseComponent;
+use Illuminate\Support\Facades\Password;
+
+class ForgotPassword extends BaseComponent
+{
     public string $email = '';
 
     /**
@@ -33,24 +35,14 @@ new #[Layout('layouts.auth')] class extends Component {
 
         Flux::toast(__($status));
     }
-}; ?>
 
-<div class="space-y-6">
-    <div>
-        <flux:heading size="xl" class="text-center">
-            {{ __('Forgot your password?')}}
-        </flux:heading>
+    protected function getViewName(): string
+    {
+        return 'pages.auth.forgot-password';
+    }
 
-        <flux:subheading class="text-center">
-            {{ __('No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-        </flux:subheading>
-    </div>
-
-    <form wire:submit="sendPasswordResetLink" class="flex flex-col gap-6">
-        <flux:input wire:model="email" label="{{ __('Email') }}"/>
-
-        <flux:button variant="primary" type="submit">
-            {{ __('Email Password Reset Link') }}
-        </flux:button>
-    </form>
-</div>
+    protected function getLayoutType(): string
+    {
+        return 'auth';
+    }
+}
