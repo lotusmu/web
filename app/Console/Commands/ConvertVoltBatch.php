@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class ConvertVoltBatch extends Command
 {
-    protected $signature = 'theme:convert-volt-batch {directory} {--theme=default} {--dry-run}';
+    protected $signature = 'theme:convert-volt-batch {directory} {--theme=default} {--dry-run} {--namespace=}';
 
     protected $description = 'Convert all Volt components in a directory to Livewire + theme files';
 
@@ -43,6 +43,9 @@ class ConvertVoltBatch extends Command
             return 0;
         }
 
+        // Get namespace selection
+        $selectedNamespace = $this->getNamespaceSelection();
+
         // Convert each file
         $successful = 0;
         $failed = 0;
@@ -55,6 +58,7 @@ class ConvertVoltBatch extends Command
                 'path' => $file,
                 '--theme' => $theme,
                 '--dry-run' => $dryRun,
+                '--namespace' => $selectedNamespace,
             ]);
 
             if ($exitCode === 0) {
@@ -92,5 +96,63 @@ class ConvertVoltBatch extends Command
         }
 
         return $files;
+    }
+
+    private function getNamespaceSelection(): string
+    {
+        // Check if namespace was provided via option
+        $namespaceOption = $this->option('namespace');
+        if ($namespaceOption) {
+            return $namespaceOption;
+        }
+
+        $this->newLine();
+        $this->info('🗂️  Select target namespace for Livewire components:');
+
+        // Scan existing Livewire/Pages directories
+        $livewirePagesPath = app_path('Livewire/Pages');
+        $existingFolders = [];
+
+        if (File::isDirectory($livewirePagesPath)) {
+            $directories = File::directories($livewirePagesPath);
+            foreach ($directories as $dir) {
+                $folderName = basename($dir);
+                $existingFolders[] = $folderName;
+            }
+        }
+
+        // Build options list
+        $options = [];
+        $choices = [];
+
+        // Add existing folders
+        if (! empty($existingFolders)) {
+            foreach ($existingFolders as $folder) {
+                $options[] = "App\\Livewire\\Pages\\{$folder}";
+                $choices[] = "📁 {$folder} (existing)";
+            }
+        }
+
+        // Add option to create new
+        $options[] = 'CREATE_NEW';
+        $choices[] = '✨ Create new folder';
+
+        // If no existing folders, default to App
+        if (empty($existingFolders)) {
+            $options[] = 'App\\Livewire\\Pages\\App';
+            $choices[] = '📁 App (default)';
+        }
+
+        $selectedIndex = $this->choice('Choose namespace:', $choices, 0);
+        $selectedOption = $options[array_search($selectedIndex, $choices)];
+
+        if ($selectedOption === 'CREATE_NEW') {
+            $newFolderName = $this->ask('Enter new folder name (will be created under Pages/):');
+            $newFolderName = ucfirst($newFolderName);
+
+            return "App\\Livewire\\Pages\\{$newFolderName}";
+        }
+
+        return $selectedOption;
     }
 }

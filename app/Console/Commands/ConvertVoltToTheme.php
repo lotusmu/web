@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class ConvertVoltToTheme extends Command
 {
-    protected $signature = 'theme:convert-volt {path} {--theme=default} {--dry-run}';
+    protected $signature = 'theme:convert-volt {path} {--theme=default} {--dry-run} {--namespace=}';
 
     protected $description = 'Convert a Volt component to Livewire class + theme blade file';
 
@@ -50,7 +50,8 @@ class ConvertVoltToTheme extends Command
         }
 
         // Generate the file paths and class names
-        $paths = $this->generatePaths($voltPath, $theme);
+        $customNamespace = $this->option('namespace');
+        $paths = $this->generatePaths($voltPath, $theme, $customNamespace);
 
         // Generate the Livewire class content
         $livewireContent = $this->generateLivewireClass($paths);
@@ -179,7 +180,7 @@ class ConvertVoltToTheme extends Command
         $this->phpLogic = trim(implode("\n", $classContent));
     }
 
-    private function generatePaths(string $voltPath, string $theme): array
+    private function generatePaths(string $voltPath, string $theme, ?string $customNamespace = null): array
     {
         // Convert absolute path to relative path from project root
         $projectRoot = base_path();
@@ -207,7 +208,15 @@ class ConvertVoltToTheme extends Command
         }
 
         // Determine namespace and directory structure
-        if (empty($parts)) {
+        if ($customNamespace) {
+            // Use custom namespace provided by batch command
+            $namespace = $customNamespace;
+            // Extract the parts after App\Livewire\Pages\
+            $customParts = explode('\\', str_replace('App\\Livewire\\Pages\\', '', $customNamespace));
+            // Combine custom namespace parts with original file parts to preserve directory structure
+            $namespaceParts = array_merge($customParts, $parts);
+            $namespace = 'App\\Livewire\\Pages\\'.implode('\\', array_map([Str::class, 'studly'], $namespaceParts));
+        } elseif (empty($parts)) {
             // Direct files under livewire/pages/ go to App namespace
             $namespace = 'App\\Livewire\\Pages\\App';
             $namespaceParts = ['App'];
@@ -221,10 +230,18 @@ class ConvertVoltToTheme extends Command
         $livewireDir = app_path('Livewire/Pages/'.implode('/', array_map([Str::class, 'studly'], $namespaceParts)));
         $livewireFile = $livewireDir.'/'.$className.'.php';
 
-        $themeDir = resource_path("views/themes/{$theme}/pages/".implode('/', $parts));
-        $themeFile = $themeDir.'/'.$fileName.'.blade.php';
+        // Generate theme file path - include namespace in path when using custom namespace
+        if ($customNamespace) {
+            $customParts = explode('\\', str_replace('App\\Livewire\\Pages\\', '', $customNamespace));
+            $namespaceFolder = strtolower($customParts[0]); // Use first part of custom namespace (App, Guest, etc.)
+            $themeDir = resource_path("views/themes/{$theme}/pages/{$namespaceFolder}/".implode('/', $parts));
+            $viewName = "pages.{$namespaceFolder}.".implode('.', $parts).'.'.$fileName;
+        } else {
+            $themeDir = resource_path("views/themes/{$theme}/pages/".implode('/', $parts));
+            $viewName = 'pages.'.implode('.', $parts).'.'.$fileName;
+        }
 
-        $viewName = 'pages.'.implode('.', $parts).'.'.$fileName;
+        $themeFile = $themeDir.'/'.$fileName.'.blade.php';
 
         return [
             'namespace' => $namespace,
