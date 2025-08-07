@@ -138,7 +138,7 @@ class ThemeSettings extends Page
 
         $descriptions = [
             'default' => 'Lotus Mu Theme',
-            'yolan' => 'Yolan Mu Theme',
+            'yulan' => 'Yulan Mu Theme',
         ];
 
         // Add "Currently active" to the active theme description
