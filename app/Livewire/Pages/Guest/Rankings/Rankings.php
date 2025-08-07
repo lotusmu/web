@@ -3,13 +3,14 @@
 namespace App\Livewire\Pages\Guest\Rankings;
 
 use App\Livewire\BaseComponent;
+use Livewire\Attributes\Url;
 
-class Index extends BaseComponent
+class Rankings extends BaseComponent
 {
-    #[\Livewire\Attributes\Url]
+    #[Url]
     public string $tab = 'players';
 
-    #[\Livewire\Attributes\Url]
+    #[Url]
     public string $type = 'general';
 
     public function mount()

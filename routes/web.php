@@ -11,8 +11,8 @@ use App\Livewire\Pages\Guest\Legal\Refund as RefundAlias;
 use App\Livewire\Pages\Guest\Legal\Terms;
 use App\Livewire\Pages\Guest\Profile\CharacterProfile;
 use App\Livewire\Pages\Guest\Profile\GuildProfile;
-use App\Livewire\Pages\Guest\Rankings\Index;
 use App\Livewire\Pages\Guest\Rankings\Players\Archive;
+use App\Livewire\Pages\Guest\Rankings\Rankings;
 use App\Livewire\Pages\Guest\Server\Overview;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -28,7 +28,7 @@ Route::get('/catalog', Catalog::class)
     ->name('catalog');
 
 Route::prefix('rankings')->group(function () {
-    Route::get('/', Index::class)
+    Route::get('/', Rankings::class)
         ->name('rankings');
 
     Route::get('/archive', Archive::class)
