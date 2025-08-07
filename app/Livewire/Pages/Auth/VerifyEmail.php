@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Auth;
 
 use App\Livewire\Actions\Logout;
 use App\Livewire\BaseComponent;
+use Flux;
 use Illuminate\Support\Facades\Auth;
 
 class VerifyEmail extends BaseComponent

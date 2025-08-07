@@ -1,25 +1,3 @@
-<?php
-
-use App\Enums\Ticket\TicketStatus;
-use App\Models\Ticket\Ticket;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-use Livewire\WithPagination;
-
-new #[Layout('layouts.app')] class extends Component {
-    use WithPagination;
-
-    #[Computed]
-    public function tickets()
-    {
-        return Ticket::where('user_id', auth()->id())
-            ->with('category')
-            ->orderBy('created_at', 'desc')
-            ->simplePaginate(5);
-    }
-}; ?>
-
 <div class="space-y-8">
     <header class="flex items-center max-sm:flex-col-reverse max-sm:items-start max-sm:gap-4">
         <div>
@@ -49,7 +27,7 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:columns>
         <flux:rows>
             @forelse ($this->tickets() as $ticket)
-                <livewire:pages.support.ticket-row :$ticket :key="$ticket->id"/>
+                <livewire:pages.app.support.ticket-row :$ticket :key="$ticket->id"/>
             @empty
                 <flux:row>
                     <flux:cell colspan="4">
@@ -60,6 +38,5 @@ new #[Layout('layouts.app')] class extends Component {
         </flux:rows>
     </flux:table>
 
-    <livewire:pages.support.faq/>
+    @themeComponent('support.faq')
 </div>
-

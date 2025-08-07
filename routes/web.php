@@ -10,6 +10,9 @@ use App\Livewire\Pages\App\Partners\Partners;
 use App\Livewire\Pages\App\Partners\Status;
 use App\Livewire\Pages\App\Profile\Profile;
 use App\Livewire\Pages\App\Stealth\Stealth;
+use App\Livewire\Pages\App\Support\CreateSupportTicket;
+use App\Livewire\Pages\App\Support\ShowSupportTicket;
+use App\Livewire\Pages\App\Support\Support;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -131,11 +134,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Support routes group
     Route::prefix('support')->group(function () {
-        Volt::route('/', 'pages.support.index')
+        Route::get('/', Support::class)
             ->name('support');
-        Volt::route('/create-ticket', 'pages.support.create-ticket')
+        Route::get('/create-ticket', CreateSupportTicket::class)
             ->name('support.create-ticket');
-        Volt::route('/ticket/{ticket}', 'pages.support.show-ticket')
+        Route::get('/ticket/{ticket}', ShowSupportTicket::class)
             ->name('support.show-ticket');
     });
 
