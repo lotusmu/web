@@ -2,6 +2,7 @@
 
 use App\Livewire\Pages\App\Activities\Activities;
 use App\Livewire\Pages\App\Donate\Donate;
+use App\Livewire\Pages\App\Entries\Entries;
 use App\Livewire\Pages\Guest\Articles\Articles;
 use App\Livewire\Pages\Guest\Catalog\Catalog;
 use App\Livewire\Pages\Guest\Content\Streams;
@@ -90,7 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('wallet');
 
     // Entries
-    Volt::route('event-entries', 'pages.entries.index')
+    Route::get('event-entries', Entries::class)
         ->name('entries');
 
     // Castle Siege group
