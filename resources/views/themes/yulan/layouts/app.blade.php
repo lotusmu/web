@@ -4,7 +4,7 @@
     @themeComponent('layout.head')
 </head>
 <body
-    class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300 selection:bg-sky-600 selection:text-white">
+    class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300 dark:selection:bg-rose-600 selection:bg-violet-600 selection:text-white">
 
 @themeComponent('layout.app.background-beams')
 
