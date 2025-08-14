@@ -28,12 +28,12 @@
         </div>
 
         {{-- Dark theme hero image --}}
-        <div class="hidden dark:flex w-full justify-end ml-56 sm:-ml-56 mt-0 lg:-mt-24 -z-10">
+        <div class="hidden dark:flex w-full justify-end ml-24 lg:-ml-24 mt-0 md:-mt-64 lg:-mt-36 -z-10">
             {{--            <picture>--}}
             {{--                <source srcset="{{ asset('images/hero/hero_dark.avif') }}" type="image/avif">--}}
             {{--                <source srcset="{{ asset('images/hero/hero_dark.webp') }}" type="image/webp">--}}
             <img src="{{ asset('images/hero/archive/knight_transparent.png') }}"
-                 class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[80rem]"
+                 class="max-w-[42rem] md:max-w-[64rem] lg:max-w-[80rem] xl:max-w-[92rem]"
                  alt="Wizard character from game Mu Online"
                  loading="eager"
                  fetchpriority="high"
@@ -42,12 +42,12 @@
         </div>
 
         {{-- Light theme hero image --}}
-        <div class="flex dark:hidden w-full justify-end ml-24 sm:ml-0 mt-0 lg:-mt-24 -z-10">
+        <div class="flex dark:hidden w-full justify-end ml-64 md:ml-80 lg:ml-24 mt-0 md:-mt-64 lg:-mt-36 -z-10">
             <picture>
                 {{--                <source srcset="{{ asset('images/hero/hero_light.avif') }}" type="image/avif">--}}
                 {{--                <source srcset="{{ asset('images/hero/hero_light.webp') }}" type="image/webp">--}}
                 <img src="{{ asset('images/hero/archive/gladiator_transparent.png') }}"
-                     class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem]"
+                     class="max-w-[42rem] md:max-w-[64rem] lg:max-w-[80rem] xl:max-w-[92rem]"
                      alt="Elf character from game Mu Online"
                      loading="eager"
                      fetchpriority="high"
