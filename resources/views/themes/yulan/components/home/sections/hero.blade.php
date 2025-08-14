@@ -29,23 +29,23 @@
 
         {{-- Dark theme hero image --}}
         <div class="hidden dark:flex w-full justify-end ml-24 lg:-ml-24 mt-0 md:-mt-64 lg:-mt-36 -z-10">
-            {{--            <picture>--}}
-            {{--                <source srcset="{{ asset('images/hero/hero_wizard.avif') }}" type="image/avif">--}}
-            {{--                <source srcset="{{ asset('images/hero/hero_wizard.webp') }}" type="image/webp">--}}
-            <img src="{{ asset('images/hero/hero_knight.png') }}"
-                 class="max-w-[42rem] md:max-w-[64rem] lg:max-w-[80rem] xl:max-w-[92rem]"
-                 alt="Knight character from game Mu Online"
-                 loading="eager"
-                 fetchpriority="high"
-                 decoding="async">
-            {{--            </picture>--}}
+            <picture>
+                <source srcset="{{ asset('images/hero/hero_knight.avif') }}" type="image/avif">
+                <source srcset="{{ asset('images/hero/hero_knight.webp') }}" type="image/webp">
+                <img src="{{ asset('images/hero/hero_knight.png') }}"
+                     class="max-w-[42rem] md:max-w-[64rem] lg:max-w-[80rem] xl:max-w-[92rem]"
+                     alt="Knight character from game Mu Online"
+                     loading="eager"
+                     fetchpriority="high"
+                     decoding="async">
+            </picture>
         </div>
 
         {{-- Light theme hero image --}}
         <div class="flex dark:hidden w-full justify-end ml-64 md:ml-80 lg:ml-24 mt-0 md:-mt-64 lg:-mt-36 -z-10">
             <picture>
-                {{--                <source srcset="{{ asset('images/hero/hero_elf.avif') }}" type="image/avif">--}}
-                {{--                <source srcset="{{ asset('images/hero/hero_elf.webp') }}" type="image/webp">--}}
+                <source srcset="{{ asset('images/hero/hero_gladiator.avif') }}" type="image/avif">
+                <source srcset="{{ asset('images/hero/hero_gladiator.webp') }}" type="image/webp">
                 <img src="{{ asset('images/hero/hero_gladiator.png') }}"
                      class="max-w-[42rem] md:max-w-[64rem] lg:max-w-[80rem] xl:max-w-[92rem]"
                      alt="Gladiator character from game Mu Online"
