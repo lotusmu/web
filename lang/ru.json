@@ -1392,5 +1392,9 @@
     "Include your transaction ID, account information, and detailed explanation when requesting a refund. All refund requests are subject to fraud verification and may be denied if fraudulent activity is suspected.": "Включите ваш ID транзакции, информацию об аккаунте и подробное объяснение при запросе возврата средств. Все запросы на возврат средств подлежат проверке на мошенничество и могут быть отклонены при подозрении в мошеннической деятельности.",
     "Revocation of all virtual goods": "Отзыв всех виртуальных товаров",
     "Reporting to payment processors and authorities": "Сообщение платежным системам и органам власти",
-    "Achievements": "Достижения"
+    "Achievements": "Достижения",
+    "Ancient.": "Древний.",
+    "Awakened.": "Пробуждённый.",
+    "Alive.": "Живой.",
+    "An age-old saga, reborn in your hands.": "Вековая сага, возрождённая в твоих руках."
 }
