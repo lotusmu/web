@@ -12,7 +12,7 @@
             </flux:heading>
 
             <flux:subheading size="xl" class="mt-6">
-                {{ __('The empire time forgot, remembers you.') }}
+                {{ __('An age-old saga, reborn in your hands.') }}
             </flux:subheading>
 
             <div class="mt-10 flex items-center gap-x-6">
@@ -28,25 +28,25 @@
         </div>
 
         {{-- Dark theme hero image --}}
-        <div class="hidden dark:flex w-full justify-end ml-56 sm:ml-0 mt-0 lg:-mt-24 -z-10">
-            <picture>
-                <source srcset="{{ asset('images/hero/hero_dark.avif') }}" type="image/avif">
-                <source srcset="{{ asset('images/hero/hero_dark.webp') }}" type="image/webp">
-                <img src="{{ asset('images/hero/hero_dark.png') }}"
-                     class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem]"
-                     alt="Wizard character from game Mu Online"
-                     loading="eager"
-                     fetchpriority="high"
-                     decoding="async">
-            </picture>
+        <div class="hidden dark:flex w-full justify-end ml-56 sm:-ml-56 mt-0 lg:-mt-24 -z-10">
+            {{--            <picture>--}}
+            {{--                <source srcset="{{ asset('images/hero/hero_dark.avif') }}" type="image/avif">--}}
+            {{--                <source srcset="{{ asset('images/hero/hero_dark.webp') }}" type="image/webp">--}}
+            <img src="{{ asset('images/hero/archive/knight_transparent.png') }}"
+                 class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[80rem]"
+                 alt="Wizard character from game Mu Online"
+                 loading="eager"
+                 fetchpriority="high"
+                 decoding="async">
+            {{--            </picture>--}}
         </div>
 
         {{-- Light theme hero image --}}
         <div class="flex dark:hidden w-full justify-end ml-24 sm:ml-0 mt-0 lg:-mt-24 -z-10">
             <picture>
-                <source srcset="{{ asset('images/hero/hero_light.avif') }}" type="image/avif">
-                <source srcset="{{ asset('images/hero/hero_light.webp') }}" type="image/webp">
-                <img src="{{ asset('images/hero/hero_light.png') }}"
+                {{--                <source srcset="{{ asset('images/hero/hero_light.avif') }}" type="image/avif">--}}
+                {{--                <source srcset="{{ asset('images/hero/hero_light.webp') }}" type="image/webp">--}}
+                <img src="{{ asset('images/hero/archive/gladiator_transparent.png') }}"
                      class="max-w-[36rem] lg:max-w-[48rem] xl:max-w-[56rem]"
                      alt="Elf character from game Mu Online"
                      loading="eager"
