@@ -8,9 +8,14 @@
 <body
     class="min-h-screen antialiased bg-zinc-50 dark:bg-zinc-900 dark:selection:bg-rose-600 selection:bg-violet-600 selection:text-white">
 
-<flux:main class="flex min-h-screen !p-0">
-    <div class="flex-1 flex justify-center items-center">
-        <div class="w-80 max-w-80 space-y-6 my-12">
+
+<flux:main class="relative flex min-h-screen !p-0">
+    <div
+        class="absolute dark:opacity-10 h-screen w-screen bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_30%_60%_at_50%_50%,#000_70%,transparent_100%)] -z-10">
+    </div>
+
+    <div class="flex-1 flex justify-center items-center mb-10">
+        <div class="w-[28rem] max-w-[28rem] max-sm:w-full max-sm:max-w-full space-y-6 my-12">
             <div class="flex justify-center">
                 <x-brand
                     :logo_light="theme_logo('light')"
@@ -19,49 +24,19 @@
             </div>
 
             {{ $slot }}
-
         </div>
     </div>
 
+    <div
+        class="absolute bottom-0 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 py-8 opacity-50 dark:opacity-30 hover:opacity-70 transition-opacity cursor-default">
+        <img src="{{ theme_logo('mark') }}" class="size-6 grayscale" width="24" height="24" alt="Yulan Mu Logo Mark">
 
-    <div class="flex-1 p-4 max-lg:hidden">
-        <div
-            class="relative rounded-lg h-full w-full flex flex-col items-start justify-end p-16 text-white overflow-hidden">
-
-            <picture class="absolute inset-0 h-full w-full -z-10">
-                <source
-                    srcset="{{ asset('images/auth/image.avif') }}"
-                    type="image/avif">
-                <source
-                    srcset="{{ asset('images/auth/image.webp') }}"
-                    type="image/webp">
-                <img
-                    src="{{ asset('images/auth/image.jpg') }}"
-                    alt="Nighttime torii gate scene"
-                    class="h-full w-full object-cover"
-                    style="object-position: 25%;"
-                    loading="lazy"
-                    decoding="async">
-            </picture>
-
-            <div class="flex gap-2 mb-4">
-                <flux:icon.star variant="solid"/>
-                <flux:icon.star variant="solid"/>
-                <flux:icon.star variant="solid"/>
-                <flux:icon.star variant="solid"/>
-                <flux:icon.star variant="solid"/>
-            </div>
-
-            <div class="mb-6 italic font-base text-3xl xl:text-4xl">
-                {{__('The Journey Begins Here')}}
-            </div>
-
-            <div class="text-lg font-medium">
-                {{__('Beyond the veil of nostalgia lies a land of untold wonders and hidden mysteries')}}
-            </div>
-        </div>
+        <flux:text size="sm" class="leading-5">
+            &copy; {{ date("Y") }} {{__('Yulan Mu')}}
+        </flux:text>
     </div>
 </flux:main>
+
 
 @persist('toast')
 <flux:toast/>

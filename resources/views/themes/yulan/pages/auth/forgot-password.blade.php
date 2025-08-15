@@ -9,11 +9,13 @@
         </flux:subheading>
     </div>
 
-    <form wire:submit="sendPasswordResetLink" class="flex flex-col gap-6">
-        <flux:input wire:model="email" label="{{ __('Email') }}"/>
+    <x-auth-card>
+        <form wire:submit="sendPasswordResetLink" class="flex flex-col gap-6">
+            <flux:input wire:model="email" label="{{ __('Email') }}"/>
 
-        <flux:button variant="primary" type="submit">
-            {{ __('Email Password Reset Link') }}
-        </flux:button>
-    </form>
+            <flux:button variant="primary" type="submit">
+                {{ __('Email Password Reset Link') }}
+            </flux:button>
+        </form>
+    </x-auth-card>
 </div>

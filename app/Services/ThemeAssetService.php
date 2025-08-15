@@ -124,13 +124,14 @@ class ThemeAssetService
 
         // Map variants to your file naming convention
         $logoFileName = match ($variant) {
-            'dark', 'white' => 'logotype-white.svg',
             'light', 'default' => 'logotype.svg',
+            'dark', 'white' => 'logotype-white.svg',
             'vertical' => 'logotype-vertical.svg',
-            'vertical-white' => 'logotype-vertical-white.svg',
+            'vertical-dark' => 'logotype-vertical-white.svg',
             'mark' => 'mark.svg',
+            'mark-dark' => 'mark-dark.svg',
             'wordmark' => 'wordmark.svg',
-            'wordmark-white' => 'wordmark-white.svg',
+            'wordmark-dark' => 'wordmark-white.svg',
             default => 'logotype.svg'
         };
 
