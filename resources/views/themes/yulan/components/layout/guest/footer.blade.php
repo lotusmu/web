@@ -41,13 +41,13 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/events"
+                                <flux:link variant="subtle" href="https://wiki.yulanmu.com/category/events"
                                            external>
                                     {{ __('Events') }}
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="https://wiki.lotusmu.org/category/crafting"
+                                <flux:link variant="subtle" href="https://wiki.yulanmu.com/category/crafting"
                                            external>
                                     {{ __('Crafting') }}
                                 </flux:link>
@@ -73,13 +73,13 @@
                                 </flux:link>
                             </li>
                             <li>
-                                <flux:link variant="subtle" href="https://wiki.lotusmu.org" external>
+                                <flux:link variant="subtle" href="https://wiki.yulanmu.com" external>
                                     {{ __('Wiki') }}
                                 </flux:link>
                             </li>
                             <li>
                                 <flux:link variant="subtle"
-                                           href="https://wiki.lotusmu.org/category/game-client-features/"
+                                           href="https://wiki.yulanmu.com/category/game-client-features/"
                                            external>
                                     {{ __('Client Features') }}
                                 </flux:link>
@@ -153,7 +153,7 @@
             <!-- Copyright & Socials -->
             <div class="flex max-sm:flex-col max-sm:items-start max-sm:space-y-2 items-center justify-between">
                 <flux:text size="sm" class="leading-5 mt-0">
-                    &copy; {{ date("Y") }} {{__('Lotus Mu')}}
+                    &copy; {{ date("Y") }} {{__('Yulan Mu')}}
                     ·
                     <flux:link variant="subtle" href="{{ route('terms') }}">{{__('Terms of Service')}}</flux:link>
                 </flux:text>

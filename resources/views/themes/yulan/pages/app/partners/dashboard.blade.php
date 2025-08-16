@@ -289,7 +289,7 @@
         <div>
             <flux:heading>{{ __('Content Requirements') }}</flux:heading>
             <flux:subheading>
-                • {{ __('Include server name in stream titles (e.g., "Lotus Mu, Valaris - x5").') }}<br>
+                • {{ __('Include server name in stream titles (e.g., "Yulan Mu, Valaris - x5").') }}<br>
                 • {{ __('Display brand banners or logo during streams/videos.') }}<br>
                 • {{ __('Maintain regular content schedule as specified in your application.') }}
             </flux:subheading>

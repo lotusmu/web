@@ -8,8 +8,8 @@
     <div class="space-y-6 max-w-4xl mx-auto">
         <x-info-card color="teal" icon="book-open">
             <flux:text>
-                {{ __('Everything about Lotus Mu is documented in') }}
-                <flux:link href="https://wiki.lotusmu.org" external>
+                {{ __('Everything about Yulan Mu is documented in') }}
+                <flux:link href="https://wiki.yulanmu.com" external>
                     {{ ' ' . __('our wiki') }}</flux:link>
                 {{ __(' - from server mechanics to events and features!') }}
             </flux:text>
@@ -45,7 +45,7 @@
                                     <flux:cell>{{ __('Experience') }}</flux:cell>
                                     <flux:cell>
                                         x{{ $server->experience_rate }},
-                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system"
+                                        <flux:link href="https://wiki.yulanmu.com/gameplay-systems/reset-system"
                                                    external>
                                             {{ __('decreases with resets') }}
                                         </flux:link>
@@ -75,7 +75,7 @@
                                 <flux:row>
                                     <flux:cell>{{ __('Max Resets') }}</flux:cell>
                                     <flux:cell>
-                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system"
+                                        <flux:link href="https://wiki.yulanmu.com/gameplay-systems/reset-system"
                                                    external>
                                             {{ $server->max_resets }}
                                         </flux:link>
@@ -88,7 +88,7 @@
                                 <flux:row>
                                     <flux:cell>{{ __('Reset Points') }}</flux:cell>
                                     <flux:cell>
-                                        <flux:link href="https://wiki.lotusmu.org/gameplay-systems/reset-system/"
+                                        <flux:link href="https://wiki.yulanmu.com/gameplay-systems/reset-system/"
                                                    external>
                                             {{ __('Dynamic') }}
                                         </flux:link>
@@ -390,7 +390,7 @@
                                     <flux:cell>/king</flux:cell>
                                     <flux:cell>
                                         {{ __('Seize the throne in the') }}
-                                        <flux:link href="https://wiki.lotusmu.org/events/king-of-yoskreth" external>
+                                        <flux:link href="https://wiki.yulanmu.com/events/king-of-yoskreth" external>
                                             {{ __('King of Yoskreth') }}
                                         </flux:link>
                                         {{ __('Event.') }}

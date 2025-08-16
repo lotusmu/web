@@ -12,10 +12,10 @@
             </x-home.heading>
 
             <x-home.text>
-                {{ __("Each feature in Lotus Mu is crafted with purpose and depth. These aren't just additions - they're game-changing mechanics that create a richer, more rewarding journey through the realm.") }}
+                {{ __("Each feature in Yulan Mu is crafted with purpose and depth. These aren't just additions - they're game-changing mechanics that create a richer, more rewarding journey through the realm.") }}
             </x-home.text>
 
-            <x-home.link href="https://wiki.lotusmu.org" external>
+            <x-home.link href="https://wiki.yulanmu.com" external>
                 {{ __('Learn more') }}
             </x-home.link>
         </div>
@@ -63,14 +63,14 @@
                                 {{  __('Ladies and gentlemen - the most comprehensive MU knowledge base in the world -') }}
 
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org"
+                                           href="https://wiki.yulanmu.com"
                                            external>
-                                    {{ __('the Lotus Mu Wiki.') }}
+                                    {{ __('the Yulan Mu Wiki.') }}
                                 </flux:link>
                             </flux:text>
 
                             <flux:text>
-                                {{ __('What truly sets Lotus Mu apart is our dedication to knowledge sharing and documentation.') }}
+                                {{ __('What truly sets Yulan Mu apart is our dedication to knowledge sharing and documentation.') }}
                             </flux:text>
 
                             <flux:text>
@@ -110,7 +110,7 @@
 
                             <flux:text>{{ __('Want to see how it works?') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/items/exc-items"
+                                           href="https://wiki.yulanmu.com/items/exc-items"
                                            external>
                                     {{ __('Check out the details!') }}
                                 </flux:link>
@@ -140,7 +140,7 @@
                             </flux:text>
 
                             <flux:text class="font-bold">
-                                {{ __('In Lotus Mu, they absolutely do!') }}
+                                {{ __('In Yulan Mu, they absolutely do!') }}
                             </flux:text>
 
                             <flux:text>
@@ -149,7 +149,7 @@
 
                             <flux:text>{{ __('Ready to start your journey?') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/gameplay-systems/quest-system"
+                                           href="https://wiki.yulanmu.com/gameplay-systems/quest-system"
                                            external>
                                     {{ __('See the full quest line!') }}
                                 </flux:link>
@@ -189,7 +189,7 @@
 
                             <flux:text>{{ __('Curious about crafting?') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/category/crafting"
+                                           href="https://wiki.yulanmu.com/category/crafting"
                                            external>
                                     {{ __('See what\'s cooking!') }}
                                 </flux:link>
@@ -256,7 +256,7 @@
 
                             <flux:text>{{ __('Curious about their powers?') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/items/pets"
+                                           href="https://wiki.yulanmu.com/items/pets"
                                            external>
                                     {{ __('Meet them!') }}
                                 </flux:link>

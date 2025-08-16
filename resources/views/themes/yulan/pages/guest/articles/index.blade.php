@@ -6,7 +6,7 @@
     <x-page-header
         :title="__('What\'s new around here?')"
         :kicker="__('News')"
-        :description="__('Succinct and informative updates about Lotus Mu.')"
+        :description="__('Succinct and informative updates about Yulan Mu.')"
     />
 
     <flux:tab.group>

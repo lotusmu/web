@@ -40,10 +40,10 @@
             </x-home.heading>
 
             <x-home.text>
-                {{ __('Built with balance in mind, Lotus Mu brings fresh mechanics to the classic MU Online formula. Every feature is carefully crafted to enhance gameplay without compromising the core experience that made the game legendary.') }}
+                {{ __('Built with balance in mind, Yulan Mu brings fresh mechanics to the classic MU Online formula. Every feature is carefully crafted to enhance gameplay without compromising the core experience that made the game legendary.') }}
             </x-home.text>
 
-            <x-home.link href="https://wiki.lotusmu.org" external>
+            <x-home.link href="https://wiki.yulanmu.com" external>
                 {{ __('Master the Basics') }}
             </x-home.link>
         </div>
@@ -83,14 +83,14 @@
                                 <ul class="list-disc ml-8">
                                     <li>
                                         <flux:link variant="ghost"
-                                                   href="https://wiki.lotusmu.org/maps/icewrack"
+                                                   href="https://wiki.yulanmu.com/maps/icewrack"
                                                    external>
                                             {{ __('Icewrack') }}
                                         </flux:link>
                                     </li>
                                     <li>
                                         <flux:link variant="ghost"
-                                                   href="https://wiki.lotusmu.org/maps/ashkavor"
+                                                   href="https://wiki.yulanmu.com/maps/ashkavor"
                                                    external>
                                             {{ __('Ashkavor') }}
                                         </flux:link>
@@ -106,7 +106,7 @@
 
                     <x-slot:media>
                         <x-home.feature-picture src="images/essentials/farm-areas"
-                                                alt="Farm areas in Lotus Mu including Ashkavor and Icewrack"/>
+                                                alt="Farm areas in Yulan Mu including Ashkavor and Icewrack"/>
                     </x-slot:media>
                 </x-home.feature-split>
             </flux:tab.panel>
@@ -125,7 +125,7 @@
 
                             <flux:text>{{ __('Learn more in') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/category/special-monsters"
+                                           href="https://wiki.yulanmu.com/category/special-monsters"
                                            external>
                                     {{ __('our wiki') }}
                                 </flux:link>
@@ -154,7 +154,7 @@
 
                             <flux:text>{{ __('Are you curious?') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/gameplay-systems/daily-reward"
+                                           href="https://wiki.yulanmu.com/gameplay-systems/daily-reward"
                                            external>
                                     {{ __('Learn more!') }}
                                 </flux:link>
@@ -187,13 +187,13 @@
 
                             <flux:text>{{ __('Learn how to pilot the') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/client-features/mu-helper"
+                                           href="https://wiki.yulanmu.com/client-features/mu-helper"
                                            external>
                                     {{ __('mu helper') }}
                                 </flux:link>
                                 {{ __('and how to make use of the') }}
                                 <flux:link variant="ghost"
-                                           href="https://wiki.lotusmu.org/client-features/mu-helper/#off-helper"
+                                           href="https://wiki.yulanmu.com/client-features/mu-helper/#off-helper"
                                            external>
                                     {{ __('off helper.') }}
                                 </flux:link>

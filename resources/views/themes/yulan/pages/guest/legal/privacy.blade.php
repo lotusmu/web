@@ -15,7 +15,7 @@
             </flux:heading>
 
             <flux:text>
-                {{ __('Lotus Mu (www.lotusmu.org) is committed to protecting your privacy. This policy explains what information we collect, how we use it, and your rights regarding your data.') }}
+                {{ __('Yulan Mu (www.yulanmu.org) is committed to protecting your privacy. This policy explains what information we collect, how we use it, and your rights regarding your data.') }}
             </flux:text>
         </div>
 
@@ -125,7 +125,7 @@
                 <ul class="list-disc pl-6 space-y-2">
                     <li>
                         {{ __('Email our privacy team at') }}
-                        <flux:link href="mailto:support@lotusmu.org">support@lotusmu.org</flux:link>
+                        <flux:link href="mailto:support@yulanmu.com">support@yulanmu.com</flux:link>
                     </li>
                     <li>
                         {{ __('Reach us on') }}

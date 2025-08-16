@@ -3,7 +3,7 @@
     <a href="{{ route('articles.show', $article) }}" wire:navigate class="block relative flex-1 group">
         <div
             class="min-h-[250px] relative rounded-xl w-full h-full overflow-hidden flex flex-col text-left bg-cover bg-top bg-no-repeat shadow-lg dark:shadow-none px-4 py-3 transition-all duration-200 ease-in-out cursor-pointer dark:hover:shadow-none hover:shadow-2xl  hover:scale-[0.98]"
-            style="background-image: url('{{ $article->image ? Storage::url($article->image) : 'https://placehold.co/600x400/EEE/31343C?font=montserrat&text=Lotus Mu' }}')">
+            style="background-image: url('{{ $article->image ? Storage::url($article->image) : 'https://placehold.co/600x400/EEE/31343C?font=montserrat&text=Yulan Mu' }}')">
 
             <!-- Gradient overlay -->
             <div

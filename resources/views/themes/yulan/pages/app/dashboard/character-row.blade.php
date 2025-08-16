@@ -33,7 +33,7 @@
 
             <flux:menu variant="solid">
                 <flux:menu.item icon="information-circle"
-                                href="https://wiki.lotusmu.org/gameplay-systems/reset-system#how-to-reset"
+                                href="https://wiki.yulanmu.com/gameplay-systems/reset-system#how-to-reset"
                                 target="_blank">
                     {{ __('How to Reset') }}
                 </flux:menu.item>

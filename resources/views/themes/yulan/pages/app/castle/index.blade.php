@@ -4,7 +4,7 @@
     <x-info-card color="teal" icon="light-bulb">
         <flux:text>
             {{ __('Learn about event schedule and siege mechanics in our') }}
-            <flux:link href="https://wiki.lotusmu.org/events/castle-siege"
+            <flux:link href="https://wiki.yulanmu.com/events/castle-siege"
                        external>{{ ' ' . __('wiki guide.') }}</flux:link>
         </flux:text>
     </x-info-card>

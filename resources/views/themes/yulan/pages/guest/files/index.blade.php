@@ -2,7 +2,7 @@
     <x-page-header
         :title="__('Begin your journey')"
         :kicker="__('Files')"
-        :description="__('Ready to start your adventure? Download our game client and join the world of Lotus Mu.')"
+        :description="__('Ready to start your adventure? Download our game client and join the world of Yulan Mu.')"
     />
 
     <div class="space-y-6">

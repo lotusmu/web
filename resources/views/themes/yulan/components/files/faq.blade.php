@@ -74,17 +74,17 @@
                 {{ __('5. Check if your antivirus is blocking the game, as some antivirus software may incorrectly flag it as suspicious (false positive).') }}
                 <br>
                 {{ __('6. Update your DirectX and graphics drivers.') }} <br>
-                {{ __("7. Make sure that the path to your game client does not include cyrilic words (i.e. C:\Игри\Lotus Mu).") }}
+                {{ __("7. Make sure that the path to your game client does not include cyrilic words (i.e. C:\Игри\Yulan Mu).") }}
                 <br><br>
 
                 {{ __('If you cannot find a solution to your game performance issues here, please') }}
                 {{ __('take a look at our advice in') }}
                 <flux:link
-                    href="https://wiki.lotusmu.org/troubleshooting"
+                    href="https://wiki.yulanmu.com/troubleshooting"
                     external>
                     {{ __('this article.') }}
                 </flux:link>
-                
+
             </flux:accordion.content>
         </flux:accordion.item>
 
@@ -100,7 +100,7 @@
                 {{ __('If you cannot find a solution to your game performance issues here, please') }}
                 {{ __('take a look at our advice in') }}
                 <flux:link
-                    href="https://wiki.lotusmu.org/troubleshooting"
+                    href="https://wiki.yulanmu.com/troubleshooting"
                     external>
                     {{ __('this article.') }}
                 </flux:link>

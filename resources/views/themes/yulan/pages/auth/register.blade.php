@@ -5,7 +5,7 @@
         </flux:heading>
 
         <flux:subheading class="text-center">
-            {{__('First, let\'s create your account. Once your account has been created you must verify it in order to play Lotus Mu.')}}
+            {{__('First, let\'s create your account. Once your account has been created you must verify it in order to play Yulan Mu.')}}
         </flux:subheading>
     </div>
 

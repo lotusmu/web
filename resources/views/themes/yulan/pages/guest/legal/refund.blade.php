@@ -416,7 +416,7 @@
                 <ul class="list-disc pl-6 space-y-2">
                     <li>
                         {{ __('Email our billing team at') }}
-                        <flux:link href="mailto:support@lotusmu.org">support@lotusmu.org</flux:link>
+                        <flux:link href="mailto:support@yulanmu.com">support@yulanmu.com</flux:link>
                     </li>
                     <li>
                         {{ __('Get instant support on our') }}

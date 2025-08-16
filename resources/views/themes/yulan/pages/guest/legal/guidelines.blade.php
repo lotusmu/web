@@ -5,7 +5,7 @@
                 {{ __('Community Guidelines') }}
             </flux:heading>
             <flux:subheading>
-                {{ __('Official rules and conduct standards for Lotus Mu') }}
+                {{ __('Official rules and conduct standards for Yulan Mu') }}
             </flux:subheading>
             <flux:text size="sm" class="mt-2">
                 {{ __('Last Updated: January 2025') }}
@@ -23,7 +23,7 @@
 
             <flux:text>
                 <ul class="list-disc pl-6 space-y-2">
-                    <li>{{ __('All accounts, characters, and game items are intellectual property of Lotus Mu') }}</li>
+                    <li>{{ __('All accounts, characters, and game items are intellectual property of Yulan Mu') }}</li>
                     <li>{{ __('The server administration guarantees account security for compliant users') }}</li>
                     <li>{{ __('False information or testimonies will result in warnings or bans') }}</li>
                     <li>{{ __('Users must report all violations to administration') }}</li>
@@ -140,7 +140,7 @@
                 <ul class="list-disc pl-6 space-y-2">
                     <li>
                         {{ __('Email us at') }}
-                        <flux:link href="mailto:support@lotusmu.org">support@lotusmu.org</flux:link>
+                        <flux:link href="mailto:support@yulanmu.com">support@yulanmu.com</flux:link>
                     </li>
                     <li>
                         {{ __('Join our') }}

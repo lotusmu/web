@@ -15,7 +15,7 @@
             </flux:heading>
 
             <flux:text>
-                {{ __('Welcome to Lotus Mu. By accessing, using our services, or making any purchase, you agree to these Terms of Service ("Terms"). These terms constitute a legally binding agreement between you and Lotus Mu LLC, registered in Bulgaria ("Company," "we," "us," or "our").') }}
+                {{ __('Welcome to Yulan Mu. By accessing, using our services, or making any purchase, you agree to these Terms of Service ("Terms"). These terms constitute a legally binding agreement between you and Yulan Mu LLC, registered in Bulgaria ("Company," "we," "us," or "our").') }}
             </flux:text>
 
             <flux:text>
@@ -43,7 +43,7 @@
             </flux:heading>
 
             <flux:text>
-                {{ __('Lotus Mu provides online gaming services, including virtual currency, items, and related digital content ("Virtual Goods"). We reserve the right to modify, suspend, or discontinue any aspect of our Service at any time without prior notice.') }}
+                {{ __('Yulan Mu provides online gaming services, including virtual currency, items, and related digital content ("Virtual Goods"). We reserve the right to modify, suspend, or discontinue any aspect of our Service at any time without prior notice.') }}
             </flux:text>
         </div>
 
@@ -231,7 +231,7 @@
             </flux:heading>
 
             <flux:text>
-                {{ __('Charges on your bank or credit card statement will appear as "*Lotus Mu", "Lotusmu.Org" or something similar.') }}
+                {{ __('Charges on your bank or credit card statement will appear as "*Yulan Mu", "Yulanmu.Org" or something similar.') }}
             </flux:text>
         </div>
 
@@ -384,7 +384,7 @@
             </flux:heading>
 
             <flux:text>
-                {{ __('All content, including but not limited to game assets, logos, trademarks, and software, is the property of Lotus Mu or its licensors and is protected by intellectual property laws. You may not copy, modify, or distribute any content without our explicit permission.') }}
+                {{ __('All content, including but not limited to game assets, logos, trademarks, and software, is the property of Yulan Mu or its licensors and is protected by intellectual property laws. You may not copy, modify, or distribute any content without our explicit permission.') }}
             </flux:text>
         </div>
 
@@ -447,7 +447,7 @@
                 <ul class="list-disc pl-6 space-y-2">
                     <li>
                         {{ __('Email us at') }}
-                        <flux:link href="mailto:support@lotusmu.org">support@lotusmu.org</flux:link>
+                        <flux:link href="mailto:support@yulanmu.com">support@yulanmu.com</flux:link>
                     </li>
                     <li>
                         {{ __('Join our') }}

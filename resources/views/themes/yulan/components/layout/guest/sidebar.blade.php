@@ -33,7 +33,7 @@
         {{ __('Browse Offerings') }}
     </flux:navlist.item>
 
-    <flux:navlist.item icon="book-open" href="https://wiki.lotusmu.org" target="_blank">
+    <flux:navlist.item icon="book-open" href="https://wiki.yulanmu.com" target="_blank">
         {{ __('Wiki') }}
     </flux:navlist.item>
 </flux:navlist>

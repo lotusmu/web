@@ -5,7 +5,7 @@
 <meta property="og:image" content="{{ asset('images/social-card.jpg') }}"/>
 <meta property="og:title" content="{{ config('app.name') }}"/>
 <meta property="og:description"
-      content="Lotus Mu - Reimagined. Refined. Revolutionary. MU Online server with soul. Thoughtfully crafted, not copy-pasted."/>
+      content="Yulan Mu - Ancient. Awaken. Alive. An age-old saga, reborn in your hands."/>
 <meta property="og:url" content="{{ url()->current() }}"/>
 <meta property="og:type" content="website"/>
 
@@ -23,6 +23,7 @@
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
 <!-- Google tag (gtag.js) -->
+<!--
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FQ4QV8M1J"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
@@ -35,6 +36,7 @@
 
     gtag('config', 'G-9FQ4QV8M1J');
 </script>
+-->
 
 <!-- Twitch SDK -->
 <script src="https://embed.twitch.tv/embed/v1.js"></script>

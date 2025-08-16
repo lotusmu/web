@@ -21,7 +21,7 @@
                 </flux:button>
 
                 <flux:button variant="ghost" icon-trailing="arrow-long-right"
-                             href="https://wiki.lotusmu.org" target="_blank">
+                             href="https://wiki.yulanmu.com" target="_blank">
                     {{ __('Learn more') }}
                 </flux:button>
             </div>
