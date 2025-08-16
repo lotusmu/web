@@ -4,7 +4,7 @@
     <flux:radio.group variant="cards"
                       wire:model.live="filters.class"
                       :$disabled
-                      class="md:flex hidden items-center justify-center"
+                      class="lg:flex hidden items-center justify-center"
     >
         @foreach($filters->classes() as $class)
             <flux:radio :value="$class['value']"
@@ -21,7 +21,7 @@
         @endforeach
     </flux:radio.group>
 
-    <div class="md:hidden">
+    <div class="lg:hidden">
         <flux:select wire:model.live="filters.class"
                      variant="listbox"
                      :$disabled
