@@ -154,6 +154,41 @@ class ThemeAssetService
     }
 
     /**
+     * Get theme-specific favicon with variant support
+     */
+    public function getThemeFavicon(string $variant = 'light', string $fileName = 'favicon.ico'): string
+    {
+        $activeTheme = $this->themeService->getActiveTheme();
+
+        // For themes with light/dark variants (like yulan)
+        $variantFaviconPath = "images/themes/{$activeTheme}/favicons/{$variant}/{$fileName}";
+        if (File::exists(public_path($variantFaviconPath))) {
+            return asset($variantFaviconPath);
+        }
+
+        // For themes without variants (like default) - try direct path
+        $directFaviconPath = "images/themes/{$activeTheme}/favicons/{$fileName}";
+        if (File::exists(public_path($directFaviconPath))) {
+            return asset($directFaviconPath);
+        }
+
+        // Fallback to default theme with variant
+        $defaultVariantPath = "images/themes/default/favicons/{$variant}/{$fileName}";
+        if (File::exists(public_path($defaultVariantPath))) {
+            return asset($defaultVariantPath);
+        }
+
+        // Fallback to default theme direct path
+        $defaultDirectPath = "images/themes/default/favicons/{$fileName}";
+        if (File::exists(public_path($defaultDirectPath))) {
+            return asset($defaultDirectPath);
+        }
+
+        // Final fallback to root public directory
+        return asset($fileName);
+    }
+
+    /**
      * Get all theme asset paths for debugging
      */
     public function getAssetPaths(): array

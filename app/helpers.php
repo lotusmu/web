@@ -21,3 +21,13 @@ if (! function_exists('theme_logo')) {
         return app(ThemeAssetService::class)->getThemeLogo($variant);
     }
 }
+
+if (! function_exists('theme_favicon')) {
+    /**
+     * Get theme-specific favicon with variant support
+     */
+    function theme_favicon(string $variant = 'light', string $fileName = 'favicon.ico'): string
+    {
+        return app(ThemeAssetService::class)->getThemeFavicon($variant, $fileName);
+    }
+}

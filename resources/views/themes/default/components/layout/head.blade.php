@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<meta property="og:image" content="{{ asset('images/social-card.jpg') }}"/>
+<meta property="og:image" content="{{ theme_asset('brand/social-card.jpg') }}"/>
 <meta property="og:title" content="{{ config('app.name') }}"/>
 <meta property="og:description"
       content="Lotus Mu - Reimagined. Refined. Revolutionary. MU Online server with soul. Thoughtfully crafted, not copy-pasted."/>
@@ -17,10 +17,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..600&display=swap" rel="stylesheet">
 
 <!-- Favicon -->
-<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-<link rel="manifest" href="{{ asset('site.webmanifest') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ theme_favicon('light', 'apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ theme_favicon('light', 'favicon-32x32.png') }}"
+      id="favicon-32">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ theme_favicon('light', 'favicon-16x16.png') }}"
+      id="favicon-16">
+<link rel="icon" href="{{ theme_favicon('light', 'favicon.ico') }}" id="favicon-ico">
+<link rel="manifest" href="{{ theme_favicon('light', 'site.webmanifest') }}">
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FQ4QV8M1J"></script>

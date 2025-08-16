@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->brandLogo(theme_logo())
             ->darkModeBrandLogo(theme_logo('dark'))
-            ->favicon(asset('favicon.ico'))
+            ->favicon(theme_favicon('light'))
             ->font('Figtree')
             ->colors([
                 'primary' => Color::Teal,
