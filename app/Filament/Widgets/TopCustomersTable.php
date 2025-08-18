@@ -31,7 +31,7 @@ class TopCustomersTable extends BaseWidget
                         'users.id',
                         'users.name',
                         'users.created_at',
-                        DB::raw('SUM(orders.amount) as total_spent')
+                        DB::raw('SUM(orders.amount) as total_spent'),
                     ])
                     ->join('orders', 'users.id', '=', 'orders.user_id')
                     ->where('orders.status', 'completed')
