@@ -1,6 +1,7 @@
 <?php
 
 use App\Services\ThemeAssetService;
+use Illuminate\Support\Facades\Schema;
 
 if (! function_exists('theme_asset')) {
     /**
@@ -8,6 +9,10 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset(string $path): string
     {
+        if (! Schema::hasTable('app_settings')) {
+            return asset("images/{$path}");
+        }
+
         return app(ThemeAssetService::class)->getThemeImage($path);
     }
 }
@@ -18,6 +23,10 @@ if (! function_exists('theme_logo')) {
      */
     function theme_logo(string $variant = 'light'): string
     {
+        if (! Schema::hasTable('app_settings')) {
+            return asset('images/brand/logotype.svg');
+        }
+
         return app(ThemeAssetService::class)->getThemeLogo($variant);
     }
 }
@@ -28,6 +37,10 @@ if (! function_exists('theme_favicon')) {
      */
     function theme_favicon(string $variant = 'light', string $fileName = 'favicon.ico'): string
     {
+        if (! Schema::hasTable('app_settings')) {
+            return asset($fileName);
+        }
+
         return app(ThemeAssetService::class)->getThemeFavicon($variant, $fileName);
     }
 }
