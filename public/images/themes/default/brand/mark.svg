@@ -1,0 +1,31 @@
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="16" y="16" width="14" height="14" rx="4" fill="#D23EEA"/>
+<rect y="16" width="14" height="14" rx="4" fill="#0080FF"/>
+<rect x="16" width="14" height="14" rx="4" fill="#FF374C"/>
+<rect width="14" height="14" rx="4" fill="#F59300"/>
+<circle cx="7" cy="7" r="2" fill="white"/>
+<rect x="5" y="7" width="4" height="7" fill="url(#paint0_linear_1_263)"/>
+<circle cx="7" cy="23" r="2" fill="white"/>
+<rect x="9" y="23" width="4" height="7" transform="rotate(-180 9 23)" fill="url(#paint1_linear_1_263)"/>
+<rect x="7" y="25" width="4" height="7" transform="rotate(-90 7 25)" fill="url(#paint2_linear_1_263)"/>
+<circle cx="23" cy="23" r="2" fill="white"/>
+<rect x="23" y="21" width="4" height="7" transform="rotate(90 23 21)" fill="url(#paint3_linear_1_263)"/>
+<defs>
+<linearGradient id="paint0_linear_1_263" x1="7" y1="7" x2="7" y2="14" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0.1"/>
+</linearGradient>
+<linearGradient id="paint1_linear_1_263" x1="11" y1="23" x2="11" y2="30" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0.1"/>
+</linearGradient>
+<linearGradient id="paint2_linear_1_263" x1="9" y1="25" x2="9" y2="32" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0.1"/>
+</linearGradient>
+<linearGradient id="paint3_linear_1_263" x1="25" y1="21" x2="25" y2="28" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0.1"/>
+</linearGradient>
+</defs>
+</svg>

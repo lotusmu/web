@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-compliment: var(--color-indigo-500);
+        --color-compliment-content: var(--color-indigo-600);
+        --color-compliment-foreground: var(--color-white);
+    }
+
+    .dark {
+        --color-compliment: var(--color-rose-500);
+        --color-compliment-content: var(--color-rose-400);
+        --color-compliment-foreground: var(--color-white);
+    }
+}

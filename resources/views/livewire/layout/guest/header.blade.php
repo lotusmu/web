@@ -33,8 +33,8 @@ new class extends Component {
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 
         <x-brand
-            :logo_light="asset('images/brand/lotusmu-logotype.svg')"
-            :logo_dark="asset('images/brand/lotusmu-logotype-white.svg')"
+            :logo_light="theme_logo('light')"
+            :logo_dark="theme_logo('dark')"
             size="sm"
             class="max-lg:hidden"
         />
@@ -126,13 +126,13 @@ new class extends Component {
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark"/>
 
             <x-brand
-                :logo_light="asset('images/brand/lotusmu-logotype.svg')"
-                :logo_dark="asset('images/brand/lotusmu-logotype-white.svg')"
+                :logo_light="theme_logo('light')"
+                :logo_dark="theme_logo('dark')"
                 size="sm"
                 class="px-3"
             />
 
-            @include('layouts.components.guest.sidebar')
+            @themeComponent('layout.guest.sidebar')
         </flux:sidebar>
     </flux:header>
 </flux:header>

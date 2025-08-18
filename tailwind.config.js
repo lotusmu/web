@@ -5,6 +5,7 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './app/Livewire/**/*.php',
         "./vendor/livewire/flux-pro/stubs/**/*.blade.php",
         "./vendor/livewire/flux/stubs/**/*.blade.php",
     ],
@@ -15,7 +16,7 @@ export default {
                 sans: ['Inter', 'sans-serif'],
             },
             colors: {
-                // Compliment variables are defined in resources/css/app.css...
+                // Theme compliment colors
                 compliment: {
                     DEFAULT: 'var(--color-compliment)',
                     content: 'var(--color-compliment-content)',

@@ -3,6 +3,8 @@
 namespace App\Enums\Utility;
 
 use App\Enums\Game\CharacterClass;
+use App\Enums\Game\ServerVersion;
+use App\Models\Utility\GameServer;
 
 enum FilterCharacterClass: string
 {
@@ -12,8 +14,8 @@ enum FilterCharacterClass: string
     case Elves = 'elves';
     case Gladiators = 'gladiators';
     case Lords = 'lords';
-    //    case Summoners = 'summoners';
-    //    case Fighters = 'fighters';
+    case Summoners = 'summoners';
+    case Fighters = 'fighters';
 
     public function getLabel(): string
     {
@@ -24,8 +26,8 @@ enum FilterCharacterClass: string
             self::Elves => __('Elves'),
             self::Gladiators => __('Gladiators'),
             self::Lords => __('Lords'),
-            //            self::Summoners => 'Summoners',
-            //            self::Fighters => 'Fighters',
+            self::Summoners => __('Summoners'),
+            self::Fighters => __('Fighters'),
         };
     }
 
@@ -69,21 +71,21 @@ enum FilterCharacterClass: string
                 CharacterClass::EmpireRoad->value,
                 CharacterClass::EmpireRoad2->value,
             ],
-            //            self::Summoners => [
-            //                CharacterClass::Summoner->value,
-            //                CharacterClass::BloodySummoner->value,
-            //                CharacterClass::DimensionMaster->value,
-            //                CharacterClass::DimensionMaster2->value,
-            //                CharacterClass::DimensionSummoner->value,
-            //                CharacterClass::DimensionSummoner2->value,
-            //            ],
-            //            self::Fighters => [
-            //                CharacterClass::RageFighter->value,
-            //                CharacterClass::FistMaster->value,
-            //                CharacterClass::FistMaster2->value,
-            //                CharacterClass::FistBlazer->value,
-            //                CharacterClass::FistBlazer2->value,
-            //            ],
+            self::Summoners => [
+                CharacterClass::Summoner->value,
+                CharacterClass::BloodySummoner->value,
+                CharacterClass::DimensionMaster->value,
+                CharacterClass::DimensionMaster2->value,
+                CharacterClass::DimensionSummoner->value,
+                CharacterClass::DimensionSummoner2->value,
+            ],
+            self::Fighters => [
+                CharacterClass::RageFighter->value,
+                CharacterClass::FistMaster->value,
+                CharacterClass::FistMaster2->value,
+                CharacterClass::FistBlazer->value,
+                CharacterClass::FistBlazer2->value,
+            ],
         };
     }
 
@@ -96,8 +98,28 @@ enum FilterCharacterClass: string
             self::Elves => 'images/characters/avatars/elf.jpg',
             self::Gladiators => 'images/characters/avatars/mg.jpg',
             self::Lords => 'images/characters/avatars/dl.jpg',
-            //            self::Summoners => 'images/characters/avatars/sum.jpg',
-            //            self::Fighters => 'images/characters/avatars/rf.jpg',
+            self::Summoners => 'images/characters/avatars/sum.jpg',
+            self::Fighters => 'images/characters/avatars/rf.jpg',
+        };
+    }
+
+    public static function getAvailableCharacters(): array
+    {
+        $server = GameServer::default();
+        if (! $server) {
+            return collect(self::cases())
+                ->reject(fn ($case) => in_array($case, [self::Summoners, self::Fighters]))
+                ->all();
+        }
+
+        return match ($server->server_version) {
+            ServerVersion::Season6 => self::cases(),
+            ServerVersion::Season3 => collect(self::cases())
+                ->reject(fn ($case) => in_array($case, [self::Summoners, self::Fighters]))
+                ->all(),
+            default => collect(self::cases())
+                ->reject(fn ($case) => in_array($case, [self::Summoners, self::Fighters]))
+                ->all(),
         };
     }
 }

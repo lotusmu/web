@@ -1,47 +1,76 @@
 <?php
 
+use App\Livewire\Pages\App\Activities\Activities;
+use App\Livewire\Pages\App\Castle\Castle;
+use App\Livewire\Pages\App\Dashboard\Dashboard;
+use App\Livewire\Pages\App\Donate\Donate;
+use App\Livewire\Pages\App\Entries\Entries;
+use App\Livewire\Pages\App\Partners\Apply;
+use App\Livewire\Pages\App\Partners\Partners;
+use App\Livewire\Pages\App\Partners\Status;
+use App\Livewire\Pages\App\Profile\Profile;
+use App\Livewire\Pages\App\Stealth\Stealth;
+use App\Livewire\Pages\App\Support\CreateSupportTicket;
+use App\Livewire\Pages\App\Support\ShowSupportTicket;
+use App\Livewire\Pages\App\Support\Support;
+use App\Livewire\Pages\App\Vip\Purchase;
+use App\Livewire\Pages\App\Vip\Vip;
+use App\Livewire\Pages\App\Wallet\Wallet;
+use App\Livewire\Pages\Guest\Articles\Articles;
+use App\Livewire\Pages\Guest\Catalog\Catalog;
+use App\Livewire\Pages\Guest\Content\Streams;
+use App\Livewire\Pages\Guest\Files\Files;
+use App\Livewire\Pages\Guest\Home;
+use App\Livewire\Pages\Guest\Legal\Guidelines;
+use App\Livewire\Pages\Guest\Legal\Privacy as PrivacyAlias;
+use App\Livewire\Pages\Guest\Legal\Refund as RefundAlias;
+use App\Livewire\Pages\Guest\Legal\Terms;
+use App\Livewire\Pages\Guest\Profile\CharacterProfile;
+use App\Livewire\Pages\Guest\Profile\GuildProfile;
+use App\Livewire\Pages\Guest\Rankings\Players\Archive;
+use App\Livewire\Pages\Guest\Rankings\Rankings;
+use App\Livewire\Pages\Guest\Server\Overview;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // Public routes
-
-Volt::route('/', 'pages.guest.home.index')
+Route::get('/', Home::class)
     ->name('guest.home');
 
-Volt::route('/files', 'pages.guest.files.index')
+Route::get('/files', Files::class)
     ->name('files');
 
-Volt::route('/catalog', 'pages.guest.catalog.index')
+Route::get('/catalog', Catalog::class)
     ->name('catalog');
 
 Route::prefix('rankings')->group(function () {
-    Volt::route('/', 'pages.guest.rankings.index')
+    Route::get('/', Rankings::class)
         ->name('rankings');
 
-    Volt::route('/archive', 'pages.guest.rankings.players.archive')
+    Route::get('/archive', Archive::class)
         ->name('rankings.archive');
 });
 
-Volt::route('/character/{name}', 'pages.guest.profile.character')
+Route::get('/character/{name}', CharacterProfile::class)
     ->name('character');
 
-Volt::route('/guild/{name}', 'pages.guest.profile.guild')
+Route::get('/guild/{name}', GuildProfile::class)
     ->name('guild');
 
-Volt::route('/terms', 'pages.guest.legal.terms')
+Route::get('/terms', Terms::class)
     ->name('terms');
 
-Volt::route('/privacy', 'pages.guest.legal.privacy')
+Route::get('/privacy', PrivacyAlias::class)
     ->name('privacy');
 
-Volt::route('/refund', 'pages.guest.legal.refund')
+Route::get('/refund', RefundAlias::class)
     ->name('refund');
 
-Volt::route('/guidelines', 'pages.guest.legal.guidelines')
+Route::get('/guidelines', Guidelines::class)
     ->name('guidelines');
 
 Route::prefix('articles')->group(function () {
-    Volt::route('/', 'pages.guest.articles.index')
+    Route::get('/', Articles::class)
         ->name('articles');
 
     Volt::route('/{article:slug}', 'pages.guest.articles.show')
@@ -50,83 +79,85 @@ Route::prefix('articles')->group(function () {
 });
 
 Route::prefix('content')->group(function () {
-    Volt::route('/streams', 'pages.guest.content.streams')
+    Route::get('/streams', Streams::class)
         ->name('content.streams');
 });
 
 Route::prefix('server')->group(function () {
-    Volt::route('/overview', 'pages.guest.server.overview')
+    Route::get('/overview', Overview::class)
         ->name('server.overview');
 });
 
 // Profile route
-Volt::route('/profile', 'pages.profile.index')
+Route::get('/profile', Profile::class)
     ->middleware(['auth'])
     ->name('profile');
 
 // Protected routes
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Volt::route('dashboard', 'pages.dashboard.index')
+    Route::get('dashboard', Dashboard::class)
         ->name('dashboard');
 
     // Wallet
-    Volt::route('wallet', 'pages.wallet.index')
+    Route::get('wallet', Wallet::class)
         ->name('wallet');
 
     // Entries
-    Volt::route('event-entries', 'pages.entries.index')
+    Route::get('event-entries', Entries::class)
         ->name('entries');
 
     // Castle Siege group
     Route::prefix('castle-siege')->group(function () {
-        Volt::route('/', 'pages.castle.index')
+        Route::get('/', Castle::class)
             ->name('castle');
     });
 
     // VIP routes group
     Route::prefix('vip')->group(function () {
-        Volt::route('/', 'pages.vip.index')
+        Route::get('/', Vip::class)
             ->middleware('vip.only')
             ->name('vip');
-        Volt::route('/purchase', 'pages.vip.purchase')
+        Route::get('/purchase', Purchase::class)
             ->middleware('non.vip.only')
             ->name('vip.purchase');
     });
 
     // Stealth Mode
-    Volt::route('stealth', 'pages.stealth.index')
+    Route::get('stealth', Stealth::class)
         ->name('stealth');
 
     // Donate
-    Volt::route('donate', 'pages.donate.index')
+    Route::get('donate', Donate::class)
         ->name('donate');
 
     // Activities
-    Volt::route('activities', 'pages.activities.index')
+    Route::get('activities', Activities::class)
         ->name('activities');
 
     // Support routes group
     Route::prefix('support')->group(function () {
-        Volt::route('/', 'pages.support.index')
+        Route::get('/', Support::class)
             ->name('support');
-        Volt::route('/create-ticket', 'pages.support.create-ticket')
+        Route::get('/create-ticket', CreateSupportTicket::class)
             ->name('support.create-ticket');
-        Volt::route('/ticket/{ticket}', 'pages.support.show-ticket')
+        Route::get('/ticket/{ticket}', ShowSupportTicket::class)
             ->name('support.show-ticket');
     });
 
     Route::prefix('partners')->group(function () {
-        Volt::route('/', 'pages.partners.index')
+        Route::get('/', Partners::class)
             ->middleware('partner.application.check')
             ->name('partners.index');
 
-        Volt::route('/apply', 'pages.partners.apply')
+        Route::get('/apply', Apply::class)
             ->middleware('partner.application.check')
             ->name('partners.apply');
 
-        Volt::route('/status', 'pages.partners.status')->name('partners.status');
-        Volt::route('/dashboard', 'pages.partners.dashboard')
+        Route::get('/status', Status::class)
+            ->name('partners.status');
+
+        Route::get('/dashboard', \App\Livewire\Pages\App\Partners\Dashboard::class)
             ->middleware('partner')
             ->name('partners.dashboard');
     });

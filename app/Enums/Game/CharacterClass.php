@@ -95,8 +95,8 @@ enum CharacterClass: int implements HasLabel
             self::FairyElf, self::MuseElf, self::HighElf, self::HighElf2, self::NobleElves => 'images/characters/fe.png',
             self::MagicGladiator, self::DuelMaster, self::DuelMaster2, self::MagicKnight, self::MagicKnight2 => 'images/characters/mg.png',
             self::DarkLord, self::LordEmperor, self::LordEmperor2, self::EmpireRoad, self::EmpireRoad2 => 'images/characters/dl.png',
-            self::Summoner, self::BloodySummoner, self::DimensionMaster, self::DimensionMaster2, self::DimensionSummoner, self::DimensionSummoner2 => 'images/characters/avatars/sum.jpg',
-            self::RageFighter, self::FistMaster, self::FistMaster2, self::FistBlazer, self::FistBlazer2 => 'images/characters/avatars/rf.jpg',
+            self::Summoner, self::BloodySummoner, self::DimensionMaster, self::DimensionMaster2, self::DimensionSummoner, self::DimensionSummoner2 => 'images/characters/sum.png',
+            self::RageFighter, self::FistMaster, self::FistMaster2, self::FistBlazer, self::FistBlazer2 => 'images/characters/rf.png',
         };
     }
 }

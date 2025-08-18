@@ -14,7 +14,7 @@ class Filters extends Form
 
     public function classes(): Collection
     {
-        return collect(FilterCharacterClass::cases())->map(function ($class) {
+        return collect(FilterCharacterClass::getAvailableCharacters())->map(function ($class) {
             return [
                 'value' => $class->value,
                 'label' => $class->getLabel(),

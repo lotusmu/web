@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Game\ServerVersion;
 use App\Filament\Resources\GameServerResource\Pages;
 use App\Models\Utility\GameServer;
 use Filament\Forms\Components\DateTimePicker;
@@ -93,11 +94,12 @@ class GameServerResource extends Resource
                     ->aside()
                     ->columns(2)
                     ->schema([
-                        TextInput::make('server_version')
+                        Select::make('server_version')
                             ->label('Server Version')
-                            ->default('Season 3')
+                            ->options(ServerVersion::class)
+                            ->default(ServerVersion::Season3)
                             ->required()
-                            ->helperText('Specify the MU Online server version.'),
+                            ->helperText('Select the MU Online server version.'),
 
                         TextInput::make('online_multiplier')
                             ->label('Online Multiplier')

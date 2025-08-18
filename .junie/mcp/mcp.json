@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/home/void/.local/share/mise/installs/php/8.4.10/bin/php",
+            "args": [
+                "/home/void/code/zenith/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

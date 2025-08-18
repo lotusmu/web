@@ -34,9 +34,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->databaseNotifications()
-            ->brandLogo(asset('images/brand/lotusmu-logotype.svg'))
-            ->darkModeBrandLogo(asset('images/brand/lotusmu-logotype-white.svg'))
-            ->favicon(asset('favicon.ico'))
+            ->brandLogo(theme_logo())
+            ->darkModeBrandLogo(theme_logo('dark'))
+            ->favicon(theme_favicon('light'))
             ->font('Figtree')
             ->colors([
                 'primary' => Color::Teal,

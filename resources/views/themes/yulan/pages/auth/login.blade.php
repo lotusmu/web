@@ -1,0 +1,38 @@
+<div class="space-y-6">
+    <flux:heading size="xl" class="text-center">
+        {{__('Welcome Back')}}
+    </flux:heading>
+
+    <x-auth-card>
+        <form wire:submit="login" class="flex flex-col gap-6">
+            <flux:input wire:model="form.name" label="{{ __('Username') }}"
+                        placeholder="{{ __('Your username') }}"/>
+
+            <flux:field>
+                <flux:label class="flex items-center justify-between">
+                    {{ __('Password') }}
+                    <flux:link :href="route('password.request')" variant="subtle">
+                        {{  __('Forgot password?') }}
+                    </flux:link>
+                </flux:label>
+                <flux:input viewable wire:model="form.password" type="password"
+                            placeholder="{{__('Your password')}}"/>
+
+                <flux:error name="form.password"/>
+            </flux:field>
+
+            <flux:field>
+                <flux:checkbox wire:model="form.remember" label="{{ __('Remember me') }}"/>
+            </flux:field>
+
+            <flux:button variant="primary" type="submit">
+                {{ __('Log in') }}
+            </flux:button>
+        </form>
+
+        <flux:subheading class="text-center">
+            {{__('First time around here?')}}
+            <flux:link :href="route('register')" wire:navigate>{{__('Sign up now!')}}</flux:link>
+        </flux:subheading>
+    </x-auth-card>
+</div>

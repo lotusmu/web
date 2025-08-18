@@ -2,6 +2,7 @@
 
 namespace App\Models\Utility;
 
+use App\Enums\Game\ServerVersion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -30,6 +31,7 @@ class GameServer extends Model
     protected $casts = [
         'launch_date' => 'datetime',
         'is_default' => 'boolean',
+        'server_version' => ServerVersion::class,
     ];
 
     public function getServerName(): string
@@ -60,5 +62,10 @@ class GameServer extends Model
     public function getMultipliedCount(): int
     {
         return $this->getStatus()['multiplied_count'];
+    }
+
+    public static function default(): ?self
+    {
+        return static::where('is_default', true)->first();
     }
 }
