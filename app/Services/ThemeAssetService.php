@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 
 class ThemeAssetService
 {
@@ -20,6 +21,10 @@ class ThemeAssetService
      */
     public function getThemeAssets(): array
     {
+        if (! Schema::hasTable('app_settings')) {
+            return [];
+        }
+
         $activeTheme = $this->themeService->getActiveTheme();
 
         if (isset($this->assetCache[$activeTheme])) {

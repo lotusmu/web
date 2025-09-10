@@ -37,16 +37,26 @@ class ThemeServiceProvider extends ServiceProvider
 
             // Use ThemeService to get active theme instead of config
             return "<?php
-                \$activeTheme = app(\App\Services\ThemeService::class)->getActiveTheme();
-                \$themePath = 'themes.'.\$activeTheme.'.components.{$componentPath}';
-                \$defaultPath = 'themes.default.components.{$componentPath}';
+                if (\Illuminate\Support\Facades\Schema::hasTable('app_settings')) {
+                    \$activeTheme = app(\App\Services\ThemeService::class)->getActiveTheme();
+                    \$themePath = 'themes.'.\$activeTheme.'.components.{$componentPath}';
+                    \$defaultPath = 'themes.default.components.{$componentPath}';
 
-                if (view()->exists(\$themePath)) {
-                    echo \$__env->make(\$themePath, array_merge(\Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']), {$data}))->render();
-                } elseif (view()->exists(\$defaultPath)) {
-                    echo \$__env->make(\$defaultPath, array_merge(\Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']), {$data}))->render();
+                    if (view()->exists(\$themePath)) {
+                        echo \$__env->make(\$themePath, array_merge(\Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']), {$data}))->render();
+                    } elseif (view()->exists(\$defaultPath)) {
+                        echo \$__env->make(\$defaultPath, array_merge(\Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']), {$data}))->render();
+                    } else {
+                        throw new \Exception('Theme component not found: {$componentPath}');
+                    }
                 } else {
-                    throw new \Exception('Theme component not found: {$componentPath}');
+                    // Fallback to default theme component during migrations
+                    \$defaultPath = 'themes.default.components.{$componentPath}';
+                    if (view()->exists(\$defaultPath)) {
+                        echo \$__env->make(\$defaultPath, array_merge(\Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']), {$data}))->render();
+                    } else {
+                        throw new \Exception('Theme component not found: {$componentPath}');
+                    }
                 }
             ?>";
         });
@@ -54,11 +64,13 @@ class ThemeServiceProvider extends ServiceProvider
         // Register Blade directive for theme assets - Fixed version
         Blade::directive('themeAssets', function () {
             return "<?php
-                \$themeAssetService = app(\App\Services\ThemeAssetService::class);
-                \$assets = \$themeAssetService->getThemeAssets();
-                \$viteAssets = array_filter(\$assets);
-                if (!empty(\$viteAssets)) {
-                    echo app('Illuminate\\\Foundation\\\Vite')(\$viteAssets);
+                if (\Illuminate\Support\Facades\Schema::hasTable('app_settings')) {
+                    \$themeAssetService = app(\App\Services\ThemeAssetService::class);
+                    \$assets = \$themeAssetService->getThemeAssets();
+                    \$viteAssets = array_filter(\$assets);
+                    if (!empty(\$viteAssets)) {
+                        echo app('Illuminate\\\Foundation\\\Vite')(\$viteAssets);
+                    }
                 }
             ?>";
         });
